@@ -1,0 +1,88 @@
+body{
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    /*background-image: url("../assets/img/bg.png");*/
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    margin: auto;
+    background-color: #7C8B9E;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+    background: rgba(255,255,255,0.9);
+    border-radius: 5px;
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.50);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.50);
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.50);
+}
+
+.form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+
+.form-signin input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.notifyjs-corner{
+    margin-top:  6% !important;
+}
+
+td{
+    cursor: pointer;
+}
+
+tr{
+    cursor: auto;
+}
+
+@font-face {
+    font-family: LabradorA;
+    font-weight: bold;
+    src: url("../fonts/LabradorA-ExtraBold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: Galano;
+    font-weight: bold;
+    src: url("../fonts/Galano_Grotesque_Medium.otf") format("opentype");
+}
+
+.title{
+    background-color: #152F4A;
+    color: white;
+    padding: 15px;
+    font-family: LabradorA;
+    font-weight: lighter !important;
+    text-align: center;
+}
+
+#user-logo{
+    opacity: 0.5;
+}
