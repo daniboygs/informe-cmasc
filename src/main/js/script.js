@@ -12,6 +12,7 @@ $(document).ready(function(){
             cache:false
         }).done(function(response){
             //document.getElementById('principal-imputed-panel').style.display = 'none';
+            $(".title").html(sections[section].title);
             $("#content").html( response );
             /*getAllCatalogsDataByImputedSection(section);
             setTimeout(

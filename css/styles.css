@@ -86,3 +86,9 @@ tr{
 #user-logo{
     opacity: 0.5;
 }
+
+#frame{
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
