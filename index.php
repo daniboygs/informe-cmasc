@@ -16,15 +16,13 @@ if(!isset($_SESSION['user_data'])){
 		<script src="node_modules/jquery/dist/jquery.min.js" ></script>
 		<script src="node_modules/bootstrap/dist/js/bootstrap.min.js" ></script>
 		
-        <script src="src/main/json/sections-attr.js"></script>
         <script src="js/validation.js"></script>
+        <script src="js/login.js"></script>
 		<script src="js/script.js"></script>
 
 		<title>CMASC</title>
 	</head>
 	<body class="text-center" style="display: block; zoom: 85%;">
-
-        <button class="btn btn-lg btn-outline-primary btn-block" onclick="averx()" type="button" class="botonlg" id="login" >A ver x</button>
 		
 			<form class="form-signin" id="login-form">
 
@@ -44,8 +42,6 @@ if(!isset($_SESSION['user_data'])){
 			</form>
 			
 			<br>
-			
-			<div style="text-align: center; width: 100%; color: white;"><?php echo "$system_name-"; ?><?php echo "$version-"; ?><?php echo $release; ?></div>
 		
 		</body>
 	</html>
