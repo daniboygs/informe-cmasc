@@ -40,7 +40,7 @@ function validateSection(section){
     for(field in fields){
         if(document.getElementById(fields[field].id)){
 
-            if(fields[field].required && document.getElementById(fields[field].id) == ''){
+            if(fields[field].required && document.getElementById(fields[field].id).value == ''){
                 compleated = false;
             }
 
