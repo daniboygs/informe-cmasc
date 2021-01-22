@@ -91,4 +91,9 @@ tr{
     width: 80%;
     margin: 0 auto;
     padding: 20px;
+    background-color: lightsteelblue;
+}
+
+.form-buttons{
+    text-align: right;
 }

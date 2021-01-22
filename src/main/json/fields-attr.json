@@ -1,7 +1,7 @@
 {
 	"agreements": {
 		"index": 1,
-		"form_file": "imputed_agreements_form.php",
+		"form_file": "agreements_form.php",
 		"create_file": "create_agreements_section.php",
 		"update_file": "update_agreements_section.php",
 		"search_file": "search_agreements_section.php",

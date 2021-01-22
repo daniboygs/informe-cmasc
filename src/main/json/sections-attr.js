@@ -5,6 +5,7 @@ var sections = {
 		"create_file": "create_agreements_section.php",
 		"update_file": "update_agreements_section.php",
 		"search_file": "search_agreements_section.php",
+		"form_id": "agreements-form",
 		"sidebar_div_id": "agreements-side-div",
 		"name": "acuerdos",
 		"title": "Acuerdos celebrados",

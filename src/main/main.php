@@ -17,6 +17,7 @@ if(!isset($_SESSION['user_data'])){
 		<script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js" ></script>
 		
         <script src="json/sections-attr.js"></script>
+        <script src="json/data.js"></script>
 		<script src="js/script.js"></script>
 
 		<title>CMASC</title>

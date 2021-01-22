@@ -1,34 +1,35 @@
-<form id="imputed-senap-form" action="#">	
+<form id="agreements-form" action="#">	
 
 	<div class="form-row">
 
 		<div class="col-md-4 form-group">
 
-			<label style="font-weight:bold">País de residencia: *</label>
+			<label style="font-weight:bold">Fecha: *</label>
 
-			<div id="imputed-country-residence-select-section">
-				<div style="color: #EE6E5A;">Cargando datos... </div>
+			<input type="date" class="form-control" id="agreement-date">	
+
+		</div>
+
+		<div class="col-md-4 form-group">
+
+			<label style="font-weight:bold">Delito: *</label>
+
+			<div id="agreement-crime-section">
+				<!--<div style="color: #EE6E5A;">Cargando datos... </div>-->
+
+				<select id="agreement-crime" name="tipo" style="height: 40px" class="form-control"  required="true">									
+					<option value ="1" selected>Delito 1</option>
+					<option value ="2">Delito 2</option>
+				</select>
 			</div>		
 
 		</div>
 
 		<div class="col-md-4 form-group">
 
-			<label style="font-weight:bold">Entidad federativa: *</label>
+			<label style="font-weight:bold">Intervensión: *</label>
 
-			<div id="imputed-entity-select-section">
-				<div style="color: #EE6E5A;">Cargando datos... </div>
-			</div>		
-
-		</div>
-
-		<div class="col-md-4 form-group">
-
-			<label style="font-weight:bold">Municipio: *</label>
-
-			<div id="imputed-municipality-select-section">
-				<div style="color: #EE6E5A;">Cargando datos... </div>
-			</div>		
+			<input type="number" class="form-control" id="agreement-intervention" min="0">
 
 		</div>
 
@@ -38,33 +39,28 @@
 
 		<div class="col-md-4 form-group">
 
-			<label style="font-weight:bold">Localidad: *</label>
+			<label style="font-weight:bold">NUC: *</label>
 
-			<div id="imputed-location-select-section">
-				<div style="color: #EE6E5A;">Cargando datos... </div>
-			</div>			
+			<input type="text" class="form-control" id="agreement-nuc" maxlength="13">			
 
 		</div>
 
 		<div class="col-md-4 form-group">
 
-			<label style="font-weight:bold">Tipo de asentamiento: *</label>
+			<label style="font-weight:bold">Cumplimiento: *</label>
 
-			<div id="imputed-settlement-types-select-section">
-				<div style="color: #EE6E5A;">Cargando datos... </div>
-			</div>	
+			<input type="text" class="form-control" id="agreement-compliance">			
 
 		</div>
 
 		<div class="col-md-4 form-group">
 
-			<label style="font-weight:bold">Colonia/Asentamiento: *</label>
+			<label style="font-weight:bold">Total o Parcial: *</label>
 
-			<!--<input type="text" class="form-control" id="imputed-suburb" maxlength="100">-->	
-
-			<div id="imputed-suburb-select-section">
-				<div style="color: #EE6E5A;">Cargando datos... </div>
-			</div>
+			<select id="agreement-total" name="tipo" style="height: 40px" class="form-control"  required="true">									
+				<option value ="1" selected>Total</option>
+				<option value ="2">Parcial</option>
+			</select>	
 
 		</div>
 
@@ -74,94 +70,43 @@
 
 		<div class="col-md-4 form-group">
 
-			<label style="font-weight:bold">Tipo de vialidad: *</label>
+			<label style="font-weight:bold">Mecanismo: *</label>
 
-			<div id="imputed-road-types-select-section">
-				<div style="color: #EE6E5A;">Cargando datos... </div>
-			</div>		
+			<input type="text" class="form-control" id="agreement-mechanism">			
 
 		</div>
 
 		<div class="col-md-4 form-group">
 
-			<label style="font-weight:bold">Calle/Vialidad: *</label>
+			<label style="font-weight:bold">Monto: *</label>
 
-			<input type="text" class="form-control" id="imputed-street" maxlength="100">	
+			<input type="number" class="form-control" id="agreement-amount" min="0">	
 
 		</div>			
 
 		<div class="col-md-4 form-group">
 
-			<label style="font-weight:bold">Numero exterior: *</label>
+			<label style="font-weight:bold">Unidad: *</label>
 
-			<input type="text" class="form-control" id="imputed-number" maxlength="10" onkeypress="validateNumber(event);">	
+			<div id="agreement-unity-section">
+				<!--<div style="color: #EE6E5A;">Cargando datos... </div>-->
 
-		</div>
-
-	</div>
-
-	<div class="form-row">
-
-		<div class="col-md-4 form-group">
-
-			<label style="font-weight:bold">Numero interior: </label>
-
-			<input type="text" class="form-control" id="imputed-internal-number" maxlength="5" onkeypress="validateNumber(event);">	
-
-		</div>
-
-		<div class="col-md-4 form-group">
-
-			<label style="font-weight:bold">Codigo postal: *</label>
-
-			<input type="text" class="form-control" id="imputed-postal-code" maxlength="10" onkeypress="validateNumber(event);">		
-
-		</div>
-
-		<div class="col-md-4 form-group">
-
-			<label style="font-weight:bold">Latitud: *</label>
-
-			<input type="text" class="form-control" id="imputed-latitude" maxlength="13" onkeypress="validateNumber(event);">		
-
-		</div>
-
-	</div>
-
-	<div class="form-row">
-
-		<div class="col-md-4 form-group">
-
-			<label style="font-weight:bold">Longitud: *</label>
-
-			<input type="text" class="form-control" id="imputed-longitude" maxlength="13" onkeypress="validateNumber(event);">		
-
-		</div>
-
-		<div class="col-md-4 form-group">
-
-			<label style="font-weight:bold">Telefono: *</label>
-
-			<input type="text" class="form-control" id="imputed-phone-number" maxlength="15" onkeypress="validateNumber(event);">		
-
-		</div>
-
-	</div>
-
-
-	<div class="title_left">	
-
-		<div class="col-md-12 col-sm-12 col-xs-12 form-group">
-
-			<div class="buttons">		
-				
-				<button type="button" class="btn btn-dark" style="height:38px; width: 100px;"  onclick="limpiaimputado(), resetSelectedImputed()">Nuevo</button>	
-				<button type="button" id="botonaccion" class="btn btn-success" style="height:38px; width: 100px;"  onclick="validateImputedSection('address')">Guardar</button>	
+				<select id="agreement-unity" name="tipo" style="height: 40px" class="form-control"  required="true">									
+					<option value ="1" selected>Unidad 1</option>
+					<option value ="2">Unidad 2</option>
+				</select>	
 
 			</div>
 
 		</div>
 
+	</div>
+
+	<div class="form-buttons">		
+				
+		<button type="button" class="btn btn-dark" style="height:38px; width: 100px;"  onclick="resetSection('agreements')">Nuevo</button>	
+		<button type="button" class="btn btn-success" style="height:38px; width: 100px;"  onclick="validateSection('agreements')">Guardar</button>	
+ 
 	</div>
 
 </form>
