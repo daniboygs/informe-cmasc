@@ -6,9 +6,9 @@ var sections = {
 		"update_file": "update_agreements_section.php",
 		"search_file": "search_agreements_section.php",
 		"form_id": "agreements-form",
-		"sidebar_div_id": "agreements-side-div",
+		"navigation_element_id": "agreements-nav-div",
 		"name": "acuerdos",
-		"title": "Acuerdos celebrados",
+		"title": "ACUERDOS CELEBRADOS",
 		"fields": [
             {
 				"id": "agreement-date",
@@ -19,7 +19,7 @@ var sections = {
                     "unlock": null,
                     "length": null
                 },
-				"default": null,
+				"default": "today",
 				"catalog": null,
 				"required": true
 			},
@@ -131,7 +131,515 @@ var sections = {
 				"required": true
 			}
 		],
-		"active": true,
+		"active": false,
+		"data": [],
+		"loaded_data": false
+	},
+	"recieved_folders": {
+		"index": 2,
+		"form_file": "recieved_folders_form.php",
+		"create_file": "create_recieved_folders_section.php",
+		"update_file": "update_recieved_folders_section.php",
+		"search_file": "search_recieved_folders_section.php",
+		"form_id": "recieved-folders-form",
+		"navigation_element_id": "recieved-folders-nav-div",
+		"name": "recieved_folders",
+		"title": "CARPETAS RECIBIDAS",
+		"fields": [
+            {
+				"id": "recieved-folders-date",
+				"name": "recieved_folders_date",
+                "type": "date",
+                "placeholder": "Ingresa Fecha",
+                "conditions": {
+                    "unlock": null,
+                    "length": null
+                },
+				"default": "today",
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "recieved-folders-crime",
+				"name": "recieved_folders_crime",
+				"type": "text",
+                "placeholder": "Ingresa Delito",
+                "conditions": {
+                    "unlock": null,
+                    "length": null
+                },
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "recieved-folders-nuc",
+				"name": "recieved_folders_nuc",
+				"type": "text-number",
+                "placeholder": "Ingresa NUC",
+                "conditions": {
+                    "unlock": null,
+                    "length": {
+                        "min": 13,
+                        "max": 13
+                    }
+                },
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+            {
+				"id": "recieved-folders-unity",
+				"name": "recieved_folders_unity",
+				"type": "text",
+                "placeholder": "Ingresa Unidad",
+                "conditions": {
+                    "unlock": null,
+                    "length": null
+                },
+				"default": null,
+				"catalog": null,
+				"required": true
+			}
+		],
+		"active": false,
+		"data": [],
+		"loaded_data": false
+	},
+	"folders_to_investigation": {
+		"index": 3,
+		"form_file": "folders_to_investigation_form.php",
+		"create_file": "create_folders_to_investigation_section.php",
+		"update_file": "update_folders_to_investigation_section.php",
+		"search_file": "search_folders_to_investigation_section.php",
+		"form_id": "folders-to-investigation-form",
+		"navigation_element_id": "folders-to-investigation-nav-div",
+		"name": "folders_to_investigation",
+		"title": "CARPETAS ENVIADAS A INVESTIGACIÓN",
+		"fields": [
+            {
+				"id": "folders-to-investigation-date",
+				"name": "folders_to_investigation_date",
+                "type": "date",
+                "placeholder": "Ingresa Fecha",
+                "conditions": {
+                    "unlock": null,
+                    "length": null
+                },
+				"default": "today",
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "folders-to-investigation-crime",
+				"name": "folders_to_investigation_crime",
+				"type": "text",
+                "placeholder": "Ingresa Delito",
+                "conditions": {
+                    "unlock": null,
+                    "length": null
+                },
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "folders-to-investigation-nuc",
+				"name": "folders_to_investigation_nuc",
+				"type": "text-number",
+                "placeholder": "Ingresa NUC",
+                "conditions": {
+                    "unlock": null,
+                    "length": {
+                        "min": 13,
+                        "max": 13
+                    }
+                },
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "folders-to-investigation-channeling_reason",
+				"name": "folders_to_investigation_channeling-reason",
+				"type": "text",
+                "placeholder": "Ingresa Motivo",
+                "conditions": {
+                    "unlock": null,
+                    "length": null
+                },
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+            {
+				"id": "folders-to-investigation-unity",
+				"name": "folders_to_investigation_unity",
+				"type": "text",
+                "placeholder": "Ingresa Unidad",
+                "conditions": {
+                    "unlock": null,
+                    "length": null
+                },
+				"default": null,
+				"catalog": null,
+				"required": true
+			}
+		],
+		"active": false,
+		"data": [],
+		"loaded_data": false
+	},
+	"people_served": {
+		"index": 4,
+		"form_file": "people_served_form.php",
+		"create_file": "create_people_served_section.php",
+		"update_file": "update_people_served_section.php",
+		"search_file": "search_people_served_section.php",
+		"form_id": "people-served-form",
+		"navigation_element_id": "people-served-nav-div",
+		"name": "people_served",
+		"title": "PERSONAS ATENDIDAS",
+		"fields": [
+			{
+				"id": "people-served-date",
+				"name": "people_served_date",
+				"type": "date",
+				"placeholder": "Ingresa Fecha",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": "today",
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "people-served-crime",
+				"name": "people_served_crime",
+				"type": "text",
+				"placeholder": "Ingresa Delito",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "people-served-nuc",
+				"name": "people_served_nuc",
+				"type": "text-number",
+				"placeholder": "Ingresa NUC",
+				"conditions": {
+					"unlock": null,
+					"length": {
+						"min": 13,
+						"max": 13
+					}
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "people-served-number",
+				"name": "people_served_number",
+				"type": "number",
+				"placeholder": "Ingresa Numero",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "people-served-unity",
+				"name": "people_served_unity",
+				"type": "text",
+				"placeholder": "Ingresa Unidad",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			}
+		],
+		"active": false,
+		"data": [],
+		"loaded_data": false
+	},
+	"processing_folders": {
+		"index": 5,
+		"form_file": "processing_folders_form.php",
+		"create_file": "create_processing_folders_section.php",
+		"update_file": "update_processing_folders_section.php",
+		"search_file": "search_processing_folders_section.php",
+		"form_id": "processing-folders-form",
+		"navigation_element_id": "processing-folders-nav-div",
+		"name": "processing_folders",
+		"title": "CARPETAS DE TRAMITE",
+		"fields": [
+			{
+				"id": "processing-folders-facilitator",
+				"name": "processing_folders_facilitator",
+				"type": "text",
+				"placeholder": "Ingresa Facilitador",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "processing-folders-folders",
+				"name": "processing_folders_folders",
+				"type": "number",
+				"placeholder": "Ingresa Numero",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 0,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "processing-folders-inmediate-attention",
+				"name": "processing_folders_inmediate_attention",
+				"type": "number",
+				"placeholder": "Ingresa Numero",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 0,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "processing-folders-cjim",
+				"name": "processing_folders_cjim",
+				"type": "number",
+				"placeholder": "Ingresa Numero",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 0,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "processing-folders-domestic-violence",
+				"name": "processing_folders_domestic_violence",
+				"type": "number",
+				"placeholder": "Ingresa Numero",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 0,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "processing-folders-cyber-crimes",
+				"name": "processing_folders_cyber_crimes",
+				"type": "number",
+				"placeholder": "Ingresa Numero",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 0,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "processing-folders-teenagers",
+				"name": "processing_folders_teenagers",
+				"type": "number",
+				"placeholder": "Ingresa Numero",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 0,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "processing-folders-swealth-and-finantial-inteligence",
+				"name": "processing_folders_swealth_and_finantial_inteligence",
+				"type": "number",
+				"placeholder": "Ingresa Numero",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 0,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "processing-folders-high-impact-and-vehicles",
+				"name": "processing_folders_high_impact_and_vehicles",
+				"type": "number",
+				"placeholder": "Ingresa Numero",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 0,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "processing-folders-human-rights",
+				"name": "processing_folders_human_rights",
+				"type": "number",
+				"placeholder": "Ingresa Numero",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 0,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "processing-folders-fight-corruption",
+				"name": "processing_folders_fight_corruption",
+				"type": "number",
+				"placeholder": "Ingresa Numero",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 0,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "processing-folders-special-matters",
+				"name": "processing_folders_special_matters",
+				"type": "number",
+				"placeholder": "Ingresa Numero",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 0,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "processing-folders-internal-affairs",
+				"name": "processing_folders_internal_affairs",
+				"type": "number",
+				"placeholder": "Ingresa Numero",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 0,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "processing-folders-litigation",
+				"name": "processing_folders_litigation",
+				"type": "number",
+				"placeholder": "Ingresa Numero",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 0,
+				"catalog": null,
+				"required": true
+			}
+		],
+		"active": false,
+		"data": [],
+		"loaded_data": false
+	},
+	"folders_to_validation": {
+		"index": 6,
+		"form_file": "folders_to_validation_form.php",
+		"create_file": "create_folders_to_validation_section.php",
+		"update_file": "update_folders_to_validation_section.php",
+		"search_file": "search_folders_to_validation_section.php",
+		"form_id": "folders-to-validation-form",
+		"navigation_element_id": "folders-to-validation-nav-div",
+		"name": "folders_to_validation",
+		"title": "CARPETAS ENVIADAS A VALIDACIÓN",
+		"fields": [
+			{
+				"id": "folders-to-validation-date",
+				"name": "folders_to_validation_date",
+				"type": "date",
+				"placeholder": "Ingresa Fecha",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": "today",
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "folders-to-validation-crime",
+				"name": "folders_to_validation_crime",
+				"type": "text",
+				"placeholder": "Ingresa Delito",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "folders-to-validation-nuc",
+				"name": "folders_to_validation_nuc",
+				"type": "text-number",
+				"placeholder": "Ingresa NUC",
+				"conditions": {
+					"unlock": null,
+					"length": {
+						"min": 13,
+						"max": 13
+					}
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "folders-to-validation-unity",
+				"name": "folders_to_validation_unity",
+				"type": "text",
+				"placeholder": "Ingresa Unidad",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			}
+		],
+		"active": false,
 		"data": [],
 		"loaded_data": false
 	}

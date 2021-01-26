@@ -23,8 +23,27 @@ if(!isset($_SESSION['user_data'])){
 		<title>CMASC</title>
 	</head>
     <body>
+
+		<!--<div class="topnav">
+			<a class="active" href="#home">Home</a>
+			<a href="#news">News</a>
+			<a href="#contact">Contact</a>
+			<a href="#about">About</a>
+		</div>-->
+
     
         <div id="frame">
+
+		<div class="topnav">
+			<div class="active" id="agreements-nav-div" onclick="loadSection('agreements')">ACUERDOS CELEBRADOS</div>
+			<div id="recieved-folders-nav-div" onclick="loadSection('recieved_folders')">CARPETAS RECIBIDAS</div>
+			<div id="folders-to-investigation-nav-div" onclick="loadSection('folders_to_investigation')">CARPETAS ENVIADAS A INVESTIGACIÓN</div>
+			<div id="people-served-nav-div" onclick="loadSection('people_served')">PERSONAS ATENDIDAS</div>
+			<div id="processing-folders-nav-div" onclick="loadSection('processing_folders')">CARPETAS DE TRAMITE</div>
+			<div id="folders-to-validation-nav-div" onclick="loadSection('folders_to_validation')">CARPETAS ENVIADAS A VALIDACIÓN</div>
+		</div>
+
+		<br>
 
             <h1 class="title"></h1>
 

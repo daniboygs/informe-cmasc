@@ -1,13 +1,21 @@
 $(document).ready(function(){ 
+    console.log(sections);
 
-    loadForm('agreements');
+    loadSection('agreements');
 
     
 	
 });
 
-function loadForm(section){
+function loadSection(section){
+    console.log(section);
+    if(!sections[section].active){
+        loadForm(section);
+    }
+}
 
+function loadForm(section){
+    console.log('load?');
     $.ajax({
         url:'forms/'+sections[section].form_file,
         type:'POST',
@@ -15,19 +23,49 @@ function loadForm(section){
         processData:false,
         cache:false
     }).done(function(response){
-        //document.getElementById('principal-imputed-panel').style.display = 'none';
+
+        console.log('lo hiciste?', sections[section].form_file);
         $(".title").html(sections[section].title);
-        $("#content").html( response );
-        /*getAllCatalogsDataByImputedSection(section);
-        setTimeout(
-            function(){
-                loadImputedDataBySection(section);
-                loadUnlockConditionsByImputedSection(section);
-            }, 1000
-        );*/
+        $("#content").html(response);
+        activeSection(section);
+        loadDefaultValuesBySection(section);
 
     });
+}
 
+function activeSection(section){
+
+    for(element in sections){
+        console.log(sections[element]);
+        sections[element].active = false;
+        $('#'+sections[element].navigation_element_id).removeClass('active');
+    }
+
+    sections[section].active = true;
+    $('#'+sections[section].navigation_element_id).addClass('active');
+
+}
+
+function loadDefaultValuesBySection(section){
+    let fields = sections[section].fields;
+
+    for(field in fields){
+        if(document.getElementById(fields[field].id)){
+
+            if(fields[field].default != null){
+
+                switch(fields[field].type){
+                    case "date":
+                        if(fields[field].default == "today"){
+                            document.getElementById(fields[field].id).valueAsDate = new Date();
+                        }
+                        break;
+                    default:
+                        document.getElementById(fields[field].id).value = fields[field].default;
+                }
+            }
+        }
+    }
 }
 
 function validateSection(section){
@@ -82,4 +120,24 @@ function resetSection(section){
             document.getElementById(fields[field].id).value = "";
         }
     }
+}
+
+function validateNumber(evt) {
+	var theEvent = evt || window.event;
+  
+	if(theEvent.type === 'paste'){
+		key = event.clipboardData.getData('text/plain');
+    } 
+    else{
+		var key = theEvent.keyCode || theEvent.which;
+		key = String.fromCharCode(key);
+    }
+    
+    var regex = /[0-9]|\./;
+    
+	if( !regex.test(key) ){
+	    theEvent.returnValue = false;
+    if(theEvent.preventDefault) 
+        theEvent.preventDefault();
+	}
 }
