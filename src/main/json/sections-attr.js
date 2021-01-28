@@ -26,8 +26,8 @@ var sections = {
 			{
 				"id": "agreement-crime",
 				"name": "agreement_crime",
-				"type": "select",
-                "placeholder": "Selecciona Delito",
+				"type": "text",
+                "placeholder": "Ingresa Delito",
                 "conditions": {
                     "unlock": null,
                     "length": null
@@ -120,8 +120,8 @@ var sections = {
             {
 				"id": "agreement-unity",
 				"name": "agreement_unity",
-				"type": "select",
-                "placeholder": "Selecciona Unidad",
+				"type": "text",
+                "placeholder": "Ingresa Unidad",
                 "conditions": {
                     "unlock": null,
                     "length": null

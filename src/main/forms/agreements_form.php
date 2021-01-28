@@ -14,14 +14,7 @@
 
 			<label style="font-weight:bold">Delito: *</label>
 
-			<div id="agreement-crime-section">
-				<!--<div style="color: #EE6E5A;">Cargando datos... </div>-->
-
-				<select id="agreement-crime" name="tipo" style="height: 40px" class="form-control"  required="true">									
-					<option value ="1" selected>Delito 1</option>
-					<option value ="2">Delito 2</option>
-				</select>
-			</div>		
+			<input type="text" class="form-control" id="agreement-crime">			
 
 		</div>
 
@@ -88,15 +81,7 @@
 
 			<label style="font-weight:bold">Unidad: *</label>
 
-			<div id="agreement-unity-section">
-				<!--<div style="color: #EE6E5A;">Cargando datos... </div>-->
-
-				<select id="agreement-unity" name="tipo" style="height: 40px" class="form-control"  required="true">									
-					<option value ="1" selected>Unidad 1</option>
-					<option value ="2">Unidad 2</option>
-				</select>	
-
-			</div>
+			<input type="text" class="form-control" id="agreement-unity">	
 
 		</div>
 

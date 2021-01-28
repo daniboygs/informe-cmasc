@@ -33,8 +33,11 @@ $(document).ready(function(){
                 if(response.data){
                     setSessionVariables('user', response.data);
                     //showLoading(true);
+                    
                     redirectTo('src/main/main.html');
                     console.log('data: ', data);
+
+                    Swal.fire('Bienvenido', '', 'success');
                 }
                 else{
                     /*blurt({
@@ -42,7 +45,8 @@ $(document).ready(function(){
                         'text' : 'Usuario o contraseña incorrecto', 
                         'type' : 'error'
                     });*/
-                    alert("Usuario incorrecto");
+                    //alert("Usuario incorrecto");
+                    Swal.fire('Usuario incorrecto', 'Intentelo de nuevo!', 'warning')
                 }
             }
             else{
@@ -51,7 +55,8 @@ $(document).ready(function(){
                     'text' : 'Ha fallado la conexión, porfavor intente de nuevo en unos momentos', 
                     'type' : 'error'
                 });*/
-                alert("Ha fallado la conexión, porfavor intente de nuevo en unos momentos");
+                Swal.fire('Oops...', 'Ha fallado la conexión!', 'error');
+                //alert("Ha fallado la conexión, porfavor intente de nuevo en unos momentos");
             }
 			
 		});  

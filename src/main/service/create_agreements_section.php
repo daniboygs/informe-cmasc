@@ -1,9 +1,12 @@
 <?php
 session_start();
-include("../../../Conexiones/Conexion_SICAP.php");
+include("../../../service/connection.php");
+include("common.php");
 
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+$conn = $connections['cmasc']['conn'];
+$db_table = '[dbo].[AcuerdosCelebrados]';
 
 $amount = $_POST['agreement_amount'];
 $compliance = $_POST['agreement_compliance'];
@@ -16,59 +19,95 @@ $total = $_POST['agreement_total'];
 $unity = $_POST['agreement_unity'];
 
 
+
 $data = (object) array(
-	'imputed_process' => $imputed_process,
-	'authority' => $authority,
-	'flagrancy_released' => $flagrancy_released,
-	'audience_date' => $audience_date,
-	'legal_detention' => $legal_detention,
-	'commandment_request_date' => $commandment_request_date,
-	'commandment_type' => $commandment_type,
-	'commandment_release_date' => $commandment_release_date,
-	'commandment_status' => $commandment_status,
-	'imputed_id' => $imputed_id,
-	'folder_id' => $folder_id
+	'amount' => (object) array(
+		'type' => 'number',
+		'value' => $amount,
+		'null' => false,
+		'db_column' => '[MontoRecuperado]'
+	),
+	'compliance' => (object) array(
+		'type' => 'text',
+		'value' => $compliance,
+		'null' => false,
+		'db_column' => '[Cumplimiento]'
+	),
+	'crime' => (object) array(
+		'type' => 'text',
+		'value' => $crime,
+		'null' => false,
+		'db_column' => '[AcuerdoDelito]'
+	),
+	'date' => (object) array(
+		'type' => 'date',
+		'value' => $date,
+		'null' => false,
+		'db_column' => '[Fecha]'
+	),
+	'intervention' => (object) array(
+		'type' => 'number',
+		'value' => $intervention,
+		'null' => false,
+		'db_column' => '[Intervenciones]'
+	),
+	'mechanism' => (object) array(
+		'type' => 'text',
+		'value' => $mechanism,
+		'null' => false,
+		'db_column' => '[Mecanismo]'
+	),
+	'nuc' => (object) array(
+		'type' => 'text',
+		'value' => $nuc,
+		'null' => false,
+		'db_column' => '[NUC]'
+	),
+	'total' => (object) array(
+		'type' => 'text',
+		'value' => $total,
+		'null' => false,
+		'db_column' => '[TotalParcial]'
+	),
+	'unity' => (object) array(
+		'type' => 'text',
+		'value' => $unity,
+		'null' => false,
+		'db_column' => '[Unidad]'
+	),
+	'user' => (object) array(
+		'type' => 'number',
+		'value' => 'null',
+		'null' => true,
+		'db_column' => '[UsuarioID]'
+	)
 );
 
-json_encode(createSection($user_id, $data, $conn, $params, $options), JSON_FORCE_OBJECT);
 
-function createImputed($user_id, $data, $conn, $params, $options){
+if(!isset($_SESSION['user_data'])){
+	echo json_encode(
+		array(
+			'state' => 'fail',
+			'data' => null
+		),
+		JSON_FORCE_OBJECT
+	);
+}
+else{
 
-	$sql = "INSERT INTO [dbo].[AcuerdoID]
-				([NUC]
-				,[Fecha]
-				,[Delito]
-				,[Intervension]
-				,[Cumplimientos]
-				,[TotalParcial]
-				,[Mecanismo]
-				,[Monto]
-				,[Unidad]
-				,[UsuarioID])
-				VALUES
-				(
-					$data->imputed_process,
-					$data->authority,
-					$data->flagrancy_released,
-					'$data->audience_date',
-					$data->legal_detention,
-					'$data->commandment_request_date',
-					$data->commandment_type,
-					'$data->commandment_release_date',
-					$data->commandment_status,
-					$data->user_id
-				)
-			SELECT SCOPE_IDENTITY()";
-        
-	$stmt = sqlsrv_query( $conn, $sql);
-
-	sqlsrv_next_result($stmt); 
-	sqlsrv_fetch($stmt); 
-
-	$id = sqlsrv_get_field($stmt, 0);
-
-	return true;
-
+	$data->user->value = $_SESSION['user_data']['id'];
+	$data->user->null = false;
+	
+	echo json_encode(
+		createSection(
+			$data, 
+			$db_table,
+			$conn, 
+			$params, 
+			$options
+		), 
+		JSON_FORCE_OBJECT
+	);
 }
 ?>
 

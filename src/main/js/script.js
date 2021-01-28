@@ -102,24 +102,69 @@ function validateSection(section){
     }
 
     if(compleated){
-        //saveSection(section);
+        spetialValidationBySection({
+            section: section,
+            data: data
+        });
+        //saveSection(section, data);
         console.log('guardando: ', data);
     }
     else{
-        alert('No has completado la sección');
+        //alert('No has completado la sección');
+        Swal.fire('Campos faltantes', 'Tiene que completar los campos faltantes', 'warning');
     }
 }
 
-function saveSection(section, data){
+function spetialValidationBySection(attr){
+    switch(attr.section){
+        case 'agreements':
+
+        console.log('agg');
+            checkNuc({
+                element_id: 'agreement-nuc',
+                function: saveSection,
+                attr: {
+                    section: attr.section,
+                    data: attr.data
+                }
+            });
+            break;
+        default:
+            console.log('defa');
+            saveSection({
+                section: attr.section,
+                data: attr.data
+            });
+            break;
+    }
+}
+
+function saveSection(attr){
     $.ajax({
-		url: 'service/'+sections[section].create_file,
-		type: 'POST',
+		url: 'service/'+sections[attr.section].create_file,
+        type: 'POST',
+        dataType : 'json', 
 		data: {
-			...data
+			...attr.data
 		},
 		cache: false
 	}).done(function(response){
+        if(response.state == 'success'){
+            
+            Swal.fire('Correcto', 'Datos guardados correctamente', 'success');
+            resetSection(attr.section);
+            loadDefaultValuesBySection(attr.section);
+            
+            console.log('chido chido', response);
+            console.log('chido lo', response.state);
+        }
+        else{
 
+            Swal.fire('Error', 'Ha ocurrido un error, vuelva a intentarlo', 'error');
+
+            console.log('not chido', response);
+            console.log('chido no lo', response.state);
+        }
 	});
 }
 
@@ -135,6 +180,7 @@ function resetSection(section){
 }
 
 function validateNumber(evt) {
+    
 	var theEvent = evt || window.event;
   
 	if(theEvent.type === 'paste'){
@@ -152,4 +198,83 @@ function validateNumber(evt) {
     if(theEvent.preventDefault) 
         theEvent.preventDefault();
 	}
+}
+
+function checkNuc(attr){
+
+    console.log('checas: ', attr);
+
+    /*if(document.getElementById(evt.srcElement.id)){
+        if(document.getElementById(evt.srcElement.id).value.length == 13){
+
+        }
+    }*/
+
+    if(document.getElementById(attr.element_id)){
+
+        console.log('exis ');
+        if(document.getElementById(attr.element_id).value.length == 13){
+            console.log('apenas voy');
+            $.ajax({  
+                type: "POST",  
+                url: "service/check_nuc.php", 
+                dataType : 'json', 
+                data: {
+                    nuc: document.getElementById(attr.element_id).value
+                },
+            }).done(function(response){
+
+                console.log('response?');
+        
+                if(response.state != "fail"){
+        
+                    if(response.data != null){
+
+                        attr.function(attr.attr);
+
+                        //Swal.fire('NUC verificado', 'NUC registrado con el delito de: '+response.data.crime, 'success');
+                    }
+                    else{
+                        Swal.fire('NUC no encontrado', 'Verifique el NUC!', 'warning');
+                    }
+                }
+                else{
+                    Swal.fire('Oops...', 'Ha fallado la conexión!', 'error');
+                }
+                
+            }); 
+        }
+        else{
+            Swal.fire('NUC no valido', 'El NUC debe contar con 13 digitos', 'warning');
+        }
+    }
+    else{
+    }
+
+
+    /*$.ajax({  
+        type: "POST",  
+        url: "service/check_nuc.php", 
+        dataType : 'json', 
+        data: {
+            nuc: document.getElementById(id)
+        },
+    }).done(function(response){
+
+        if(response.state != "fail"){
+
+            if(response.data != null){
+                Swal.fire('Nuc verificado', 'Nuc registrado con el delito de: '+response.data.crime, 'success');
+            }
+            else{
+                Swal.fire('Nuc no encontrado', 'Verifique el nuc!', 'warning')
+            }
+        }
+        else{
+            Swal.fire('Oops...', 'Ha fallado la conexión!', 'error');
+        }
+        
+    });  
+    
+    return false;*/
 }
