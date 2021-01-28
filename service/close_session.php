@@ -1,5 +1,12 @@
 <?php
 	session_start(); 
-   	session_destroy();
-   	echo "<script>window.location.href= '../index.php';</script>";    
+	session_destroy();
+	
+    echo json_encode(
+		array(
+			'state' => 'success',
+			'data' => false
+		), 
+		JSON_FORCE_OBJECT
+	);  
 ?>

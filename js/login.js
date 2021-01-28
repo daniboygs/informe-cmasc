@@ -1,4 +1,16 @@
 $(document).ready(function(){ 
+
+    checkSession({
+        success: {
+            function: redirectTo,
+            attr: 'src/main/main.html'
+        },
+        failed: {
+            function: null,
+            attr: null
+        },
+        location: 'service/check_session.php'
+    });
     
     jQuery('#login-form').submit(login);
     
@@ -14,15 +26,14 @@ $(document).ready(function(){
                     password: $("#pass").val()
                 })
             },
-            dataType: 'json',
         }).done(function(response){
 
             if(response.state != "fail"){
 
                 if(response.data){
-                    //setSessionVariables('user', response.user_data);
+                    setSessionVariables('user', response.data);
                     //showLoading(true);
-                    redirectTo('src/main/main.php');
+                    redirectTo('src/main/main.html');
                     console.log('data: ', data);
                 }
                 else{
@@ -49,33 +60,3 @@ $(document).ready(function(){
     }
 	
 });
-
-function setSessionVariables(type, data){
-
-    $.ajax({  
-        type: "POST",  
-        url: "service/set_session_variables.php", 
-        data: {
-            user_data: JSON.stringify({
-                type: type,
-                data: data
-            })
-        },
-        dataType: 'json'
-    }).done(function(response){
-        return response;
-    });  
-    
-    return false;
-}
-
-function showLoading(ind){
-    if(ind)
-        $(".loader-div").addClass("loader");
-    else
-        $(".loader-div").removeClass("loader");
-}
-
-function redirectTo(location){
-    window.location = location;
-}

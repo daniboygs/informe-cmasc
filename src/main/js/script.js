@@ -1,7 +1,19 @@
 $(document).ready(function(){ 
     console.log(sections);
 
-    loadSection('agreements');
+    checkSession({
+        success: {
+            function: loadSection,
+            attr: 'agreements'
+        },
+        failed: {
+            function: redirectTo,
+            attr: '../../index.html'
+        },
+        location: '../../service/check_session.php'
+    });
+
+    //loadSection('agreements');
 
     
 	
