@@ -105,4 +105,52 @@ function createSection($data, $db_table, $conn, $params, $options){
 
 }
 
+function formSearchDBColumns($data){
+	$columns = "";
+    $i = 1;
+    $search_data = array();
+    
+    foreach ($data as $element => $attr) {
+        if($attr->search){
+            array_push($search_data, $attr->db_column);
+        }
+    }
+
+	foreach ($search_data as $element) {
+        
+        if($element != ''){
+            $columns.="$element";
+        }
+
+        if($i < count((array) $search_data)){
+            $columns.=",";
+        }
+
+		$i++;
+	}
+	return $columns;
+}
+
+function formSearchConditions($data){
+    $conditions = "";
+    $i = 1;
+
+	foreach ($data as $element => $attr) {
+        $conditions.=' '.$attr->db_column.' '.$attr->condition.' '.$attr->value;
+
+        if($i < count((array) $data)){
+            $conditions.=" AND ";
+        }
+
+        $i++;
+    }
+    
+    if($conditions != ''){
+        return 'WHERE'.$conditions;
+    }
+    else{
+        return $conditions;
+    }
+}
+
 ?>

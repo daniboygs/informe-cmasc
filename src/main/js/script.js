@@ -13,6 +13,8 @@ $(document).ready(function(){
         location: '../../service/check_session.php'
     });
 
+    getRecordsByMonth();
+
     //loadSection('agreements');
 
     
@@ -122,6 +124,46 @@ function spetialValidationBySection(attr){
         console.log('agg');
             checkNuc({
                 element_id: 'agreement-nuc',
+                function: saveSection,
+                attr: {
+                    section: attr.section,
+                    data: attr.data
+                }
+            });
+            break;
+        case 'folders_to_investigation':
+            checkNuc({
+                element_id: 'folders-to-investigation-nuc',
+                function: saveSection,
+                attr: {
+                    section: attr.section,
+                    data: attr.data
+                }
+            });
+            break;
+        case 'folders_to_validation':
+            checkNuc({
+                element_id: 'folders-to-validation-nuc',
+                function: saveSection,
+                attr: {
+                    section: attr.section,
+                    data: attr.data
+                }
+            });
+            break;
+        case 'people_served':
+            checkNuc({
+                element_id: 'people-served-nuc',
+                function: saveSection,
+                attr: {
+                    section: attr.section,
+                    data: attr.data
+                }
+            });
+            break;
+        case 'recieved_folders':
+            checkNuc({
+                element_id: 'recieved-folders-nuc',
                 function: saveSection,
                 attr: {
                     section: attr.section,
@@ -277,4 +319,38 @@ function checkNuc(attr){
     });  
     
     return false;*/
+}
+
+function getRecordsByMonth(){
+
+    let date = new Date();
+
+	$.ajax({
+		url:'service/get_records_by_month.php',
+		type:'POST',
+		dataType: "json",
+		data: {
+            month: (date.getMonth()+1),
+            year: date.getFullYear()
+		},
+		cache:false
+	}).done(function(response){
+        console.log(response);
+        drawRecordsTable(response);
+	});
+}
+
+function drawRecordsTable(data){
+	console.log('draw_t');
+	$.ajax({
+		url: 'templates/tables/records_table.php',
+		type: 'POST',
+		dataType: "html",
+		data: {
+			data: data
+		},
+		cache: false
+	}).done(function(response){
+		$('#records-section').html(response);
+	});
 }

@@ -260,8 +260,8 @@ var sections = {
 				"required": true
 			},
 			{
-				"id": "folders-to-investigation-channeling_reason",
-				"name": "folders_to_investigation_channeling-reason",
+				"id": "folders-to-investigation-channeling-reason",
+				"name": "folders_to_investigation_channeling_reason",
 				"type": "text",
                 "placeholder": "Ingresa Motivo",
                 "conditions": {
