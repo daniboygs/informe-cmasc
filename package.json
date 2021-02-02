@@ -1,0 +1,26 @@
+{
+  "name": "informe-cmasc",
+  "version": "1.0.0",
+  "description": "informs",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daniboygs/informe-cmasc.git"
+  },
+  "author": "José Daniel García Sánchez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/daniboygs/informe-cmasc/issues"
+  },
+  "homepage": "https://github.com/daniboygs/informe-cmasc#readme",
+  "dependencies": {
+    "bootstrap": "^4.6.0",
+    "es6": "0.0.7",
+    "jquery": "^3.5.1",
+    "normalize.css": "^8.0.1",
+    "sweetalert2": "^10.14.0"
+  }
+}
