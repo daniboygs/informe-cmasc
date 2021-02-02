@@ -1,16 +1,18 @@
 $(document).ready(function(){ 
 
-    checkSession({
+    /*checkSession({
         success: {
             function: redirectTo,
-            attr: 'src/main/main.html'
+            attr: {
+                admin: 'src/main/main.php',
+            }
         },
         failed: {
             function: null,
             attr: null
         },
         location: 'service/check_session.php'
-    });
+    });*/
     
     jQuery('#login-form').submit(login);
     
@@ -33,8 +35,20 @@ $(document).ready(function(){
                 if(response.data){
                     setSessionVariables('user', response.data);
                     //showLoading(true);
+
+                    switch(response.data.type){
+                        case 1:
+                            redirectTo('src/admin/admin.php');
+                            break;
+                        case 2:
+                            redirectTo('src/main/main.php');
+                            break;
+                        default:
+                            redirectTo('src/main/main.php');
+                            break;
+                    }
                     
-                    redirectTo('src/main/main.html');
+                    
                     console.log('data: ', data);
 
                     Swal.fire('Bienvenido', '', 'success');

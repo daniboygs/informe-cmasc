@@ -10,7 +10,8 @@ switch($data['type']){
             'username' => $data['data']['username'],
             'name' => $data['data']['name'],
             'paternal_surname' => $data['data']['paternal_surname'],
-            'maternal_surname' => $data['data']['maternal_surname']
+            'maternal_surname' => $data['data']['maternal_surname'],
+            'type' => $json['Tipo']
         );
         echo true;
     break;

@@ -6,44 +6,37 @@ include("common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[PersonasAtendidas]';
+$db_table = '[dbo].[CarpetasRecibidas]';
 
-$people_served_date = $_POST['people_served_date'];
-$people_served_crime = $_POST['people_served_crime'];
-$people_served_nuc = $_POST['people_served_nuc'];
-$people_served_number = $_POST['people_served_number'];
-$people_served_unity = $_POST['people_served_unity'];
+$recieved_folders_date = $_POST['recieved_folders_date'];
+$recieved_folders_crime = $_POST['recieved_folders_crime'];
+$recieved_folders_nuc = $_POST['recieved_folders_nuc'];
+$recieved_folders_unity = $_POST['recieved_folders_unity'];
 
 
 
 $data = (object) array(
-	'people_served_date' => (object) array(
+	'recieved_folders_date' => (object) array(
 		'type' => 'date',
-		'value' => $people_served_date,
+		'value' => $recieved_folders_date,
 		'null' => false,
 		'db_column' => '[Fecha]'
 	),
-	'people_served_crime' => (object) array(
+	'recieved_folders_crime' => (object) array(
 		'type' => 'text',
-		'value' => $people_served_crime,
+		'value' => $recieved_folders_crime,
 		'null' => false,
 		'db_column' => '[Delito]'
 	),
-	'people_served_nuc' => (object) array(
+	'recieved_folders_nuc' => (object) array(
 		'type' => 'text',
-		'value' => $people_served_nuc,
+		'value' => $recieved_folders_nuc,
 		'null' => false,
 		'db_column' => '[NUC]'
 	),
-	'people_served_number' => (object) array(
+	'recieved_folders_unity' => (object) array(
 		'type' => 'text',
-		'value' => $people_served_number,
-		'null' => false,
-		'db_column' => '[PersonasAtendidas]'
-	),
-	'people_served_unity' => (object) array(
-		'type' => 'text',
-		'value' => $people_served_unity,
+		'value' => $recieved_folders_unity,
 		'null' => false,
 		'db_column' => '[Unidad]'
 	),

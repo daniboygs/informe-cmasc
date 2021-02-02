@@ -44,7 +44,7 @@ function loadForm(section){
         $(".title").html(sections[section].title);
         $("#content").html(response);
         activeSection(section);
-        loadDefaultValuesBySection(section);
+        //loadDefaultValuesBySection(section);
         getRecordsByMonth(section);
 
     });
@@ -360,4 +360,61 @@ function drawRecordsTable(data){
 	}).done(function(response){
 		$('#records-section').html(response);
 	});
+}
+
+function searchSection(section){
+
+    console.log('search?', section+'-nuc');
+
+    //let date = new Date();
+
+    if(document.getElementById(section+'-nuc')){
+        console.log(document.getElementById(section+'-nuc').value, sections[section].search_file);
+        $.ajax({
+            url:'service/'+sections[section].search_file,
+            type:'POST',
+            dataType: "json",
+            data: {
+                nuc: document.getElementById(section+'-nuc').value
+            },
+            cache:false
+        }).done(function(response){
+            console.log(response);
+            test = response;
+            drawRecordsTable(response);
+        });
+    }
+    else{
+        Swal.fire('Error', 'Ha ocurrido un error, vuelva a intentarlo', 'error');
+    }
+
+	
+}
+
+function deleteRecord(section, id){
+
+    console.log('hola delete', section+' - '+id);
+
+    //let date = new Date();
+
+    /*if(document.getElementById(section+'-nuc')){
+        $.ajax({
+            url:'service/'+sections[section].search_file,
+            type:'POST',
+            dataType: "json",
+            data: {
+                nuc: document.getElementById(section+'-nuc')
+            },
+            cache:false
+        }).done(function(response){
+            console.log(response);
+            test = response;
+            drawRecordsTable(response);
+        });
+    }
+    else{
+        Swal.fire('Error', 'Ha ocurrido un error, vuelva a intentarlo', 'error');
+    }*/
+
+	
 }

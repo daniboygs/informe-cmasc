@@ -17,7 +17,7 @@
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Mecanismo</th>
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Mounto</th>
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Unidad</th>
-        <!--<th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Acción</th>-->
+        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Acción</th>
     </tr>
 <?php
     if($data != null){
@@ -35,6 +35,7 @@
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['agreement_mechanism']['value']; ?></td>
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['agreement_amount']['value']; ?></td>
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['agreement_unity']['value']; ?></td>
+        <td style="text-align: center; border: solid 1px #ccc;"><button class="btn btn-danger" onclick="deleteRecord('agreement', <?php echo $element['agreement_id']['value']; ?>)">Eliminar</button></td>
     </tr>
 <?php
             $i++;

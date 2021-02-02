@@ -6,7 +6,8 @@
 		echo json_encode(
 			array(
 				'state' => 'success',
-				'data' => false
+				'data' => false,
+				'type' => $_SESSION['user_data']['type']
 			),
 			JSON_FORCE_OBJECT
 		);
@@ -15,7 +16,8 @@
 		echo json_encode(
 			array(
 				'state' => 'failed',
-				'data' => false
+				'data' => false,
+				'type' => false
 			),
 			JSON_FORCE_OBJECT
 		);
