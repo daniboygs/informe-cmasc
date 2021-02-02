@@ -41,7 +41,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'agreement_total' => (object) array(
-		'db_column' => '[TotalParcial]',
+		'db_column' => "CASE [TotalParcial] WHEN 1 THEN 'Total' ELSE 'Parcial' END AS 'TotalParcial'",
 		'search' => true
 	),
 	'agreement_unity' => (object) array(

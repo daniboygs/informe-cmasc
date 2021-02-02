@@ -2,49 +2,20 @@
 
 	<div class="form-row">
 
-		<div class="col-md-3 form-group">
-
-			<label style="font-weight:bold">Fecha: *</label>
-
-			<input type="date" class="form-control" id="recieved-folders-date">	
-
-		</div>
-
-		<div class="col-md-9 form-group">
-
-			<label style="font-weight:bold">Delito: *</label>
-
-			<input type="text" class="form-control" id="recieved-folders-crime" maxlength="50">	
-
-		</div>
-
-	</div>
-
-	<div class="form-row">
-
 		<div class="col-md-4 form-group">
 
 			<label style="font-weight:bold">NUC: *</label>
 
-			<input type="text" class="form-control" id="recieved-folders-nuc" maxlength="13" onkeypress="validateNumber(event);">			
+			<input type="text" class="form-control" id="search-nuc" maxlength="13" onkeypress="validateNumber(event);">			
 
 		</div>
-
-		<div class="col-md-8 form-group">
-
-			<label style="font-weight:bold">Unidad: *</label>
-
-			<input type="text" class="form-control" id="recieved-folders-unity" maxlength="50">
-
-		</div>
-
+		
 	</div>
 
 	<div class="form-buttons">		
-				
-		<button type="button" class="btn btn-dark" style="height:38px; width: 100px;"  onclick="resetSection('recieved_folders')">Nuevo</button>	
-		<button type="button" class="btn btn-success" style="height:38px; width: 100px;"  onclick="validateSection('recieved_folders')">Guardar</button>	
- 
+
+		<button type="button" class="btn btn-success" style="height:38px; width: 100px;"  onclick="searchSection('recieved_folders')">Buscar</button>
+	
 	</div>
 
 </form>

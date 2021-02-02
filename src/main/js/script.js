@@ -343,18 +343,21 @@ function getRecordsByMonth(section){
 	}).done(function(response){
         console.log(response);
         test = response;
-        drawRecordsTable(response);
+        drawRecordsTable({
+            data: response,
+            file: section+'_table.php'
+        });
 	});
 }
 
-function drawRecordsTable(data){
+function drawRecordsTable(attr){
 	console.log('draw_t');
 	$.ajax({
-		url: 'templates/tables/records_table.php',
+		url: 'templates/tables/'+attr.file,
 		type: 'POST',
 		dataType: "html",
 		data: {
-			data: data
+			data: attr.data
 		},
 		cache: false
 	}).done(function(response){

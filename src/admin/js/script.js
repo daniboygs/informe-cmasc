@@ -325,6 +325,7 @@ function checkNuc(attr){
     return false;*/
 }
 
+
 function getRecordsByMonth(section){
 
     console.log('by moneh?', section);
@@ -343,18 +344,21 @@ function getRecordsByMonth(section){
 	}).done(function(response){
         console.log(response);
         test = response;
-        drawRecordsTable(response);
+        drawRecordsTable({
+            data: response,
+            file: section+'_table.php'
+        });
 	});
 }
 
-function drawRecordsTable(data){
-	console.log('draw_t');
+function drawRecordsTable(attr){
+	console.log('draw_t', attr.file);
 	$.ajax({
-		url: 'templates/tables/records_table.php',
+		url: 'templates/tables/'+attr.file,
 		type: 'POST',
 		dataType: "html",
 		data: {
-			data: data
+			data: attr.data
 		},
 		cache: false
 	}).done(function(response){
@@ -368,20 +372,23 @@ function searchSection(section){
 
     //let date = new Date();
 
-    if(document.getElementById(section+'-nuc')){
-        console.log(document.getElementById(section+'-nuc').value, sections[section].search_file);
+    if(document.getElementById('search-nuc')){
+        console.log(document.getElementById('search-nuc').value, sections[section].search_file);
         $.ajax({
             url:'service/'+sections[section].search_file,
             type:'POST',
             dataType: "json",
             data: {
-                nuc: document.getElementById(section+'-nuc').value
+                nuc: document.getElementById('search-nuc').value
             },
             cache:false
         }).done(function(response){
             console.log(response);
             test = response;
-            drawRecordsTable(response);
+            drawRecordsTable({
+                data: response,
+                file: section+'_table.php'
+            });
         });
     }
     else{
@@ -394,6 +401,20 @@ function searchSection(section){
 function deleteRecord(section, id){
 
     console.log('hola delete', section+' - '+id);
+
+    $.ajax({
+        url:'service/delete_'+section+'.php',
+        type:'POST',
+        dataType: "json",
+        data: {
+            id: id
+        },
+        cache:false
+    }).done(function(response){
+        Swal.fire('Correcto', 'Registro eliminado correctamente', 'success');
+        getRecordsByMonth(section);
+    });
+
 
     //let date = new Date();
 
@@ -417,4 +438,18 @@ function deleteRecord(section, id){
     }*/
 
 	
+}
+
+function tableToExcel(){
+    var uri = 'data:application/vnd.ms-excel;base64,'
+      , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta cha' + 'rset="UTF-8"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+      , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+      , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+    
+      
+  
+    table = document.getElementById('data-section-table');
+    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+    window.location.href = uri + base64(format(template, ctx));
+    
 }

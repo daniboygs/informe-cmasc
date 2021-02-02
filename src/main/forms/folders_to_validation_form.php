@@ -22,7 +22,7 @@
 
 	<div class="form-row">
 
-		<div class="col-md-3 form-group">
+		<div class="col-md-4 form-group">
 
 			<label style="font-weight:bold">NUC: *</label>
 
@@ -30,15 +30,7 @@
 
 		</div>
 
-		<div class="col-md-2 form-group">
-
-			<label style="font-weight:bold">Monto: *</label>
-
-			<input type="number" class="form-control" id="agreement-amount" min="0">	
-
-		</div>
-
-		<div class="col-md-7 form-group">
+		<div class="col-md-8 form-group">
 
 			<label style="font-weight:bold">Unidad: *</label>
 

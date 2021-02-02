@@ -6,7 +6,7 @@ include("common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[AcuerdosCelebrados]';
+$db_table = '[dbo].[AcuerdosCelebrados] a INNER JOIN Usuario u ON a.UsuarioID = u.UsuarioID';
 
 $month = $_POST['month'];
 $year = $_POST['year'];
@@ -45,7 +45,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'agreement_total' => (object) array(
-		'db_column' => '[TotalParcial]',
+		'db_column' => "CASE [TotalParcial] WHEN 1 THEN 'Total' ELSE 'Parcial' END AS 'TotalParcial'",
 		'search' => true
 	),
 	'agreement_unity' => (object) array(
@@ -53,8 +53,20 @@ $data = (object) array(
 		'search' => true
 	),
 	'user' => (object) array(
-		'db_column' => '[UsuarioID]',
+		'db_column' => 'a.[UsuarioID]',
 		'search' => false
+	),
+	'user_name' => (object) array(
+		'db_column' => '[Nombre]',
+		'search' => true
+	),
+	'user_ps' => (object) array(
+		'db_column' => '[ApellidoPaterno]',
+		'search' => true
+	),
+	'user_ms' => (object) array(
+		'db_column' => '[ApellidoMaterno]',
+		'search' => true
 	)
 );
 
@@ -160,6 +172,10 @@ function getRecord($attr){
 				'agreement_unity' => array(
 					'name' => 'Unidad',
 					'value' => $row['Unidad']
+				),
+				'agreement_user' => array(
+					'name' => 'Facilitador',
+					'value' => $row['Nombre'].' '.$row['ApellidoPaterno'].' '.$row['ApellidoMaterno']
 				)
 			));
 			
