@@ -16,8 +16,16 @@ $data = (object) array(
 		'db_column' => '[CarpetaTramiteID]',
 		'search' => true
 	),
-	'processing_folders_facilitator' => (object) array(
+	/*'processing_folders_facilitator' => (object) array(
 		'db_column' => '[NombreFacilitador]',
+		'search' => true
+	),*/
+	'processing_folders_initial_date' => (object) array(
+		'db_column' => '[FechaInicio]',
+		'search' => true
+	),
+	'processing_folders_finish_date' => (object) array(
+		'db_column' => '[FechaFin]',
 		'search' => true
 	),
 	'processing_folders_folders' => (object) array(
@@ -151,15 +159,34 @@ function getRecord($attr){
 
 			/*if($people_served_date != null)
 				$people_served_date = $people_served_date->format('Y/m/d');*/
+
+			$processing_folders_initial_date = $row['FechaInicio'];
+
+			$processing_folders_finish_date = $row['FechaFin'];
+
+			if($processing_folders_initial_date != null)
+				$processing_folders_initial_date = $processing_folders_initial_date->format('Y/m/d');
+
+			if($processing_folders_finish_date != null)
+				$processing_folders_finish_date = $processing_folders_finish_date->format('Y/m/d');
+
 	
 			array_push($return, array(
 				'processing_folders_id' => array(
 					'name' => 'ID',
 					'value' => $row['CarpetaTramiteID']
 				),
-				'processing_folders_facilitator' => array(
+				/*'processing_folders_facilitator' => array(
 					'name' => 'NombreFacilitador',
 					'value' => $row['NombreFacilitador']
+				),*/
+				'processing_folders_initial_date' => array(
+					'name' => 'FechaInicio',
+					'value' => $processing_folders_initial_date
+				),
+				'processing_folders_finish_date' => array(
+					'name' => 'FechaFin',
+					'value' => $processing_folders_finish_date
 				),
 				'processing_folders_folders' => array(
 					'name' => 'CarpetasInvestigacion',

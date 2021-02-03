@@ -8,7 +8,9 @@ $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[CarpetasTramite]';
 
-$processing_folders_facilitator = $_POST['processing_folders_facilitator'];
+//$processing_folders_facilitator = $_POST['processing_folders_facilitator'];
+$processing_folders_initial_date = $_POST['processing_folders_initial_date'];
+$processing_folders_finish_date = $_POST['processing_folders_finish_date'];
 $processing_folders_folders = $_POST['processing_folders_folders'];
 $processing_folders_inmediate_attention = $_POST['processing_folders_inmediate_attention'];
 $processing_folders_cjim = $_POST['processing_folders_cjim'];
@@ -24,11 +26,23 @@ $processing_folders_internal_affairs = $_POST['processing_folders_internal_affai
 $processing_folders_litigation = $_POST['processing_folders_litigation'];
 
 $data = (object) array(
-	'processing_folders_facilitator' => (object) array(
+	/*'processing_folders_facilitator' => (object) array(
 		'type' => 'text',
 		'value' => $processing_folders_facilitator,
 		'null' => false,
 		'db_column' => '[NombreFacilitador]'
+	),*/
+	'processing_folders_initial_date' => (object) array(
+		'type' => 'text',
+		'value' => $processing_folders_initial_date,
+		'null' => false,
+		'db_column' => '[FechaInicio]'
+	),
+	'processing_folders_finish_date' => (object) array(
+		'type' => 'text',
+		'value' => $processing_folders_finish_date,
+		'null' => false,
+		'db_column' => '[FechaFin]'
 	),
 	'processing_folders_folders' => (object) array(
 		'type' => 'number',

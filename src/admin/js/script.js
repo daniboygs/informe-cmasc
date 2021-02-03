@@ -371,16 +371,37 @@ function searchSection(section){
     console.log('search?', section+'-nuc');
 
     //let date = new Date();
+    
+    let attr = {};
+    let validated = false;
 
-    if(document.getElementById('search-nuc')){
-        console.log(document.getElementById('search-nuc').value, sections[section].search_file);
+    switch(section){
+        case 'processing_folders':
+            if(document.getElementById('search-initial-date') && document.getElementById('search-finish-date')){
+                attr = {
+                    processing_folders_initial_date: document.getElementById('search-initial-date').value,
+                    processing_folders_finish_date: document.getElementById('search-finish-date').value
+                }
+                validated = true;
+            }
+            break;
+        default:
+            if(document.getElementById('search-nuc')){
+                attr = {
+                    nuc: document.getElementById('search-nuc').value
+                }
+                validated = true;
+            }
+            break;
+    }
+
+    if(validated){
+        console.log(sections[section].search_file, attr);
         $.ajax({
             url:'service/'+sections[section].search_file,
             type:'POST',
             dataType: "json",
-            data: {
-                nuc: document.getElementById('search-nuc').value
-            },
+            data: attr,
             cache:false
         }).done(function(response){
             console.log(response);

@@ -2,11 +2,27 @@
 
 	<div class="form-row">
 
-		<div class="col-md-12 form-group">
+		<!--<div class="col-md-12 form-group">
 
 			<label style="font-weight:bold">Facilitador: *</label>
 
 			<input type="text" class="form-control" id="processing-folders-facilitator" maxlength="50">	
+
+		</div>-->
+
+		<div class="col-md-6 form-group">
+
+			<label style="font-weight:bold">Fecha de inicio: *</label>
+
+			<input type="date" class="form-control" id="processing-folders-initial-date">	
+
+		</div>
+
+		<div class="col-md-6 form-group">
+
+			<label style="font-weight:bold">Fecha de fin: *</label>
+
+			<input type="date" class="form-control" id="processing-folders-finish-date">	
 
 		</div>
 
