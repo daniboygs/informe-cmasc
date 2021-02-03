@@ -1,0 +1,168 @@
+body{
+    /*display: -ms-flexbox;*/
+    /*display: flex;*/
+    -ms-flex-align: center;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    /*background-image: url("assets/img/fge.png");*/
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    margin: auto;
+    background-color: #7C8B9E;
+    display: contents;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+    background: rgba(255,255,255,0.9);
+    border-radius: 5px;
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.50);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.50);
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.50);
+}
+
+.form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+
+.form-signin input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.notifyjs-corner{
+    margin-top:  6% !important;
+}
+
+td{
+    cursor: pointer;
+}
+
+tr{
+    cursor: auto;
+}
+
+@font-face {
+    font-family: LabradorA;
+    font-weight: bold;
+    src: url("../fonts/LabradorA-ExtraBold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: Galano;
+    font-weight: bold;
+    src: url("../fonts/Galano_Grotesque_Medium.otf") format("opentype");
+}
+
+.title{
+    background-color: #152F4A;
+    color: white;
+    padding: 15px;
+    font-family: LabradorA;
+    font-weight: lighter !important;
+    text-align: center;
+}
+
+#user-logo{
+    opacity: 0.5;
+}
+
+#frame{
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: lightsteelblue;
+}
+
+.form-buttons{
+    text-align: right;
+}
+
+/*Top bar*/
+/* Add a black background color to the top navigation */
+.framebar {
+    font-family: LabradorA;
+    background-color: #333;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+/* Style the links inside the navigation bar */
+.framebar div {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.framebar div:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Add a color to the active/current link */
+.framebar div.active {
+    background-color: #4CAF50;
+    color: white;
+}
+/*___________*/
+
+  /*Top bar*/
+.topnav {
+    font-family: LabradorA;
+    background-color: #333;
+    overflow: hidden;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+  
+.topnav div {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.topnav div.home {
+    background-color: #152F4A;
+    color: white;
+    border-right: solid;
+}
+
+.topnav div.session {
+    color: white;
+    float: right;
+}
+
+.topnav div.session:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/*___________*/
