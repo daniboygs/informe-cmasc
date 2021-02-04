@@ -209,7 +209,7 @@ function getRecord($attr){
 					'value' => $row['DelitosCiberneticos']
 				),
 				'processing_folders_teenagers' => array(
-					'name' => 'Adolecentes',
+					'name' => 'Adolescentes',
 					'value' => $row['Adolecentes']
 				),
 				'processing_folders_swealth_and_finantial_inteligence' => array(
