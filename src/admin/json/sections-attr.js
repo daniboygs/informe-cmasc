@@ -388,7 +388,7 @@ var sections = {
 		"form_id": "processing-folders-form",
 		"navigation_element_id": "processing-folders-nav-div",
 		"name": "processing_folders",
-		"title": "CARPETAS DE TRAMITE",
+		"title": "CARPETAS DE TRÁMITE",
 		"fields": [
 			{
 				"id": "processing-folders-facilitator",

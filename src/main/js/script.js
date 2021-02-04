@@ -291,7 +291,7 @@ function checkNuc(attr){
             }); 
         }
         else{
-            Swal.fire('NUC no valido', 'El NUC debe contar con 13 digitos', 'warning');
+            Swal.fire('NUC no valido', 'El NUC debe contar con 13 dígitos', 'warning');
         }
     }
     else{

@@ -20,7 +20,7 @@
 
 		<div class="col-md-4 form-group">
 
-			<label style="font-weight:bold">Intervensión: *</label>
+			<label style="font-weight:bold">Intervención: *</label>
 
 			<input type="number" class="form-control" id="agreement-intervention" min="0">
 
@@ -71,7 +71,7 @@
 
 		<div class="col-md-4 form-group">
 
-			<label style="font-weight:bold">Monto: *</label>
+			<label style="font-weight:bold">Monto en pesos: *</label>
 
 			<input type="number" class="form-control" id="agreement-amount" min="0">	
 
