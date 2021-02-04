@@ -6,7 +6,7 @@ include("common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[INFORMESCMASC].[dbo].[PersonasAtendidas]';
+$db_table = '[dbo].[PersonasAtendidas]';
 
 $id = $_POST['id'];
 
