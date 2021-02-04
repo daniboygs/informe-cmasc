@@ -6,7 +6,7 @@ include("common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[INFORMESCMASC].[dbo].[CarpetasTramite] a INNER JOIN Usuario u ON a.UsuarioID = u.UsuarioID';
+$db_table = '[dbo].[CarpetasTramite] a INNER JOIN Usuario u ON a.UsuarioID = u.UsuarioID';
 
 $processing_folders_initial_date = $_POST['processing_folders_initial_date'];
 $processing_folders_finish_date = $_POST['processing_folders_finish_date'];

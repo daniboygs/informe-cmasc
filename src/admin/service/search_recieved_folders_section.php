@@ -6,7 +6,7 @@ include("common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[INFORMESCMASC].[dbo].[CarpetasRecibidas] a INNER JOIN Usuario u ON a.UsuarioID = u.UsuarioID';
+$db_table = '[dbo].[CarpetasRecibidas] a INNER JOIN Usuario u ON a.UsuarioID = u.UsuarioID';
 
 $nuc = $_POST['nuc'];
 
