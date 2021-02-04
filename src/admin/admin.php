@@ -5,6 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<!--<link rel="stylesheet" href="node_modules/normalize.css">-->
+		<link rel="shortcut icon" href="../../assets/img/fge.png"/>
 		<link rel="stylesheet" href="../../css/styles.css">
 		<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
 		
@@ -51,7 +52,10 @@
 
 			<div id="records-section"></div>
 
+			<!--<img src="../../assets/img/fge_nav.png" alt="" width="500" height="500" style="opacity: 0.5;">-->
+
 		</div>
+
 
 	</body>
 </html>

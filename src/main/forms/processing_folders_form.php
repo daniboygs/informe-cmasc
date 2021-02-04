@@ -68,7 +68,7 @@
 
 		<div class="col-md-3 form-group">
 
-			<label style="font-weight:bold">Delitos ciberneticos: *</label>
+			<label style="font-weight:bold">Delitos cibernéticos: *</label>
 
 			<input type="number" class="form-control" id="processing-folders-cyber-crimes" min="0">	
 
@@ -92,7 +92,7 @@
 
 		<div class="col-md-3 form-group">
 
-			<label style="font-weight:bold">Alto impacto y robo de vehiculos: *</label>
+			<label style="font-weight:bold">Alto impacto y robo de vehículos: *</label>
 
 			<input type="number" class="form-control" id="processing-folders-high-impact-and-vehicles" min="0">	
 
@@ -104,7 +104,7 @@
 
 		<div class="col-md-3 form-group">
 
-			<label style="font-weight:bold">Derechos humanos y libertad de expresion: *</label>
+			<label style="font-weight:bold">Derechos humanos y libertad de expresión: *</label>
 
 			<input type="number" class="form-control" id="processing-folders-human-rights" min="0">	
 
