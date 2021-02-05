@@ -45,7 +45,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'processing_folders_teenagers' => (object) array(
-		'db_column' => '[Adolecentes]',
+		'db_column' => '[Adolescentes]',
 		'search' => true
 	),
 	'processing_folders_swealth_and_finantial_inteligence' => (object) array(
@@ -133,7 +133,7 @@ function getRecord($attr){
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
-	$sql = "SELECT $columns FROM $attr->db_table $conditions";
+	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY FechaInicio";
 
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 
@@ -194,8 +194,8 @@ function getRecord($attr){
 					'value' => $row['DelitosCiberneticos']
 				),
 				'processing_folders_teenagers' => array(
-					'name' => 'Adolecentes',
-					'value' => $row['Adolecentes']
+					'name' => 'Adolescentes',
+					'value' => $row['Adolescentes']
 				),
 				'processing_folders_swealth_and_finantial_inteligence' => array(
 					'name' => 'InteligenciaPatrimonial',

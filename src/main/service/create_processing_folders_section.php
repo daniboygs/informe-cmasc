@@ -78,7 +78,7 @@ $data = (object) array(
 		'type' => 'number',
 		'value' => $processing_folders_teenagers,
 		'null' => false,
-		'db_column' => '[Adolecentes]'
+		'db_column' => '[Adolescentes]'
 	),
 	'processing_folders_swealth_and_finantial_inteligence' => (object) array(
 		'type' => 'number',

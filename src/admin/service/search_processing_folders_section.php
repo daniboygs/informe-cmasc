@@ -49,7 +49,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'processing_folders_teenagers' => (object) array(
-		'db_column' => '[Adolecentes]',
+		'db_column' => '[Adolescentes]',
 		'search' => true
 	),
 	'processing_folders_swealth_and_finantial_inteligence' => (object) array(
@@ -156,7 +156,7 @@ function getRecord($attr){
 	$processing_folders_initial_date = $attr->sql_conditions->processing_folders_initial_date->value;
 	$processing_folders_finish_date = $attr->sql_conditions->processing_folders_finish_date->value;
 
-	$sql = "SELECT $columns FROM $attr->db_table WHERE ([FechaInicio] >= '$processing_folders_initial_date' AND [FechaInicio] <= '$processing_folders_finish_date') AND ([FechaFin] >= '$processing_folders_initial_date' AND [FechaFin] <= '$processing_folders_finish_date')";
+	$sql = "SELECT $columns FROM $attr->db_table WHERE ([FechaInicio] >= '$processing_folders_initial_date' AND [FechaInicio] <= '$processing_folders_finish_date') AND ([FechaFin] >= '$processing_folders_initial_date' AND [FechaFin] <= '$processing_folders_finish_date') ORDER BY FechaInicio";
 
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 
@@ -221,8 +221,8 @@ function getRecord($attr){
 					'value' => $row['DelitosCiberneticos']
 				),
 				'processing_folders_teenagers' => array(
-					'name' => 'Adolecentes',
-					'value' => $row['Adolecentes']
+					'name' => 'Adolescentes',
+					'value' => $row['Adolescentes']
 				),
 				'processing_folders_swealth_and_finantial_inteligence' => array(
 					'name' => 'InteligenciaPatrimonial',

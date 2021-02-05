@@ -9,6 +9,8 @@ $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[PersonasAtendidas] a INNER JOIN Usuario u ON a.UsuarioID = u.UsuarioID';
 
 $nuc = $_POST['nuc'];
+$month = $_POST['month'];
+$year = $_POST['year'];
 
 $data = (object) array(
 	'people_served_id' => (object) array(
@@ -58,6 +60,16 @@ $sql_conditions = (object) array(
 		'db_column' => '[NUC]',
 		'condition' => '=', 
 		'value' => $nuc
+	),
+	'month' => (object) array(
+		'db_column' => 'MONTH(Fecha)',
+		'condition' => '=', 
+		'value' => $month
+	),
+	'year' => (object) array(
+		'db_column' => 'YEAR(Fecha)',
+		'condition' => '=', 
+		'value' => $year
 	)
 );
 
@@ -93,9 +105,25 @@ function getRecord($attr){
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
-	$nuc = $attr->sql_conditions->nuc->value;
+	/*$nuc = $attr->sql_conditions->nuc->value;
 
-	$sql = "SELECT $columns FROM $attr->db_table WHERE [NUC] = '$nuc'";
+	$sql = "SELECT $columns FROM $attr->db_table WHERE [NUC] = '$nuc'";*/
+
+	$nuc = $attr->sql_conditions->nuc->value;
+	$month = $attr->sql_conditions->month->value;
+	$year = $attr->sql_conditions->year->value;
+
+	$sql = "";
+
+	if($nuc != '' && $month != ''){
+		$sql = "SELECT $columns FROM $attr->db_table WHERE [NUC] = '$nuc' AND MONTH(Fecha) = '$month' AND YEAR(Fecha) = '$year' ORDER BY Fecha, Nombre";
+	}
+	else if($nuc != ''){
+		$sql = "SELECT $columns FROM $attr->db_table WHERE [NUC] = '$nuc' ORDER BY Fecha, Nombre";
+	}
+	else{
+		$sql = "SELECT $columns FROM $attr->db_table WHERE MONTH(Fecha) = '$month' AND YEAR(Fecha) = '$year' ORDER BY Fecha, Nombre";
+	}
 
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 

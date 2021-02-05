@@ -33,7 +33,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'agreement_intervention' => (object) array(
-		'db_column' => '[Intervenciones]',
+		'db_column' => '[Intervinientes]',
 		'search' => true
 	),
 	'agreement_mechanism' => (object) array(
@@ -115,7 +115,7 @@ function getRecord($attr){
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
-	$sql = "SELECT $columns FROM $attr->db_table $conditions";
+	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY Fecha, Nombre";
 
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 
@@ -146,8 +146,8 @@ function getRecord($attr){
 					'value' => $row['AcuerdoDelito']
 				),
 				'agreement_intervention' => array(
-					'name' => 'Intervencion',
-					'value' => $row['Intervenciones']
+					'name' => 'Intervinientes',
+					'value' => $row['Intervinientes']
 				),
 				'agreement_nuc' => array(
 					'name' => 'NUC',

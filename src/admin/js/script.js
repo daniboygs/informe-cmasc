@@ -74,7 +74,9 @@ function loadDefaultValuesBySection(section){
                 switch(fields[field].type){
                     case "date":
                         if(fields[field].default == "today"){
-                            document.getElementById(fields[field].id).valueAsDate = new Date();
+                            let today = new Date();
+                            today.setHours(today.getHours()+6); 
+                            document.getElementById(fields[field].id).valueAsDate = today;
                         }
                         break;
                     default:
@@ -331,6 +333,7 @@ function getRecordsByMonth(section){
     console.log('by moneh?', section);
 
     let date = new Date();
+    date.setHours(date.getHours()+6); 
 
 	$.ajax({
 		url:'service/'+sections[section].records_by_month_file,
@@ -386,11 +389,32 @@ function searchSection(section){
             }
             break;
         default:
-            if(document.getElementById('search-nuc')){
-                attr = {
-                    nuc: document.getElementById('search-nuc').value
+            console.log('defa');
+            if(document.getElementById('search-nuc') && document.getElementById('search-month')){
+                console.log('exis');
+                if(document.getElementById('search-nuc').value == '' && document.getElementById('search-month').value == ''){
+                    console.log('vaci');
+                    Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
                 }
-                validated = true;
+                else{
+                    
+                    date = document.getElementById('search-month').value;
+                    d = new Date(date+'-01');
+                    d.setHours(d.getHours()+6); 
+                    attr = {
+                        nuc: document.getElementById('search-nuc').value,
+                        month: (d.getMonth()+1),
+                        year: d.getFullYear()
+                        //month: document.getElementById('search-month').value
+                    }
+                    if(document.getElementById('search-month').value == ''){
+                        attr.month = '';
+                        attr.year = '';
+                    }
+                    validated = true;
+                }
+                
+                
             }
             break;
     }
@@ -413,7 +437,7 @@ function searchSection(section){
         });
     }
     else{
-        Swal.fire('Error', 'Ha ocurrido un error, vuelva a intentarlo', 'error');
+        //Swal.fire('Error', 'Ha ocurrido un error, vuelva a intentarlo', 'error');
     }
 
 	

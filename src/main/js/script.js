@@ -74,7 +74,9 @@ function loadDefaultValuesBySection(section){
                 switch(fields[field].type){
                     case "date":
                         if(fields[field].default == "today"){
-                            document.getElementById(fields[field].id).valueAsDate = new Date();
+                            let today = new Date();
+                            today.setHours(today.getHours()+6); 
+                            document.getElementById(fields[field].id).valueAsDate = today;
                         }
                         break;
                     default:
@@ -330,6 +332,7 @@ function getRecordsByMonth(section){
     console.log('by moneh?', section);
 
     let date = new Date();
+    date.setHours(date.getHours()+6); 
 
 	$.ajax({
 		url:'service/'+sections[section].records_by_month_file,
