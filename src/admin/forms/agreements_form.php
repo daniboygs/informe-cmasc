@@ -9,6 +9,14 @@
 			<input type="text" class="form-control" id="search-nuc" maxlength="13" onkeypress="validateNumber(event);">			
 
 		</div>
+
+		<div class="col-md-4 form-group">
+
+			<label style="font-weight:bold">Mes: *</label>
+
+			<input type="month" class="form-control" id="search-month">	
+
+		</div>
 		
 	</div>
 

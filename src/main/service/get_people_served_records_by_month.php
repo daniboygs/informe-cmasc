@@ -89,7 +89,7 @@ function getRecord($attr){
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
-	$sql = "SELECT $columns FROM $attr->db_table $conditions";
+	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY Fecha";
 
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 

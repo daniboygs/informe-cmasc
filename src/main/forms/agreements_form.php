@@ -20,7 +20,7 @@
 
 		<div class="col-md-4 form-group">
 
-			<label style="font-weight:bold">Intervención: *</label>
+			<label style="font-weight:bold">Intervinientes: *</label>
 
 			<input type="number" class="form-control" id="agreement-intervention" min="0">
 

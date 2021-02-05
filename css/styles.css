@@ -35,6 +35,7 @@ body{
     -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.50);
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.50);
     margin-top: 200px;
+    background-color: lightsteelblue;
 }
 
 .form-signin .form-control {

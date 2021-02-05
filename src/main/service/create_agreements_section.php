@@ -49,7 +49,7 @@ $data = (object) array(
 		'type' => 'number',
 		'value' => $intervention,
 		'null' => false,
-		'db_column' => '[Intervenciones]'
+		'db_column' => '[Intervinientes]'
 	),
 	'mechanism' => (object) array(
 		'type' => 'text',
