@@ -17,6 +17,7 @@ $mechanism = $_POST['agreement_mechanism'];
 $nuc = $_POST['agreement_nuc'];
 $total = $_POST['agreement_total'];
 $unity = $_POST['agreement_unity'];
+$amount_in_kind = $_POST['agreement_amount_in_kind'];
 
 
 
@@ -74,6 +75,12 @@ $data = (object) array(
 		'value' => $unity,
 		'null' => false,
 		'db_column' => '[Unidad]'
+	),
+	'amount_in_kind' => (object) array(
+		'type' => 'text',
+		'value' => $amount_in_kind,
+		'null' => false,
+		'db_column' => '[MontoEspecie]'
 	),
 	'user' => (object) array(
 		'type' => 'number',

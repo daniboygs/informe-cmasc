@@ -45,7 +45,14 @@ function loadForm(section){
         $("#content").html(response);
         activeSection(section);
         //loadDefaultValuesBySection(section);
-        getRecordsByMonth(section);
+        if(section != 'capture_period'){
+            getRecordsByMonth(section);
+        }
+        else{
+            $('#records-section').html('');
+            getActivePeriod();
+        }
+        
 
     });
 }
@@ -497,4 +504,72 @@ function tableToExcel(){
     var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
     window.location.href = uri + base64(format(template, ctx));
     
+}
+
+function getActivePeriod(){
+
+    console.log('active? o q?');
+
+	$.ajax({
+		url:'service/get_active_period.php',
+		type:'POST',
+        dataType: "json",
+        data: {
+            id: 0
+        },
+	}).done(function(response){
+        console.log('res de active',response);
+        $('#records-section').html('<h1 style="">Periodo de captura: '+response.initial_date+' al '+response.finish_date+'</h1>');
+
+        let initial_date = new Date(response.initial_us_date);
+
+        initial_date.setHours(initial_date.getHours()+6);
+
+        document.getElementById('capture-period-initial-date').valueAsDate = initial_date;
+
+        let finish_date = new Date(response.finish_us_date);
+
+        finish_date.setHours(finish_date.getHours()+6);
+
+        document.getElementById('capture-period-finish-date').valueAsDate = finish_date;
+	});
+}
+
+function activatePeriod(){
+    if(document.getElementById('capture-period-initial-date') && document.getElementById('capture-period-finish-date')){
+
+        console.log('exis per');
+        if(document.getElementById('capture-period-initial-date') != '' && document.getElementById('capture-period-finish-date') != ''){
+            console.log('apenas voy per');
+            $.ajax({  
+                type: "POST",  
+                url: "service/update_capture_period.php", 
+                dataType : 'json', 
+                data: {
+                    initial_date: document.getElementById('capture-period-initial-date').value,
+                    finish_date: document.getElementById('capture-period-finish-date').value
+                },
+            }).done(function(response){
+
+                console.log('response? per');
+        
+                if(response.state != "fail"){
+
+                    Swal.fire('Correcto', 'Se ha habilitado un nuevo periodo de captura', 'success');
+
+                    getActivePeriod();
+                            
+                }
+                else{
+                    Swal.fire('Oops...', 'Ha fallado la conexión!', 'error');
+                }
+                
+            }); 
+        }
+        else{
+            Swal.fire('Campos incompletos', 'Debe llenar ambas fechas', 'warning');
+        }
+    }
+    else{
+    }
 }

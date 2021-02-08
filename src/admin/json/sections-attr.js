@@ -648,5 +648,48 @@ var sections = {
 		"active": false,
 		"data": [],
 		"loaded_data": false
+	},
+	"capture_period": {
+		"index": 7,
+		"form_file": "capture_period_form.php",
+		"create_file": "create_capture_period_section.php",
+		"update_file": "update_capture_period_section.php",
+		"search_file": "search_capture_period_section.php",
+		"records_by_month_file": "get_capture_period_records_by_month.php",
+		"form_id": "capture-period-form",
+		"navigation_element_id": "capture-period-nav-div",
+		"name": "capture_period",
+		"title": "PERIODO DE CAPTURA",
+		"fields": [
+			{
+				"id": "capture-period-initial-date",
+				"name": "capture_period_initial_date",
+				"type": "date",
+				"placeholder": "Ingresa Fecha",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": "today",
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "capture-period-finish-date",
+				"name": "capture_period_finish_date",
+				"type": "date",
+				"placeholder": "Ingresa Fecha",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": "today",
+				"catalog": null,
+				"required": true
+			}
+		],
+		"active": false,
+		"data": [],
+		"loaded_data": false
 	}
 }

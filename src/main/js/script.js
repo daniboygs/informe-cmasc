@@ -125,54 +125,73 @@ function validateSection(section){
 function spetialValidationBySection(attr){
     switch(attr.section){
         case 'agreements':
-
-        console.log('agg');
-            checkNuc({
-                element_id: 'agreement-nuc',
-                function: saveSection,
+            console.log('agg');
+            checkActivePeriod({
+                element_id: 'agreement-date',
+                function: checkNuc,
                 attr: {
-                    section: attr.section,
-                    data: attr.data
+                    element_id: 'agreement-nuc',
+                    function: saveSection,
+                    attr: {
+                        section: attr.section,
+                        data: attr.data
+                    }
                 }
             });
             break;
         case 'folders_to_investigation':
-            checkNuc({
-                element_id: 'folders-to-investigation-nuc',
-                function: saveSection,
+            checkActivePeriod({
+                element_id: 'folders-to-investigation-date',
+                function: checkNuc,
                 attr: {
-                    section: attr.section,
-                    data: attr.data
+                    element_id: 'folders-to-investigation-nuc',
+                    function: saveSection,
+                    attr: {
+                        section: attr.section,
+                        data: attr.data
+                    }
                 }
             });
             break;
         case 'folders_to_validation':
-            checkNuc({
-                element_id: 'folders-to-validation-nuc',
-                function: saveSection,
+            checkActivePeriod({
+                element_id: 'folders-to-validation-date',
+                function: checkNuc,
                 attr: {
-                    section: attr.section,
-                    data: attr.data
+                    element_id: 'folders-to-validation-nuc',
+                    function: saveSection,
+                    attr: {
+                        section: attr.section,
+                        data: attr.data
+                    }
                 }
             });
             break;
         case 'people_served':
-            checkNuc({
-                element_id: 'people-served-nuc',
-                function: saveSection,
+            checkActivePeriod({
+                element_id: 'people-served-date',
+                function: checkNuc,
                 attr: {
-                    section: attr.section,
-                    data: attr.data
+                    element_id: 'people-served-nuc',
+                    function: saveSection,
+                    attr: {
+                        section: attr.section,
+                        data: attr.data
+                    }
                 }
             });
             break;
         case 'recieved_folders':
-            checkNuc({
-                element_id: 'recieved-folders-nuc',
-                function: saveSection,
+            checkActivePeriod({
+                element_id: 'recieved-folders-date',
+                function: checkNuc,
                 attr: {
-                    section: attr.section,
-                    data: attr.data
+                    element_id: 'recieved-folders-nuc',
+                    function: saveSection,
+                    attr: {
+                        section: attr.section,
+                        data: attr.data
+                    }
                 }
             });
             break;
@@ -366,4 +385,57 @@ function drawRecordsTable(attr){
 	}).done(function(response){
 		$('#records-section').html(response);
 	});
+}
+
+function checkActivePeriod(attr){
+
+    if(document.getElementById(attr.element_id)){
+        console.log('active? o q?');
+
+        $.ajax({
+            url:'service/get_active_period.php',
+            type:'POST',
+            dataType: "json",
+            data: {
+                id: 0
+            },
+        }).done(function(response){
+            console.log('res de active',response);
+
+
+            let form_date = new Date(document.getElementById(attr.element_id).value);
+    
+            form_date.setHours(form_date.getHours()+6);
+    
+
+    
+            let initial_date = new Date(response.initial_us_date);
+    
+            initial_date.setHours(initial_date.getHours()+6);
+    
+    
+            let finish_date = new Date(response.finish_us_date);
+    
+            finish_date.setHours(finish_date.getHours()+6);
+    
+    
+            if(form_date <= finish_date && form_date >= initial_date){
+                console.log('yes');
+
+                attr.function(attr.attr);
+
+
+            }
+            else{
+                console.log('noup');
+
+                Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
+            }
+    
+    
+    
+        });
+    }
+
+    
 }

@@ -42,7 +42,12 @@
 
 			<label style="font-weight:bold">Cumplimiento: *</label>
 
-			<input type="text" class="form-control" id="agreement-compliance">			
+			<!--<input type="text" class="form-control" id="agreement-compliance">-->
+			
+			<select id="agreement-compliance" name="tipo" style="height: 40px" class="form-control"  required="true">									
+				<option value ="Inmediato" selected>Inmediato</option>
+				<option value ="Diferido">Diferido</option>
+			</select>	
 
 		</div>
 
@@ -65,7 +70,13 @@
 
 			<label style="font-weight:bold">Mecanismo: *</label>
 
-			<input type="text" class="form-control" id="agreement-mechanism">			
+			<!--<input type="text" class="form-control" id="agreement-mechanism">-->
+			
+			<select id="agreement-mechanism" name="tipo" style="height: 40px" class="form-control"  required="true">									
+				<option value ="Mediación" selected>Mediación</option>
+				<option value ="Conciliación">Conciliación</option>
+				<option value ="Junta restaurativa">Junta restaurativa</option>
+			</select>	
 
 		</div>
 
@@ -76,6 +87,18 @@
 			<input type="number" class="form-control" id="agreement-amount" min="0">	
 
 		</div>			
+
+		<div class="col-md-4 form-group">
+
+			<label style="font-weight:bold">Monto en especie: *</label>
+
+			<input type="text" class="form-control" id="agreement-amount-in-kind">	
+
+		</div>
+
+	</div>
+
+	<div class="form-row">
 
 		<div class="col-md-4 form-group">
 
