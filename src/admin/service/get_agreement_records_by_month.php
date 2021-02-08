@@ -67,6 +67,10 @@ $data = (object) array(
 	'user_ms' => (object) array(
 		'db_column' => '[ApellidoMaterno]',
 		'search' => true
+	),
+	'agreement_amount_in_kind' => (object) array(
+		'db_column' => '[MontoEspecie]',
+		'search' => true
 	)
 );
 
@@ -172,6 +176,10 @@ function getRecord($attr){
 				'agreement_unity' => array(
 					'name' => 'Unidad',
 					'value' => $row['Unidad']
+				),
+				'agreement_amount_in_kind' => array(
+					'name' => 'MontoEspecie',
+					'value' => $row['MontoEspecie']
 				),
 				'agreement_user' => array(
 					'name' => 'Facilitador',

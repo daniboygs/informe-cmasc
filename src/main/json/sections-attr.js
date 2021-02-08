@@ -130,6 +130,19 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true
+			},
+			{
+				"id": "agreement-amount-in-kind",
+				"name": "agreement_amount_in_kind",
+				"type": "text",
+                "placeholder": "Ingresa Monto",
+                "conditions": {
+                    "unlock": null,
+                    "length": null
+                },
+				"default": null,
+				"catalog": null,
+				"required": true
 			}
 		],
 		"active": false,
