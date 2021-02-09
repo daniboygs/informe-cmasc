@@ -20,6 +20,18 @@
 
 	</div>
 
+	<div class="form-row">
+
+		<div class="col-md-4 form-group">
+
+			<label style="font-weight:bold">Captura diaria: *</label>
+
+			<input type="checkbox" id="capture-period-daily" value="second_checkbox" onchange="onChangeDaily()">	
+
+		</div>
+
+	</div>
+
 	<div class="form-buttons">		
 
 		<button type="button" class="btn btn-success" style="height:38px; width: 100px;" onclick="activatePeriod()">Habilitar</button>

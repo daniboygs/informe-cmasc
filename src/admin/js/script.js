@@ -519,7 +519,6 @@ function getActivePeriod(){
         },
 	}).done(function(response){
         console.log('res de active',response);
-        $('#records-section').html('<h1 style="">Periodo de captura: '+response.initial_date+' al '+response.finish_date+'</h1>');
 
         let initial_date = new Date(response.initial_us_date);
 
@@ -532,6 +531,18 @@ function getActivePeriod(){
         finish_date.setHours(finish_date.getHours()+6);
 
         document.getElementById('capture-period-finish-date').valueAsDate = finish_date;
+
+        document.getElementById('capture-period-daily').checked = response.daily;
+
+        if(response.daily){
+            $('#records-section').html('<h1 style="">Periodo de captura: Diaria</h1>');
+            document.getElementById('capture-period-initial-date').disabled = true;
+            document.getElementById('capture-period-finish-date').disabled = true;
+        }
+        else{
+            $('#records-section').html('<h1 style="">Periodo de captura: '+response.initial_date+' al '+response.finish_date+'</h1>');
+        }
+        
 	});
 }
 
@@ -539,7 +550,7 @@ function activatePeriod(){
     if(document.getElementById('capture-period-initial-date') && document.getElementById('capture-period-finish-date')){
 
         console.log('exis per');
-        if(document.getElementById('capture-period-initial-date') != '' && document.getElementById('capture-period-finish-date') != ''){
+        if((document.getElementById('capture-period-initial-date') != '' && document.getElementById('capture-period-finish-date') != '') || document.getElementById('capture-period-daily').checked){
             console.log('apenas voy per');
             $.ajax({  
                 type: "POST",  
@@ -547,7 +558,8 @@ function activatePeriod(){
                 dataType : 'json', 
                 data: {
                     initial_date: document.getElementById('capture-period-initial-date').value,
-                    finish_date: document.getElementById('capture-period-finish-date').value
+                    finish_date: document.getElementById('capture-period-finish-date').value,
+                    daily: document.getElementById('capture-period-daily').checked
                 },
             }).done(function(response){
 
@@ -571,5 +583,16 @@ function activatePeriod(){
         }
     }
     else{
+    }
+}
+
+function onChangeDaily(){
+    if(document.getElementById('capture-period-daily').checked){
+        document.getElementById('capture-period-initial-date').disabled = true;
+        document.getElementById('capture-period-finish-date').disabled = true;
+    }
+    else{
+        document.getElementById('capture-period-initial-date').disabled = false;
+        document.getElementById('capture-period-finish-date').disabled = false;
     }
 }
