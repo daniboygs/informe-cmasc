@@ -10,6 +10,7 @@ $db_table = '[dbo].[PeriodoCaptura]';
 
 $initial_date = $_POST['initial_date'];
 $finish_date = $_POST['finish_date'];
+$daily = $_POST['daily'];
 
 
 
@@ -25,6 +26,12 @@ $data = (object) array(
 		'value' => $finish_date,
 		'null' => false,
 		'db_column' => '[FechaFin]'
+	),
+	'daily' => (object) array(
+		'type' => 'date',
+		'value' => $daily,
+		'null' => false,
+		'db_column' => '[CapturaDiaria]'
 	)
 );
 
@@ -58,13 +65,16 @@ function updatePeriod($data, $db_table, $conn, $params, $options){
 
 	$initial_date = $data->initial_date->value;
 	$finish_date = $data->finish_date->value;
+	$daily = $data->daily->value;
 
 	$initial_date_column = $data->initial_date->db_column;
 	$finish_date_column = $data->finish_date->db_column;
+	$daily_column = $data->daily->db_column;
 
 	$sql = "UPDATE $db_table
 				SET $initial_date_column = '$initial_date',
-					$finish_date_column = '$finish_date'";
+					$finish_date_column = '$finish_date',
+					$daily_column = '$daily'";
 
 
 	if($conn){

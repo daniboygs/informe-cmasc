@@ -20,6 +20,10 @@ $data = (object) array(
 	'capture_period_finish_date' => (object) array(
 		'db_column' => '[FechaFin]',
 		'search' => true
+	),
+	'capture_period_daily' => (object) array(
+		'db_column' => '[CapturaDiaria]',
+		'search' => true
 	)
 );
 
@@ -61,7 +65,8 @@ function getRecord($attr){
 		'initial_date' => null,
 		'finish_date' => null,
 		'initial_us_date' => null,
-		'finish_us_date' => null
+		'finish_us_date' => null,
+		'capture_period_daily' => null
 	);
 
 	if($row_count > 0){
@@ -92,6 +97,7 @@ function getRecord($attr){
 			$return->finish_date = $finish_date;
 			$return->initial_us_date = $initial_us_date;
 			$return->finish_us_date = $finish_us_date;
+			$return->daily = $row['CapturaDiaria'];
 			
 		}
 	

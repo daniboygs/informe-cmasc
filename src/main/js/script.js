@@ -75,7 +75,8 @@ function loadDefaultValuesBySection(section){
                     case "date":
                         if(fields[field].default == "today"){
                             let today = new Date();
-                            today.setHours(today.getHours()+6); 
+                            //today.setHours(today.getHours()+6); 
+                            console.log('tod', today);
                             document.getElementById(fields[field].id).valueAsDate = today;
                         }
                         break;
@@ -402,36 +403,55 @@ function checkActivePeriod(attr){
         }).done(function(response){
             console.log('res de active',response);
 
-
             let form_date = new Date(document.getElementById(attr.element_id).value);
-    
+            console.log('f_datre', form_date);
             form_date.setHours(form_date.getHours()+6);
-    
-
+            console.log('f_datre_af', form_date);
+            form_date = form_date.toLocaleDateString("es-MX");
     
             let initial_date = new Date(response.initial_us_date);
-    
+            console.log('i_date', initial_date);
             initial_date.setHours(initial_date.getHours()+6);
+            initial_date = initial_date.toLocaleDateString("es-MX");
     
     
             let finish_date = new Date(response.finish_us_date);
-    
+            console.log('f_date', finish_date);
             finish_date.setHours(finish_date.getHours()+6);
-    
-    
-            if(form_date <= finish_date && form_date >= initial_date){
-                console.log('yes');
+            finish_date = finish_date.toLocaleDateString("es-MX");
 
-                attr.function(attr.attr);
 
+            if(response.daily){
+                console.log('daily');
+
+                let today = new Date();
+                today = today.toLocaleDateString("es-MX");
+
+                if(form_date != today){
+                    console.log('daily noup: ', today);
+                    console.log('daily noup form da: ', form_date);
+                    Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
+                }
+                else{
+                    console.log('daily yes');
+                    attr.function(attr.attr);
+                }
 
             }
             else{
-                console.log('noup');
-
-                Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
-            }
+                if(form_date <= finish_date && form_date >= initial_date){
+                    console.log('yes');
     
+                    attr.function(attr.attr);
+    
+    
+                }
+                else{
+                    console.log('noup');
+    
+                    Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
+                }
+            }
     
     
         });
