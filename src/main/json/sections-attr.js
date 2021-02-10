@@ -687,5 +687,194 @@ var sections = {
 		"active": false,
 		"data": [],
 		"loaded_data": false
+	},
+	"entered_folders": {
+		"index": 7,
+		"form_file": "entered_folders_form.php",
+		"create_file": "create_entered_folders_section.php",
+		"update_file": "update_entered_folders_section.php",
+		"search_file": "search_entered_folders_section.php",
+		"records_by_month_file": "get_entered_folders_records_by_month.php",
+		"form_id": "entered-folders-form",
+		"navigation_element_id": "entered-folders-nav-div",
+		"name": "entered_folders",
+		"title": "CARPETAS INGRESADAS",
+		"fields": [
+			{
+				"id": "entered-folders-date",
+				"name": "entered_folders_date",
+				"type": "date",
+				"placeholder": "Ingresa Fecha",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": "today",
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-crime",
+				"name": "entered_folders_crime",
+				"type": "text",
+				"placeholder": "Ingresa Delito",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-nuc",
+				"name": "entered_folders_nuc",
+				"type": "text-number",
+				"placeholder": "Ingresa NUC",
+				"conditions": {
+					"unlock": null,
+					"length": {
+						"min": 13,
+						"max": 13
+					}
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-unity",
+				"name": "entered_folders_unity",
+				"type": "text",
+				"placeholder": "Ingresa Unidad",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-",
+				"name": "entered_folders_",
+				"type": "text",
+				"placeholder": "Ingresa",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-",
+				"name": "entered_folders_",
+				"type": "text",
+				"placeholder": "Ingresa",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-",
+				"name": "entered_folders_",
+				"type": "text",
+				"placeholder": "Ingresa",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-",
+				"name": "entered_folders_",
+				"type": "text",
+				"placeholder": "Ingresa",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-",
+				"name": "entered_folders_",
+				"type": "text",
+				"placeholder": "Ingresa",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-",
+				"name": "entered_folders_",
+				"type": "text",
+				"placeholder": "Ingresa",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-",
+				"name": "entered_folders_",
+				"type": "text",
+				"placeholder": "Ingresa",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-",
+				"name": "entered_folders_",
+				"type": "text",
+				"placeholder": "Ingresa",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-",
+				"name": "entered_folders_",
+				"type": "text",
+				"placeholder": "Ingresa",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			}
+		],
+		"active": false,
+		"data": [],
+		"loaded_data": false
 	}
 }

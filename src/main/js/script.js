@@ -3,8 +3,18 @@ $(document).ready(function(){
 
     checkSession({
         success: {
-            function: loadSection,
-            attr: 'agreements'
+            function: checkPermissions,
+            attr: {
+                success: {
+                    function: loadSection,
+                    attr: 'agreements'
+                },
+                failed: {
+                    function: redirectTo,
+                    attr: '../../index.html'
+                },
+                location: '../../service/check_permissions.php'
+            }
         },
         failed: {
             function: redirectTo,
@@ -12,6 +22,8 @@ $(document).ready(function(){
         },
         location: '../../service/check_session.php'
     });
+
+    
 
     getRecordsByMonth('agreements');
 
@@ -46,8 +58,92 @@ function loadForm(section){
         activeSection(section);
         loadDefaultValuesBySection(section);
         getRecordsByMonth(section);
+        loadCatalogsBySection({
+            section: section
+        });
 
     });
+}
+
+function loadCatalogsBySection(attr){
+    switch(attr.section){
+        case 'agreements':
+            break;
+        case 'folders_to_investigation':
+            break;
+        case 'folders_to_validation':
+            break;
+        case 'people_served':
+            break;
+        case 'recieved_folders':
+            break;
+        case 'entered_folders':
+            getCatalog({
+                service_file: 'service/catalogs/get_municipalities.php',
+                template_file: 'templates/elements/select.php',
+                element_attr: {
+                    element_id: 'entered-folders-municipality',
+                    element_placeholder: 'Selecciona Municipio',
+                    element_event_listener: ''
+                }
+            });
+
+            getCatalog({
+                service_file: 'service/catalogs/get_facilitators.php',
+                template_file: 'templates/elements/select.php',
+                element_attr: {
+                    element_id: 'entered-folders-facilitators',
+                    element_placeholder: 'Selecciona Facilitador',
+                    element_event_listener: ''
+                }
+            });
+            break;
+        default:
+            break;
+    }
+}
+
+function loadFramebar(attr){
+    console.log('load? frame', attr.data);
+    $.ajax({
+        url:'templates/elements/framebar.php',
+        type: 'POST',
+		dataType: "html",
+		data: {
+			data: attr.data
+		},
+		cache: false
+    }).done(function(response){
+
+        console.log('lo hiciste? frame', attr);
+        $('#framebar').html(response);
+
+    });
+}
+
+function checkPermissions(attr){
+    $.ajax({
+		url: attr.location,
+        type: 'POST',
+        dataType : 'json',
+		cache: false
+	}).done(function(response){
+
+        if(response.state == 'success'){
+            if(attr.success.function != null)
+                attr.success.function(attr.success.attr);
+
+            loadFramebar({
+                data: response.permissions.framebar
+            });
+            
+        }
+        else{
+            if(attr.failed.function != null)
+                attr.failed.function(attr.failed.attr);
+        }
+
+	});
 }
 
 function activeSection(section){
@@ -196,6 +292,20 @@ function spetialValidationBySection(attr){
                 }
             });
             break;
+        case 'entered_folders':
+                checkActivePeriod({
+                    element_id: 'entered-folders-date',
+                    function: checkNuc,
+                    attr: {
+                        element_id: 'entered-folders-nuc',
+                        function: saveSection,
+                        attr: {
+                            section: attr.section,
+                            data: attr.data
+                        }
+                    }
+                });
+                break;
         default:
             console.log('defa');
             saveSection({
@@ -456,6 +566,37 @@ function checkActivePeriod(attr){
     
         });
     }
-
     
+}
+
+function getCatalog(attr){
+    $.ajax({
+        url: attr.service_file,
+        dataType: "json",
+        cache:false
+    }).done(function(response){
+
+        loadSelect({
+            template_file: attr.template_file,
+            element_attr: {
+                ...attr.element_attr,
+                elements: response
+            }
+        });
+
+        console.log(response);
+
+    });
+}
+
+function loadSelect(attr){
+	$.ajax({
+		url: attr.template_file,
+		type:'POST',
+		dataType: "html",
+		data: attr.element_attr,
+		cache:false
+	}).done(function(response){
+		$('#'+attr.element_attr.element_id+'-section').html(response);
+	});
 }
