@@ -54,7 +54,7 @@
 
 			<label style="font-weight:bold">Carpeta recibida: *</label>
 
-			<select id="entered-folders-recieved-folders" name="tipo" style="height: 40px" class="form-control"  required="true">									
+			<select id="entered-folders-recieved-folder" name="tipo" style="height: 40px" class="form-control"  required="true">									
 				<option value ="1" selected>Si</option>
 				<option value ="0">No</option>
 			</select>	
@@ -130,7 +130,7 @@
 
 			<label style="font-weight:bold">Facilitador: *</label>
 
-			<div id="entered-folders-facilitators-section">
+			<div id="entered-folders-facilitator-section">
 				<div style="color: #EE6E5A;">Cargando datos... </div>
 			</div>
 
@@ -138,9 +138,9 @@
 
 		<div class="col-md-4 form-group">
 
-			<label style="font-weight:bold">Fecha de ingreso: *</label>
+			<label style="font-weight:bold">Fecha de libro: *</label>
 
-			<input type="date" class="form-control" id="entered-folders-entered-date">	
+			<input type="date" class="form-control" id="entered-folders-book-date">	
 
 		</div>
 

@@ -104,7 +104,7 @@ function getRecord($attr){
 			$people_served_date = $row['Fecha'];
 
 			if($people_served_date != null)
-				$people_served_date = $people_served_date->format('Y/m/d');
+				$people_served_date = $people_served_date->format('d/m/Y');
 	
 			array_push($return, array(
 				'people_served_date' => array(

@@ -59,47 +59,45 @@ function loadForm(section){
         loadDefaultValuesBySection(section);
         getRecordsByMonth(section);
         loadCatalogsBySection({
-            section: section
+            section: section,
+            template_file: 'templates/elements/select.php',
+            service_location: 'service/catalogs/'
         });
 
     });
 }
 
 function loadCatalogsBySection(attr){
-    switch(attr.section){
-        case 'agreements':
-            break;
-        case 'folders_to_investigation':
-            break;
-        case 'folders_to_validation':
-            break;
-        case 'people_served':
-            break;
-        case 'recieved_folders':
-            break;
-        case 'entered_folders':
-            getCatalog({
-                service_file: 'service/catalogs/get_municipalities.php',
-                template_file: 'templates/elements/select.php',
-                element_attr: {
-                    element_id: 'entered-folders-municipality',
-                    element_placeholder: 'Selecciona Municipio',
-                    element_event_listener: ''
-                }
-            });
 
-            getCatalog({
-                service_file: 'service/catalogs/get_facilitators.php',
-                template_file: 'templates/elements/select.php',
-                element_attr: {
-                    element_id: 'entered-folders-facilitators',
-                    element_placeholder: 'Selecciona Facilitador',
-                    element_event_listener: ''
-                }
-            });
-            break;
-        default:
-            break;
+    for(field in sections[attr.section].fields){
+
+        if(sections[attr.section].fields[field].catalog != null){
+
+            if(sections[attr.section].fields[field].catalog.data != null){
+                loadSelect({
+                    template_file: attr.template_file,
+                    element_attr: {
+                        element_id: sections[attr.section].fields[field].id,
+                        element_placeholder: sections[attr.section].fields[field].placeholder,
+                        element_event_listener: sections[attr.section].fields[field].event_listener,
+                        elements: sections[attr.section].fields[field].catalog.data
+                    }
+                });
+            }
+            else{
+                getCatalog({
+                    service_file: attr.service_location+sections[attr.section].fields[field].catalog.service_file,
+                    template_file: attr.template_file,
+                    element_attr: {
+                        element_id: sections[attr.section].fields[field].id,
+                        element_placeholder: sections[attr.section].fields[field].placeholder,
+                        element_event_listener: sections[attr.section].fields[field].event_listener
+                    },
+                    section: attr.section,
+                    field: field
+                });
+            }
+        }
     }
 }
 
@@ -570,11 +568,14 @@ function checkActivePeriod(attr){
 }
 
 function getCatalog(attr){
+
     $.ajax({
         url: attr.service_file,
         dataType: "json",
         cache:false
     }).done(function(response){
+
+        sections[attr.section].fields[attr.field].catalog.data = response;
 
         loadSelect({
             template_file: attr.template_file,

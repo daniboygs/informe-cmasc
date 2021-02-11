@@ -100,7 +100,7 @@ function getRecord($attr){
 			$recieved_folders_date = $row['Fecha'];
 
 			if($recieved_folders_date != null)
-				$recieved_folders_date = $recieved_folders_date->format('Y/m/d');
+				$recieved_folders_date = $recieved_folders_date->format('d/m/Y');
 	
 			array_push($return, array(
 				'recieved_folders_date' => array(

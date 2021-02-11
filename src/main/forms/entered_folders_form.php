@@ -32,48 +32,28 @@
 
 		<div class="col-md-8 form-group">
 
-			<label style="font-weight:bold">MP Canalizador: *</label>
-
-			<input type="text" class="form-control" id="entered-folders-mp-channeler" maxlength="50">
-
-		</div>
-
-	</div>
-
-	<div class="form-row">
-
-		<div class="col-md-8 form-group">
-
 			<label style="font-weight:bold">Unidad: *</label>
 
 			<input type="text" class="form-control" id="entered-folders-unity" maxlength="50">
 
 		</div>
 
+	</div>
+
+	<div class="form-row">
+
 		<div class="col-md-4 form-group">
 
 			<label style="font-weight:bold">Carpeta recibida: *</label>
 
-			<select id="entered-folders-recieved-folders" name="tipo" style="height: 40px" class="form-control"  required="true">									
+			<select id="entered-folders-recieved-folder" name="tipo" style="height: 40px" class="form-control"  required="true">									
 				<option value ="1" selected>Si</option>
 				<option value ="0">No</option>
 			</select>	
 
 		</div>
 
-	</div>
-
-	<div class="form-row">
-
-		<div class="col-md-6 form-group">
-
-			<label style="font-weight:bold">Canalizador: *</label>
-
-			<input type="text" class="form-control" id="entered-folders-channeler" maxlength="50">	
-
-		</div>
-
-		<div class="col-md-3 form-group">
+		<div class="col-md-4 form-group">
 
 			<label style="font-weight:bold">Fiscalía: *</label>
 
@@ -92,7 +72,7 @@
 
 		</div>
 
-		<div class="col-md-3 form-group">
+		<div class="col-md-4 form-group">
 
 			<label style="font-weight:bold">Municipio: *</label>
 
@@ -120,27 +100,9 @@
 
 		<div class="col-md-4 form-group">
 
-			<label style="font-weight:bold">Fecha carpetas: *</label>
+			<label style="font-weight:bold">Fecha de libro: *</label>
 
-			<input type="date" class="form-control" id="entered-folders-folders-date">	
-
-		</div>
-
-		<div class="col-md-4 form-group">
-
-			<label style="font-weight:bold">Facilitador: *</label>
-
-			<div id="entered-folders-facilitators-section">
-				<div style="color: #EE6E5A;">Cargando datos... </div>
-			</div>
-
-		</div>
-
-		<div class="col-md-4 form-group">
-
-			<label style="font-weight:bold">Fecha de ingreso: *</label>
-
-			<input type="date" class="form-control" id="entered-folders-entered-date">	
+			<input type="date" class="form-control" id="entered-folders-book-date">	
 
 		</div>
 
