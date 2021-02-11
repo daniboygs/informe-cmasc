@@ -134,7 +134,7 @@ function getRecord($attr){
 			$folders_to_validation_date = $row['Fecha'];
 
 			if($folders_to_validation_date != null)
-				$folders_to_validation_date = $folders_to_validation_date->format('Y/m/d');
+				$folders_to_validation_date = $folders_to_validation_date->format('d/m/Y');
 	
 			array_push($return, array(
 				'folders_to_validation_id' => array(

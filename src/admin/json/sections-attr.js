@@ -691,5 +691,213 @@ var sections = {
 		"active": false,
 		"data": [],
 		"loaded_data": false
-	}
+	},
+	"entered_folders": {
+		"index": 8,
+		"form_file": "entered_folders_form.php",
+		"create_file": "create_entered_folders_section.php",
+		"update_file": "update_entered_folders_section.php",
+		"search_file": "search_entered_folders_section.php",
+		"records_by_month_file": "get_entered_folders_records_by_month.php",
+		"form_id": "entered-folders-form",
+		"navigation_element_id": "entered-folders-nav-div",
+		"name": "entered_folders",
+		"title": "CARPETAS INGRESADAS",
+		"fields": [
+			{
+				"id": "entered-folders-date",
+				"name": "entered_folders_date",
+				"type": "date",
+				"placeholder": "Ingresa Fecha",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": "today",
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-crime",
+				"name": "entered_folders_crime",
+				"type": "text",
+				"placeholder": "Ingresa Delito",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-nuc",
+				"name": "entered_folders_nuc",
+				"type": "text-number",
+				"placeholder": "Ingresa NUC",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": {
+						"min": 13,
+						"max": 13
+					}
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-unity",
+				"name": "entered_folders_unity",
+				"type": "text",
+				"placeholder": "Ingresa Unidad",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-mp-channeler",
+				"name": "entered_folders_mp_channeler",
+				"type": "text",
+				"placeholder": "Ingresa MP Canalizador",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-recieved-folder",
+				"name": "entered_folders_recieved_folder",
+				"type": "select",
+				"placeholder": "Selecciona",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-channeler",
+				"name": "entered_folders_channeler",
+				"type": "text",
+				"placeholder": "Ingresa canalizador",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-fiscalia",
+				"name": "entered_folders_fiscalia",
+				"type": "select",
+				"placeholder": "Selecciona fiscalía",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-municipality",
+				"name": "entered_folders_municipality",
+				"type": "select",
+				"placeholder": "Selecciona municipio",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": {
+					service_file: 'get_municipalities.php',
+					data: null
+				},
+				"required": true
+			},
+			{
+				"id": "entered-folders-observations",
+				"name": "entered_folders_observations",
+				"type": "text",
+				"placeholder": "Ingresa observaciones",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-folders-date",
+				"name": "entered_folders_folders_date",
+				"type": "date",
+				"placeholder": "Ingresa",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 'today',
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-facilitator",
+				"name": "entered_folders_facilitator",
+				"type": "select",
+				"placeholder": "Selecciona facilitador",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": {
+					service_file: 'get_facilitators.php',
+					data: null
+				},
+				"required": true
+			},
+			{
+				"id": "entered-folders-book-date",
+				"name": "entered_folders_book_date",
+				"type": "date",
+				"placeholder": "Ingresa",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 'today',
+				"catalog": null,
+				"required": true
+			}
+		],
+		"active": false,
+		"data": [],
+		"loaded_data": false
+	},
 }

@@ -114,7 +114,7 @@ function getRecord($attr){
 			$folders_to_investigation_date = $row['Fecha'];
 
 			if($folders_to_investigation_date != null)
-				$folders_to_investigation_date = $folders_to_investigation_date->format('Y/m/d');
+				$folders_to_investigation_date = $folders_to_investigation_date->format('d/m/Y');
 	
 			array_push($return, array(
 				'folders_to_investigation_id' => array(

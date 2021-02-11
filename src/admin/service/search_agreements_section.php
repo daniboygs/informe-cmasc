@@ -169,7 +169,7 @@ function getRecord($attr){
 			$agreement_date = $row['Fecha'];
 
 			if($agreement_date != null)
-				$agreement_date = $agreement_date->format('Y/m/d');
+				$agreement_date = $agreement_date->format('d/m/Y');
 	
 			array_push($return, array(
 				'agreement_id' => array(

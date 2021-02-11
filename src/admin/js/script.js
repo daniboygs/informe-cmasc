@@ -354,6 +354,7 @@ function getRecordsByMonth(section){
 	}).done(function(response){
         console.log(response);
         test = response;
+        console.log(section+'_table.php');
         drawRecordsTable({
             data: response,
             file: section+'_table.php'

@@ -148,17 +148,17 @@ function getRecord($attr){
 			//$people_served_date = $row['Fecha'];
 
 			/*if($people_served_date != null)
-				$people_served_date = $people_served_date->format('Y/m/d');*/
+				$people_served_date = $people_served_date->format('d/m/Y');*/
 
 			$processing_folders_initial_date = $row['FechaInicio'];
 
 			$processing_folders_finish_date = $row['FechaFin'];
 
 			if($processing_folders_initial_date != null)
-				$processing_folders_initial_date = $processing_folders_initial_date->format('Y/m/d');
+				$processing_folders_initial_date = $processing_folders_initial_date->format('d/m/Y');
 
 			if($processing_folders_finish_date != null)
-				$processing_folders_finish_date = $processing_folders_finish_date->format('Y/m/d');
+				$processing_folders_finish_date = $processing_folders_finish_date->format('d/m/Y');
 	
 			array_push($return, array(
 				/*'processing_folders_facilitator' => array(
