@@ -46,7 +46,21 @@ function loadForm(section){
         activeSection(section);
         //loadDefaultValuesBySection(section);
         if(section != 'capture_period'){
+            console.log('search month');
             getRecordsByMonth(section);
+            switch(section){
+                case 'entered_folders_super':
+                    loadDefaultValuesBySection(section);
+                    loadCatalogsBySection({
+                        section: section,
+                        template_file: 'templates/elements/select.php',
+                        service_location: 'service/catalogs/'
+                    });
+                    break;
+                default:
+                    break;
+            }
+            
         }
         else{
             $('#records-section').html('');
@@ -55,6 +69,40 @@ function loadForm(section){
         
 
     });
+}
+
+function loadCatalogsBySection(attr){
+
+    for(field in sections[attr.section].fields){
+
+        if(sections[attr.section].fields[field].catalog != null){
+
+            if(sections[attr.section].fields[field].catalog.data != null){
+                loadSelect({
+                    template_file: attr.template_file,
+                    element_attr: {
+                        element_id: sections[attr.section].fields[field].id,
+                        element_placeholder: sections[attr.section].fields[field].placeholder,
+                        element_event_listener: sections[attr.section].fields[field].event_listener,
+                        elements: sections[attr.section].fields[field].catalog.data
+                    }
+                });
+            }
+            else{
+                getCatalog({
+                    service_file: attr.service_location+sections[attr.section].fields[field].catalog.service_file,
+                    template_file: attr.template_file,
+                    element_attr: {
+                        element_id: sections[attr.section].fields[field].id,
+                        element_placeholder: sections[attr.section].fields[field].placeholder,
+                        element_event_listener: sections[attr.section].fields[field].event_listener
+                    },
+                    section: attr.section,
+                    field: field
+                });
+            }
+        }
+    }
 }
 
 function activeSection(section){
@@ -82,7 +130,8 @@ function loadDefaultValuesBySection(section){
                     case "date":
                         if(fields[field].default == "today"){
                             let today = new Date();
-                            today.setHours(today.getHours()+6); 
+                            //today.setHours(today.getHours()+6); 
+                            console.log('tod', today);
                             document.getElementById(fields[field].id).valueAsDate = today;
                         }
                         break;
@@ -132,57 +181,90 @@ function validateSection(section){
 function spetialValidationBySection(attr){
     switch(attr.section){
         case 'agreements':
-
-        console.log('agg');
-            checkNuc({
-                element_id: 'agreement-nuc',
-                function: saveSection,
+            console.log('agg');
+            checkActivePeriod({
+                element_id: 'agreement-date',
+                function: checkNuc,
                 attr: {
-                    section: attr.section,
-                    data: attr.data
+                    element_id: 'agreement-nuc',
+                    function: saveSection,
+                    attr: {
+                        section: attr.section,
+                        data: attr.data
+                    }
                 }
             });
             break;
         case 'folders_to_investigation':
-            checkNuc({
-                element_id: 'folders-to-investigation-nuc',
-                function: saveSection,
+            checkActivePeriod({
+                element_id: 'folders-to-investigation-date',
+                function: checkNuc,
                 attr: {
-                    section: attr.section,
-                    data: attr.data
+                    element_id: 'folders-to-investigation-nuc',
+                    function: saveSection,
+                    attr: {
+                        section: attr.section,
+                        data: attr.data
+                    }
                 }
             });
             break;
         case 'folders_to_validation':
-            checkNuc({
-                element_id: 'folders-to-validation-nuc',
-                function: saveSection,
+            checkActivePeriod({
+                element_id: 'folders-to-validation-date',
+                function: checkNuc,
                 attr: {
-                    section: attr.section,
-                    data: attr.data
+                    element_id: 'folders-to-validation-nuc',
+                    function: saveSection,
+                    attr: {
+                        section: attr.section,
+                        data: attr.data
+                    }
                 }
             });
             break;
         case 'people_served':
-            checkNuc({
-                element_id: 'people-served-nuc',
-                function: saveSection,
+            checkActivePeriod({
+                element_id: 'people-served-date',
+                function: checkNuc,
                 attr: {
-                    section: attr.section,
-                    data: attr.data
+                    element_id: 'people-served-nuc',
+                    function: saveSection,
+                    attr: {
+                        section: attr.section,
+                        data: attr.data
+                    }
                 }
             });
             break;
         case 'recieved_folders':
-            checkNuc({
-                element_id: 'recieved-folders-nuc',
-                function: saveSection,
+            checkActivePeriod({
+                element_id: 'recieved-folders-date',
+                function: checkNuc,
                 attr: {
-                    section: attr.section,
-                    data: attr.data
+                    element_id: 'recieved-folders-nuc',
+                    function: saveSection,
+                    attr: {
+                        section: attr.section,
+                        data: attr.data
+                    }
                 }
             });
             break;
+        case 'entered_folders':
+                checkActivePeriod({
+                    element_id: 'entered-folders-date',
+                    function: checkNuc,
+                    attr: {
+                        element_id: 'entered-folders-nuc',
+                        function: saveSection,
+                        attr: {
+                            section: attr.section,
+                            data: attr.data
+                        }
+                    }
+                });
+                break;
         default:
             console.log('defa');
             saveSection({
@@ -596,4 +678,110 @@ function onChangeDaily(){
         document.getElementById('capture-period-initial-date').disabled = false;
         document.getElementById('capture-period-finish-date').disabled = false;
     }
+}
+
+function getCatalog(attr){
+
+    $.ajax({
+        url: attr.service_file,
+        dataType: "json",
+        cache:false
+    }).done(function(response){
+
+        sections[attr.section].fields[attr.field].catalog.data = response;
+
+        loadSelect({
+            template_file: attr.template_file,
+            element_attr: {
+                ...attr.element_attr,
+                elements: response
+            }
+        });
+
+        console.log(response);
+
+    });
+}
+
+function loadSelect(attr){
+	$.ajax({
+		url: attr.template_file,
+		type:'POST',
+		dataType: "html",
+		data: attr.element_attr,
+		cache:false
+	}).done(function(response){
+		$('#'+attr.element_attr.element_id+'-section').html(response);
+	});
+}
+
+function checkActivePeriod(attr){
+
+    if(document.getElementById(attr.element_id)){
+        console.log('active? o q?');
+
+        $.ajax({
+            url:'service/get_active_period.php',
+            type:'POST',
+            dataType: "json",
+            data: {
+                id: 0
+            },
+        }).done(function(response){
+            console.log('res de active',response);
+
+            let form_date = new Date(document.getElementById(attr.element_id).value);
+            console.log('f_datre', form_date);
+            form_date.setHours(form_date.getHours()+6);
+            console.log('f_datre_af', form_date);
+            form_date = form_date.toLocaleDateString("es-MX");
+    
+            let initial_date = new Date(response.initial_us_date);
+            console.log('i_date', initial_date);
+            initial_date.setHours(initial_date.getHours()+6);
+            initial_date = initial_date.toLocaleDateString("es-MX");
+    
+    
+            let finish_date = new Date(response.finish_us_date);
+            console.log('f_date', finish_date);
+            finish_date.setHours(finish_date.getHours()+6);
+            finish_date = finish_date.toLocaleDateString("es-MX");
+
+
+            if(response.daily){
+                console.log('daily');
+
+                let today = new Date();
+                today = today.toLocaleDateString("es-MX");
+
+                if(form_date != today){
+                    console.log('daily noup: ', today);
+                    console.log('daily noup form da: ', form_date);
+                    Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
+                }
+                else{
+                    console.log('daily yes');
+                    attr.function(attr.attr);
+                }
+
+            }
+            else{
+                if(form_date <= finish_date && form_date >= initial_date){
+                    console.log('yes');
+    
+                    attr.function(attr.attr);
+    
+    
+                }
+                else{
+                    console.log('noup');
+    
+                    Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
+                }
+            }
+    
+    
+        });
+    }
+    
 }

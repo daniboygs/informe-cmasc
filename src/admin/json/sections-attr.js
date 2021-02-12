@@ -16,6 +16,7 @@ var sections = {
 				"name": "agreement_date",
                 "type": "date",
                 "placeholder": "Ingresa Fecha",
+				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
@@ -29,6 +30,7 @@ var sections = {
 				"name": "agreement_crime",
 				"type": "text",
                 "placeholder": "Ingresa Delito",
+				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
@@ -42,6 +44,7 @@ var sections = {
 				"name": "agreement_intervention",
 				"type": "number",
                 "placeholder": "Ingresa Intervensión",
+				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
@@ -55,6 +58,7 @@ var sections = {
 				"name": "agreement_nuc",
 				"type": "text-number",
                 "placeholder": "Ingresa NUC",
+				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": {
@@ -71,6 +75,7 @@ var sections = {
 				"name": "agreement_compliance",
 				"type": "text",
                 "placeholder": "Ingresa Cumplimiento",
+				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
@@ -84,6 +89,7 @@ var sections = {
 				"name": "agreement_total",
 				"type": "select",
                 "placeholder": "Selecciona",
+				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
@@ -97,6 +103,7 @@ var sections = {
 				"name": "agreement_mechanism",
 				"type": "text",
                 "placeholder": "Ingresa Mecanismo",
+				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
@@ -110,6 +117,7 @@ var sections = {
 				"name": "agreement_amount",
 				"type": "number",
                 "placeholder": "Ingresa Monto",
+				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
@@ -123,6 +131,21 @@ var sections = {
 				"name": "agreement_unity",
 				"type": "text",
                 "placeholder": "Ingresa Unidad",
+				"event_listener": null,
+                "conditions": {
+                    "unlock": null,
+                    "length": null
+                },
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "agreement-amount-in-kind",
+				"name": "agreement_amount_in_kind",
+				"type": "text",
+                "placeholder": "Ingresa Monto",
+				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
@@ -153,6 +176,7 @@ var sections = {
 				"name": "recieved_folders_date",
                 "type": "date",
                 "placeholder": "Ingresa Fecha",
+				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
@@ -166,6 +190,7 @@ var sections = {
 				"name": "recieved_folders_crime",
 				"type": "text",
                 "placeholder": "Ingresa Delito",
+				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
@@ -179,6 +204,7 @@ var sections = {
 				"name": "recieved_folders_nuc",
 				"type": "text-number",
                 "placeholder": "Ingresa NUC",
+				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": {
@@ -195,6 +221,7 @@ var sections = {
 				"name": "recieved_folders_unity",
 				"type": "text",
                 "placeholder": "Ingresa Unidad",
+				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
@@ -225,6 +252,7 @@ var sections = {
 				"name": "folders_to_investigation_date",
                 "type": "date",
                 "placeholder": "Ingresa Fecha",
+				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
@@ -238,6 +266,7 @@ var sections = {
 				"name": "folders_to_investigation_crime",
 				"type": "text",
                 "placeholder": "Ingresa Delito",
+				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
@@ -251,6 +280,7 @@ var sections = {
 				"name": "folders_to_investigation_nuc",
 				"type": "text-number",
                 "placeholder": "Ingresa NUC",
+				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": {
@@ -267,6 +297,7 @@ var sections = {
 				"name": "folders_to_investigation_channeling_reason",
 				"type": "text",
                 "placeholder": "Ingresa Motivo",
+				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
@@ -280,6 +311,7 @@ var sections = {
 				"name": "folders_to_investigation_unity",
 				"type": "text",
                 "placeholder": "Ingresa Unidad",
+				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
@@ -310,6 +342,7 @@ var sections = {
 				"name": "people_served_date",
 				"type": "date",
 				"placeholder": "Ingresa Fecha",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -323,6 +356,7 @@ var sections = {
 				"name": "people_served_crime",
 				"type": "text",
 				"placeholder": "Ingresa Delito",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -336,6 +370,7 @@ var sections = {
 				"name": "people_served_nuc",
 				"type": "text-number",
 				"placeholder": "Ingresa NUC",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": {
@@ -352,6 +387,7 @@ var sections = {
 				"name": "people_served_number",
 				"type": "number",
 				"placeholder": "Ingresa Numero",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -365,6 +401,7 @@ var sections = {
 				"name": "people_served_unity",
 				"type": "text",
 				"placeholder": "Ingresa Unidad",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -390,16 +427,45 @@ var sections = {
 		"name": "processing_folders",
 		"title": "CARPETAS DE TRÁMITE",
 		"fields": [
-			{
+			/*{
 				"id": "processing-folders-facilitator",
 				"name": "processing_folders_facilitator",
 				"type": "text",
 				"placeholder": "Ingresa Facilitador",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
 				},
 				"default": null,
+				"catalog": null,
+				"required": true
+			},*/
+			{
+				"id": "processing-folders-initial-date",
+				"name": "processing_folders_initial_date",
+				"type": "date",
+				"placeholder": "Ingresa Fecha",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": "today",
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "processing-folders-finish-date",
+				"name": "processing_folders_finish_date",
+				"type": "date",
+				"placeholder": "Ingresa Fecha",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": "today",
 				"catalog": null,
 				"required": true
 			},
@@ -408,6 +474,7 @@ var sections = {
 				"name": "processing_folders_folders",
 				"type": "number",
 				"placeholder": "Ingresa Numero",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -421,6 +488,7 @@ var sections = {
 				"name": "processing_folders_inmediate_attention",
 				"type": "number",
 				"placeholder": "Ingresa Numero",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -434,6 +502,7 @@ var sections = {
 				"name": "processing_folders_cjim",
 				"type": "number",
 				"placeholder": "Ingresa Numero",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -447,6 +516,7 @@ var sections = {
 				"name": "processing_folders_domestic_violence",
 				"type": "number",
 				"placeholder": "Ingresa Numero",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -460,6 +530,7 @@ var sections = {
 				"name": "processing_folders_cyber_crimes",
 				"type": "number",
 				"placeholder": "Ingresa Numero",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -473,6 +544,7 @@ var sections = {
 				"name": "processing_folders_teenagers",
 				"type": "number",
 				"placeholder": "Ingresa Numero",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -486,6 +558,7 @@ var sections = {
 				"name": "processing_folders_swealth_and_finantial_inteligence",
 				"type": "number",
 				"placeholder": "Ingresa Numero",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -499,6 +572,7 @@ var sections = {
 				"name": "processing_folders_high_impact_and_vehicles",
 				"type": "number",
 				"placeholder": "Ingresa Numero",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -512,6 +586,7 @@ var sections = {
 				"name": "processing_folders_human_rights",
 				"type": "number",
 				"placeholder": "Ingresa Numero",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -525,6 +600,7 @@ var sections = {
 				"name": "processing_folders_fight_corruption",
 				"type": "number",
 				"placeholder": "Ingresa Numero",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -538,6 +614,7 @@ var sections = {
 				"name": "processing_folders_special_matters",
 				"type": "number",
 				"placeholder": "Ingresa Numero",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -551,6 +628,7 @@ var sections = {
 				"name": "processing_folders_internal_affairs",
 				"type": "number",
 				"placeholder": "Ingresa Numero",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -564,6 +642,7 @@ var sections = {
 				"name": "processing_folders_litigation",
 				"type": "number",
 				"placeholder": "Ingresa Numero",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -594,6 +673,7 @@ var sections = {
 				"name": "folders_to_validation_date",
 				"type": "date",
 				"placeholder": "Ingresa Fecha",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -607,6 +687,7 @@ var sections = {
 				"name": "folders_to_validation_crime",
 				"type": "text",
 				"placeholder": "Ingresa Delito",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -620,6 +701,7 @@ var sections = {
 				"name": "folders_to_validation_nuc",
 				"type": "text-number",
 				"placeholder": "Ingresa NUC",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": {
@@ -636,6 +718,7 @@ var sections = {
 				"name": "folders_to_validation_unity",
 				"type": "text",
 				"placeholder": "Ingresa Unidad",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -666,6 +749,7 @@ var sections = {
 				"name": "capture_period_initial_date",
 				"type": "date",
 				"placeholder": "Ingresa Fecha",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -679,6 +763,7 @@ var sections = {
 				"name": "capture_period_finish_date",
 				"type": "date",
 				"placeholder": "Ingresa Fecha",
+				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
@@ -900,4 +985,212 @@ var sections = {
 		"data": [],
 		"loaded_data": false
 	},
+	"entered_folders_super": {
+		"index": 9,
+		"form_file": "entered_folders_super_form.php",
+		"create_file": "create_entered_folders_section.php",
+		"update_file": "update_entered_folders_section.php",
+		"search_file": "search_entered_folders_section.php",
+		"records_by_month_file": "get_entered_folders_records_by_month.php",
+		"form_id": "entered-folders-super-form",
+		"navigation_element_id": "entered-folders-super-nav-div",
+		"name": "entered_folders_super",
+		"title": "CARPETAS INGRESADAS",
+		"fields": [
+			{
+				"id": "entered-folders-date",
+				"name": "entered_folders_date",
+				"type": "date",
+				"placeholder": "Ingresa Fecha",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": "today",
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-crime",
+				"name": "entered_folders_crime",
+				"type": "text",
+				"placeholder": "Ingresa Delito",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-nuc",
+				"name": "entered_folders_nuc",
+				"type": "text-number",
+				"placeholder": "Ingresa NUC",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": {
+						"min": 13,
+						"max": 13
+					}
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-unity",
+				"name": "entered_folders_unity",
+				"type": "text",
+				"placeholder": "Ingresa Unidad",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-mp-channeler",
+				"name": "entered_folders_mp_channeler",
+				"type": "text",
+				"placeholder": "Ingresa MP Canalizador",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-recieved-folder",
+				"name": "entered_folders_recieved_folder",
+				"type": "select",
+				"placeholder": "Selecciona",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-channeler",
+				"name": "entered_folders_channeler",
+				"type": "text",
+				"placeholder": "Ingresa canalizador",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-fiscalia",
+				"name": "entered_folders_fiscalia",
+				"type": "select",
+				"placeholder": "Selecciona fiscalía",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-municipality",
+				"name": "entered_folders_municipality",
+				"type": "select",
+				"placeholder": "Selecciona municipio",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": {
+					service_file: 'get_municipalities.php',
+					data: null
+				},
+				"required": true
+			},
+			{
+				"id": "entered-folders-observations",
+				"name": "entered_folders_observations",
+				"type": "text",
+				"placeholder": "Ingresa observaciones",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-folders-date",
+				"name": "entered_folders_folders_date",
+				"type": "date",
+				"placeholder": "Ingresa",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 'today',
+				"catalog": null,
+				"required": true
+			},
+			{
+				"id": "entered-folders-facilitator",
+				"name": "entered_folders_facilitator",
+				"type": "select",
+				"placeholder": "Selecciona facilitador",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": {
+					service_file: 'get_facilitators.php',
+					data: null
+				},
+				"required": true
+			},
+			{
+				"id": "entered-folders-book-date",
+				"name": "entered_folders_book_date",
+				"type": "date",
+				"placeholder": "Ingresa",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 'today',
+				"catalog": null,
+				"required": true
+			}
+		],
+		"active": false,
+		"data": [],
+		"loaded_data": false
+	}
 }
