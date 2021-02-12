@@ -28,7 +28,7 @@
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Observaciones</th>
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fecha Carpetas</th>
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Facilitador</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fecha Libro</th>
+        <!--<th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fecha Libro</th>-->
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Acción</th>
     </tr>
 <?php
@@ -50,7 +50,6 @@
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['entered_folders_observations']['value']; ?></td>
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['entered_folders_folders_date']['value']; ?></td>
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['entered_folders_facilitator']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['entered_folders_book_date']['value']; ?></td>
         <td style="text-align: center; border: solid 1px #ccc;"><button class="btn btn-danger" onclick="deleteRecord('entered_folders', <?php echo $element['entered_folders_id']['value']; ?>)">Eliminar</button></td>
     </tr>
 <?php

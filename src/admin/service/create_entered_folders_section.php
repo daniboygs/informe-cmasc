@@ -43,7 +43,7 @@ else
 	$entered_folders_facilitator = 'null';
 
 
-$entered_folders_book_date = $_POST['entered_folders_book_date'];
+//$entered_folders_book_date = $_POST['entered_folders_book_date'];
 
 
 
@@ -121,12 +121,12 @@ $data = (object) array(
 		'null' => true,
 		'db_column' => '[Facilitador]'
 	),
-	'entered_folders_book_date' => (object) array(
+	/*'entered_folders_book_date' => (object) array(
 		'type' => 'date',
 		'value' => $entered_folders_book_date,
 		'null' => false,
 		'db_column' => '[FechaLibro]'
-	),
+	),*/
 	'user' => (object) array(
 		'type' => 'number',
 		'value' => 'null',

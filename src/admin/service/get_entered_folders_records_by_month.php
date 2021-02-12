@@ -65,10 +65,10 @@ $data = (object) array(
 		'db_column' => '[Facilitador]',
 		'search' => true
 	),
-	'entered_folders_book_date' => (object) array(
+	/*'entered_folders_book_date' => (object) array(
 		'db_column' => '[FechaLibro]',
 		'search' => true
-	),
+	),*/
 	'user' => (object) array(
 		'db_column' => '[UsuarioID]',
 		'search' => false
@@ -154,10 +154,10 @@ function getRecord($attr){
 			if($entered_folders_folders_date != null)
 				$entered_folders_folders_date = $entered_folders_folders_date->format('d/m/Y');
 
-			$entered_folders_book_date = $row['FechaLibro'];
+			/*$entered_folders_book_date = $row['FechaLibro'];
 
 			if($entered_folders_book_date != null)
-				$entered_folders_book_date = $entered_folders_book_date->format('d/m/Y');
+				$entered_folders_book_date = $entered_folders_book_date->format('d/m/Y');*/
 	
 			array_push($return, array(
 				'entered_folders_id' => array(
@@ -211,11 +211,11 @@ function getRecord($attr){
 				'entered_folders_facilitator' => array(
 					'name' => 'Facilitador',
 					'value' => $row['Nombre'].' '.$row['ApellidoPaterno'].' '.$row['ApellidoMaterno']
-				),
+				)/*,
 				'entered_folders_book_date' => array(
 					'name' => 'Fecha Libro',
 					'value' => $entered_folders_book_date
-				)
+				)*/
 			));
 			
 		}
