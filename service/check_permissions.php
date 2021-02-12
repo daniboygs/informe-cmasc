@@ -46,9 +46,9 @@ session_start();
                     'class' => '',
                     'label' => 'CARPETAS INGRESADAS'
                 ),
-                'entered_folders_capture' => array(
-                    'id' => 'entered-folders-capture-nav-div',
-                    'name' => 'entered_folders_capture',
+                'entered_folders_super' => array(
+                    'id' => 'entered-folders-nav-div',
+                    'name' => 'entered_folders_super',
                     'class' => '',
                     'label' => 'CARPETAS INGRESADAS (CAPTURA)'
                 )
@@ -91,12 +91,6 @@ session_start();
                     'name' => 'folders_to_validation',
                     'class' => '',
                     'label' => 'CARPETAS ENVIADAS A VALIDACIÓN'
-                ),
-                'entered_folders_super' => array(
-                    'id' => 'entered-folders-nav-div',
-                    'name' => 'entered_folders_super',
-                    'class' => '',
-                    'label' => 'CARPETAS INGRESADAS'
                 )
             )
         ),
