@@ -965,7 +965,7 @@ var sections = {
 					data: null
 				},
 				"required": true
-			},
+			}/*,
 			{
 				"id": "entered-folders-book-date",
 				"name": "entered_folders_book_date",
@@ -979,7 +979,7 @@ var sections = {
 				"default": 'today',
 				"catalog": null,
 				"required": true
-			}
+			}*/
 		],
 		"active": false,
 		"data": [],
@@ -1173,7 +1173,7 @@ var sections = {
 					data: null
 				},
 				"required": true
-			},
+			}/*,
 			{
 				"id": "entered-folders-book-date",
 				"name": "entered_folders_book_date",
@@ -1187,7 +1187,7 @@ var sections = {
 				"default": 'today',
 				"catalog": null,
 				"required": true
-			}
+			}*/
 		],
 		"active": false,
 		"data": [],

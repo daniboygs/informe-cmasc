@@ -16,7 +16,7 @@
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fiscalía</th>
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Municipio</th>
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Observaciones</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fecha Libro</th>
+        <!--<th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fecha Libro</th>-->
     </tr>
 <?php
     if($data != null){
@@ -33,7 +33,6 @@
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['entered_folders_fiscalia']['value']; ?></td>
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['entered_folders_municipality']['value']; ?></td>
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['entered_folders_observations']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['entered_folders_book_date']['value']; ?></td>
     </tr>
 <?php
             $i++;

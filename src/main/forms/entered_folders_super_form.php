@@ -136,13 +136,13 @@
 
 		</div>
 
-		<div class="col-md-4 form-group">
+		<!--<div class="col-md-4 form-group">
 
 			<label style="font-weight:bold">Fecha de libro: *</label>
 
 			<input type="date" class="form-control" id="entered-folders-book-date">	
 
-		</div>
+		</div>-->
 
 	</div>
 
