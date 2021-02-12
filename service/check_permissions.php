@@ -45,6 +45,12 @@ session_start();
                     'name' => 'entered_folders',
                     'class' => '',
                     'label' => 'CARPETAS INGRESADAS'
+                ),
+                'entered_folders_capture' => array(
+                    'id' => 'entered-folders-capture-nav-div',
+                    'name' => 'entered_folders_capture',
+                    'class' => '',
+                    'label' => 'CARPETAS INGRESADAS (CAPTURA)'
                 )
             )
         ),

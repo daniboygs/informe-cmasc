@@ -147,8 +147,6 @@ if(!isset($_SESSION['user_data'])){
 }
 else{
 
-	$data->entered_folders_facilitator->value = $_SESSION['user_data']['id'];
-	
 	$data->user->value = $_SESSION['user_data']['id'];
 	$data->user->null = false;
 	
