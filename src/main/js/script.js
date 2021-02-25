@@ -601,3 +601,54 @@ function loadSelect(attr){
 		$('#'+attr.element_attr.element_id+'-section').html(response);
 	});
 }
+
+function changeInegiPanel(section){
+
+    console.log('section: ', section);
+    console.log('inegi: ', inegi);
+    
+
+    if(inegi.active){
+        if(!inegi.sections[section].active){
+            loadInegiForm({
+                section: section,
+                url: 'forms/inegi/'.inegi.sections[section].form_file,
+                success: {
+                    function: activeInegiForm,
+                    attr: {
+                        section: section
+                    }
+                }
+            });
+        }
+	}
+	else{
+		Swal.fire('Ingrese los datos generales!', 'Ingrese los datos generales para continuar', 'error');
+	}
+}
+
+function activeInegiForm(attr){
+	if(!inegi.sections[attr.section].active){
+		for(section in inegi.sections){
+			if(inegi.sections[section].active){
+				inegi.sections[section].active = false;
+				$('#'+inegi.sections[section].sidenav_div_id).removeClass('active');
+			}
+		}
+		inegi.sections[section].active = true;
+		$('#'+inegi.sections[section].sidebar_div_id).addClass('active');
+	}
+}
+
+function loadInegiForm(attr){
+	$.ajax({
+		url: attr.url,
+		type:'POST',
+		contentType:false,
+		processData:false,
+		cache:false
+	}).done(function(response){
+		$("#inegi-panel").html(response);
+		attr.success.function(attr.success.attr);
+	});
+}

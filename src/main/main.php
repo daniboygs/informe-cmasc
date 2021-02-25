@@ -10,6 +10,7 @@
 		<!--<link rel="stylesheet" href="node_modules/normalize.css">-->
 		<link rel="shortcut icon" href="../../assets/img/fge.png"/>
 		<link rel="stylesheet" href="../../css/styles.css">
+		<link rel="stylesheet" href="css/styles.css">
 		<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
 		
 		<script src="../../node_modules/es6/ES6.js"></script>
@@ -20,6 +21,7 @@
 		<script src="../../js/script.js"></script>
 		<script src="json/sections-attr.js"></script>
 		<script src="json/data.js"></script>
+		<script src="json/inegi.js"></script>
 		<script src="js/script.js"></script>
 
 		<title>CMASC</title>
@@ -28,6 +30,8 @@
 
 		<div class="topnav">
 			<div class="home">CMASC</div>
+			<div class="navsec active">Captura base</div>
+			<div class="navsec">INEGI</div>
 			<div class=""><?php session_start(); echo $_SESSION['user_data']['name'].' '.$_SESSION['user_data']['paternal_surname'].' '.$_SESSION['user_data']['maternal_surname'] ?></div>
 			<div class="session" onclick="closeSession()">CERRAR SESION</div>
 		</div>

@@ -1088,5 +1088,21 @@ var sections = {
 		"active": false,
 		"data": [],
 		"loaded_data": false
+	},
+	"inegi": {
+		"index": 9,
+		"form_file": "inegi_form.php",
+		"create_file": "create_inegi_section.php",
+		"update_file": "update_inegi_section.php",
+		"search_file": "search_inegi_section.php",
+		"records_by_month_file": "get_inegi_records_by_month.php",
+		"form_id": "entered-folders-form",
+		"navigation_element_id": "entered-folders-nav-div",
+		"name": "inegi",
+		"title": "INEGI",
+		"fields": [],
+		"active": false,
+		"data": [],
+		"loaded_data": false
 	}
 }

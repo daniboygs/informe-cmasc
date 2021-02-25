@@ -91,6 +91,12 @@ session_start();
                     'name' => 'folders_to_validation',
                     'class' => '',
                     'label' => 'CARPETAS ENVIADAS A VALIDACIÓN'
+                ),
+                'inegi' => array(
+                    'id' => 'inegi-nav-div',
+                    'name' => 'inegi',
+                    'class' => '',
+                    'label' => 'INEGI'
                 )
             )
         ),
