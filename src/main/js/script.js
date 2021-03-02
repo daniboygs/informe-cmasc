@@ -38,31 +38,96 @@ var test = "";
 function loadSection(section){
     console.log(section);
     if(!sections[section].active){
-        loadForm(section);
+        console.log('entre preload ', section);
+        preloadValidation({
+            section: section
+        });
     }
 }
 
-function loadForm(section){
-    console.log('load?');
+function preloadValidation(attr){
+    switch(attr.section){
+        case 'inegi':
+            loadForm({
+                section: attr.section,
+                success: {
+                    functions: [
+                        {
+                            function: activeSection,
+                            attr: attr.section
+                        },
+                        {
+                            function: changeInegiPanel,
+                            attr: 'general'
+                        }
+                    ] 
+                }
+            });
+            break;
+        default:
+            loadForm({
+                section: attr.section,
+                success: {
+                    functions: [
+                        {
+                            function: resetInegi,
+                            attr: null
+                        },
+                        {
+                            function: activeSection,
+                            attr: attr.section
+                        },
+                        {
+                            function: loadDefaultValuesBySection,
+                            attr: attr.section
+                        },
+                        {
+                            function: getRecordsByMonth,
+                            attr: attr.section
+                        },
+                        {
+                            function: loadCatalogsBySection,
+                            attr: {
+                                section: attr.section,
+                                template_file: 'templates/elements/select.php',
+                                service_location: 'service/catalogs/'
+                            }
+                        }
+                    ] 
+                }
+            });
+            break;
+    }
+    
+}
+
+function loadForm(attr){
+    console.log('load? attr',attr);
+    console.log('load? sections', sections);
+    console.log('load? sec', attr.section);
     $.ajax({
-        url:'forms/'+sections[section].form_file,
+        url:'forms/'+sections[attr.section].form_file,
         type:'POST',
         contentType:false,
         processData:false,
         cache:false
     }).done(function(response){
 
-        console.log('lo hiciste?', sections[section].form_file);
-        $(".title").html(sections[section].title);
+        console.log('lo hiciste?', sections[attr.section].form_file);
+        $(".title").html(sections[attr.section].title);
         $("#content").html(response);
-        activeSection(section);
+        /*activeSection(section);
         loadDefaultValuesBySection(section);
         getRecordsByMonth(section);
         loadCatalogsBySection({
             section: section,
             template_file: 'templates/elements/select.php',
             service_location: 'service/catalogs/'
-        });
+        });*/
+
+        for(func in attr.success.functions){
+            attr.success.functions[func].function( attr.success.functions[func].attr);
+        }
 
     });
 }
@@ -462,23 +527,27 @@ function getRecordsByMonth(section){
     let date = new Date();
     date.setHours(date.getHours()+6); 
 
-	$.ajax({
-		url:'service/'+sections[section].records_by_month_file,
-		type:'POST',
-		dataType: "json",
-		data: {
-            month: (date.getMonth()+1),
-            year: date.getFullYear()
-		},
-		cache:false
-	}).done(function(response){
-        console.log(response);
-        test = response;
-        drawRecordsTable({
-            data: response,
-            file: section+'_table.php'
+    if(sections[section].records_by_month_file != null){
+        $.ajax({
+            url:'service/'+sections[section].records_by_month_file,
+            type:'POST',
+            dataType: "json",
+            data: {
+                month: (date.getMonth()+1),
+                year: date.getFullYear()
+            },
+            cache:false
+        }).done(function(response){
+            console.log(response);
+            test = response;
+            drawRecordsTable({
+                data: response,
+                file: section+'_table.php'
+            });
         });
-	});
+    }
+
+	
 }
 
 function drawRecordsTable(attr){
@@ -606,13 +675,14 @@ function changeInegiPanel(section){
 
     console.log('section: ', section);
     console.log('inegi: ', inegi);
+
     
 
-    if(inegi.active){
+    if(inegi.active || (!inegi.active && inegi.sections[section].main_form)){
         if(!inegi.sections[section].active){
             loadInegiForm({
                 section: section,
-                url: 'forms/inegi/'.inegi.sections[section].form_file,
+                url: 'forms/inegi/'+inegi.sections[section].form_file,
                 success: {
                     function: activeInegiForm,
                     attr: {
@@ -628,15 +698,17 @@ function changeInegiPanel(section){
 }
 
 function activeInegiForm(attr){
+    console.log('active: ', attr);
 	if(!inegi.sections[attr.section].active){
 		for(section in inegi.sections){
-			if(inegi.sections[section].active){
-				inegi.sections[section].active = false;
-				$('#'+inegi.sections[section].sidenav_div_id).removeClass('active');
-			}
+            console.log('sec: ', section);
+            console.log('remove: ', inegi.sections[section].sidenav_div_id);
+            inegi.sections[section].active = false;
+            $('#'+inegi.sections[section].sidenav_div_id).removeClass('active');
 		}
-		inegi.sections[section].active = true;
-		$('#'+inegi.sections[section].sidebar_div_id).addClass('active');
+        console.log('add: ', inegi.sections[attr.section].sidenav_div_id);
+		inegi.sections[attr.section].active = true;
+		$('#'+inegi.sections[attr.section].sidenav_div_id).addClass('active');
 	}
 }
 
@@ -648,7 +720,193 @@ function loadInegiForm(attr){
 		processData:false,
 		cache:false
 	}).done(function(response){
-		$("#inegi-panel").html(response);
+		$("#inegi-capture-section").html(response);
 		attr.success.function(attr.success.attr);
 	});
 }
+
+function resetInegi(attr){
+	//inegi.active = false;
+    for(section in inegi.sections){
+        inegi.sections[section].active = false;
+        inegi.sections[section].data = null;
+        $('#'+inegi.sections[section].sidenav_div_id).removeClass('completed');
+    }
+    inegi.current.nuc = null;
+    inegi.current.folder_id = null;
+}
+
+function validateInegiSection(section){
+
+    let fields = inegi.sections[section].fields;
+    let data = {};
+    let compleated = true;
+
+
+    for(field in fields){
+        if(document.getElementById(fields[field].id)){
+
+            if(fields[field].required && document.getElementById(fields[field].id).value == ''){
+                compleated = false;
+            }
+
+            data = {
+                ...data,
+                [fields[field].name]: document.getElementById(fields[field].id).value
+            }
+        }
+    }
+
+    if(compleated){
+        spetialInegiValidationBySection({
+            section: section,
+            data: data
+        });
+        //saveSection(section, data);
+        console.log('guardando: ', data);
+    }
+    else{
+        //alert('No has completado la sección');
+        Swal.fire('Campos faltantes', 'Tiene que completar los campos faltantes', 'warning');
+    }
+}
+
+function spetialInegiValidationBySection(attr){
+
+
+    console.log('attttttttttttr', attr);
+    switch(attr.section){
+        case 'general':
+            checkActivePeriod({
+                element_id: 'inegi-general-date',
+                function: checkNuc,
+                attr: {
+                    element_id: 'inegi-general-nuc',
+                    function: saveInegiSection,
+                    attr: {
+                        section: attr.section,
+                        data: attr.data,
+                        success: {
+                            functions: [
+                                {
+                                    function: drawCompletedInegiSection,
+                                    attr: attr.section
+                                },
+                                {
+                                    function: activeInegi,
+                                    attr: null
+                                },
+                                {
+                                    function: setCurrentInegiNuc,
+                                    attr: {
+                                        folder_id: null,
+                                        nuc: null
+                                    }
+                                }
+                            ] 
+                        }
+                    }
+                }
+            });
+                break;
+        default:
+            saveInegiSection({
+                section: attr.section,
+                data: {
+                    ...attr.data,
+                    folder_id: inegi.current.folder_id,
+                    nuc: inegi.current.nuc
+                },
+                success: {
+                    functions: [
+                        {
+                            function: drawCompletedInegiSection,
+                            attr: attr.section
+                        }
+                    ] 
+                }
+            });
+            break;
+    }
+}
+
+function saveInegiSection(attr){
+
+    console.log('seeeec', inegi.sections[attr.section]);
+    if(inegi.sections[attr.section].data == null){
+        $.ajax({
+            url: 'service/'+sections[attr.section].create_file,
+            type: 'POST',
+            dataType : 'json', 
+            data: {
+                ...attr.data
+            },
+            cache: false
+        }).done(function(response){
+            if(response.state == 'success'){
+                
+                Swal.fire('Correcto', 'Datos guardados correctamente', 'success');
+                /*resetSection(attr.section);
+                loadDefaultValuesBySection(attr.section);
+                getRecordsByMonth(attr.section);*/
+                
+                console.log('chido chido', response);
+                console.log('chido lo', response.state);
+
+                for(func in attr.success.functions){
+                    attr.success.functions[func].function(attr.success.functions[func].attr);
+                }
+            }
+            else{
+    
+                Swal.fire('Error', 'Ha ocurrido un error, vuelva a intentarlo', 'error');
+    
+                console.log('not chido', response);
+                console.log('chido no lo', response.state);
+            }
+        });
+    }
+    else{
+        Swal.fire('Error', 'Ya se ha guardado esta seccion antes', 'error');
+    }
+    
+}
+
+function drawCompletedInegiSection(section){
+
+    //inegi.sections[section].compleated = true;
+    $('#'+inegi.sections[section].sidenav_div_id).addClass('completed');
+
+}
+
+function activeInegi(attr){
+
+    inegi.active = true;
+
+}
+
+function setCurrentInegiNuc(attr){
+
+    inegi.current.folder_id = attr.folder_id;
+    inegi.current.nuc = inegi.current.nuc;
+
+}
+
+/*
+
+loadForm({
+                section: attr.section,
+                success: {
+                    functions: [
+                        {
+                            function: activeSection,
+                            attr: attr.section
+                        },
+                        {
+                            function: changeInegiPanel,
+                            attr: 'general'
+                        }
+                    ] 
+                }
+            });
+            */

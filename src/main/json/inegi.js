@@ -1,20 +1,24 @@
 var inegi = {
-    active: false,
-    sections = {
-        "generals": {
+    active: true,
+    current: {
+        folder_id: null,
+        nuc: null
+    },
+    sections: {
+        "general": {
             "index": 1,
+            "main_form": true,
             "form_file": "general_form.php",
             "create_file": "create_general_section.php",
             "update_file": "update_general_section.php",
             "search_file": "search_general_section.php",
-            "records_by_month_file": "get_general_records_by_month.php",
             "form_id": "inegi-general-form",
-            "navigation_element_id": "general-side-div",
+            "sidenav_div_id": "general-side-div",
             "name": "datos generales",
             "title": "DATOS GENERALES",
             "fields": [
                 {
-                    "id": "general-date",
+                    "id": "inegi-general-date",
                     "name": "general_date",
                     "type": "date",
                     "placeholder": "Ingresa Fecha",
@@ -28,7 +32,7 @@ var inegi = {
                     "required": true
                 },
                 {
-                    "id": "general-crime",
+                    "id": "inegi-general-crime",
                     "name": "general_crime",
                     "type": "text",
                     "placeholder": "Ingresa Delito",
@@ -42,21 +46,7 @@ var inegi = {
                     "required": true
                 },
                 {
-                    "id": "general-intervention",
-                    "name": "general_intervention",
-                    "type": "number",
-                    "placeholder": "Ingresa Intervensión",
-                    "event_listener": null,
-                    "conditions": {
-                        "unlock": null,
-                        "length": null
-                    },
-                    "default": null,
-                    "catalog": null,
-                    "required": true
-                },
-                {
-                    "id": "general-nuc",
+                    "id": "inegi-general-nuc",
                     "name": "general_nuc",
                     "type": "text-number",
                     "placeholder": "Ingresa NUC",
@@ -73,63 +63,7 @@ var inegi = {
                     "required": true
                 },
                 {
-                    "id": "general-compliance",
-                    "name": "general_compliance",
-                    "type": "text",
-                    "placeholder": "Ingresa Cumplimiento",
-                    "event_listener": null,
-                    "conditions": {
-                        "unlock": null,
-                        "length": null
-                    },
-                    "default": null,
-                    "catalog": null,
-                    "required": true
-                },
-                {
-                    "id": "general-total",
-                    "name": "general_total",
-                    "type": "select",
-                    "placeholder": "Selecciona",
-                    "event_listener": null,
-                    "conditions": {
-                        "unlock": null,
-                        "length": null
-                    },
-                    "default": null,
-                    "catalog": null,
-                    "required": true
-                },
-                {
-                    "id": "general-mechanism",
-                    "name": "general_mechanism",
-                    "type": "text",
-                    "placeholder": "Ingresa Mecanismo",
-                    "event_listener": null,
-                    "conditions": {
-                        "unlock": null,
-                        "length": null
-                    },
-                    "default": null,
-                    "catalog": null,
-                    "required": true
-                },
-                {
-                    "id": "general-amount",
-                    "name": "general_amount",
-                    "type": "number",
-                    "placeholder": "Ingresa Monto",
-                    "event_listener": null,
-                    "conditions": {
-                        "unlock": null,
-                        "length": null
-                    },
-                    "default": null,
-                    "catalog": null,
-                    "required": true
-                },
-                {
-                    "id": "general-unity",
+                    "id": "inegi-general-unity",
                     "name": "general_unity",
                     "type": "text",
                     "placeholder": "Ingresa Unidad",
@@ -143,7 +77,7 @@ var inegi = {
                     "required": true
                 },
                 {
-                    "id": "general-amount-in-kind",
+                    "id": "inegi-general-attended",
                     "name": "general_amount_in_kind",
                     "type": "text",
                     "placeholder": "Ingresa Monto",
@@ -158,83 +92,71 @@ var inegi = {
                 }
             ],
             "active": false,
-            "data": [],
+            "data": null,
             "loaded_data": false
         },
-        "recieved_folders": {
+        "victim": {
             "index": 2,
-            "form_file": "recieved_folders_form.php",
-            "create_file": "create_recieved_folders_section.php",
-            "update_file": "update_recieved_folders_section.php",
-            "search_file": "search_recieved_folders_section.php",
-            "records_by_month_file": "get_recieved_folders_records_by_month.php",
-            "form_id": "recieved-folders-form",
-            "navigation_element_id": "recieved-folders-nav-div",
-            "name": "recieved_folders",
-            "title": "CARPETAS RECIBIDAS",
-            "fields": [
-                {
-                    "id": "recieved-folders-date",
-                    "name": "recieved_folders_date",
-                    "type": "date",
-                    "placeholder": "Ingresa Fecha",
-                    "event_listener": null,
-                    "conditions": {
-                        "unlock": null,
-                        "length": null
-                    },
-                    "default": "today",
-                    "catalog": null,
-                    "required": true
-                },
-                {
-                    "id": "recieved-folders-crime",
-                    "name": "recieved_folders_crime",
-                    "type": "text",
-                    "placeholder": "Ingresa Delito",
-                    "event_listener": null,
-                    "conditions": {
-                        "unlock": null,
-                        "length": null
-                    },
-                    "default": null,
-                    "catalog": null,
-                    "required": true
-                },
-                {
-                    "id": "recieved-folders-nuc",
-                    "name": "recieved_folders_nuc",
-                    "type": "text-number",
-                    "placeholder": "Ingresa NUC",
-                    "event_listener": null,
-                    "conditions": {
-                        "unlock": null,
-                        "length": {
-                            "min": 13,
-                            "max": 13
-                        }
-                    },
-                    "default": null,
-                    "catalog": null,
-                    "required": true
-                },
-                {
-                    "id": "recieved-folders-unity",
-                    "name": "recieved_folders_unity",
-                    "type": "text",
-                    "placeholder": "Ingresa Unidad",
-                    "event_listener": null,
-                    "conditions": {
-                        "unlock": null,
-                        "length": null
-                    },
-                    "default": null,
-                    "catalog": null,
-                    "required": true
-                }
-            ],
+            "main_form": false,
+            "form_file": "victim_form.php",
+            "create_file": "create_victim_section.php",
+            "update_file": "update_victim_section.php",
+            "search_file": "search_victim_section.php",
+            "form_id": "victim-form",
+            "sidenav_div_id": "victim-side-div",
+            "name": "victim",
+            "title": "Víctima",
+            "fields": [],
             "active": false,
-            "data": [],
+            "data": null,
+            "loaded_data": false
+        },
+        "imputed": {
+            "index": 3,
+            "main_form": false,
+            "form_file": "imputed_form.php",
+            "create_file": "create_imputed_section.php",
+            "update_file": "update_imputed_section.php",
+            "search_file": "search_imputed_section.php",
+            "form_id": "imputed-form",
+            "sidenav_div_id": "imputed-side-div",
+            "name": "imputed",
+            "title": "Imputado",
+            "fields": [],
+            "active": false,
+            "data": null,
+            "loaded_data": false
+        },
+        "crime": {
+            "index": 4,
+            "main_form": false,
+            "form_file": "crime_form.php",
+            "create_file": "create_crime_section.php",
+            "update_file": "update_crime_section.php",
+            "search_file": "search_crime_section.php",
+            "form_id": "crime-form",
+            "sidenav_div_id": "crime-side-div",
+            "name": "crime",
+            "title": "Caracteristicas de los delitos",
+            "fields": [],
+            "active": false,
+            "data": null,
+            "loaded_data": false
+        },
+        "masc": {
+            "index": 5,
+            "main_form": false,
+            "form_file": "masc_form.php",
+            "create_file": "create_masc_section.php",
+            "update_file": "update_masc_section.php",
+            "search_file": "search_masc_section.php",
+            "form_id": "masc-form",
+            "sidenav_div_id": "masc-side-div",
+            "name": "masc",
+            "title": "MASC",
+            "fields": [],
+            "active": false,
+            "data": null,
             "loaded_data": false
         }
     }

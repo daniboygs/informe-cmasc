@@ -2,15 +2,7 @@
 
 	<div class="form-row">
 
-		<div class="col-md-4 form-group">
-
-			<label style="font-weight:bold">Fecha: *</label>
-
-			<input type="date" class="form-control" id="inegi-general-date">	
-
-		</div>
-
-		<div class="col-md-4 form-group">
+		<div class="col-md-3 form-group">
 
 			<label style="font-weight:bold">NUC: *</label>
 
@@ -18,7 +10,15 @@
 
 		</div>
 
-		<div class="col-md-4 form-group">
+		<div class="col-md-3 form-group">
+
+			<label style="font-weight:bold">Fecha: *</label>
+
+			<input type="date" class="form-control" id="inegi-general-date">	
+
+		</div>
+
+		<div class="col-md-6 form-group">
 
 			<label style="font-weight:bold">Delito: *</label>
 
@@ -30,7 +30,7 @@
 
 	<div class="form-row">
 
-		<div class="col-md-4 form-group">
+		<div class="col-md-8 form-group">
 
 			<label style="font-weight:bold">Unidad: *</label>
 

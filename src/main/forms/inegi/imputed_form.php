@@ -1,4 +1,4 @@
-<form id="inegi-victim-form" action="#">	
+<form id="inegi-imputed-form" action="#">	
 
 	<div class="form-row">
 
@@ -6,7 +6,7 @@
 
 			<label style="font-weight:bold">Sexo: *</label>
 
-			<select class="form-control" id="inegi-victim-gener" required="true">									
+			<select class="form-control" id="inegi-imputed-gener" required="true">									
 				<option value ="Masculino" selected>Masculino</option>
 				<option value ="Femenino">Femenino</option>
 			</select>	
@@ -17,7 +17,7 @@
 
 			<label style="font-weight:bold">Edad: *</label>
 
-			<input type="text" class="form-control" id="inegi-victim-age" maxlength="3" onkeypress="validateNumber(event);">			
+			<input type="text" class="form-control" id="inegi-imputed-age" maxlength="3" onkeypress="validateNumber(event);">			
 
 		</div>
 
@@ -25,7 +25,7 @@
 
 			<label style="font-weight:bold">Escolaridad: *</label>
 
-			<select class="form-control" id="inegi-victim-scholarship" required="true">									
+			<select class="form-control" id="inegi-imputed-scholarship" required="true">									
 				<option value ="Ninguno" selected>Ninguno</option>
 				<option value ="Prescolar">Prescolar</option>
 				<option value ="Primaria">Primaria</option>
@@ -51,7 +51,7 @@
 
 			<label style="font-weight:bold">Ocupación: *</label>
 
-			<select class="form-control" id="inegi-victim-ocupation" required="true">		
+			<select class="form-control" id="inegi-imputed-ocupation" required="true">		
 
 				<option value="FUNCIONARIOS, DIRECTORES Y JEFES">FUNCIONARIOS, DIRECTORES Y JEFES</option>
 				<option value="PROFESIONISTAS Y TECNICOS">PROFESIONISTAS Y TECNICOS</option>
@@ -79,7 +79,7 @@
 
 			<label style="font-weight:bold">Solicitante: *</label>
 
-			<input type="text" class="form-control" id="inegi-victim-applicant">	
+			<input type="text" class="form-control" id="inegi-imputed-applicant">	
 
 		</div>
 
@@ -87,7 +87,7 @@
 
 			<label style="font-weight:bold">Requerido: *</label>
 
-			<input type="text" class="form-control" id="inegi-victim-required" maxlength="25">			
+			<input type="text" class="form-control" id="inegi-imputed-required" maxlength="25">			
 
 		</div>
 
@@ -95,7 +95,7 @@
 
 			<label style="font-weight:bold">Tipo de persona: *</label>
 
-			<select class="form-control" id="inegi-victim-type" required="true">
+			<select class="form-control" id="inegi-imputed-type" required="true">
 
 				<option value="Física">Física</option>
 				<option value="Moral">Moral</option>
@@ -109,8 +109,8 @@
 
 	<div class="form-buttons">		
 				
-		<button type="button" class="btn btn-dark" style="height:38px; width: 100px;"  onclick="resetInegiSection('victim')">Nuevo</button>	
-		<button type="button" class="btn btn-success" style="height:38px; width: 100px;"  onclick="validateInegiSection('victim')">Guardar</button>	
+		<button type="button" class="btn btn-dark" style="height:38px; width: 100px;"  onclick="resetInegiSection('imputed')">Nuevo</button>	
+		<button type="button" class="btn btn-success" style="height:38px; width: 100px;"  onclick="validateInegiSection('imputed')">Guardar</button>	
  
 	</div>
 

@@ -34,4 +34,22 @@
     
 }
 
+#inegi-form{
+    display: inline-block;
+    background-color: white;
+    padding: 7px;
+    width: 100%;
+}
 
+.inegi-sidenav{
+    width: 20%;
+    display: block;
+    float: left;
+}
+
+#inegi-capture-section{
+    width: 80%;
+    float: right;
+    padding: 5px;
+    height: 100%;
+}
