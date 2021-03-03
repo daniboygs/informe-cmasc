@@ -66,13 +66,17 @@
 
 			<label style="font-weight:bold">Modalidad: *</label>
 
-			<select class="form-control" id="inegi-crime-modality" required="true">									
+			<div id="inegi-crime-modality-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
+
+			<!--<select class="form-control" id="inegi-crime-modality" required="true">									
 				<option value ="Simple" selected>Simple</option>
 				<option value ="Atenuado">Atenuado</option>
 				<option value ="Agravado">Agravado</option>
 				<option value ="Calificado">Calificado</option>
 				<option value ="Agravado/Calificado">Agravado/Calificado</option>
-			</select>	
+			</select>	-->
 
 		</div>
 
@@ -85,13 +89,17 @@
 
 			<label style="font-weight:bold">Instrumento: *</label>
 
-			<select class="form-control" id="inegi-crime-weapon" required="true">		
+			<select class="form-control" id="inegi-crime-weapon" required="true">	
 
-				<option value="Con arma blanca">Con arma blanca</option>
+				<div id="inegi-crime-weapon-section">
+					<div style="color: #EE6E5A;">Cargando datos... </div>
+				</div>	
+
+				<!--<option value="Con arma blanca">Con arma blanca</option>
 				<option value="Con alguna parte del cuerpo">Con alguna parte del cuerpo</option>
 				<option value="Con algún vehículo">Con algún vehículo</option>
 				<option value="Con algún medio electronico o informático">Con algún medio electronico o informático</option>
-				<option value="Con otro instrumento">Con otro instrumento</option>
+				<option value="Con otro instrumento">Con otro instrumento</option>-->
 
 			</select>
 

@@ -55,12 +55,16 @@
 
 			<label style="font-weight:bold">Tipo de reparación de los solucionados: *</label>
 
-			<select class="form-control" id="inegi-masc-repair" required="true">		
+			<div id="inegi-masc-repair-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
+
+			<!--<select class="form-control" id="inegi-masc-repair" required="true">		
 				<option value="1">Reconocimiento de responsabilidad y disculpa a la víctima u ofendido</option>
 				<option value="2">Compromiso de no repetición de la conducta</option>
 				<option value="3">Programas/Tratamientos</option>
 				<option value="4">Restitución economica o en especie a la víctima u ofendido</option>
-			</select>
+			</select>-->
 
 		</div>
 
@@ -72,18 +76,21 @@
 
 			<label style="font-weight:bold">Tipo de conclusión: *</label>
 
-			<select class="form-control" id="inegi-masc-type" required="true">
+			<div id="inegi-masc-conclusion-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
+
+			<!--<select class="form-control" id="inegi-masc-type" required="true">
 
 				<option value="1">Por voluntad de alguno de los intervinientes</option>
 				<option value="2">Por inasistencia injustificada</option>
 				<option value="3">No se arribo un resultado que solucione la controversia</option>
 				<option value="4">Comportamiento irrespetuoso, agressivo o dilatorio</option>
 				<option value="5">Desistimiento de los servicios de J.A o M.A</option>
-				<option value="6">Otro</option>
-				<option value="7">Acuerdo reparatorio</option>
+				<option value="6">Acuerdo reparatorio</option>
+				<option value="7">Otro</option>
 
-
-			</select>
+			</select>-->
 
 		</div>
 
@@ -111,14 +118,18 @@
 
 			<label style="font-weight:bold">Turnado a: *</label>
 
-			<select class="form-control" id="inegi-masc-turned-to" required="true">
+			<div id="inegi-masc-turned-to-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
 
-				<option value="1">PValidación / Abstención de investigación</option>
+			<!--<select class="form-control" id="inegi-masc-turned-to" required="true">
+
+				<option value="1">Validación / Abstención de investigación</option>
 				<option value="2">Validación / Archivo temporal / Seguimiento de acuerdos</option>
 				<option value="3">Carpetas de investigación</option>
 
 
-			</select>
+			</select>-->
 
 		</div>
 
