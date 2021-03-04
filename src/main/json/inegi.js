@@ -78,8 +78,8 @@ var inegi = {
                 },
                 {
                     "id": "inegi-general-attended",
-                    "name": "general_amount_in_kind",
-                    "type": "text",
+                    "name": "general_attended",
+                    "type": "text-number",
                     "placeholder": "Ingresa Monto",
                     "event_listener": null,
                     "conditions": {
@@ -106,7 +106,112 @@ var inegi = {
             "sidenav_div_id": "victim-side-div",
             "name": "victim",
             "title": "Víctima",
-            "fields": [],
+            "fields": [
+                {
+                    "id": "inegi-victim-gener",
+                    "name": "victim_gener",
+                    "type": "text",
+                    "placeholder": "Ingresa Sexo",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                },
+                {
+                    "id": "inegi-victim-age",
+                    "name": "victim_age",
+                    "type": "text-number",
+                    "placeholder": "Ingresa Edad",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                },
+                {
+                    "id": "inegi-victim-scholarship",
+                    "name": "victim_scholarship",
+                    "type": "select",
+                    "placeholder": "Selecciona Escolaridad",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": {
+                        service_file: 'get_scholarships.php',
+                        data: null
+                    },
+                    "required": true
+                },
+                {
+                    "id": "inegi-victim-ocupation",
+                    "name": "victim_ocupation",
+                    "type": "select",
+                    "placeholder": "Selecciona Ocupación",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": {
+                        service_file: 'get_ocupations.php',
+                        data: null
+                    },
+                    "required": true
+                },
+                {
+                    "id": "inegi-victim-applicant",
+                    "name": "victim_applicant",
+                    "type": "text",
+                    "placeholder": "Ingresa Solicitante",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                },
+                {
+                    "id": "inegi-victim-required",
+                    "name": "victim_required",
+                    "type": "text",
+                    "placeholder": "Ingresa Requerido",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                },
+                {
+                    "id": "inegi-victim-type",
+                    "name": "victim_type",
+                    "type": "select",
+                    "placeholder": "Ingresa Tipo de persona",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                }
+            ],
             "active": false,
             "data": null,
             "loaded_data": false
@@ -122,7 +227,112 @@ var inegi = {
             "sidenav_div_id": "imputed-side-div",
             "name": "imputed",
             "title": "Imputado",
-            "fields": [],
+            "fields": [
+                {
+                    "id": "inegi-imputed-gener",
+                    "name": "imputed_gener",
+                    "type": "text",
+                    "placeholder": "Ingresa Sexo",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                },
+                {
+                    "id": "inegi-imputed-age",
+                    "name": "imputed_age",
+                    "type": "number-number",
+                    "placeholder": "Ingresa Edad",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                },
+                {
+                    "id": "inegi-imputed-scholarship",
+                    "name": "imputed_scholarship",
+                    "type": "select",
+                    "placeholder": "Selecciona Escolaridad",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": {
+                        service_file: 'get_scholarships.php',
+                        data: null
+                    },
+                    "required": true
+                },
+                {
+                    "id": "inegi-imputed-ocupation",
+                    "name": "imputed_ocupation",
+                    "type": "select",
+                    "placeholder": "Selecciona Ocupación",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": {
+                        service_file: 'get_ocupations.php',
+                        data: null
+                    },
+                    "required": true
+                },
+                {
+                    "id": "inegi-imputed-applicant",
+                    "name": "imputed_applicant",
+                    "type": "text",
+                    "placeholder": "Ingresa Solicitante",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                },
+                {
+                    "id": "inegi-imputed-required",
+                    "name": "imputed_required",
+                    "type": "text",
+                    "placeholder": "Ingresa Requerido",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                },
+                {
+                    "id": "inegi-imputed-type",
+                    "name": "imputed_type",
+                    "type": "select",
+                    "placeholder": "Ingresa Tipo de persona",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                }
+            ],
             "active": false,
             "data": null,
             "loaded_data": false
@@ -138,7 +348,126 @@ var inegi = {
             "sidenav_div_id": "crime-side-div",
             "name": "crime",
             "title": "Caracteristicas de los delitos",
-            "fields": [],
+            "fields": [
+                {
+                    "id": "inegi-crime-rate",
+                    "name": "crime_rate",
+                    "type": "select",
+                    "placeholder": "Selecciona Calificación",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                },
+                {
+                    "id": "inegi-crime-contest",
+                    "name": "crime_contest",
+                    "type": "select",
+                    "placeholder": "Selecciona Concurso",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                },
+                {
+                    "id": "inegi-crime-action",
+                    "name": "crime_action",
+                    "type": "select",
+                    "placeholder": "Selecciona Acción",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                },
+                {
+                    "id": "inegi-crime-commission",
+                    "name": "crime_commission",
+                    "type": "select",
+                    "placeholder": "Selecciona Comision",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                },
+                {
+                    "id": "inegi-crime-violence",
+                    "name": "crime_violence",
+                    "type": "select",
+                    "placeholder": "Selecciona Violencia",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                },
+                {
+                    "id": "inegi-crime-modality",
+                    "name": "crime_modality",
+                    "type": "select",
+                    "placeholder": "Selecciona Modalidad",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": {
+                        service_file: 'get_modalities.php',
+                        data: null
+                    },
+                    "required": true
+                },
+                {
+                    "id": "inegi-crime-instrument",
+                    "name": "crime_instrument",
+                    "type": "select",
+                    "placeholder": "Selecciona Instrumento",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": {
+                        service_file: 'get_instruments.php',
+                        data: null
+                    },
+                    "required": true
+                },
+                {
+                    "id": "inegi-crime-alternative-justice",
+                    "name": "crime_alternative_justice",
+                    "type": "select",
+                    "placeholder": "Selecciona",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                }
+            ],
             "active": false,
             "data": null,
             "loaded_data": false
@@ -154,7 +483,143 @@ var inegi = {
             "sidenav_div_id": "masc-side-div",
             "name": "masc",
             "title": "MASC",
-            "fields": [],
+            "fields": [
+                {
+                    "id": "inegi-masc-mechanism",
+                    "name": "masc_mechanism",
+                    "type": "select",
+                    "placeholder": "Selecciona Mecanismo",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                },
+                {
+                    "id": "inegi-masc-result",
+                    "name": "masc_result",
+                    "type": "select",
+                    "placeholder": "Selecciona Resultado",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                },
+                {
+                    "id": "inegi-masc-compliance",
+                    "name": "masc_compliance",
+                    "type": "select",
+                    "placeholder": "Selecciona Cumplimiento",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                },
+                {
+                    "id": "inegi-masc-total",
+                    "name": "masc_total",
+                    "type": "select",
+                    "placeholder": "Selecciona Total o parcial",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                },
+                {
+                    "id": "inegi-masc-repair",
+                    "name": "masc_repair",
+                    "type": "select",
+                    "placeholder": "Selecciona Reparación",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": {
+                        service_file: 'get_repairs.php',
+                        data: null
+                    },
+                    "required": true
+                },
+                {
+                    "id": "inegi-masc-conclusion",
+                    "name": "masc_conclusion",
+                    "type": "select",
+                    "placeholder": "Selecciona Conclusión",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": {
+                        service_file: 'get_conclusions.php',
+                        data: null
+                    },
+                    "required": true
+                },
+                {
+                    "id": "inegi-masc-recovered-amount",
+                    "name": "masc_recovered_amount",
+                    "type": "text",
+                    "placeholder": "Selecciona Monto",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                },
+                {
+                    "id": "inegi-masc-amount-property",
+                    "name": "masc_amount_property",
+                    "type": "text",
+                    "placeholder": "Selecciona Monto",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true
+                },
+                {
+                    "id": "inegi-masc-turned-to",
+                    "name": "masc_turned_to",
+                    "type": "select",
+                    "placeholder": "Selecciona",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": {
+                        service_file: 'get_turneds.php',
+                        data: null
+                    },
+                    "required": true
+                }
+            ],
             "active": false,
             "data": null,
             "loaded_data": false

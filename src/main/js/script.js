@@ -519,6 +519,54 @@ function checkNuc(attr){
     
     return false;*/
 }
+/* GOOD TRY
+function getRecordsByMonth(section){
+
+    console.log('by moneh?', section);
+
+    let date = new Date();
+    date.setHours(date.getHours()+6); 
+
+    if(sections[section].records_by_month_file != null){
+        $.ajax({
+            url:'service/'+sections[section].records_by_month_file,
+            type:'POST',
+            dataType: "json",
+            data: {
+                month: (date.getMonth()+1),
+                year: date.getFullYear()
+            },
+            cache:false
+        }).done(function(response){
+            console.log(response);
+            test = response;
+            drawRecordsTable({
+                data: response.data,
+                file: 'templates/tables/records_by_month_table.php',
+                headers: response.headers
+            });
+        });
+    }
+
+	
+}
+
+function drawRecordsTable(attr){
+	console.log('draw_t');
+	$.ajax({
+		url: attr.file,
+		type: 'POST',
+		dataType: "html",
+		data: {
+			data: attr.data,
+            headers: attr.headers
+		},
+		cache: false
+	}).done(function(response){
+		$('#records-section').html(response);
+	});
+}
+*/
 
 function getRecordsByMonth(section){
 
@@ -542,18 +590,17 @@ function getRecordsByMonth(section){
             test = response;
             drawRecordsTable({
                 data: response,
-                file: section+'_table.php'
+                file: 'templates/tables/'+section+'_table.php',
+                element_id: 'records-section'
             });
         });
-    }
-
-	
+    }	
 }
 
 function drawRecordsTable(attr){
 	console.log('draw_t');
 	$.ajax({
-		url: 'templates/tables/'+attr.file,
+		url: attr.file,
 		type: 'POST',
 		dataType: "html",
 		data: {
@@ -561,7 +608,7 @@ function drawRecordsTable(attr){
 		},
 		cache: false
 	}).done(function(response){
-		$('#records-section').html(response);
+		$('#'+attr.element_id).html(response);
 	});
 }
 
@@ -684,10 +731,26 @@ function changeInegiPanel(section){
                 section: section,
                 url: 'forms/inegi/'+inegi.sections[section].form_file,
                 success: {
-                    function: activeInegiForm,
-                    attr: {
-                        section: section
-                    }
+                    functions: [
+                        {
+                            function: activeInegiForm,
+                            attr: {
+                                section: section
+                            }
+                        },
+                        {
+                            function: loadInegiCatalogsBySection,
+                            attr: {
+                                section: section,
+                                template_file: 'templates/elements/select.php',
+                                service_location: 'service/catalogs/'
+                            }
+                        },
+                        {
+                            function: getInegiRecordsByMonth,
+                            attr: 'general'
+                        }
+                    ]
                 }
             });
         }
@@ -721,7 +784,10 @@ function loadInegiForm(attr){
 		cache:false
 	}).done(function(response){
 		$("#inegi-capture-section").html(response);
-		attr.success.function(attr.success.attr);
+		//attr.success.function(attr.success.attr);
+        for(func in attr.success.functions){
+            attr.success.functions[func].function( attr.success.functions[func].attr);
+        }
 	});
 }
 
@@ -835,7 +901,7 @@ function saveInegiSection(attr){
     console.log('seeeec', inegi.sections[attr.section]);
     if(inegi.sections[attr.section].data == null){
         $.ajax({
-            url: 'service/'+sections[attr.section].create_file,
+            url: 'service/inegi/'+inegi.sections[attr.section].create_file,
             type: 'POST',
             dataType : 'json', 
             data: {
@@ -890,6 +956,93 @@ function setCurrentInegiNuc(attr){
     inegi.current.folder_id = attr.folder_id;
     inegi.current.nuc = inegi.current.nuc;
 
+}
+
+function loadInegiCatalogsBySection(attr){
+
+    for(field in inegi.sections[attr.section].fields){
+
+        if(inegi.sections[attr.section].fields[field].catalog != null){
+
+            if(inegi.sections[attr.section].fields[field].catalog.data != null){
+                loadSelect({
+                    template_file: attr.template_file,
+                    element_attr: {
+                        element_id: inegi.sections[attr.section].fields[field].id,
+                        element_placeholder: inegi.sections[attr.section].fields[field].placeholder,
+                        element_event_listener: inegi.sections[attr.section].fields[field].event_listener,
+                        elements: inegi.sections[attr.section].fields[field].catalog.data
+                    }
+                });
+            }
+            else{
+                getInegiCatalog({
+                    service_file: attr.service_location+inegi.sections[attr.section].fields[field].catalog.service_file,
+                    template_file: attr.template_file,
+                    element_attr: {
+                        element_id: inegi.sections[attr.section].fields[field].id,
+                        element_placeholder: inegi.sections[attr.section].fields[field].placeholder,
+                        element_event_listener: inegi.sections[attr.section].fields[field].event_listener
+                    },
+                    section: attr.section,
+                    field: field
+                });
+            }
+        }
+    }
+}
+
+function getInegiCatalog(attr){
+
+    $.ajax({
+        url: attr.service_file,
+        dataType: "json",
+        cache:false
+    }).done(function(response){
+
+        inegi.sections[attr.section].fields[attr.field].catalog.data = response;
+
+        loadSelect({
+            template_file: attr.template_file,
+            element_attr: {
+                ...attr.element_attr,
+                elements: response
+            }
+        });
+
+        console.log(response);
+
+    });
+}
+
+
+function getInegiRecordsByMonth(section){
+
+    console.log('by moneh?', section);
+
+    let date = new Date();
+    date.setHours(date.getHours()+6); 
+
+    if(sections[section].records_by_month_file != null){
+        $.ajax({
+            url:'service/inegi/'+inegi.sections[section].records_by_month_file,
+            type:'POST',
+            dataType: "json",
+            data: {
+                month: (date.getMonth()+1),
+                year: date.getFullYear()
+            },
+            cache:false
+        }).done(function(response){
+            console.log(response);
+            test = response;
+            drawRecordsTable({
+                data: response,
+                file: 'templates/tables/'+section+'_table.php',
+                element_id: 'records-section'
+            });
+        });
+    }	
 }
 
 /*

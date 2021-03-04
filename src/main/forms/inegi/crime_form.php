@@ -6,7 +6,7 @@
 
 			<label style="font-weight:bold">Calificación: *</label>
 
-			<select class="form-control" id="inegi-crime-gener" required="true">									
+			<select class="form-control" id="inegi-crime-rate" required="true">									
 				<option value ="Ideal" selected>Ideal</option>
 				<option value ="Real">Real</option>
 			</select>	
@@ -89,19 +89,17 @@
 
 			<label style="font-weight:bold">Instrumento: *</label>
 
-			<select class="form-control" id="inegi-crime-weapon" required="true">	
+			<div id="inegi-crime-instrument-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>	
 
-				<div id="inegi-crime-weapon-section">
-					<div style="color: #EE6E5A;">Cargando datos... </div>
-				</div>	
-
-				<!--<option value="Con arma blanca">Con arma blanca</option>
+			<!--<select class="form-control" id="inegi-crime-weapon" required="true">	
+				<option value="Con arma blanca">Con arma blanca</option>
 				<option value="Con alguna parte del cuerpo">Con alguna parte del cuerpo</option>
 				<option value="Con algún vehículo">Con algún vehículo</option>
 				<option value="Con algún medio electronico o informático">Con algún medio electronico o informático</option>
-				<option value="Con otro instrumento">Con otro instrumento</option>-->
-
-			</select>
+				<option value="Con otro instrumento">Con otro instrumento</option>
+			</select>-->
 
 		</div>
 

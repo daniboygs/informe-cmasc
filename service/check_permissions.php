@@ -143,6 +143,12 @@ session_start();
                     'name' => 'entered_folders',
                     'class' => '',
                     'label' => 'CARPETAS INGRESADAS'
+                ),
+                'inegi' => array(
+                    'id' => 'inegi-nav-div',
+                    'name' => 'inegi',
+                    'class' => '',
+                    'label' => 'INEGI'
                 )
             )
         ),

@@ -1,86 +1,49 @@
 <?php
 session_start();
 include("../../../../service/connection.php");
-include("common.php");
+include("../common.php");
 
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[AcuerdosCelebrados]';
+$db_table = '[inegi].[General]';
 
-$amount = $_POST['agreement_amount'];
-$compliance = $_POST['agreement_compliance'];
-$crime = $_POST['agreement_crime'];
-$date = $_POST['agreement_date'];
-$intervention = $_POST['agreement_intervention'];
-$mechanism = $_POST['agreement_mechanism'];
-$nuc = $_POST['agreement_nuc'];
-$total = $_POST['agreement_total'];
-$unity = $_POST['agreement_unity'];
-$amount_in_kind = $_POST['agreement_amount_in_kind'];
-
-
+$general_nuc = $_POST['general_nuc'];
+$general_date = $_POST['general_date'];
+$general_crime = $_POST['general_crime'];
+$general_unity = $_POST['general_unity'];
+$general_attended = $_POST['general_attended'];
 
 $data = (object) array(
-	'amount' => (object) array(
+	'general_nuc' => (object) array(
 		'type' => 'number',
-		'value' => $amount,
-		'null' => false,
-		'db_column' => '[MontoRecuperado]'
-	),
-	'compliance' => (object) array(
-		'type' => 'text',
-		'value' => $compliance,
-		'null' => false,
-		'db_column' => '[Cumplimiento]'
-	),
-	'crime' => (object) array(
-		'type' => 'text',
-		'value' => $crime,
-		'null' => false,
-		'db_column' => '[AcuerdoDelito]'
-	),
-	'date' => (object) array(
-		'type' => 'date',
-		'value' => $date,
-		'null' => false,
-		'db_column' => '[Fecha]'
-	),
-	'intervention' => (object) array(
-		'type' => 'number',
-		'value' => $intervention,
-		'null' => false,
-		'db_column' => '[Intervinientes]'
-	),
-	'mechanism' => (object) array(
-		'type' => 'text',
-		'value' => $mechanism,
-		'null' => false,
-		'db_column' => '[Mecanismo]'
-	),
-	'nuc' => (object) array(
-		'type' => 'text',
-		'value' => $nuc,
+		'value' => $general_nuc,
 		'null' => false,
 		'db_column' => '[NUC]'
 	),
-	'total' => (object) array(
-		'type' => 'text',
-		'value' => $total,
+	'general_date' => (object) array(
+		'type' => 'date',
+		'value' => $general_date,
 		'null' => false,
-		'db_column' => '[TotalParcial]'
+		'db_column' => '[Fecha]'
 	),
-	'unity' => (object) array(
+	'general_crime' => (object) array(
 		'type' => 'text',
-		'value' => $unity,
+		'value' => $general_crime,
+		'null' => false,
+		'db_column' => '[Delito]'
+	),
+	'general_unity' => (object) array(
+		'type' => 'text',
+		'value' => $general_unity,
 		'null' => false,
 		'db_column' => '[Unidad]'
 	),
-	'amount_in_kind' => (object) array(
-		'type' => 'text',
-		'value' => $amount_in_kind,
+	'general_attended' => (object) array(
+		'type' => 'number',
+		'value' => $general_attended,
 		'null' => false,
-		'db_column' => '[MontoEspecie]'
+		'db_column' => '[Atendidos]'
 	),
 	'user' => (object) array(
 		'type' => 'number',
@@ -89,7 +52,6 @@ $data = (object) array(
 		'db_column' => '[UsuarioID]'
 	)
 );
-
 
 if(!isset($_SESSION['user_data'])){
 	echo json_encode(
