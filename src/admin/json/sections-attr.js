@@ -129,15 +129,18 @@ var sections = {
             {
 				"id": "agreement-unity",
 				"name": "agreement_unity",
-				"type": "text",
-                "placeholder": "Ingresa Unidad",
+				"type": "select",
+                "placeholder": "Selecciona Unidad",
 				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
                 },
 				"default": null,
-				"catalog": null,
+				"catalog": {
+					service_file: 'get_unities.php',
+					data: null
+				},
 				"required": true
 			},
 			{
@@ -219,15 +222,18 @@ var sections = {
             {
 				"id": "recieved-folders-unity",
 				"name": "recieved_folders_unity",
-				"type": "text",
-                "placeholder": "Ingresa Unidad",
+				"type": "select",
+                "placeholder": "Selecciona Unidad",
 				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
                 },
 				"default": null,
-				"catalog": null,
+				"catalog": {
+					service_file: 'get_unities.php',
+					data: null
+				},
 				"required": true
 			}
 		],
@@ -309,15 +315,18 @@ var sections = {
             {
 				"id": "folders-to-investigation-unity",
 				"name": "folders_to_investigation_unity",
-				"type": "text",
-                "placeholder": "Ingresa Unidad",
+				"type": "select",
+                "placeholder": "Selecciona Unidad",
 				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
                 },
 				"default": null,
-				"catalog": null,
+				"catalog": {
+					service_file: 'get_unities.php',
+					data: null
+				},
 				"required": true
 			}
 		],
@@ -399,15 +408,18 @@ var sections = {
 			{
 				"id": "people-served-unity",
 				"name": "people_served_unity",
-				"type": "text",
-				"placeholder": "Ingresa Unidad",
+				"type": "select",
+				"placeholder": "Selecciona Unidad",
 				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
 				},
 				"default": null,
-				"catalog": null,
+				"catalog": {
+					service_file: 'get_unities.php',
+					data: null
+				},
 				"required": true
 			}
 		],
@@ -716,15 +728,18 @@ var sections = {
 			{
 				"id": "folders-to-validation-unity",
 				"name": "folders_to_validation_unity",
-				"type": "text",
-				"placeholder": "Ingresa Unidad",
+				"type": "select",
+				"placeholder": "Selecciona Unidad",
 				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
 				},
 				"default": null,
-				"catalog": null,
+				"catalog": {
+					service_file: 'get_unities.php',
+					data: null
+				},
 				"required": true
 			}
 		],
@@ -837,15 +852,18 @@ var sections = {
 			{
 				"id": "entered-folders-unity",
 				"name": "entered_folders_unity",
-				"type": "text",
-				"placeholder": "Ingresa Unidad",
+				"type": "select",
+				"placeholder": "Selecciona Unidad",
 				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
 				},
 				"default": null,
-				"catalog": null,
+				"catalog": {
+					service_file: 'get_unities.php',
+					data: null
+				},
 				"required": true
 			},
 			{
@@ -1045,15 +1063,18 @@ var sections = {
 			{
 				"id": "entered-folders-unity",
 				"name": "entered_folders_unity",
-				"type": "text",
-				"placeholder": "Ingresa Unidad",
+				"type": "select",
+				"placeholder": "Selecciona Unidad",
 				"event_listener": null,
 				"conditions": {
 					"unlock": null,
 					"length": null
 				},
 				"default": null,
-				"catalog": null,
+				"catalog": {
+					service_file: 'get_unities.php',
+					data: null
+				},
 				"required": true
 			},
 			{

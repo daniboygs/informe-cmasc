@@ -6,7 +6,7 @@ include("common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[CarpetasRecibidas] a INNER JOIN Usuario u ON a.UsuarioID = u.UsuarioID';
+$db_table = '[dbo].[CarpetasRecibidas] a INNER JOIN Usuario u ON a.UsuarioID = u.UsuarioID INNER JOIN [cat].[Fiscalia] f ON  u.FiscaliaID = f.FiscaliaID';
 
 $nuc = $_POST['nuc'];
 $month = $_POST['month'];
@@ -38,7 +38,7 @@ $data = (object) array(
 		'search' => false
 	),
 	'user_name' => (object) array(
-		'db_column' => '[Nombre]',
+		'db_column' => 'u.[Nombre]',
 		'search' => true
 	),
 	'user_ps' => (object) array(
@@ -48,6 +48,14 @@ $data = (object) array(
 	'user_ms' => (object) array(
 		'db_column' => '[ApellidoMaterno]',
 		'search' => true
+	),
+	'fiscalia' => (object) array(
+		'db_column' => "f.[Nombre] AS 'Fiscalia'",
+		'search' => true
+	),
+	'fiscalia' => array(
+		'name' => 'Fiscalía',
+		'value' => $row['Fiscalia']
 	)
 );
 
