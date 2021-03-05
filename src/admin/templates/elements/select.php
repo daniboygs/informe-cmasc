@@ -15,7 +15,7 @@
     if($elements != null){
         foreach($elements as $element){
 ?> 
-            <option value=<?php echo $element['id']; ?>><?php echo $element['name']; ?></option>
+            <option value='<?php echo $element['id']; ?>'><?php echo $element['name']; ?></option>
 <?php
         }
     }

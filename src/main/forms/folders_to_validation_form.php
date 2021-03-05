@@ -14,7 +14,7 @@
 
 			<label style="font-weight:bold">Delito: *</label>
 
-			<input type="text" class="form-control" id="folders-to-validation-crime" maxlength="50">	
+			<input type="text" class="form-control" id="folders-to-validation-crime" maxlength="150">	
 
 		</div>
 
@@ -34,7 +34,9 @@
 
 			<label style="font-weight:bold">Unidad: *</label>
 
-			<input type="text" class="form-control" id="folders-to-validation-unity" maxlength="50">
+			<div id="folders-to-validation-unity-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
 
 		</div>
 

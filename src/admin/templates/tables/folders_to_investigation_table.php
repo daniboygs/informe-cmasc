@@ -19,6 +19,7 @@
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Motivo de canalización</th>
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Unidad</th>
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Facilitador</th>
+        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fiscalía</th>
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Acción</th>
     </tr>
 <?php
@@ -34,6 +35,7 @@
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['folders_to_investigation_channeling_reason']['value']; ?></td>
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['folders_to_investigation_unity']['value']; ?></td>
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['folders_to_investigation_user']['value']; ?></td>
+        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['fiscalia']['value']; ?></td>
         <td style="text-align: center; border: solid 1px #ccc;"><button class="btn btn-danger" onclick="deleteRecord('folders_to_investigation', <?php echo $element['folders_to_investigation_id']['value']; ?>)">Eliminar</button></td>
     </tr>
 <?php
