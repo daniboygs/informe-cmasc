@@ -749,6 +749,13 @@ function changeInegiPanel(section){
                         {
                             function: getInegiRecordsByMonth,
                             attr: 'general'
+                        },
+                        {
+                            function: getInegiCurrentRecordBySectionAndID,
+                            attr: {
+                                section: 'general',
+                                general_id: inegi.current.general_id
+                            }
                         }
                     ]
                 }
@@ -799,7 +806,7 @@ function resetInegi(attr){
         $('#'+inegi.sections[section].sidenav_div_id).removeClass('completed');
     }
     inegi.current.nuc = null;
-    inegi.current.folder_id = null;
+    inegi.current.general_id = null;
 }
 
 function validateInegiSection(section){
@@ -856,20 +863,25 @@ function spetialInegiValidationBySection(attr){
                             functions: [
                                 {
                                     function: drawCompletedInegiSection,
-                                    attr: attr.section
+                                    attr: attr.section,
+                                    response: false
                                 },
                                 {
                                     function: activeInegi,
-                                    attr: null
+                                    attr: null,
+                                    response: false
                                 },
                                 {
-                                    function: setCurrentInegiNuc,
-                                    attr: {
-                                        folder_id: null,
-                                        nuc: null
-                                    }
+                                    function: setCurrentInegiId,
+                                    attr: null,
+                                    response: true
+                                },
+                                {
+                                    function: getInegiCurrentRecordBySectionAndID,
+                                    attr: null,
+                                    response: true 
                                 }
-                            ] 
+                            ]
                         }
                     }
                 }
@@ -880,14 +892,15 @@ function spetialInegiValidationBySection(attr){
                 section: attr.section,
                 data: {
                     ...attr.data,
-                    folder_id: inegi.current.folder_id,
+                    folder_id: inegi.current.general_id,
                     nuc: inegi.current.nuc
                 },
                 success: {
                     functions: [
                         {
                             function: drawCompletedInegiSection,
-                            attr: attr.section
+                            attr: attr.section,
+                            response: false
                         }
                     ] 
                 }
@@ -920,7 +933,14 @@ function saveInegiSection(attr){
                 console.log('chido lo', response.state);
 
                 for(func in attr.success.functions){
-                    attr.success.functions[func].function(attr.success.functions[func].attr);
+                    if(!attr.success.functions[func].response)
+                        attr.success.functions[func].function(attr.success.functions[func].attr);
+                    else{
+                        attr.success.functions[func].function({
+                            section: attr.section,
+                            general_id: response.data.id
+                        });
+                    }
                 }
             }
             else{
@@ -951,10 +971,10 @@ function activeInegi(attr){
 
 }
 
-function setCurrentInegiNuc(attr){
+function setCurrentInegiId(attr){
 
-    inegi.current.folder_id = attr.folder_id;
-    inegi.current.nuc = inegi.current.nuc;
+    inegi.current.general_id = attr.general_id;
+    //inegi.current.nuc = inegi.current.nuc;
 
 }
 
@@ -1023,7 +1043,7 @@ function getInegiRecordsByMonth(section){
     let date = new Date();
     date.setHours(date.getHours()+6); 
 
-    if(sections[section].records_by_month_file != null){
+    if(inegi.sections[section].records_by_month_file != null){
         $.ajax({
             url:'service/inegi/'+inegi.sections[section].records_by_month_file,
             type:'POST',
@@ -1042,6 +1062,37 @@ function getInegiRecordsByMonth(section){
                 element_id: 'records-section'
             });
         });
+    }	
+}
+
+function getInegiCurrentRecordBySectionAndID(attr){
+
+    console.log('by moneh?', attr.section);
+
+    let date = new Date();
+    date.setHours(date.getHours()+6); 
+
+    if(inegi.sections[attr.section].records_by_general_id_file != null && attr.general_id != null){
+        $.ajax({
+            url:'service/inegi/'+inegi.sections[attr.section].records_by_general_id_file,
+            type:'POST',
+            dataType: "json",
+            data: {
+                general_id: attr.general_id
+            },
+            cache:false
+        }).done(function(response){
+            console.log(response);
+            test2 = response;
+            drawRecordsTable({
+                data: response,
+                file: 'templates/tables/'+attr.section+'_table.php',
+                element_id: 'inegi-current-record-section'
+            });
+        });
+    }
+    else{
+        console.log('nada nada nada q no q no', attr);
     }	
 }
 

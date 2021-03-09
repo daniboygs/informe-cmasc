@@ -22,4 +22,6 @@
 
 	<div id="inegi-capture-section"></div>
 
+	<div id="inegi-current-record-section"></div>
+
 </div>

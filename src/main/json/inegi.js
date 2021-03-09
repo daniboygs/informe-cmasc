@@ -1,7 +1,7 @@
 var inegi = {
     active: true,
     current: {
-        folder_id: null,
+        general_id: null,
         nuc: null
     },
     sections: {
@@ -12,6 +12,8 @@ var inegi = {
             "create_file": "create_general_section.php",
             "update_file": "update_general_section.php",
             "search_file": "search_general_section.php",
+            "records_by_month_file": "get_general_records_by_month.php",
+            "records_by_general_id_file": "get_general_records_by_general_id.php",
             "form_id": "inegi-general-form",
             "sidenav_div_id": "general-side-div",
             "name": "datos generales",
@@ -102,6 +104,8 @@ var inegi = {
             "create_file": "create_victim_section.php",
             "update_file": "update_victim_section.php",
             "search_file": "search_victim_section.php",
+            "records_by_month_file": "get_victim_records_by_month.php",
+            "records_by_general_id_file": "get_victim_records_by_general_id.php",
             "form_id": "victim-form",
             "sidenav_div_id": "victim-side-div",
             "name": "victim",
@@ -223,6 +227,8 @@ var inegi = {
             "create_file": "create_imputed_section.php",
             "update_file": "update_imputed_section.php",
             "search_file": "search_imputed_section.php",
+            "records_by_month_file": "get_imputed_records_by_month.php",
+            "records_by_general_id_file": "get_imputed_records_by_general_id.php",
             "form_id": "imputed-form",
             "sidenav_div_id": "imputed-side-div",
             "name": "imputed",
@@ -344,6 +350,8 @@ var inegi = {
             "create_file": "create_crime_section.php",
             "update_file": "update_crime_section.php",
             "search_file": "search_crime_section.php",
+            "records_by_month_file": "get_crime_records_by_month.php",
+            "records_by_general_id_file": "get_crime_records_by_general_id.php",
             "form_id": "crime-form",
             "sidenav_div_id": "crime-side-div",
             "name": "crime",
@@ -479,6 +487,8 @@ var inegi = {
             "create_file": "create_masc_section.php",
             "update_file": "update_masc_section.php",
             "search_file": "search_masc_section.php",
+            "records_by_month_file": "get_masc_records_by_month.php",
+            "records_by_general_id_file": "get_masc_records_by_general_id.php",
             "form_id": "masc-form",
             "sidenav_div_id": "masc-side-div",
             "name": "masc",

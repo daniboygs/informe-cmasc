@@ -8,8 +8,7 @@ $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[inegi].[General]';
 
-$month = $_POST['month'];
-$year = $_POST['year'];
+$general_id = $_POST['general_id'];
 
 $data = (object) array(
 	'general_crime' => (object) array(
@@ -44,15 +43,10 @@ $sql_conditions = (object) array(
 		'condition' => '=', 
 		'value' => ''
 	),
-	'month' => (object) array(
-		'db_column' => 'MONTH(Fecha)',
+	'general_id' => (object) array(
+		'db_column' => 'GeneralID',
 		'condition' => '=', 
-		'value' => $month
-	),
-	'year' => (object) array(
-		'db_column' => 'YEAR(Fecha)',
-		'condition' => '=', 
-		'value' => $year
+		'value' => $general_id
 	)
 );
 
