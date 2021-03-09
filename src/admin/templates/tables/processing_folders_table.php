@@ -63,7 +63,7 @@
     else{
 ?> 
     <tr>
-        <td colspan="7" style="text-align: center; padding: 7px;">
+        <td colspan="12" style="text-align: center; padding: 7px;">
             No hay registros
         </td>
     </tr>

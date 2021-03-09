@@ -109,8 +109,8 @@
 
 			<select class="form-control" id="inegi-crime-alternative-justice" required="true">
 
-				<option value="Si">Si</option>
-				<option value="No">No</option>
+				<option value="1">Si</option>
+				<option value="0">No</option>
 
 			</select>
 

@@ -65,37 +65,86 @@ function preloadValidation(attr){
             });
             break;
         default:
-            loadForm({
-                section: attr.section,
-                success: {
-                    functions: [
-                        {
-                            function: resetInegi,
-                            attr: null
-                        },
-                        {
-                            function: activeSection,
-                            attr: attr.section
-                        },
-                        {
-                            function: loadDefaultValuesBySection,
-                            attr: attr.section
-                        },
-                        {
-                            function: getRecordsByMonth,
-                            attr: attr.section
-                        },
-                        {
-                            function: loadCatalogsBySection,
-                            attr: {
-                                section: attr.section,
-                                template_file: 'templates/elements/select.php',
-                                service_location: 'service/catalogs/'
+            if(inegi.current.general_id == null){
+                loadForm({
+                    section: attr.section,
+                    success: {
+                        functions: [
+                            {
+                                function: resetInegi,
+                                attr: null
+                            },
+                            {
+                                function: activeSection,
+                                attr: attr.section
+                            },
+                            {
+                                function: loadDefaultValuesBySection,
+                                attr: attr.section
+                            },
+                            {
+                                function: getRecordsByMonth,
+                                attr: attr.section
+                            },
+                            {
+                                function: loadCatalogsBySection,
+                                attr: {
+                                    section: attr.section,
+                                    template_file: 'templates/elements/select.php',
+                                    service_location: 'service/catalogs/'
+                                }
                             }
-                        }
-                    ] 
-                }
-            });
+                        ] 
+                    }
+                });
+            }
+            else{
+                Swal.fire({
+                    title: 'Estas seguro?',
+                    text: 'No será posible seguir capturando la información de la carpeta si cambias de sección!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Si',
+                    cancelButtonText: 'No'
+                  }).then((result) => {
+                    if (result.value) {
+                        loadForm({
+                            section: attr.section,
+                            success: {
+                                functions: [
+                                    {
+                                        function: resetInegi,
+                                        attr: null
+                                    },
+                                    {
+                                        function: activeSection,
+                                        attr: attr.section
+                                    },
+                                    {
+                                        function: loadDefaultValuesBySection,
+                                        attr: attr.section
+                                    },
+                                    {
+                                        function: getRecordsByMonth,
+                                        attr: attr.section
+                                    },
+                                    {
+                                        function: loadCatalogsBySection,
+                                        attr: {
+                                            section: attr.section,
+                                            template_file: 'templates/elements/select.php',
+                                            service_location: 'service/catalogs/'
+                                        }
+                                    }
+                                ] 
+                            }
+                        });
+                    // For more information about handling dismissals please visit
+                    // https://sweetalert2.github.io/#handling-dismissals
+                    }
+                  });
+            }
+            
             break;
     }
     
@@ -748,12 +797,12 @@ function changeInegiPanel(section){
                         },
                         {
                             function: getInegiRecordsByMonth,
-                            attr: 'general'
+                            attr: section
                         },
                         {
                             function: getInegiCurrentRecordBySectionAndID,
                             attr: {
-                                section: 'general',
+                                section: section,
                                 general_id: inegi.current.general_id
                             }
                         }
@@ -799,11 +848,12 @@ function loadInegiForm(attr){
 }
 
 function resetInegi(attr){
-	//inegi.active = false;
+	inegi.active = false;
     for(section in inegi.sections){
         inegi.sections[section].active = false;
         inegi.sections[section].data = null;
         $('#'+inegi.sections[section].sidenav_div_id).removeClass('completed');
+        $('#'+inegi.sections[section].sidenav_div_id).removeClass('uncompleted');
     }
     inegi.current.nuc = null;
     inegi.current.general_id = null;
@@ -867,6 +917,11 @@ function spetialInegiValidationBySection(attr){
                                     response: false
                                 },
                                 {
+                                    function: drawUncompletedInegiSections,
+                                    attr: null,
+                                    response: false
+                                },
+                                {
                                     function: activeInegi,
                                     attr: null,
                                     response: false
@@ -892,13 +947,25 @@ function spetialInegiValidationBySection(attr){
                 section: attr.section,
                 data: {
                     ...attr.data,
-                    folder_id: inegi.current.general_id,
-                    nuc: inegi.current.nuc
+                    general_id: inegi.current.general_id
                 },
                 success: {
                     functions: [
                         {
                             function: drawCompletedInegiSection,
+                            attr: attr.section,
+                            response: false
+                        },
+                        {
+                            function: getInegiCurrentRecordBySectionAndID,
+                            attr: {
+                                section: attr.section,
+                                general_id: inegi.current.general_id
+                            },
+                            response: false 
+                        },
+                        {
+                            function: getInegiRecordsByMonth,
                             attr: attr.section,
                             response: false
                         }
@@ -912,7 +979,7 @@ function spetialInegiValidationBySection(attr){
 function saveInegiSection(attr){
 
     console.log('seeeec', inegi.sections[attr.section]);
-    if(inegi.sections[attr.section].data == null){
+    if(inegi.sections[attr.section].data == null || attr.section == 'victim' || attr.section == 'imputed'){
         $.ajax({
             url: 'service/inegi/'+inegi.sections[attr.section].create_file,
             type: 'POST',
@@ -931,6 +998,8 @@ function saveInegiSection(attr){
                 
                 console.log('chido chido', response);
                 console.log('chido lo', response.state);
+
+                inegi.sections[attr.section].data = response;
 
                 for(func in attr.success.functions){
                     if(!attr.success.functions[func].response)
@@ -961,7 +1030,18 @@ function saveInegiSection(attr){
 function drawCompletedInegiSection(section){
 
     //inegi.sections[section].compleated = true;
+    $('#'+inegi.sections[section].sidenav_div_id).removeClass('uncompleted');
     $('#'+inegi.sections[section].sidenav_div_id).addClass('completed');
+
+}
+
+function drawUncompletedInegiSections(attr){
+
+    for(section in inegi.sections){
+        if(inegi.sections[section].data == null){
+            $('#'+inegi.sections[section].sidenav_div_id).addClass('uncompleted');
+        }
+    }
 
 }
 
@@ -974,7 +1054,7 @@ function activeInegi(attr){
 function setCurrentInegiId(attr){
 
     inegi.current.general_id = attr.general_id;
-    //inegi.current.nuc = inegi.current.nuc;
+    inegi.current.nuc = inegi.current.nuc;
 
 }
 
@@ -1058,7 +1138,7 @@ function getInegiRecordsByMonth(section){
             test = response;
             drawRecordsTable({
                 data: response,
-                file: 'templates/tables/'+section+'_table.php',
+                file: 'templates/tables/inegi/'+section+'_table.php',
                 element_id: 'records-section'
             });
         });
@@ -1067,33 +1147,40 @@ function getInegiRecordsByMonth(section){
 
 function getInegiCurrentRecordBySectionAndID(attr){
 
-    console.log('by moneh?', attr.section);
+
+    console.log('raro: ', inegi.current.general_id);
+
+    console.log('by moneh? attr: ', attr);
 
     let date = new Date();
     date.setHours(date.getHours()+6); 
 
-    if(inegi.sections[attr.section].records_by_general_id_file != null && attr.general_id != null){
-        $.ajax({
-            url:'service/inegi/'+inegi.sections[attr.section].records_by_general_id_file,
-            type:'POST',
-            dataType: "json",
-            data: {
-                general_id: attr.general_id
-            },
-            cache:false
-        }).done(function(response){
-            console.log(response);
-            test2 = response;
-            drawRecordsTable({
-                data: response,
-                file: 'templates/tables/'+attr.section+'_table.php',
-                element_id: 'inegi-current-record-section'
+    if(attr != null){
+        if(inegi.sections[attr.section].records_by_general_id_file != null && attr.general_id != null){
+            $.ajax({
+                url:'service/inegi/'+inegi.sections[attr.section].records_by_general_id_file,
+                type:'POST',
+                dataType: "json",
+                data: {
+                    general_id: attr.general_id
+                },
+                cache:false
+            }).done(function(response){
+                console.log(response);
+                test2 = response;
+                drawRecordsTable({
+                    data: response,
+                    file: 'templates/tables/inegi/'+attr.section+'_table.php',
+                    element_id: 'inegi-current-record-section'
+                });
             });
-        });
+        }
+        else{
+            console.log('nada nada nada q no q no', attr);
+        }	
     }
-    else{
-        console.log('nada nada nada q no q no', attr);
-    }	
+
+    
 }
 
 /*

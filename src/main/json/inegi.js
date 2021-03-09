@@ -1,5 +1,5 @@
 var inegi = {
-    active: true,
+    active: false,
     current: {
         general_id: null,
         nuc: null

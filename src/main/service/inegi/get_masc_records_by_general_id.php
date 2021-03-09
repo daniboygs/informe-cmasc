@@ -6,7 +6,7 @@ include("../common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[inegi].[Victima] v INNER JOIN [inegi].[General] g ON v.GeneralID = g.GeneralID';
+$db_table = '[inegi].[MASC] m INNER JOIN [inegi].[General] g ON m.GeneralID = g.GeneralID';
 
 $general_id = $_POST['general_id'];
 
@@ -19,32 +19,40 @@ $data = (object) array(
 		'db_column' => 'g.[Fecha]',
 		'search' => true
 	),
-	'victim_gener' => (object) array(
-		'db_column' => '[Sexo]',
+	'masc_mechanism' => (object) array(
+		'db_column' => '[Mecanismo]',
 		'search' => true
 	),
-	'victim_age' => (object) array(
-		'db_column' => '[Edad]',
+	'masc_result' => (object) array(
+		'db_column' => '[Resultado]',
 		'search' => true
 	),
-	'victim_scholarship' => (object) array(
-		'db_column' => '[Escolaridad]',
+	'masc_compliance' => (object) array(
+		'db_column' => '[Cumplimiento]',
 		'search' => true
 	),
-	'victim_ocupation' => (object) array(
-		'db_column' => '[Ocupacion]',
+	'masc_total' => (object) array(
+		'db_column' => '[Total]',
 		'search' => true
 	),
-	'victim_applicant' => (object) array(
-		'db_column' => '[Solicitante]',
+	'masc_repair' => (object) array(
+		'db_column' => '[TipoReparacion]',
 		'search' => true
 	),
-	'victim_required' => (object) array(
-		'db_column' => '[Requerido]',
+	'masc_conclusion' => (object) array(
+		'db_column' => '[TipoConclusion]',
 		'search' => true
 	),
-	'victim_type' => (object) array(
-		'db_column' => '[Tipo]',
+	'masc_recovered_amount' => (object) array(
+		'db_column' => '[MontoRecuperado]',
+		'search' => true
+	),
+	'masc_amount_property' => (object) array(
+		'db_column' => '[MontoInmueble]',
+		'search' => true
+	),
+	'masc_turned_to' => (object) array(
+		'db_column' => '[Turnado]',
 		'search' => true
 	)
 );
@@ -56,7 +64,7 @@ $sql_conditions = (object) array(
 		'value' => ''
 	),
 	'general_id' => (object) array(
-		'db_column' => 'v.GeneralID',
+		'db_column' => 'm.GeneralID',
 		'condition' => '=', 
 		'value' => $general_id
 	)
@@ -121,33 +129,41 @@ function getRecord($attr){
 					'name' => 'Fecha',
 					'value' => $date
 				),
-				'victim_gener' => array(
-					'name' => 'Sexo',
-					'value' => $row['Sexo']
+				'masc_mechanism' => array(
+					'name' => 'Mecanismo',
+					'value' => $row['Mecanismo']
 				),
-				'victim_age' => array(
-					'name' => 'Edad',
-					'value' => $row['Edad']
+				'masc_result' => array(
+					'name' => 'Resultado',
+					'value' => $row['Resultado']
 				),
-				'victim_scholarship' => array(
-					'name' => 'Escolaridad',
-					'value' => $row['Escolaridad']
+				'masc_compliance' => array(
+					'name' => 'Cumplimiento',
+					'value' => $row['Cumplimiento']
 				),
-				'victim_ocupation' => array(
-					'name' => 'Ocupación',
-					'value' => $row['Ocupacion']
+				'masc_total' => array(
+					'name' => 'Total',
+					'value' => $row['Total']
 				),
-				'victim_applicant' => array(
-					'name' => 'Solicitante',
-					'value' => $row['Solicitante']
+				'masc_repair' => array(
+					'name' => 'Tipo Reparación',
+					'value' => $row['TipoReparacion']
 				),
-				'victim_required' => array(
-					'name' => 'Requerido',
-					'value' => $row['Requerido']
+				'masc_conclusion' => array(
+					'name' => 'Tipo Conclusión',
+					'value' => $row['TipoConclusion']
 				),
-				'victim_type' => array(
-					'name' => 'Tipo',
-					'value' => $row['Tipo']
+				'masc_recovered_amount' => array(
+					'name' => 'Monto Recuperado',
+					'value' => $row['MontoRecuperado']
+				),
+				'masc_amount_property' => array(
+					'name' => 'Monto Inmueble',
+					'value' => $row['MontoInmueble']
+				),
+				'masc_turned_to' => array(
+					'name' => 'Turnado a',
+					'value' => $row['Turnado']
 				)
 			));
 		}

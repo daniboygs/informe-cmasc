@@ -6,9 +6,10 @@ include("../common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[inegi].[Victima] v INNER JOIN [inegi].[General] g ON v.GeneralID = g.GeneralID';
+$db_table = '[inegi].[Delito] d INNER JOIN [inegi].[General] g ON d.GeneralID = g.GeneralID';
 
-$general_id = $_POST['general_id'];
+$month = $_POST['month'];
+$year = $_POST['year'];
 
 $data = (object) array(
 	'nuc' => (object) array(
@@ -19,32 +20,36 @@ $data = (object) array(
 		'db_column' => 'g.[Fecha]',
 		'search' => true
 	),
-	'victim_gener' => (object) array(
-		'db_column' => '[Sexo]',
+	'crime_rate' => (object) array(
+		'db_column' => '[Calificacion]',
 		'search' => true
 	),
-	'victim_age' => (object) array(
-		'db_column' => '[Edad]',
+	'crime_contest' => (object) array(
+		'db_column' => '[Concurso]',
 		'search' => true
 	),
-	'victim_scholarship' => (object) array(
-		'db_column' => '[Escolaridad]',
+	'crime_action' => (object) array(
+		'db_column' => '[FormaAccion]',
 		'search' => true
 	),
-	'victim_ocupation' => (object) array(
-		'db_column' => '[Ocupacion]',
+	'crime_commission' => (object) array(
+		'db_column' => '[Comision]',
 		'search' => true
 	),
-	'victim_applicant' => (object) array(
-		'db_column' => '[Solicitante]',
+	'crime_violence' => (object) array(
+		'db_column' => '[Violencia]',
 		'search' => true
 	),
-	'victim_required' => (object) array(
-		'db_column' => '[Requerido]',
+	'crime_modality' => (object) array(
+		'db_column' => '[Modalidad]',
 		'search' => true
 	),
-	'victim_type' => (object) array(
-		'db_column' => '[Tipo]',
+	'crime_instrument' => (object) array(
+		'db_column' => '[Instrumento]',
+		'search' => true
+	),
+	'crime_alternative_justice' => (object) array(
+		'db_column' => '[JusticiaAlternativa]',
 		'search' => true
 	)
 );
@@ -55,10 +60,15 @@ $sql_conditions = (object) array(
 		'condition' => '=', 
 		'value' => ''
 	),
-	'general_id' => (object) array(
-		'db_column' => 'v.GeneralID',
+	'month' => (object) array(
+		'db_column' => 'MONTH(g.Fecha)',
 		'condition' => '=', 
-		'value' => $general_id
+		'value' => $month
+	),
+	'year' => (object) array(
+		'db_column' => 'YEAR(g.Fecha)',
+		'condition' => '=', 
+		'value' => $year
 	)
 );
 
@@ -121,33 +131,37 @@ function getRecord($attr){
 					'name' => 'Fecha',
 					'value' => $date
 				),
-				'victim_gener' => array(
-					'name' => 'Sexo',
-					'value' => $row['Sexo']
+				'crime_rate' => array(
+					'name' => 'Calificación',
+					'value' => $row['Calificacion']
 				),
-				'victim_age' => array(
-					'name' => 'Edad',
-					'value' => $row['Edad']
+				'crime_contest' => array(
+					'name' => 'Concurso',
+					'value' => $row['Concurso']
 				),
-				'victim_scholarship' => array(
-					'name' => 'Escolaridad',
-					'value' => $row['Escolaridad']
+				'crime_action' => array(
+					'name' => 'Forma de acción',
+					'value' => $row['FormaAccion']
 				),
-				'victim_ocupation' => array(
-					'name' => 'Ocupación',
-					'value' => $row['Ocupacion']
+				'crime_commission' => array(
+					'name' => 'Comisión',
+					'value' => $row['Comision']
 				),
-				'victim_applicant' => array(
-					'name' => 'Solicitante',
-					'value' => $row['Solicitante']
+				'crime_violence' => array(
+					'name' => 'Violencia',
+					'value' => $row['Violencia']
 				),
-				'victim_required' => array(
-					'name' => 'Requerido',
-					'value' => $row['Requerido']
+				'crime_modality' => array(
+					'name' => 'Modalidad',
+					'value' => $row['Modalidad']
 				),
-				'victim_type' => array(
-					'name' => 'Tipo',
-					'value' => $row['Tipo']
+				'crime_instrument' => array(
+					'name' => 'Instrumento',
+					'value' => $row['Instrumento']
+				),
+				'crime_alternative_justice' => array(
+					'name' => 'Justicia Alternativa',
+					'value' => $row['JusticiaAlternativa']
 				)
 			));
 		}

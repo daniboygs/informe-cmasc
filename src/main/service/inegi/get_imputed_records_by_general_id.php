@@ -6,7 +6,7 @@ include("../common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[inegi].[Victima] v INNER JOIN [inegi].[General] g ON v.GeneralID = g.GeneralID';
+$db_table = '[inegi].[Imputado] i INNER JOIN [inegi].[General] g ON i.GeneralID = g.GeneralID';
 
 $general_id = $_POST['general_id'];
 
@@ -19,31 +19,31 @@ $data = (object) array(
 		'db_column' => 'g.[Fecha]',
 		'search' => true
 	),
-	'victim_gener' => (object) array(
+	'imputed_gener' => (object) array(
 		'db_column' => '[Sexo]',
 		'search' => true
 	),
-	'victim_age' => (object) array(
+	'imputed_age' => (object) array(
 		'db_column' => '[Edad]',
 		'search' => true
 	),
-	'victim_scholarship' => (object) array(
+	'imputed_scholarship' => (object) array(
 		'db_column' => '[Escolaridad]',
 		'search' => true
 	),
-	'victim_ocupation' => (object) array(
+	'imputed_ocupation' => (object) array(
 		'db_column' => '[Ocupacion]',
 		'search' => true
 	),
-	'victim_applicant' => (object) array(
+	'imputed_applicant' => (object) array(
 		'db_column' => '[Solicitante]',
 		'search' => true
 	),
-	'victim_required' => (object) array(
+	'imputed_required' => (object) array(
 		'db_column' => '[Requerido]',
 		'search' => true
 	),
-	'victim_type' => (object) array(
+	'imputed_type' => (object) array(
 		'db_column' => '[Tipo]',
 		'search' => true
 	)
@@ -56,7 +56,7 @@ $sql_conditions = (object) array(
 		'value' => ''
 	),
 	'general_id' => (object) array(
-		'db_column' => 'v.GeneralID',
+		'db_column' => 'i.GeneralID',
 		'condition' => '=', 
 		'value' => $general_id
 	)
@@ -121,31 +121,31 @@ function getRecord($attr){
 					'name' => 'Fecha',
 					'value' => $date
 				),
-				'victim_gener' => array(
+				'imputed_gener' => array(
 					'name' => 'Sexo',
 					'value' => $row['Sexo']
 				),
-				'victim_age' => array(
+				'imputed_age' => array(
 					'name' => 'Edad',
 					'value' => $row['Edad']
 				),
-				'victim_scholarship' => array(
+				'imputed_scholarship' => array(
 					'name' => 'Escolaridad',
 					'value' => $row['Escolaridad']
 				),
-				'victim_ocupation' => array(
+				'imputed_ocupation' => array(
 					'name' => 'Ocupación',
 					'value' => $row['Ocupacion']
 				),
-				'victim_applicant' => array(
+				'imputed_applicant' => array(
 					'name' => 'Solicitante',
 					'value' => $row['Solicitante']
 				),
-				'victim_required' => array(
+				'imputed_required' => array(
 					'name' => 'Requerido',
 					'value' => $row['Requerido']
 				),
-				'victim_type' => array(
+				'imputed_type' => array(
 					'name' => 'Tipo',
 					'value' => $row['Tipo']
 				)

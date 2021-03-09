@@ -6,57 +6,57 @@ include("../common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[inegi].[Victima]';
+$db_table = '[inegi].[Imputado]';
 
-$victim_gener = $_POST['victim_gener'];
-$victim_age = $_POST['victim_age'];
-$victim_scholarship = $_POST['victim_scholarship'];
-$victim_ocupation = $_POST['victim_ocupation'];
-$victim_applicant = $_POST['victim_applicant'];
-$victim_required = $_POST['victim_required'];
-$victim_type = $_POST['victim_type'];
+$imputed_gener = $_POST['imputed_gener'];
+$imputed_age = $_POST['imputed_age'];
+$imputed_scholarship = $_POST['imputed_scholarship'];
+$imputed_ocupation = $_POST['imputed_ocupation'];
+$imputed_applicant = $_POST['imputed_applicant'];
+$imputed_required = $_POST['imputed_required'];
+$imputed_type = $_POST['imputed_type'];
 $general_id = $_POST['general_id'];
 
 $data = (object) array(
-	'victim_gener' => (object) array(
+	'imputed_gener' => (object) array(
 		'type' => 'text',
-		'value' => $victim_gener,
+		'value' => $imputed_gener,
 		'null' => false,
 		'db_column' => '[Sexo]'
 	),
-	'victim_age' => (object) array(
+	'imputed_age' => (object) array(
 		'type' => 'number',
-		'value' => $victim_age,
+		'value' => $imputed_age,
 		'null' => false,
 		'db_column' => '[Edad]'
 	),
-	'victim_scholarship' => (object) array(
+	'imputed_scholarship' => (object) array(
 		'type' => 'number',
-		'value' => $victim_scholarship,
+		'value' => $imputed_scholarship,
 		'null' => false,
 		'db_column' => '[Escolaridad]'
 	),
-	'victim_ocupation' => (object) array(
+	'imputed_ocupation' => (object) array(
 		'type' => 'number',
-		'value' => $victim_ocupation,
+		'value' => $imputed_ocupation,
 		'null' => false,
 		'db_column' => '[Ocupacion]'
 	),
-	'victim_applicant' => (object) array(
+	'imputed_applicant' => (object) array(
 		'type' => 'text',
-		'value' => $victim_applicant,
+		'value' => $imputed_applicant,
 		'null' => false,
 		'db_column' => '[Solicitante]'
 	),
-	'victim_required' => (object) array(
+	'imputed_required' => (object) array(
 		'type' => 'text',
-		'value' => $victim_required,
+		'value' => $imputed_required,
 		'null' => false,
 		'db_column' => '[Requerido]'
 	),
-	'victim_type' => (object) array(
+	'imputed_type' => (object) array(
 		'type' => 'text',
-		'value' => $victim_type,
+		'value' => $imputed_type,
 		'null' => false,
 		'db_column' => '[Tipo]'
 	),
