@@ -7,7 +7,7 @@ $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[CarpetasIngresadas] c INNER JOIN ['.$connections['sicap']['db'].'].dbo.CatMunicipios cm on c.Municipio = cm.CatMunicipiosID 
-LEFT JOIN dbo.Usuario u on c.Facilitador = u.UsuarioID';
+LEFT JOIN dbo.Usuario u on c.Facilitador = u.UsuarioID INNER JOIN [cat].[Fiscalia] f ON  u.FiscaliaID = f.FiscaliaID';
 
 $nuc = $_POST['nuc'];
 $month = $_POST['month'];
@@ -86,6 +86,10 @@ $data = (object) array(
 	),
 	'user_ms' => (object) array(
 		'db_column' => 'u.[ApellidoMaterno]',
+		'search' => true
+	),
+	'fiscalia' => (object) array(
+		'db_column' => "f.[Nombre] AS 'Fiscalia'",
 		'search' => true
 	)
 );
@@ -246,6 +250,10 @@ function getRecord($attr){
 				'entered_folders_facilitator' => array(
 					'name' => 'Facilitador',
 					'value' => $row['Nombre'].' '.$row['ApellidoPaterno'].' '.$row['ApellidoMaterno']
+				),
+				'fiscalia' => array(
+					'name' => 'Fiscalía',
+					'value' => $row['Fiscalia']
 				)/*,
 				'entered_folders_book_date' => array(
 					'name' => 'Fecha Libro',

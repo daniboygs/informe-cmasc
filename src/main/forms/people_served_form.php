@@ -14,7 +14,7 @@
 
 			<label style="font-weight:bold">Delito: *</label>
 
-			<input type="text" class="form-control" id="people-served-crime" maxlength="50">	
+			<input type="text" class="form-control" id="people-served-crime" maxlength="250">	
 
 		</div>
 
@@ -42,7 +42,9 @@
 
 			<label style="font-weight:bold">Unidad: *</label>
 
-			<input type="text" class="form-control" id="people-served-unity" maxlength="50">
+			<div id="people-served-unity-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
 
 		</div>
 

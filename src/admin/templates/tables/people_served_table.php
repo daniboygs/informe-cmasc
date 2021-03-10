@@ -19,6 +19,7 @@
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Personas atendidas</th>
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Unidad</th>
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Facilitador</th>
+        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fiscalía</th>
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Acción</th>
     </tr>
 <?php
@@ -34,6 +35,7 @@
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['people_served_number']['value']; ?></td>
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['people_served_unity']['value']; ?></td>
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['people_served_user']['value']; ?></td>
+        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['fiscalia']['value']; ?></td>
         <td style="text-align: center; border: solid 1px #ccc;"><button class="btn btn-danger" onclick="deleteRecord('people_served', <?php echo $element['people_served_id']['value']; ?>)">Eliminar</button></td>
     </tr>
 <?php

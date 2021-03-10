@@ -19,7 +19,7 @@
 		<script src="../../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 		
 		<script src="../../js/script.js"></script>
-		<script src="json/sections-attr.js"></script>
+		<script src="json/sections-attr_210305.js"></script>
 		<script src="json/data.js"></script>
 		<script src="json/inegi.js"></script>
 		<script src="js/script.js"></script>

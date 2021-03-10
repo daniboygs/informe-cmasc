@@ -18,6 +18,7 @@
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Delito</th>
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Unidad</th>
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Facilitador</th>
+        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fiscalía</th>
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Acción</th>
     </tr>
 <?php
@@ -32,6 +33,7 @@
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['recieved_folders_crime']['value']; ?></td>
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['recieved_folders_unity']['value']; ?></td>
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['recieved_folders_user']['value']; ?></td>
+        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['fiscalia']['value']; ?></td>
         <td style="text-align: center; border: solid 1px #ccc;"><button class="btn btn-danger" onclick="deleteRecord('recieved_folders', <?php echo $element['recieved_folders_id']['value']; ?>)">Eliminar</button></td>
     </tr>
 <?php

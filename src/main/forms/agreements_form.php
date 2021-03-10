@@ -14,7 +14,7 @@
 
 			<label style="font-weight:bold">Delito: *</label>
 
-			<input type="text" class="form-control" id="agreement-crime">			
+			<input type="text" class="form-control" id="agreement-crime" maxlength="250">			
 
 		</div>
 
@@ -104,7 +104,11 @@
 
 			<label style="font-weight:bold">Unidad: *</label>
 
-			<input type="text" class="form-control" id="agreement-unity">	
+			<div id="agreement-unity-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
+
+			<!--<input type="text" class="form-control" id="agreement-unity">-->
 
 		</div>
 
