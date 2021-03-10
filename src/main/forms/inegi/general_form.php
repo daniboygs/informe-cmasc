@@ -34,7 +34,11 @@
 
 			<label style="font-weight:bold">Unidad: *</label>
 
-			<input type="text" class="form-control" id="inegi-general-unity">	
+			<div id="inegi-general-unity-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
+
+			<!--<input type="text" class="form-control" id="inegi-general-unity">-->
 
 		</div>
 

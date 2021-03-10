@@ -625,6 +625,8 @@ function getRecordsByMonth(section){
     date.setHours(date.getHours()+6); 
 
     if(sections[section].records_by_month_file != null){
+
+        $('#records-section').html('<div style="color: #EE6E5A;">Cargando datos... </div>');
         $.ajax({
             url:'service/'+sections[section].records_by_month_file,
             type:'POST',
@@ -805,7 +807,11 @@ function changeInegiPanel(section){
                                 section: section,
                                 general_id: inegi.current.general_id
                             }
-                        }
+                        },
+                        {
+                            function: loadInegiDefaultValuesBySection,
+                            attr: section
+                        },
                     ]
                 }
             });
@@ -935,6 +941,15 @@ function spetialInegiValidationBySection(attr){
                                     function: getInegiCurrentRecordBySectionAndID,
                                     attr: null,
                                     response: true 
+                                },
+                                {
+                                    function: getInegiRecordsByMonth,
+                                    attr: attr.section,
+                                    response: false
+                                },
+                                {
+                                    function: resetInegiSection,
+                                    attr: attr.section
                                 }
                             ]
                         }
@@ -968,6 +983,14 @@ function spetialInegiValidationBySection(attr){
                             function: getInegiRecordsByMonth,
                             attr: attr.section,
                             response: false
+                        },
+                        {
+                            function: loadInegiDefaultValuesBySection,
+                            attr: attr.section
+                        },
+                        {
+                            function: resetInegiSection,
+                            attr: attr.section
                         }
                     ] 
                 }
@@ -1178,9 +1201,63 @@ function getInegiCurrentRecordBySectionAndID(attr){
         else{
             console.log('nada nada nada q no q no', attr);
         }	
+    }    
+}
+
+function loadInegiDefaultValuesBySection(section){
+    let fields = inegi.sections[section].fields;
+
+    for(field in fields){
+        if(document.getElementById(fields[field].id)){
+
+            if(fields[field].default != null){
+
+                switch(fields[field].type){
+                    case "date":
+                        if(fields[field].default == "today"){
+                            let today = new Date();
+                            //today.setHours(today.getHours()+6); 
+                            console.log('tod', today);
+                            document.getElementById(fields[field].id).valueAsDate = today;
+                        }
+                        break;
+                    default:
+                        document.getElementById(fields[field].id).value = fields[field].default;
+                }
+            }
+        }
+    }
+}
+
+function resetInegiSection(section){
+    let fields = inegi.sections[section].fields;
+
+    for(field in fields){
+        if(document.getElementById(fields[field].id)){
+
+            switch(fields[field].type){
+                case 'select':
+                    document.getElementById(fields[field].id).selectedIndex = 0;
+                    break;
+                case 'text':
+                    document.getElementById(fields[field].id).value = "";
+                    break;
+                case 'number':
+                    document.getElementById(fields[field].id).value = 0;
+                    break;
+                case 'text-number':
+                    document.getElementById(fields[field].id).value = "";
+                    break;
+                default:
+                    document.getElementById(fields[field].id).value = "";
+                    break;
+            }
+
+            
+        }
     }
 
-    
+    loadInegiDefaultValuesBySection(section);
 }
 
 /*

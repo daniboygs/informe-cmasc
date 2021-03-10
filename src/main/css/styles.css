@@ -24,6 +24,16 @@
     margin: 1px;
 }
 
+.inegi-sidenav div.element.active:hover{
+    padding: 15px !important;
+    text-align: center !important;
+    color: white !important;
+    background-color: #152F4A !important;
+    margin: 1px !important;
+    cursor: context-menu !important;
+}
+
+
 .inegi-sidenav div.completed{
     border-right: 1rem solid #1ABB9C;
     
@@ -50,7 +60,7 @@
 #inegi-capture-section{
     width: 80%;
     float: right;
-    padding: 5px;
+    padding: 10px;
     height: 100%;
 }
 
@@ -62,4 +72,12 @@
 
 #inegi-current-record-section table tbody tr td{
     background-color: aquamarine;
+}
+
+table tr th{
+    cursor: pointer;
+}
+
+table tr td{
+    cursor: auto;
 }

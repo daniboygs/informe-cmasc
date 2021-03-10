@@ -21,7 +21,7 @@ body{
     display: contents;
 
     */
-    background-color: #F9F9F9 !important;
+    background-color: #D6D6D6 !important;
 }
 
 .form-signin {
@@ -103,7 +103,7 @@ tr{
     width: 80%;
     margin: 0 auto;
     padding: 20px;
-    background-color: lightsteelblue;
+    background-color: white;
     margin-top: 70px;
 }
 
@@ -179,6 +179,11 @@ tr{
 .topnav div.session:hover {
     background-color: #ddd;
     color: black;
+}
+
+#content{
+    padding: 15px;
+    border: lightgrey solid 1px;
 }
 
 /*___________*/

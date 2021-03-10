@@ -96,7 +96,10 @@
 
 			<label style="font-weight:bold">Requerido: *</label>
 
-			<input type="text" class="form-control" id="inegi-victim-required" maxlength="25">			
+			<select class="form-control" id="inegi-victim-required" required="true">
+				<option value="Solicitante">Solicitante</option>
+				<option value="Requerido">Requerido</option>
+			</select>			
 
 		</div>
 

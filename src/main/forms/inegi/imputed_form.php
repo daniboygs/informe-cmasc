@@ -29,20 +29,6 @@
 				<div style="color: #EE6E5A;">Cargando datos... </div>
 			</div>	
 
-			<!--<select class="form-control" id="inegi-imputed-scholarship" required="true">									
-				<option value ="1" selected>Prescolar</option>
-				<option value ="2">Primaria</option>
-				<option value ="3">Secundaria</option>
-				<option value ="4">Preparatoria</option>
-				<option value ="5">Carrera técnica o comercial</option>
-				<option value ="6">Licenciatura</option>
-				<option value ="7">Maestría</option>
-				<option value ="8">Doctorado</option>
-				<option value ="9">Ninguno</option>
-				<option value ="10">No identificado</option>
-				
-			</select>-->
-
 		</div>
 
 	</div>
@@ -58,25 +44,6 @@
 			<div id="inegi-imputed-ocupation-section">
 				<div style="color: #EE6E5A;">Cargando datos... </div>
 			</div>	
-
-			<!--<select class="form-control" id="inegi-imputed-ocupation" required="true">
-					
-
-				<option value="1">FUNCIONARIOS, DIRECTORES Y JEFES</option>
-				<option value="2">PROFESIONISTAS Y TECNICOS</option>
-				<option value="3">TRABAJADORES AUXILIARES EN ACTIVIDADES ADMINISTRATIVAS</option>
-				<option value="4">COMERCIANTES, EMPLEADOS EN VENTAS Y AGENTES DE VENTAS</option>
-				<option value="5">TRABAJADORES EN SERVICIOS PERSONALES Y VIGILANCIA</option>
-				<option value="6">TRABAJADORES EN ACTIVIDADES AGRICOLAS, GANADERAS, FORESTALES, CAZA Y PESCA</option>
-				<option value="7">TRABAJADORES ARTESANALES</option>
-				<option value="8">OPERADORES DE MAQUINARIA INDUSTRIAL, ENSAMBLADORES, CHOFERES Y CONDUCTORES</option>
-				<option value="9">TRABAJADORES EN ACTIVIDADES ELEMENTALES Y DE APOYO</option>
-				<option value="10">AMA DE CASA</option>
-				<option value="11">ESTUDIANTE</option>
-				<option value="12">NO EJERCIA NINGUNA OCUPACION</option>
-				<option value="13">NO IDENTIFICADO</option>
-
-			</select>-->
 
 		</div>
 
@@ -96,7 +63,10 @@
 
 			<label style="font-weight:bold">Requerido: *</label>
 
-			<input type="text" class="form-control" id="inegi-imputed-required" maxlength="25">			
+			<select class="form-control" id="inegi-imputed-required" required="true">
+				<option value="Solicitante">Solicitante</option>
+				<option value="Requerido">Requerido</option>
+			</select>		
 
 		</div>
 
@@ -105,11 +75,8 @@
 			<label style="font-weight:bold">Tipo de persona: *</label>
 
 			<select class="form-control" id="inegi-imputed-type" required="true">
-
 				<option value="Física">Física</option>
 				<option value="Moral">Moral</option>
-
-
 			</select>
 
 		</div>

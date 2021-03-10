@@ -68,14 +68,17 @@ var inegi = {
                     "id": "inegi-general-unity",
                     "name": "general_unity",
                     "type": "text",
-                    "placeholder": "Ingresa Unidad",
+                    "placeholder": "Selecciona Unidad",
                     "event_listener": null,
                     "conditions": {
                         "unlock": null,
                         "length": null
                     },
                     "default": null,
-                    "catalog": null,
+                    "catalog": {
+                        service_file: 'get_unities.php',
+                        data: null
+                    },
                     "required": true
                 },
                 {
@@ -176,8 +179,8 @@ var inegi = {
                 {
                     "id": "inegi-victim-applicant",
                     "name": "victim_applicant",
-                    "type": "text",
-                    "placeholder": "Ingresa Solicitante",
+                    "type": "select",
+                    "placeholder": "Selecciona Solicitante",
                     "event_listener": null,
                     "conditions": {
                         "unlock": null,
