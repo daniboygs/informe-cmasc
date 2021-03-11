@@ -52,10 +52,6 @@ $data = (object) array(
 	'fiscalia' => (object) array(
 		'db_column' => "f.[Nombre] AS 'Fiscalia'",
 		'search' => true
-	),
-	'fiscalia' => array(
-		'name' => 'Fiscalía',
-		'value' => $row['Fiscalia']
 	)
 );
 
@@ -168,6 +164,10 @@ function getRecord($attr){
 				'recieved_folders_user' => array(
 					'name' => 'Facilitador',
 					'value' => $row['Nombre'].' '.$row['ApellidoPaterno'].' '.$row['ApellidoMaterno']
+				),			
+				'fiscalia' => array(
+					'name' => 'Fiscalía',
+					'value' => $row['Fiscalia']
 				)
 			));
 			

@@ -14,7 +14,7 @@
 
 			<label style="font-weight:bold">Delito: *</label>
 
-			<input type="text" class="form-control" id="people-served-crime" maxlength="150">	
+			<input type="text" class="form-control" id="people-served-crime" maxlength="250">	
 
 		</div>
 
