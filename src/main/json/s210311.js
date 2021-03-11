@@ -225,7 +225,7 @@ var sections = {
 				"type": "select",
                 "placeholder": "Selecciona Unidad",
 				"event_listener": null,
-                "conditions": {
+				"conditions": {
                     "unlock": null,
                     "length": null
                 },
@@ -761,61 +761,16 @@ var sections = {
 		"data": [],
 		"loaded_data": false
 	},
-	"capture_period": {
+	"entered_folders_super": {
 		"index": 7,
-		"form_file": "capture_period_form.php",
-		"create_file": "create_capture_period_section.php",
-		"update_file": "update_capture_period_section.php",
-		"search_file": "search_capture_period_section.php",
-		"records_by_month_file": "get_capture_period_records_by_month.php",
-		"form_id": "capture-period-form",
-		"navigation_element_id": "capture-period-nav-div",
-		"name": "capture_period",
-		"title": "PERIODO DE CAPTURA",
-		"fields": [
-			{
-				"id": "capture-period-initial-date",
-				"name": "capture_period_initial_date",
-				"type": "date",
-				"placeholder": "Ingresa Fecha",
-				"event_listener": null,
-				"conditions": {
-					"unlock": null,
-					"length": null
-				},
-				"default": "today",
-				"catalog": null,
-				"required": true
-			},
-			{
-				"id": "capture-period-finish-date",
-				"name": "capture_period_finish_date",
-				"type": "date",
-				"placeholder": "Ingresa Fecha",
-				"event_listener": null,
-				"conditions": {
-					"unlock": null,
-					"length": null
-				},
-				"default": "today",
-				"catalog": null,
-				"required": true
-			}
-		],
-		"active": false,
-		"data": [],
-		"loaded_data": false
-	},
-	"entered_folders": {
-		"index": 8,
-		"form_file": "entered_folders_form.php",
+		"form_file": "entered_folders_super_form.php",
 		"create_file": "create_entered_folders_section.php",
 		"update_file": "update_entered_folders_section.php",
 		"search_file": "search_entered_folders_section.php",
 		"records_by_month_file": "get_entered_folders_records_by_month.php",
 		"form_id": "entered-folders-form",
 		"navigation_element_id": "entered-folders-nav-div",
-		"name": "entered_folders",
+		"name": "entered_folders_super",
 		"title": "CARPETAS INGRESADAS",
 		"fields": [
 			{
@@ -1017,16 +972,16 @@ var sections = {
 		"data": [],
 		"loaded_data": false
 	},
-	"entered_folders_super": {
-		"index": 9,
-		"form_file": "entered_folders_super_form.php",
+	"entered_folders": {
+		"index": 8,
+		"form_file": "entered_folders_form.php",
 		"create_file": "create_entered_folders_section.php",
 		"update_file": "update_entered_folders_section.php",
 		"search_file": "search_entered_folders_section.php",
 		"records_by_month_file": "get_entered_folders_records_by_month.php",
-		"form_id": "entered-folders-super-form",
-		"navigation_element_id": "entered-folders-super-nav-div",
-		"name": "entered_folders_super",
+		"form_id": "entered-folders-form",
+		"navigation_element_id": "entered-folders-nav-div",
+		"name": "entered_folders",
 		"title": "CARPETAS INGRESADAS",
 		"fields": [
 			{
@@ -1092,38 +1047,10 @@ var sections = {
 				"required": true
 			},
 			{
-				"id": "entered-folders-mp-channeler",
-				"name": "entered_folders_mp_channeler",
-				"type": "text",
-				"placeholder": "Ingresa MP Canalizador",
-				"event_listener": null,
-				"conditions": {
-					"unlock": null,
-					"length": null
-				},
-				"default": null,
-				"catalog": null,
-				"required": true
-			},
-			{
 				"id": "entered-folders-recieved-folder",
 				"name": "entered_folders_recieved_folder",
 				"type": "select",
 				"placeholder": "Selecciona",
-				"event_listener": null,
-				"conditions": {
-					"unlock": null,
-					"length": null
-				},
-				"default": null,
-				"catalog": null,
-				"required": true
-			},
-			{
-				"id": "entered-folders-channeler",
-				"name": "entered_folders_channeler",
-				"type": "text",
-				"placeholder": "Ingresa canalizador",
 				"event_listener": null,
 				"conditions": {
 					"unlock": null,
@@ -1176,37 +1103,6 @@ var sections = {
 				},
 				"default": null,
 				"catalog": null,
-				"required": true
-			},
-			{
-				"id": "entered-folders-folders-date",
-				"name": "entered_folders_folders_date",
-				"type": "date",
-				"placeholder": "Ingresa",
-				"event_listener": null,
-				"conditions": {
-					"unlock": null,
-					"length": null
-				},
-				"default": 'today',
-				"catalog": null,
-				"required": true
-			},
-			{
-				"id": "entered-folders-facilitator",
-				"name": "entered_folders_facilitator",
-				"type": "select",
-				"placeholder": "Selecciona facilitador",
-				"event_listener": null,
-				"conditions": {
-					"unlock": null,
-					"length": null
-				},
-				"default": null,
-				"catalog": {
-					service_file: 'get_facilitators.php',
-					data: null
-				},
 				"required": true
 			}/*,
 			{
