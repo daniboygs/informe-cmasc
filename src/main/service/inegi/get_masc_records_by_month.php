@@ -6,7 +6,8 @@ include("../common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[inegi].[MASC] m INNER JOIN [inegi].[General] g ON m.GeneralID = g.GeneralID';
+$db_table = '[inegi].[MASC] m INNER JOIN [inegi].[General] g ON m.GeneralID = g.GeneralID INNER JOIN [cat].[TipoReparacion] tr ON m.TipoReparacion = tr.TipoReparacionID
+INNER JOIN [cat].[TipoConclusion] tc ON m.TipoConclusion = tc.TipoConclusionID INNER JOIN [cat].[Turnado] t ON m.Turnado = t.TurnadoID';
 
 $month = $_POST['month'];
 $year = $_POST['year'];
@@ -33,15 +34,15 @@ $data = (object) array(
 		'search' => true
 	),
 	'masc_total' => (object) array(
-		'db_column' => '[Total]',
+		'db_column' => "CASE [Total] WHEN 1 THEN 'Total' ELSE 'Parcial' END AS 'Total'",
 		'search' => true
 	),
 	'masc_repair' => (object) array(
-		'db_column' => '[TipoReparacion]',
+		'db_column' => "tr.[Nombre] AS 'TipoReparacion'",
 		'search' => true
 	),
 	'masc_conclusion' => (object) array(
-		'db_column' => '[TipoConclusion]',
+		'db_column' => "tc.[Nombre] AS 'TipoConclusion'",
 		'search' => true
 	),
 	'masc_recovered_amount' => (object) array(
@@ -53,7 +54,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'masc_turned_to' => (object) array(
-		'db_column' => '[Turnado]',
+		'db_column' => "t.[Nombre] AS 'Turnado'",
 		'search' => true
 	)
 );

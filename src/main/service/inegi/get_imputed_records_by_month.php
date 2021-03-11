@@ -6,7 +6,8 @@ include("../common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[inegi].[Imputado] i INNER JOIN [inegi].[General] g ON i.GeneralID = g.GeneralID';
+$db_table = '[inegi].[Imputado] i INNER JOIN [inegi].[General] g ON i.GeneralID = g.GeneralID INNER JOIN [cat].[Escolaridad] e ON i.Escolaridad = e.EscolaridadID
+INNER JOIN [cat].[Ocupacion] o ON i.Ocupacion = o.OcupacionID';
 
 $month = $_POST['month'];
 $year = $_POST['year'];
@@ -29,19 +30,15 @@ $data = (object) array(
 		'search' => true
 	),
 	'imputed_scholarship' => (object) array(
-		'db_column' => '[Escolaridad]',
+		'db_column' => "e.[Nombre] AS 'Escolaridad'",
 		'search' => true
 	),
 	'imputed_ocupation' => (object) array(
-		'db_column' => '[Ocupacion]',
+		'db_column' => "o.[Nombre] AS 'Ocupacion'",
 		'search' => true
 	),
 	'imputed_applicant' => (object) array(
 		'db_column' => '[Solicitante]',
-		'search' => true
-	),
-	'imputed_required' => (object) array(
-		'db_column' => '[Requerido]',
 		'search' => true
 	),
 	'imputed_type' => (object) array(
@@ -146,10 +143,6 @@ function getRecord($attr){
 				'imputed_applicant' => array(
 					'name' => 'Solicitante',
 					'value' => $row['Solicitante']
-				),
-				'imputed_required' => array(
-					'name' => 'Requerido',
-					'value' => $row['Requerido']
 				),
 				'imputed_type' => array(
 					'name' => 'Tipo',

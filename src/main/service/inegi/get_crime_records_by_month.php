@@ -6,7 +6,8 @@ include("../common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[inegi].[Delito] d INNER JOIN [inegi].[General] g ON d.GeneralID = g.GeneralID';
+$db_table = '[inegi].[Delito] d INNER JOIN [inegi].[General] g ON d.GeneralID = g.GeneralID INNER JOIN [cat].[Modalidad] m ON d.Modalidad = m.ModalidadID
+INNER JOIN [cat].[Instrumento] i ON d.Instrumento = i.InstrumentoID';
 
 $month = $_POST['month'];
 $year = $_POST['year'];
@@ -41,15 +42,15 @@ $data = (object) array(
 		'search' => true
 	),
 	'crime_modality' => (object) array(
-		'db_column' => '[Modalidad]',
+		'db_column' => "m.[Nombre] AS 'Modalidad'",
 		'search' => true
 	),
 	'crime_instrument' => (object) array(
-		'db_column' => '[Instrumento]',
+		'db_column' => "i.[Nombre] AS 'Instrumento'",
 		'search' => true
 	),
 	'crime_alternative_justice' => (object) array(
-		'db_column' => '[JusticiaAlternativa]',
+		'db_column' => "CASE [JusticiaAlternativa] WHEN 1 THEN 'Si' WHEN 2 then 'No' END AS 'JusticiaAlternativa'",
 		'search' => true
 	)
 );

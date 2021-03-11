@@ -98,7 +98,7 @@
 
 			<label style="font-weight:bold">Monto recuperado: *</label>
 
-			<input type="text" class="form-control" id="inegi-masc-recovered-amount">	
+			<input type="text" class="form-control" id="inegi-masc-recovered-amount" maxlength="50">	
 
 		</div>
 
@@ -110,7 +110,7 @@
 
 			<label style="font-weight:bold">Monto inmueble: *</label>
 
-			<input type="text" class="form-control" id="inegi-masc-amount-property">	
+			<input type="text" class="form-control" id="inegi-masc-amount-property" maxlength="50">	
 
 		</div>
 

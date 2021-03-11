@@ -14,8 +14,7 @@
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Edad</th>
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Escolaridad</th>
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Ocupación</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Solicitante</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Requerido</th>
+        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Solicitante/Requerido</th>
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Tipo</th>
         <!--<th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Acción</th>-->
     </tr>
@@ -33,7 +32,6 @@
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['victim_scholarship']['value']; ?></td>
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['victim_ocupation']['value']; ?></td>
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['victim_applicant']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['victim_required']['value']; ?></td>
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['victim_type']['value']; ?></td>
     </tr>
 <?php

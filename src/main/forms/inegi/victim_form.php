@@ -84,26 +84,26 @@
 
 	<div class="form-row">
 
-		<div class="col-md-6 form-group">
+		<!--<div class="col-md-6 form-group">
 
 			<label style="font-weight:bold">Solicitante: *</label>
 
 			<input type="text" class="form-control" id="inegi-victim-applicant">	
 
-		</div>
+		</div>-->
 
-		<div class="col-md-3 form-group">
+		<div class="col-md-6 form-group">
 
-			<label style="font-weight:bold">Requerido: *</label>
+			<label style="font-weight:bold">Solicitante/Requerido: *</label>
 
-			<select class="form-control" id="inegi-victim-required" required="true">
+			<select class="form-control" id="inegi-victim-applicant" required="true">
 				<option value="Solicitante">Solicitante</option>
 				<option value="Requerido">Requerido</option>
 			</select>			
 
 		</div>
 
-		<div class="col-md-3 form-group">
+		<div class="col-md-6 form-group">
 
 			<label style="font-weight:bold">Tipo de persona: *</label>
 

@@ -22,7 +22,7 @@
 
 			<label style="font-weight:bold">Delito: *</label>
 
-			<input type="text" class="form-control" id="inegi-general-crime">			
+			<input type="text" class="form-control" id="inegi-general-crime" maxlength="100">			
 
 		</div>
 

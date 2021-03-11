@@ -30,8 +30,6 @@
 
 		<div class="topnav">
 			<div class="home">CMASC</div>
-			<div class="navsec active">Captura base</div>
-			<div class="navsec">INEGI</div>
 			<div class=""><?php session_start(); echo $_SESSION['user_data']['name'].' '.$_SESSION['user_data']['paternal_surname'].' '.$_SESSION['user_data']['maternal_surname'] ?></div>
 			<div class="session" onclick="closeSession()">CERRAR SESION</div>
 		</div>

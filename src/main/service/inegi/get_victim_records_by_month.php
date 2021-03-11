@@ -6,7 +6,8 @@ include("../common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[inegi].[Victima] v INNER JOIN [inegi].[General] g ON v.GeneralID = g.GeneralID';
+$db_table = '[inegi].[Victima] v INNER JOIN [inegi].[General] g ON v.GeneralID = g.GeneralID INNER JOIN [cat].[Escolaridad] e ON v.Escolaridad = e.EscolaridadID
+INNER JOIN [cat].[Ocupacion] o ON v.Ocupacion = o.OcupacionID';
 
 $month = $_POST['month'];
 $year = $_POST['year'];
@@ -29,19 +30,15 @@ $data = (object) array(
 		'search' => true
 	),
 	'victim_scholarship' => (object) array(
-		'db_column' => '[Escolaridad]',
+		'db_column' => "e.[Nombre] AS 'Escolaridad'",
 		'search' => true
 	),
 	'victim_ocupation' => (object) array(
-		'db_column' => '[Ocupacion]',
+		'db_column' => "o.[Nombre] AS 'Ocupacion'",
 		'search' => true
 	),
 	'victim_applicant' => (object) array(
 		'db_column' => '[Solicitante]',
-		'search' => true
-	),
-	'victim_required' => (object) array(
-		'db_column' => '[Requerido]',
 		'search' => true
 	),
 	'victim_type' => (object) array(
@@ -146,10 +143,6 @@ function getRecord($attr){
 				'victim_applicant' => array(
 					'name' => 'Solicitante',
 					'value' => $row['Solicitante']
-				),
-				'victim_required' => array(
-					'name' => 'Requerido',
-					'value' => $row['Requerido']
 				),
 				'victim_type' => array(
 					'name' => 'Tipo',

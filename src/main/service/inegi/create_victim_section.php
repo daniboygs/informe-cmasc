@@ -13,7 +13,6 @@ $victim_age = $_POST['victim_age'];
 $victim_scholarship = $_POST['victim_scholarship'];
 $victim_ocupation = $_POST['victim_ocupation'];
 $victim_applicant = $_POST['victim_applicant'];
-$victim_required = $_POST['victim_required'];
 $victim_type = $_POST['victim_type'];
 $general_id = $_POST['general_id'];
 
@@ -47,12 +46,6 @@ $data = (object) array(
 		'value' => $victim_applicant,
 		'null' => false,
 		'db_column' => '[Solicitante]'
-	),
-	'victim_required' => (object) array(
-		'type' => 'text',
-		'value' => $victim_required,
-		'null' => false,
-		'db_column' => '[Requerido]'
 	),
 	'victim_type' => (object) array(
 		'type' => 'text',

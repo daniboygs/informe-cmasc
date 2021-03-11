@@ -190,7 +190,7 @@ var inegi = {
                     "catalog": null,
                     "required": true
                 },
-                {
+                /*{
                     "id": "inegi-victim-required",
                     "name": "victim_required",
                     "type": "text",
@@ -203,7 +203,7 @@ var inegi = {
                     "default": null,
                     "catalog": null,
                     "required": true
-                },
+                },*/
                 {
                     "id": "inegi-victim-type",
                     "name": "victim_type",
@@ -313,7 +313,7 @@ var inegi = {
                     "catalog": null,
                     "required": true
                 },
-                {
+                /*{
                     "id": "inegi-imputed-required",
                     "name": "imputed_required",
                     "type": "text",
@@ -326,7 +326,7 @@ var inegi = {
                     "default": null,
                     "catalog": null,
                     "required": true
-                },
+                },*/
                 {
                     "id": "inegi-imputed-type",
                     "name": "imputed_type",

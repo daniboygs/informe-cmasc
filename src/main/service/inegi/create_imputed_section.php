@@ -13,7 +13,6 @@ $imputed_age = $_POST['imputed_age'];
 $imputed_scholarship = $_POST['imputed_scholarship'];
 $imputed_ocupation = $_POST['imputed_ocupation'];
 $imputed_applicant = $_POST['imputed_applicant'];
-$imputed_required = $_POST['imputed_required'];
 $imputed_type = $_POST['imputed_type'];
 $general_id = $_POST['general_id'];
 
@@ -47,12 +46,6 @@ $data = (object) array(
 		'value' => $imputed_applicant,
 		'null' => false,
 		'db_column' => '[Solicitante]'
-	),
-	'imputed_required' => (object) array(
-		'type' => 'text',
-		'value' => $imputed_required,
-		'null' => false,
-		'db_column' => '[Requerido]'
 	),
 	'imputed_type' => (object) array(
 		'type' => 'text',
