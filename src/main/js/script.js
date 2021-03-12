@@ -284,8 +284,22 @@ function loadDefaultValuesBySection(section){
                         if(fields[field].default == "today"){
                             let today = new Date();
                             //today.setHours(today.getHours()+6); 
+                            //today = today.toLocaleDateString("es-MX");
                             console.log('tod', today);
-                            document.getElementById(fields[field].id).valueAsDate = today;
+                            //document.getElementById(fields[field].id).valueAsDate = today;
+
+                            var inp = document.getElementById(fields[field].id);
+
+                            //var midnightUtcDate = inp.valueAsDate;
+
+                            //inp.valueAsDate = new Date(midnightUtcDate.getUTCFullYear(), midnightUtcDate.getUTCMonth(), midnightUtcDate.getUTCDate());
+
+                            var date1 = new Date();
+date1 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()); // input expects requires year, month, day
+
+//var input = document.createElement("input"); input.type = "date";
+
+inp.valueAsDate = date1;
                         }
                         break;
                     default:
@@ -682,18 +696,19 @@ function checkActivePeriod(attr){
             console.log('f_datre', form_date);
             form_date.setHours(form_date.getHours()+6);
             console.log('f_datre_af', form_date);
-            form_date = form_date.toLocaleDateString("es-MX");
+            let form_date_mx = form_date.toLocaleDateString("es-MX");
     
             let initial_date = new Date(response.initial_us_date);
             console.log('i_date', initial_date);
-            initial_date.setHours(initial_date.getHours()+6);
-            initial_date = initial_date.toLocaleDateString("es-MX");
+            //initial_date.setHours(initial_date.getHours()+6);
+            //initial_date = initial_date.toLocaleDateString("es-MX");
     
     
             let finish_date = new Date(response.finish_us_date);
             console.log('f_date', finish_date);
-            finish_date.setHours(finish_date.getHours()+6);
-            finish_date = finish_date.toLocaleDateString("es-MX");
+            finish_date.setHours(finish_date.getHours()+23);
+            finish_date.setMinutes(finish_date.getMinutes(59));
+            //finish_date = finish_date.toLocaleDateString("es-MX");
 
 
             if(response.daily){
@@ -702,7 +717,7 @@ function checkActivePeriod(attr){
                 let today = new Date();
                 today = today.toLocaleDateString("es-MX");
 
-                if(form_date != today){
+                if(form_date_mx != today){
                     console.log('daily noup: ', today);
                     console.log('daily noup form da: ', form_date);
                     Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
@@ -714,6 +729,10 @@ function checkActivePeriod(attr){
 
             }
             else{
+
+                console.log('form_date: ', new Date(form_date));
+                console.log('finish_date: ', new Date(finish_date));
+                console.log('initial_date: ', new Date(initial_date));
                 if(form_date <= finish_date && form_date >= initial_date){
                     console.log('yes');
     

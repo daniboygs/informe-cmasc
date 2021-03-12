@@ -169,7 +169,7 @@ function loadDefaultValuesBySection(section){
                     case "date":
                         if(fields[field].default == "today"){
                             let today = new Date();
-                            //today.setHours(today.getHours()+6); 
+                            today.setHours(today.getHours()+6); 
                             console.log('tod', today);
                             document.getElementById(fields[field].id).valueAsDate = today;
                         }

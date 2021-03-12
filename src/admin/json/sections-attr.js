@@ -662,6 +662,20 @@ var sections = {
 				"default": 0,
 				"catalog": null,
 				"required": true
+			},
+			{
+				"id": "processing-folders-environment",
+				"name": "processing_folders_environment",
+				"type": "number",
+				"placeholder": "Ingresa Numero",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 0,
+				"catalog": null,
+				"required": true
 			}
 		],
 		"active": false,

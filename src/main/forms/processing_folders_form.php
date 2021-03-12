@@ -146,6 +146,14 @@
 
 		</div>
 
+		<div class="col-md-3 form-group">
+
+			<label style="font-weight:bold">Delitos Cometidos Contra el Medio Ambiente y la Fauna: *</label>
+
+			<input type="number" class="form-control" id="processing-folders-environment" min="0">	
+
+		</div>
+
 	</div>
 
 	<div class="form-buttons">		

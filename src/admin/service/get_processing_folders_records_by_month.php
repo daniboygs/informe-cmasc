@@ -80,6 +80,10 @@ $data = (object) array(
 		'db_column' => '[Litigacion]',
 		'search' => true
 	),
+	'processing_folders_environment' => (object) array(
+		'db_column' => '[MedioAmbiente]',
+		'search' => true
+	),
 	'user' => (object) array(
 		'db_column' => '[UsuarioID]',
 		'search' => false
@@ -243,6 +247,10 @@ function getRecord($attr){
 				'processing_folders_litigation' => array(
 					'name' => 'Litigacion',
 					'value' => $row['Litigacion']
+				),
+				'processing_folders_environment' => array(
+					'name' => 'Medio Ambiente',
+					'value' => $row['MedioAmbiente']
 				),
 				'processing_folders_user' => array(
 					'name' => 'Facilitador',
