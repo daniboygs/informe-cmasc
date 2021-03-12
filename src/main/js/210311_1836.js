@@ -170,8 +170,22 @@ function loadDefaultValuesBySection(section){
                         if(fields[field].default == "today"){
                             let today = new Date();
                             //today.setHours(today.getHours()+6); 
+                            //today = today.toLocaleDateString("es-MX");
                             console.log('tod', today);
-                            document.getElementById(fields[field].id).valueAsDate = today;
+                            //document.getElementById(fields[field].id).valueAsDate = today;
+
+                            var inp = document.getElementById(fields[field].id);
+
+                            //var midnightUtcDate = inp.valueAsDate;
+
+                            //inp.valueAsDate = new Date(midnightUtcDate.getUTCFullYear(), midnightUtcDate.getUTCMonth(), midnightUtcDate.getUTCDate());
+
+                            var date1 = new Date();
+date1 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()); // input expects requires year, month, day
+
+//var input = document.createElement("input"); input.type = "date";
+
+inp.valueAsDate = date1;
                         }
                         break;
                     default:
