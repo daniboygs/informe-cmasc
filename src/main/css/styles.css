@@ -81,3 +81,50 @@ table tr th{
 table tr td{
     cursor: auto;
 }
+
+.data-table{
+    background-color: white; 
+    width: 100%; 
+    overflow-x: auto;
+}
+
+.data-table tr th{
+    text-align: center; 
+    border: solid 1px #ccc; 
+    background-color: #152F4A; 
+    color: white; 
+    padding: 7px;
+}
+
+.data-table tr td{
+    text-align: center;
+    border: solid 1px #ccc;
+}
+
+.data-table .large-columns{
+    background-color: white; 
+    width: 100%; 
+    display: block; 
+    overflow-x: auto; 
+    white-space: nowrap;
+}
+
+.data-table tr .captured{
+    background-color: #1ABB9C;
+    color: white;
+}
+
+.data-table tr .pending{
+    background-color: #F8EA53;
+    color: #666666;
+    cursor: pointer !important;
+}
+
+.data-table tr .pending:hover{
+    padding: 10px;
+    text-align: center;
+    color: gray;
+    background-color: white;
+    cursor: pointer;
+    margin: 1px;
+}

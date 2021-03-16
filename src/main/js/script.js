@@ -651,8 +651,8 @@ function getRecordsByMonth(section){
             },
             cache:false
         }).done(function(response){
-            console.log(response);
-            test = response;
+            console.log('res de month:', JSON.stringify(response));
+            
             drawRecordsTable({
                 data: response,
                 file: 'templates/tables/'+section+'_table.php',
@@ -669,7 +669,7 @@ function drawRecordsTable(attr){
 		type: 'POST',
 		dataType: "html",
 		data: {
-			data: attr.data
+			data: JSON.stringify(attr.data)
 		},
 		cache: false
 	}).done(function(response){
@@ -1278,6 +1278,75 @@ function resetInegiSection(section){
 
     loadInegiDefaultValuesBySection(section);
 }
+
+
+function inegiStartCapture(nuc){
+
+    loadForm({
+        section: 'inegi',
+        success: {
+            functions: [
+                {
+                    function: activeSection,
+                    attr: 'inegi'
+                },
+                {
+                    function: changeInegiPanel,
+                    attr: 'general'
+                }
+            ] 
+        }
+    });
+
+    getInegiDataByNuc({
+        service_file: 'service/get_preloaded_data_by_nuc',
+        nuc: nuc
+    });
+
+    console.log(nuc);
+
+    alert(nuc);
+
+}
+
+function getInegiPreloadedDataByNuc(attr){
+    $.ajax({
+        url: attr.service_file,
+        type:'POST',
+        dataType: "json",
+        data: {
+            nuc: attr.nuc
+        },
+        cache:false
+    }).done(function(response){
+        console.log('res de month:', JSON.stringify(response));
+        
+        drawRecordsTable({
+            data: response,
+            file: 'templates/tables/'+section+'_table.php',
+            element_id: 'records-section'
+        });
+
+        loadInegiPreloadedData({
+            section: '',
+            data: response
+        });
+    });
+}
+
+function loadInegiPreloadedData(attr){
+
+    for(element in attr.data){
+        for(field in inegi.section[attr.section].fields){
+            if(field['name'] == element['name']){
+                document.getElementById(field['element_id']).value = element['value'];
+                break;
+            }
+        }
+    }
+    
+}
+
 
 /*
 
