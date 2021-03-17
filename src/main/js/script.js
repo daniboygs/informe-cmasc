@@ -831,6 +831,43 @@ function changeInegiPanel(section){
                             function: loadInegiDefaultValuesBySection,
                             attr: section
                         },
+                        {
+                            function: getInegiPreloadedDataBySection,
+                            attr: {
+                                service_file: 'inegi/service/get_inegi_preloaded_data_by_id.php',
+                                attr: {
+                                    general_id: inegi.current.general_id,
+                                    nuc: inegi.current.nuc
+                                },
+                                section: section,
+                                success: {
+                                    functions: [
+                                        {
+                                            function: loadInegiPreloadedData,
+                                            attr: {
+                                                section: section,
+                                                data: null
+                                            },
+                                            response: 'data'
+                                        },
+                                        {
+                                            function: loadDashboardAlert,
+                                            attr: {
+                                                template_file: 'templates/elements/dashboard_alert.php',
+                                                element_id: 'dashboard-alert-section',
+                                                element_attr: {
+                                                    attr: {
+                                                        type: 'warning',
+                                                        message: 'Atención!, Se ha precargado Información previamente capturada.'
+                                                    }
+                                                }
+                                            },
+                                            response: null
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     ]
                 }
             });
@@ -882,6 +919,7 @@ function resetInegi(attr){
     }
     inegi.current.nuc = null;
     inegi.current.general_id = null;
+    $('#dashboard-alert-section').html('');
 }
 
 function validateInegiSection(section){
@@ -921,8 +959,6 @@ function validateInegiSection(section){
 
 function spetialInegiValidationBySection(attr){
 
-
-    console.log('attttttttttttr', attr);
     switch(attr.section){
         case 'general':
             checkActivePeriod({
@@ -930,47 +966,53 @@ function spetialInegiValidationBySection(attr){
                 function: checkNuc,
                 attr: {
                     element_id: 'inegi-general-nuc',
-                    function: saveInegiSection,
+                    function: checkInegiNuc,
                     attr: {
-                        section: attr.section,
-                        data: attr.data,
+                        element_id: 'inegi-general-nuc',
                         success: {
-                            functions: [
-                                {
-                                    function: drawCompletedInegiSection,
-                                    attr: attr.section,
-                                    response: false
-                                },
-                                {
-                                    function: drawUncompletedInegiSections,
-                                    attr: null,
-                                    response: false
-                                },
-                                {
-                                    function: activeInegi,
-                                    attr: null,
-                                    response: false
-                                },
-                                {
-                                    function: setCurrentInegiId,
-                                    attr: null,
-                                    response: true
-                                },
-                                {
-                                    function: getInegiCurrentRecordBySectionAndID,
-                                    attr: null,
-                                    response: true 
-                                },
-                                {
-                                    function: getInegiRecordsByMonth,
-                                    attr: attr.section,
-                                    response: false
-                                },
-                                {
-                                    function: resetInegiSection,
-                                    attr: attr.section
+                            function: saveInegiSection,
+                            attr: {
+                                section: attr.section,
+                                data: attr.data,
+                                success: {
+                                    functions: [
+                                        {
+                                            function: drawCompletedInegiSection,
+                                            attr: attr.section,
+                                            response: false
+                                        },
+                                        {
+                                            function: drawUncompletedInegiSections,
+                                            attr: null,
+                                            response: false
+                                        },
+                                        {
+                                            function: activeInegi,
+                                            attr: null,
+                                            response: false
+                                        },
+                                        {
+                                            function: setCurrentInegiId,
+                                            attr: null,
+                                            response: true
+                                        },
+                                        {
+                                            function: getInegiCurrentRecordBySectionAndID,
+                                            attr: null,
+                                            response: true 
+                                        },
+                                        {
+                                            function: getInegiRecordsByMonth,
+                                            attr: attr.section,
+                                            response: false
+                                        },
+                                        {
+                                            function: resetInegiSection,
+                                            attr: attr.section
+                                        }
+                                    ]
                                 }
-                            ]
+                            }
                         }
                     }
                 }
@@ -1249,9 +1291,11 @@ function loadInegiDefaultValuesBySection(section){
 }
 
 function resetInegiSection(section){
+
     let fields = inegi.sections[section].fields;
 
     for(field in fields){
+
         if(document.getElementById(fields[field].id)){
 
             switch(fields[field].type){
@@ -1272,15 +1316,17 @@ function resetInegiSection(section){
                     break;
             }
 
-            
+            document.getElementById(fields[field].id).disabled = false;
         }
     }
-
     loadInegiDefaultValuesBySection(section);
+    $('#dashboard-alert-section').html('');
 }
 
 
 function inegiStartCapture(nuc){
+
+    inegi.current.nuc = nuc;
 
     loadForm({
         section: 'inegi',
@@ -1298,55 +1344,182 @@ function inegiStartCapture(nuc){
         }
     });
 
-    getInegiDataByNuc({
-        service_file: 'service/get_preloaded_data_by_nuc',
-        nuc: nuc
-    });
-
-    console.log(nuc);
-
-    alert(nuc);
-
 }
 
-function getInegiPreloadedDataByNuc(attr){
-    $.ajax({
-        url: attr.service_file,
-        type:'POST',
-        dataType: "json",
-        data: {
-            nuc: attr.nuc
-        },
-        cache:false
-    }).done(function(response){
-        console.log('res de month:', JSON.stringify(response));
-        
-        drawRecordsTable({
-            data: response,
-            file: 'templates/tables/'+section+'_table.php',
-            element_id: 'records-section'
-        });
+function getInegiPreloadedDataBySection(attr){
 
-        loadInegiPreloadedData({
-            section: '',
-            data: response
-        });
-    });
+    let service_file = null;
+
+    switch(attr.section){
+        case 'general':
+            service_file = 'service/inegi/get_inegi_general_preloaded_data_by_nuc.php'
+            break;
+        case 'masc':
+            service_file = 'service/inegi/get_inegi_masc_preloaded_data_by_nuc.php';
+            break;
+        default:
+            break;
+    }
+
+    if(service_file != null){
+        if(inegi.sections[attr.section].data == null){
+            $.ajax({
+                url: service_file,
+                type:'POST',
+                dataType: "json",
+                data: attr.attr,
+                cache:false
+            }).done(function(response){
+        
+                if(attr.success != null){
+                    for(func in attr.success.functions){
+                        if(attr.success.functions[func].response != null){
+                            attr.success.functions[func].attr[attr.success.functions[func].response] = response;
+                        }
+                        attr.success.functions[func].function(attr.success.functions[func].attr);
+                    }
+                }
+            });
+        }
+    }    
 }
 
 function loadInegiPreloadedData(attr){
 
     for(element in attr.data){
-        for(field in inegi.section[attr.section].fields){
-            if(field['name'] == element['name']){
-                document.getElementById(field['element_id']).value = element['value'];
-                break;
+
+        for(attrib in attr.data[element]){
+
+            for(field in inegi.sections[attr.section].fields){
+
+                if(inegi.sections[attr.section].fields[field].name == attrib){
+    
+                    if(document.getElementById(inegi.sections[attr.section].fields[field].id)){
+                        document.getElementById(inegi.sections[attr.section].fields[field].id).value = attr.data[element][attrib].value;
+                        document.getElementById(inegi.sections[attr.section].fields[field].id).disabled = true;
+                    }
+                    else{
+                        setValueOnLateLoad({
+                            id: inegi.sections[attr.section].fields[field].id,
+                            value: attr.data[element][attrib].value,
+                            type: inegi.sections[attr.section].fields[field].type,
+                            placeholder: inegi.sections[attr.section].fields[field].placeholder,
+                            counter: 1,
+                            iterations: 10,
+                            delay: 500,
+                            success: {
+                                functions: [
+                                    {
+                                        function: disableInput,
+                                        attr: {
+                                            id: inegi.sections[attr.section].fields[field].id
+                                        }
+                                    }
+                                ]
+                            }
+                        });
+                    }
+                    break;
+                }
             }
         }
     }
-    
 }
 
+function setValueOnLateLoad(attr){
+
+	if(attr.counter <= attr.iterations){
+		setTimeout(
+			function(){
+				if(document.getElementById(attr.id)){
+					if(attr.value == null){
+						attr.value = 0;
+					}
+					switch(attr.type){
+
+						default:
+
+							document.getElementById(attr.id).value = attr.value;
+					}
+
+                    if(attr.success != null){
+                        for(func in attr.success.functions){
+                            attr.success.functions[func].function(attr.success.functions[func].attr);
+                        }
+                    }
+
+				}
+				else{
+					attr.counter++;
+					setValueOnLateLoad(attr);
+				}
+			}, attr.delay
+		);
+	}
+}
+
+function disableInput(attr){
+    if(document.getElementById(attr.id)){
+        document.getElementById(attr.id).disabled = true;
+    }
+}
+
+function loadDashboardAlert(attr){
+	$.ajax({
+		url: attr.template_file,
+		type:'POST',
+		dataType: "html",
+		data: attr.element_attr,
+		cache:false
+	}).done(function(response){
+		$('#'+attr.element_id).html(response);
+	});
+}
+
+
+
+function checkInegiNuc(attr){
+
+    console.log('attr: ', attr);
+
+    if(document.getElementById(attr.element_id)){
+
+        if(document.getElementById(attr.element_id).value.length == 13){
+            
+            $.ajax({  
+                type: "POST",  
+                url: "service/inegi/check_inegi_nuc.php", 
+                dataType : 'json', 
+                data: {
+                    nuc: document.getElementById(attr.element_id).value
+                },
+            }).done(function(response){
+
+                if(response.state != "fail"){
+        
+                    if(response.data != null){
+
+                        Swal.fire('NUC Capturado previamente en INEGI', 'Verifique el NUC! o ingrese uno distinto', 'warning');
+
+                    }
+                    else{
+                        attr.success.function(attr.success.attr);
+                    }
+                }
+                else{
+                    Swal.fire('Oops...', 'Ha fallado la conexión!', 'error');
+                }
+                
+            }); 
+        }
+        else{
+            Swal.fire('NUC no valido', 'El NUC debe contar con 13 dígitos', 'warning');
+        }
+    }
+    else{
+    }
+
+}
 
 /*
 

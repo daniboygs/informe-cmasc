@@ -44,7 +44,12 @@
 
 			<h1 class="title"></h1>
 
-			<br>
+			<div id="dashboard-alert-section">
+				<!--<div class="alert alert-warning" role="alert">
+					<strong>Atención!</strong>, Se ha precargado Información previamente capturada.
+				</div>-->
+			</div>
+
 
 			<div id="content"></div>
 
