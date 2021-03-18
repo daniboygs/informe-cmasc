@@ -18,6 +18,18 @@ $data = (object) array(
 	'compliance' => (object) array(
 		'db_column' => '[Cumplimiento]',
 		'search' => true
+	),
+	'agreement_total' => (object) array(
+		'db_column' => '[TotalParcial]',
+		'search' => true
+	),
+	'agreement_amount' => (object) array(
+		'db_column' => '[MontoRecuperado]',
+		'search' => true
+	),
+	'agreement_amount_in_kind' => (object) array(
+		'db_column' => '[MontoEspecie]',
+		'search' => true
 	)
 );
 
@@ -80,6 +92,18 @@ function getRecord($attr){
 				'masc_compliance' => array(
 					'name' => 'Cumplimiento',
 					'value' => $row['Cumplimiento']
+				),
+				'masc_total' => array(
+					'name' => 'Total/Parcial',
+					'value' => $row['TotalParcial']
+				),
+				'masc_recovered_amount' => array(
+					'name' => 'Monto Recuperado',
+					'value' => $row['MontoRecuperado']
+				),
+				'masc_amount_property' => array(
+					'name' => 'MontoEspecie',
+					'value' => $row['MontoEspecie']
 				)
 			));
 			

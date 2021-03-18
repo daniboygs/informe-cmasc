@@ -2,31 +2,41 @@
     if(isset( $_POST['data']))
         $data = $_POST['data'];
     else
-        $data = null;
+        $data = 'null';
 ?>
 
-<table style="background-color: white; width: 100%; overflow-x: auto;">
+<table class="data-table">
     <tr>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">#</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">NUC</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fecha</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Delito</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Número de Atendidos</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Unidad</th>
-        <!--<th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Acción</th>-->
+        <th>#</th>
+        <th>NUC</th>
+        <th>Fecha</th>
+        <th>Delito</th>
+        <th>Número de Atendidos</th>
+        <th>Unidad</th>
+        <th>Estatus</th>
     </tr>
 <?php
-    if($data != null){
+    if($data != 'null'){
         $i=1;
-        foreach($data as $element){
+        foreach(json_decode($data, true) as $element){
+
+            if($element['victim']['value'] != null && $element['imputed']['value'] != null && $element['crime']['value'] != null && $element['masc']['value'] != null){
+                $inegi_status = 'captured';
+                $inegi_status_label = 'Completo';
+            }
+            else{
+                $inegi_status = 'incompleted';
+                $inegi_status_label = 'Incompleto';
+            }
 ?> 
     <tr>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $i; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['general_nuc']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['general_date']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['general_crime']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['general_attended']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['general_unity']['value']; ?></td>
+        <td><?php echo $i; ?></td>
+        <td><?php echo $element['general_nuc']['value']; ?></td>
+        <td><?php echo $element['general_date']['value']; ?></td>
+        <td><?php echo $element['general_crime']['value']; ?></td>
+        <td><?php echo $element['general_attended']['value']; ?></td>
+        <td><?php echo $element['general_unity']['value']; ?></td>
+        <td class="<?php echo $inegi_status; ?>"><?php echo $inegi_status_label; ?></td>
     </tr>
 <?php
             $i++;

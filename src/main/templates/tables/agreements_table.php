@@ -5,7 +5,7 @@
         $data = 'null';
 ?>
 
-<table class="data-table" class="data-table">
+<table class="data-table">
     <tr>
         <th>#</th>
         <th>NUC</th>

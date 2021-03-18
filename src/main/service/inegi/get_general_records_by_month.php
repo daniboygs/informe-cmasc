@@ -6,7 +6,29 @@ include("../common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[inegi].[General]';
+$db_table = '[inegi].[General] g
+LEFT JOIN (
+	select distinct 
+		sg.GeneralID 
+	from [inegi].[General] sg 
+	INNER JOIN [inegi].[Victima] sv 
+	on sg.GeneralID = sv.GeneralID 
+	where sg.[UsuarioID] = 2 AND MONTH(sg.Fecha) = 3 AND YEAR(sg.Fecha) = 2021
+) v 
+ON g.GeneralID = v.GeneralID
+LEFT JOIN (
+	select distinct 
+		sg.GeneralID 
+	from [inegi].[General] sg 
+	INNER JOIN [inegi].[Imputado] si 
+	on sg.GeneralID = si.GeneralID 
+	where sg.[UsuarioID] = 2 AND MONTH(sg.Fecha) = 3 AND YEAR(sg.Fecha) = 2021
+) i
+ON g.GeneralID = i.GeneralID
+LEFT JOIN [inegi].[Delito] d
+ON g.GeneralID = d.GeneralID
+LEFT JOIN [inegi].[MASC] m
+ON g.GeneralID = m.GeneralID';
 
 $month = $_POST['month'];
 $year = $_POST['year'];
@@ -30,6 +52,22 @@ $data = (object) array(
 	),
 	'general_attended' => (object) array(
 		'db_column' => '[Atendidos]',
+		'search' => true
+	),
+	'victim' => (object) array(
+		'db_column' => "v.GeneralID AS 'TVictima'",
+		'search' => true
+	),
+	'imputed' => (object) array(
+		'db_column' => "i.GeneralID AS 'TImputado'",
+		'search' => true
+	),
+	'crime' => (object) array(
+		'db_column' => "d.DelitoID AS 'TDelito'",
+		'search' => true
+	),
+	'masc' => (object) array(
+		'db_column' => "m.MASCID AS 'TMASC'",
 		'search' => true
 	),
 	'user' => (object) array(
@@ -90,7 +128,7 @@ function getRecord($attr){
 	$conditions = formSearchConditions($attr->sql_conditions);
 
 	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY Fecha";
-
+	
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 
 	$row_count = sqlsrv_num_rows( $result );
@@ -126,6 +164,22 @@ function getRecord($attr){
 				'general_attended' => array(
 					'name' => 'Atendidos',
 					'value' => $row['Atendidos']
+				),
+				'victim' => array(
+					'name' => 'Víctima',
+					'value' => $row['TVictima']
+				),
+				'imputed' => array(
+					'name' => 'Imputado',
+					'value' => $row['TImputado']
+				),
+				'crime' => array(
+					'name' => 'Delito',
+					'value' => $row['TDelito']
+				),
+				'masc' => array(
+					'name' => 'MASC',
+					'value' => $row['TMASC']
 				)
 			));
 			

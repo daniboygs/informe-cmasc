@@ -809,6 +809,12 @@ function changeInegiPanel(section){
                             }
                         },
                         {
+                            function: resetDashboardAlert,
+                            attr: {
+                                element_id: 'dashboard-alert-section'
+                            }
+                        },
+                        {
                             function: loadInegiCatalogsBySection,
                             attr: {
                                 section: section,
@@ -849,20 +855,6 @@ function changeInegiPanel(section){
                                                 data: null
                                             },
                                             response: 'data'
-                                        },
-                                        {
-                                            function: loadDashboardAlert,
-                                            attr: {
-                                                template_file: 'templates/elements/dashboard_alert.php',
-                                                element_id: 'dashboard-alert-section',
-                                                element_attr: {
-                                                    attr: {
-                                                        type: 'warning',
-                                                        message: 'Atención!, Se ha precargado Información previamente capturada.'
-                                                    }
-                                                }
-                                            },
-                                            response: null
                                         }
                                     ]
                                 }
@@ -906,6 +898,7 @@ function loadInegiForm(attr){
         for(func in attr.success.functions){
             attr.success.functions[func].function( attr.success.functions[func].attr);
         }
+        document.documentElement.scrollTop = 0;
 	});
 }
 
@@ -1386,6 +1379,8 @@ function getInegiPreloadedDataBySection(attr){
 
 function loadInegiPreloadedData(attr){
 
+    let loaded = false;
+
     for(element in attr.data){
 
         for(attrib in attr.data[element]){
@@ -1393,6 +1388,8 @@ function loadInegiPreloadedData(attr){
             for(field in inegi.sections[attr.section].fields){
 
                 if(inegi.sections[attr.section].fields[field].name == attrib){
+
+                    loaded = true;
     
                     if(document.getElementById(inegi.sections[attr.section].fields[field].id)){
                         document.getElementById(inegi.sections[attr.section].fields[field].id).value = attr.data[element][attrib].value;
@@ -1423,6 +1420,19 @@ function loadInegiPreloadedData(attr){
                 }
             }
         }
+    }
+
+    if(loaded){
+        loadDashboardAlert({
+            template_file: 'templates/elements/dashboard_alert.php',
+            element_id: 'dashboard-alert-section',
+            element_attr: {
+                attr: {
+                    type: 'warning',
+                    message: 'Atención!, Se ha precargado Información previamente capturada.'
+                }
+            } 
+        });
     }
 }
 
@@ -1474,6 +1484,12 @@ function loadDashboardAlert(attr){
 	}).done(function(response){
 		$('#'+attr.element_id).html(response);
 	});
+}
+
+function resetDashboardAlert(attr){
+    if(document.getElementById(attr.element_id)){
+        $('#'+attr.element_id).html('');
+    }
 }
 
 

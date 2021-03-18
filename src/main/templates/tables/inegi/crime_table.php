@@ -2,40 +2,39 @@
     if(isset( $_POST['data']))
         $data = $_POST['data'];
     else
-        $data = null;
+        $data = 'null';
 ?>
-<table style="background-color: white; width: 100%; overflow-x: auto;">
+<table class="data-table">
     <tr>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">#</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">NUC</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fecha</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Calificación</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Concurso</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Forma de Acción</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Comisión</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Violencia</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Modalidad</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Instrumento</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Justicia Alternativa</th>
-        <!--<th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Acción</th>-->
+        <th>#</th>
+        <th>NUC</th>
+        <th>Fecha</th>
+        <th>Calificación</th>
+        <th>Concurso</th>
+        <th>Forma de Acción</th>
+        <th>Comisión</th>
+        <th>Violencia</th>
+        <th>Modalidad</th>
+        <th>Instrumento</th>
+        <th>Justicia Alternativa</th>
     </tr>
 <?php
-    if($data != null){
+    if($data != 'null'){
         $i=1;
-        foreach($data as $element){
+        foreach(json_decode($data, true) as $element){
 ?> 
     <tr>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $i; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['nuc']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['date']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['crime_rate']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['crime_contest']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['crime_action']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['crime_commission']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['crime_violence']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['crime_modality']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['crime_instrument']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['crime_alternative_justice']['value']; ?></td>
+        <td><?php echo $i; ?></td>
+        <td><?php echo $element['nuc']['value']; ?></td>
+        <td><?php echo $element['date']['value']; ?></td>
+        <td><?php echo $element['crime_rate']['value']; ?></td>
+        <td><?php echo $element['crime_contest']['value']; ?></td>
+        <td><?php echo $element['crime_action']['value']; ?></td>
+        <td><?php echo $element['crime_commission']['value']; ?></td>
+        <td><?php echo $element['crime_violence']['value']; ?></td>
+        <td><?php echo $element['crime_modality']['value']; ?></td>
+        <td><?php echo $element['crime_instrument']['value']; ?></td>
+        <td><?php echo $element['crime_alternative_justice']['value']; ?></td>
     </tr>
 <?php
             $i++;

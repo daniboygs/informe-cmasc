@@ -2,37 +2,36 @@
     if(isset( $_POST['data']))
         $data = $_POST['data'];
     else
-        $data = null;
+        $data = 'null';
 ?>
 
-<table style="background-color: white; width: 100%; overflow-x: auto;">
+<table class="data-table">
     <tr>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">#</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">NUC</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fecha</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Sexo</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Edad</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Escolaridad</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Ocupación</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Solicitante/Requerido</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Tipo</th>
-        <!--<th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Acción</th>-->
+        <th>#</th>
+        <th>NUC</th>
+        <th>Fecha</th>
+        <th>Sexo</th>
+        <th>Edad</th>
+        <th>Escolaridad</th>
+        <th>Ocupación</th>
+        <th>Solicitante/Requerido</th>
+        <th>Tipo</th>
     </tr>
 <?php
-    if($data != null){
+    if($data != 'null'){
         $i=1;
-        foreach($data as $element){
+        foreach(json_decode($data, true) as $element){
 ?> 
     <tr>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $i; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['nuc']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['date']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['imputed_gener']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['imputed_age']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['imputed_scholarship']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['imputed_ocupation']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['imputed_applicant']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['imputed_type']['value']; ?></td>
+        <td><?php echo $i; ?></td>
+        <td><?php echo $element['nuc']['value']; ?></td>
+        <td><?php echo $element['date']['value']; ?></td>
+        <td><?php echo $element['imputed_gener']['value']; ?></td>
+        <td><?php echo $element['imputed_age']['value']; ?></td>
+        <td><?php echo $element['imputed_scholarship']['value']; ?></td>
+        <td><?php echo $element['imputed_ocupation']['value']; ?></td>
+        <td><?php echo $element['imputed_applicant']['value']; ?></td>
+        <td><?php echo $element['imputed_type']['value']; ?></td>
     </tr>
 <?php
             $i++;

@@ -128,3 +128,8 @@ table tr td{
     cursor: pointer;
     margin: 1px;
 }
+
+.data-table tr .incompleted{
+    background-color: #F75151;
+    color: white;
+}
