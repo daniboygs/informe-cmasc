@@ -2,7 +2,7 @@
     if(isset( $_POST['data']))
         $data = $_POST['data'];
     else
-        $data = null;
+        $data = 'null';
 ?>
 <div class="form-buttons" style="float: left !important; margin-bottom: 20px;">		
 
@@ -23,9 +23,9 @@
         <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Acción</th>
     </tr>
 <?php
-    if($data != null){
+    if($data != 'null'){
         $i=1;
-        foreach($data as $element){
+        foreach(json_decode($data, true) as $element){
 ?> 
     <tr>
         <td style="text-align: center; border: solid 1px #ccc;"><?php echo $i; ?></td>

@@ -451,7 +451,7 @@ function drawRecordsTable(attr){
 		type: 'POST',
 		dataType: "html",
 		data: {
-			data: attr.data
+			data: JSON.stringify(attr.data)
 		},
 		cache: false
 	}).done(function(response){
