@@ -20,9 +20,15 @@
         $i=1;
         foreach(json_decode($data, true) as $element){
 
-            if($element['victim']['value'] != null && $element['imputed']['value'] != null && $element['crime']['value'] != null && $element['masc']['value'] != null){
-                $inegi_status = 'captured';
-                $inegi_status_label = 'Completo';
+            if(isset( $element['victim']['value'])){
+                if($element['victim']['value'] != null && $element['imputed']['value'] != null && $element['crime']['value'] != null && $element['masc']['value'] != null){
+                    $inegi_status = 'captured';
+                    $inegi_status_label = 'Completo';
+                }
+                else{
+                    $inegi_status = 'incompleted';
+                    $inegi_status_label = 'Incompleto';
+                }
             }
             else{
                 $inegi_status = 'incompleted';

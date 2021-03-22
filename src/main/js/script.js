@@ -53,6 +53,12 @@ function preloadValidation(attr){
                 success: {
                     functions: [
                         {
+                            function: getInegiPendingAgreementsByMonth,
+                            attr: {
+                                section_id: 'inegi-pending-section'
+                            }
+                        },
+                        {
                             function: activeSection,
                             attr: attr.section
                         },
@@ -354,10 +360,14 @@ function spetialValidationBySection(attr){
                 function: checkNuc,
                 attr: {
                     element_id: 'agreement-nuc',
-                    function: saveSection,
+                    function: checkExistantRecievedFolder,
                     attr: {
-                        section: attr.section,
-                        data: attr.data
+                        element_id: 'agreement-nuc',
+                        function: saveSection,
+                        attr: {
+                            section: attr.section,
+                            data: attr.data
+                        }
                     }
                 }
             });
@@ -410,10 +420,14 @@ function spetialValidationBySection(attr){
                 function: checkNuc,
                 attr: {
                     element_id: 'recieved-folders-nuc',
-                    function: saveSection,
+                    function: checkDuplicatedRecievedFolder,
                     attr: {
-                        section: attr.section,
-                        data: attr.data
+                        element_id: 'recieved-folders-nuc',
+                        function: saveSection,
+                        attr: {
+                            section: attr.section,
+                            data: attr.data
+                        }
                     }
                 }
             });
@@ -502,6 +516,84 @@ function validateNumber(evt) {
     if(theEvent.preventDefault) 
         theEvent.preventDefault();
 	}
+}
+
+function checkDuplicatedRecievedFolder(attr){
+
+    if(document.getElementById(attr.element_id)){
+
+        if(document.getElementById(attr.element_id).value.length == 13){
+            
+            $.ajax({  
+                type: "POST",  
+                url: "service/check_recieved_folder.php", 
+                dataType : 'json', 
+                data: {
+                    nuc: document.getElementById(attr.element_id).value
+                },
+            }).done(function(response){
+
+                if(response.state != "fail"){
+
+                    if(response.data != null){
+                        Swal.fire('NUC registrado!', 'El NUC que intenta capturar ya se encuentra registrado', 'warning');
+                    }
+                    else{
+                        attr.function(attr.attr);
+                    }
+                }
+                else{
+                    Swal.fire('Oops...', 'Ha fallado la conexión!', 'error');
+                }
+                
+            }); 
+        }
+        else{
+            Swal.fire('NUC no valido', 'El NUC debe contar con 13 dígitos', 'warning');
+        }
+    }
+    else{
+        Swal.fire('Oops...', 'Ha ocurrido un error, intentelo de nuevo!', 'error');
+    }
+}
+
+function checkExistantRecievedFolder(attr){
+
+    if(document.getElementById(attr.element_id)){
+
+        if(document.getElementById(attr.element_id).value.length == 13){
+            
+            $.ajax({  
+                type: "POST",  
+                url: "service/check_recieved_folder.php", 
+                dataType : 'json', 
+                data: {
+                    nuc: document.getElementById(attr.element_id).value
+                },
+            }).done(function(response){
+
+                if(response.state != "fail"){
+
+                    if(response.data != null){
+                        attr.function(attr.attr);
+                    }
+                    else{
+                        Swal.fire('NUC no registrado en carpetas ingresadas!', 'Verifique que el NUC ya haya sido capturado en carpetas recibidas', 'warning');
+                    }
+                }
+                else{
+                    Swal.fire('Oops...', 'Ha fallado la conexión!', 'error');
+                }
+                
+            }); 
+        }
+        else{
+            Swal.fire('NUC no valido', 'El NUC debe contar con 13 dígitos', 'warning');
+        }
+    }
+    else{
+        Swal.fire('Oops...', 'Ha ocurrido un error, intentelo de nuevo!', 'error');
+    }
 }
 
 function checkNuc(attr){
@@ -663,18 +755,31 @@ function getRecordsByMonth(section){
 }
 
 function drawRecordsTable(attr){
-	console.log('draw_t');
-	$.ajax({
-		url: attr.file,
-		type: 'POST',
-		dataType: "html",
-		data: {
-			data: JSON.stringify(attr.data)
-		},
-		cache: false
-	}).done(function(response){
-		$('#'+attr.element_id).html(response);
-	});
+    if(attr.data != null){
+        $.ajax({
+            url: attr.file,
+            type: 'POST',
+            dataType: "html",
+            data: {
+                data: JSON.stringify(attr.data)
+            },
+            cache: false
+        }).done(function(response){
+            $('#'+attr.element_id).html(response);
+        });
+    }
+    else{
+        loadDashboardAlert({
+            template_file: 'templates/elements/dashboard_alert.php',
+            element_id: attr.element_id,
+            element_attr: {
+                attr: {
+                    type: 'secondary',
+                    message: 'No hay registros!'
+                }
+            } 
+        });
+    }
 }
 
 function checkActivePeriod(attr){
@@ -893,7 +998,7 @@ function loadInegiForm(attr){
 		processData:false,
 		cache:false
 	}).done(function(response){
-		$("#inegi-capture-section").html(response);
+		$("#inegi-form-section").html(response);
 		//attr.success.function(attr.success.attr);
         for(func in attr.success.functions){
             attr.success.functions[func].function( attr.success.functions[func].attr);
@@ -1213,6 +1318,7 @@ function getInegiRecordsByMonth(section){
         }).done(function(response){
             console.log(response);
             test = response;
+
             drawRecordsTable({
                 data: response,
                 file: 'templates/tables/inegi/'+section+'_table.php',
@@ -1245,6 +1351,7 @@ function getInegiCurrentRecordBySectionAndID(attr){
             }).done(function(response){
                 console.log(response);
                 test2 = response;
+
                 drawRecordsTable({
                     data: response,
                     file: 'templates/tables/inegi/'+attr.section+'_table.php',
@@ -1319,23 +1426,18 @@ function resetInegiSection(section){
 
 function inegiStartCapture(nuc){
 
+    resetInegi(null);
+
     inegi.current.nuc = nuc;
 
-    loadForm({
-        section: 'inegi',
-        success: {
-            functions: [
-                {
-                    function: activeSection,
-                    attr: 'inegi'
-                },
-                {
-                    function: changeInegiPanel,
-                    attr: 'general'
-                }
-            ] 
-        }
-    });
+    console.log('jalas o noo');
+    
+
+    document.getElementById('inegi-capture-section').style.display = 'block';
+
+    document.getElementById('inegi-pending-section').style.display = 'none';
+
+    changeInegiPanel('general');
 
 }
 
@@ -1535,6 +1637,67 @@ function checkInegiNuc(attr){
     else{
     }
 
+}
+
+function getInegiPendingAgreementsByMonth(attr){
+
+    let date = new Date();
+    date.setHours(date.getHours()+6); 
+
+    $('#'+attr.section_id).html('<div style="color: #EE6E5A;">Cargando datos... </div>');
+
+    $.ajax({
+        url:'service/inegi/get_pending_agreements_by_month.php',
+        type:'POST',
+        dataType: "json",
+        data: {
+            month: (date.getMonth()+1),
+            year: date.getFullYear()
+        },
+        cache:false
+    }).done(function(response){
+        drawRecordsTable({
+            data: response,
+            file: 'templates/tables/inegi/pending_agreements_table.php',
+            element_id: attr.section_id
+        });
+        
+    });
+
+}
+
+function resetInegiCapture(){
+
+    if(inegi.current.general_id == null){
+        document.getElementById('inegi-capture-section').style.display = 'none';
+
+        document.getElementById('inegi-pending-section').style.display = 'block';
+        $('#dashboard-alert-section').html('');
+
+        resetInegi(null);
+    }
+    else{
+        Swal.fire({
+            title: 'Estas seguro?',
+            text: 'No será posible seguir capturando la información de la carpeta si quieres capturar una nueva!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No'
+          }).then((result) => {
+            document.getElementById('inegi-capture-section').style.display = 'none';
+
+            document.getElementById('inegi-pending-section').style.display = 'block';
+            $('#dashboard-alert-section').html('');
+
+            resetInegi(null);
+          });
+    }
+
+
+
+
+    
 }
 
 /*

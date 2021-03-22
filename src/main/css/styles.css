@@ -57,7 +57,15 @@
     float: left;
 }
 
+#inegi-capture-section, #inegi-pending-section{
+    width: 100%;
+}
+
 #inegi-capture-section{
+    display: none;
+}
+
+#inegi-form-section{
     width: 80%;
     float: right;
     padding: 10px;
@@ -71,7 +79,7 @@
 }
 
 #inegi-current-record-section table tbody tr td{
-    background-color: aquamarine;
+    /*background-color: aquamarine;*/
 }
 
 table tr th{
@@ -130,6 +138,22 @@ table tr td{
 }
 
 .data-table tr .incompleted{
-    background-color: #F75151;
+    background-color: #F75151 !important;
+    color: white !important;
+}
+
+#pending-agreements-table{
+    height: 300px;
+    overflow: scroll;
+    display: block;
+}
+
+#pending-agreements-table tbody .data-table-row td{
+    cursor: pointer !important;
+}
+
+#pending-agreements-table .data-table-row:hover{
+    cursor: pointer;
+    background-color: #7C8B9E;
     color: white;
 }
