@@ -6,7 +6,7 @@ include("common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[AcuerdosCelebrados] ac LEFT JOIN inegi.General g ON ac.NUC = g.NUC';
+$db_table = '[dbo].[AcuerdosCelebrados]';
 
 $month = $_POST['month'];
 $year = $_POST['year'];
@@ -25,7 +25,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'agreement_date' => (object) array(
-		'db_column' => 'ac.[Fecha]',
+		'db_column' => '[Fecha]',
 		'search' => true
 	),
 	'agreement_intervention' => (object) array(
@@ -37,7 +37,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'agreement_nuc' => (object) array(
-		'db_column' => 'ac.[NUC]',
+		'db_column' => '[NUC]',
 		'search' => true
 	),
 	'agreement_total' => (object) array(
@@ -45,7 +45,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'agreement_unity' => (object) array(
-		'db_column' => 'ac.[Unidad]',
+		'db_column' => '[Unidad]',
 		'search' => true
 	),
 	'agreement_amount_in_kind' => (object) array(
@@ -53,28 +53,24 @@ $data = (object) array(
 		'search' => true
 	),
 	'user' => (object) array(
-		'db_column' => 'ac.[UsuarioID]',
+		'db_column' => '[UsuarioID]',
 		'search' => false
-	),
-	'agreement_inegi_status' => (object) array(
-		'db_column' => "CASE isnull(g.GeneralID, 0) WHEN 0 THEN 'Pendiente' ELSE 'Capturado' END AS 'InegiEstatus'",
-		'search' => true
-	),
+	)
 );
 
 $sql_conditions = (object) array(
 	'user' => (object) array(
-		'db_column' => 'ac.[UsuarioID]',
+		'db_column' => '[UsuarioID]',
 		'condition' => '=', 
 		'value' => ''
 	),
 	'month' => (object) array(
-		'db_column' => 'MONTH(ac.Fecha)',
+		'db_column' => 'MONTH(Fecha)',
 		'condition' => '=', 
 		'value' => $month
 	),
 	'year' => (object) array(
-		'db_column' => 'YEAR(ac.Fecha)',
+		'db_column' => 'YEAR(Fecha)',
 		'condition' => '=', 
 		'value' => $year
 	)
@@ -113,7 +109,7 @@ function getRecord($attr){
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
-	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY ac.Fecha";
+	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY Fecha";
 
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 
@@ -161,7 +157,7 @@ function getRecord($attr){
 				),
 				'agreement_amount' => array(
 					'name' => 'Monto Recuperado',
-					'value' => $row['MontoRecuperado']
+					'value' => '$'.$row['MontoRecuperado']
 				),
 				'agreement_unity' => array(
 					'name' => 'Unidad',
@@ -170,10 +166,6 @@ function getRecord($attr){
 				'agreement_amount_in_kind' => array(
 					'name' => 'MontoEspecie',
 					'value' => $row['MontoEspecie']
-				),
-				'agreement_inegi_status' => array(
-					'name' => 'Estatus Inegi',
-					'value' => $row['InegiEstatus']
 				)
 			));
 			

@@ -7,7 +7,7 @@ $(document).ready(function(){
             attr: {
                 success: {
                     function: loadSection,
-                    attr: 'agreements'
+                    attr: 'recieved_folders'
                 },
                 failed: {
                     function: redirectTo,
@@ -25,7 +25,7 @@ $(document).ready(function(){
 
     
 
-    getRecordsByMonth('agreements');
+    getRecordsByMonth('recieved_folders');
 
     //loadSection('agreements');
 
@@ -318,6 +318,10 @@ inp.valueAsDate = date1;
 
 function validateSection(section){
 
+    setLoader({
+        add: true
+    });
+
     let fields = sections[section].fields;
     let data = {};
     let compleated = true;
@@ -347,6 +351,10 @@ function validateSection(section){
     }
     else{
         //alert('No has completado la sección');
+        setLoader({
+            add: false
+        });
+
         Swal.fire('Campos faltantes', 'Tiene que completar los campos faltantes', 'warning');
     }
 }
@@ -457,6 +465,7 @@ function spetialValidationBySection(attr){
 }
 
 function saveSection(attr){
+
     $.ajax({
 		url: 'service/'+sections[attr.section].create_file,
         type: 'POST',
@@ -466,6 +475,10 @@ function saveSection(attr){
 		},
 		cache: false
 	}).done(function(response){
+
+        console.log('si wasd');
+
+
         if(response.state == 'success'){
             
             Swal.fire('Correcto', 'Datos guardados correctamente', 'success');
@@ -483,7 +496,20 @@ function saveSection(attr){
             console.log('not chido', response);
             console.log('chido no lo', response.state);
         }
-	});
+
+        setLoader({
+            add: false
+        });
+
+	}).fail(function (jqXHR, textStatus) {
+        Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de nofificar a DPE.', 'error');
+
+        setLoader({
+            add: false
+        });
+    });
+
+    
 }
 
 function resetSection(section){
@@ -536,6 +562,10 @@ function checkDuplicatedRecievedFolder(attr){
                 if(response.state != "fail"){
 
                     if(response.data != null){
+                        setLoader({
+                            add: false
+                        });
+
                         Swal.fire('NUC registrado!', 'El NUC que intenta capturar ya se encuentra registrado', 'warning');
                     }
                     else{
@@ -543,16 +573,28 @@ function checkDuplicatedRecievedFolder(attr){
                     }
                 }
                 else{
+                    setLoader({
+                        add: false
+                    });
+
                     Swal.fire('Oops...', 'Ha fallado la conexión!', 'error');
                 }
                 
             }); 
         }
         else{
+            setLoader({
+                add: false
+            });
+
             Swal.fire('NUC no valido', 'El NUC debe contar con 13 dígitos', 'warning');
         }
     }
     else{
+        setLoader({
+            add: false
+        });
+
         Swal.fire('Oops...', 'Ha ocurrido un error, intentelo de nuevo!', 'error');
     }
 }
@@ -578,20 +620,36 @@ function checkExistantRecievedFolder(attr){
                         attr.function(attr.attr);
                     }
                     else{
-                        Swal.fire('NUC no registrado en carpetas ingresadas!', 'Verifique que el NUC ya haya sido capturado en carpetas recibidas', 'warning');
+                        setLoader({
+                            add: false
+                        });
+
+                        Swal.fire('NUC no registrado en carpetas recibidas!', 'Verifique que el NUC ya haya sido capturado en carpetas recibidas', 'warning');
                     }
                 }
                 else{
+                    setLoader({
+                        add: false
+                    });
+
                     Swal.fire('Oops...', 'Ha fallado la conexión!', 'error');
                 }
                 
             }); 
         }
         else{
+            setLoader({
+                add: false
+            });
+
             Swal.fire('NUC no valido', 'El NUC debe contar con 13 dígitos', 'warning');
         }
     }
     else{
+        setLoader({
+            add: false
+        });
+
         Swal.fire('Oops...', 'Ha ocurrido un error, intentelo de nuevo!', 'error');
     }
 }
@@ -631,16 +689,28 @@ function checkNuc(attr){
                         //Swal.fire('NUC verificado', 'NUC registrado con el delito de: '+response.data.crime, 'success');
                     }
                     else{
+                        setLoader({
+                            add: false
+                        });
+                        
                         Swal.fire('NUC no encontrado', 'Verifique el NUC!', 'warning');
                     }
                 }
                 else{
+                    setLoader({
+                        add: false
+                    });
+
                     Swal.fire('Oops...', 'Ha fallado la conexión!', 'error');
                 }
                 
             }); 
         }
         else{
+            setLoader({
+                add: false
+            });
+
             Swal.fire('NUC no valido', 'El NUC debe contar con 13 dígitos', 'warning');
         }
     }
@@ -825,6 +895,11 @@ function checkActivePeriod(attr){
                 if(form_date_mx != today){
                     console.log('daily noup: ', today);
                     console.log('daily noup form da: ', form_date);
+
+                    setLoader({
+                        add: false
+                    });
+
                     Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
                 }
                 else{
@@ -847,6 +922,9 @@ function checkActivePeriod(attr){
                 }
                 else{
                     console.log('noup');
+                    setLoader({
+                        add: false
+                    });
     
                     Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
                 }
@@ -1693,11 +1771,15 @@ function resetInegiCapture(){
             resetInegi(null);
           });
     }
+}
 
-
-
-
-    
+function setLoader(attr){
+    if(attr.add){
+        $('#loader-div').addClass('loader');
+    }
+    else{
+        $('#loader-div').removeClass('loader');
+    }
 }
 
 /*

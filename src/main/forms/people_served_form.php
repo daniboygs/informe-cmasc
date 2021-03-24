@@ -52,8 +52,8 @@
 
 	<div class="form-buttons">		
 				
-		<button type="button" class="btn btn-dark" style="height:38px; width: 100px;"  onclick="resetSection('people_served')">Nuevo</button>	
-		<button type="button" class="btn btn-success" style="height:38px; width: 100px;"  onclick="validateSection('people_served')">Guardar</button>	
+		<button type="button" class="btn btn-outline-dark" style="height:38px; width: 100px;"  onclick="resetSection('people_served')">Nuevo</button>	
+		<button type="button" class="btn btn-outline-primary" style="height:38px; width: 100px;"  onclick="validateSection('people_served')">Guardar</button>	
  
 	</div>
 

@@ -7,13 +7,13 @@ session_start();
                 'recieved_folders' => array(
                     'id' => 'recieved-folders-nav-div',
                     'name' => 'recieved_folders',
-                    'class' => '',
+                    'class' => 'active',
                     'label' => 'CARPETAS RECIBIDAS'
                 ),
                 'agreements' => array(
                     'id' => 'agreements-nav-div',
                     'name' => 'agreements',
-                    'class' => 'active',
+                    'class' => '',
                     'label' => 'ACUERDOS CELEBRADOS'
                 ),
                 'people_served' => array(
@@ -59,13 +59,13 @@ session_start();
                 'recieved_folders' => array(
                     'id' => 'recieved-folders-nav-div',
                     'name' => 'recieved_folders',
-                    'class' => '',
+                    'class' => 'active',
                     'label' => 'CARPETAS RECIBIDAS'
                 ),
                 'agreements' => array(
                     'id' => 'agreements-nav-div',
                     'name' => 'agreements',
-                    'class' => 'active',
+                    'class' => '',
                     'label' => 'ACUERDOS CELEBRADOS'
                 ),
                 'people_served' => array(
@@ -105,13 +105,13 @@ session_start();
                 'recieved_folders' => array(
                     'id' => 'recieved-folders-nav-div',
                     'name' => 'recieved_folders',
-                    'class' => '',
+                    'class' => 'active',
                     'label' => 'CARPETAS RECIBIDAS'
                 ),
                 'agreements' => array(
                     'id' => 'agreements-nav-div',
                     'name' => 'agreements',
-                    'class' => 'active',
+                    'class' => '',
                     'label' => 'ACUERDOS CELEBRADOS'
                 ),
                 'people_served' => array(

@@ -28,6 +28,8 @@
 	</head>
 	<body>
 
+		<div id="loader-div"></div>
+
 		<div class="topnav">
 			<div class="home">CMASC</div>
 			<div class=""><?php session_start(); echo $_SESSION['user_data']['name'].' '.$_SESSION['user_data']['paternal_surname'].' '.$_SESSION['user_data']['maternal_surname'] ?></div>
@@ -36,9 +38,7 @@
 
 		<div id="frame">
 
-			<div class="framebar" id="framebar">
-				
-			</div>
+			<div class="framebar" id="framebar"></div>
 
 			<br>
 

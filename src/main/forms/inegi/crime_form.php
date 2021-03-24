@@ -120,8 +120,7 @@
 
 	<div class="form-buttons">		
 				
-		<button type="button" class="btn btn-dark" style="height:38px; width: 100px;"  onclick="resetInegiCapture(null)">Nuevo</button>	
-		<button type="button" class="btn btn-success" style="height:38px; width: 100px;"  onclick="validateInegiSection('crime')">Guardar</button>	
+		<button type="button" class="btn btn-outline-primary" style="height:38px; width: 100px;"  onclick="validateInegiSection('crime')">Guardar</button>	
  
 	</div>
 

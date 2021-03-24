@@ -158,8 +158,8 @@
 
 	<div class="form-buttons">		
 				
-		<button type="button" class="btn btn-dark" style="height:38px; width: 100px;"  onclick="resetSection('processing_folders')">Nuevo</button>	
-		<button type="button" class="btn btn-success" style="height:38px; width: 100px;"  onclick="validateSection('processing_folders')">Guardar</button>	
+		<button type="button" class="btn btn-outline-dark" style="height:38px; width: 100px;"  onclick="resetSection('processing_folders')">Nuevo</button>	
+		<button type="button" class="btn btn-outline-primary" style="height:38px; width: 100px;"  onclick="validateSection('processing_folders')">Guardar</button>	
  
 	</div>
 
