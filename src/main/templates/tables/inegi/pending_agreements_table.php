@@ -9,7 +9,8 @@
     <tr>
         <th>#</th>
         <th>NUC</th>
-        <th>Fecha</th>
+        <th>Fecha Recibida</th>
+        <th>Fecha Acuerdo</th>
         <th>Delito</th>
         <th>Intervinientes</th>
         <th>Cumplimiento</th>
@@ -27,13 +28,14 @@
     <tr class="data-table-row" onclick="inegiStartCapture('<?php echo $element['agreement_nuc']['value']; ?>')">
         <td><?php echo $i; ?></td>
         <td><?php echo $element['agreement_nuc']['value']; ?></td>
+        <td><?php echo $element['recieved_date']['value']; ?></td>
         <td><?php echo $element['agreement_date']['value']; ?></td>
         <td><?php echo $element['agreement_crime']['value']; ?></td>
         <td><?php echo $element['agreement_intervention']['value']; ?></td>
         <td><?php echo $element['agreement_compliance']['value']; ?></td>
         <td><?php echo $element['agreement_total']['value']; ?></td>
         <td><?php echo $element['agreement_mechanism']['value']; ?></td>
-        <td>$<?php echo $element['agreement_amount']['value']; ?></td>
+        <td><?php echo $element['agreement_amount']['value']; ?></td>
         <td><?php echo $element['agreement_amount_in_kind']['value']; ?></td>
         <td><?php echo $element['agreement_unity']['value']; ?></td>
     </tr>

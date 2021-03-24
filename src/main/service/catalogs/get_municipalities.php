@@ -4,12 +4,12 @@ include("../../../../service/connection.php");
 
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
-$conn = $connections['sicap']['conn'];
-$db_table = '[dbo].[CatMunicipios]';
+$conn = $connections['cmasc']['conn'];
+$db_table = '[cat].[Municipio]';
 
 $elements = array();
 
-$sql = "SELECT [CatMunicipiosID] AS 'id'
+$sql = "SELECT [MunicipioID] AS 'id'
 			,[Nombre]
 		FROM $db_table";
 

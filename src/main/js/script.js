@@ -6,8 +6,12 @@ $(document).ready(function(){
             function: checkPermissions,
             attr: {
                 success: {
-                    function: loadSection,
-                    attr: 'recieved_folders'
+                    functions: [
+                        {
+                            function: loadSection,
+                            attr: 'entered_folders'
+                        }
+                    ]
                 },
                 failed: {
                     function: redirectTo,
@@ -23,14 +27,6 @@ $(document).ready(function(){
         location: '../../service/check_session.php'
     });
 
-    
-
-    getRecordsByMonth('recieved_folders');
-
-    //loadSection('agreements');
-
-    
-	
 });
 
 var test = "";
@@ -248,12 +244,14 @@ function checkPermissions(attr){
 	}).done(function(response){
 
         if(response.state == 'success'){
-            if(attr.success.function != null)
-                attr.success.function(attr.success.attr);
 
             loadFramebar({
                 data: response.permissions.framebar
             });
+
+            for(func in attr.success.functions){
+                attr.success.functions[func].function(attr.success.functions[func].attr);
+            }
             
         }
         else{
@@ -269,12 +267,26 @@ function activeSection(section){
     for(element in sections){
         console.log(sections[element]);
         sections[element].active = false;
-        $('#'+sections[element].navigation_element_id).removeClass('active');
+        addRemoveClassOnLateload({
+            id: sections[element].navigation_element_id,
+            class: 'active',
+            add: false,
+            counter: 1,
+            iterations: 10,
+            delay: 500
+        });
     }
 
     sections[section].active = true;
-    $('#'+sections[section].navigation_element_id).addClass('active');
 
+    addRemoveClassOnLateload({
+        id: sections[section].navigation_element_id,
+        class: 'active',
+        add: true,
+        counter: 1,
+        iterations: 10,
+        delay: 500
+    });
 }
 
 function loadDefaultValuesBySection(section){
@@ -386,10 +398,14 @@ function spetialValidationBySection(attr){
                 function: checkNuc,
                 attr: {
                     element_id: 'folders-to-investigation-nuc',
-                    function: saveSection,
+                    function: checkExistantRecievedFolder,
                     attr: {
-                        section: attr.section,
-                        data: attr.data
+                        element_id: 'folders-to-investigation-nuc',
+                        function: saveSection,
+                        attr: {
+                            section: attr.section,
+                            data: attr.data
+                        }
                     }
                 }
             });
@@ -400,10 +416,14 @@ function spetialValidationBySection(attr){
                 function: checkNuc,
                 attr: {
                     element_id: 'folders-to-validation-nuc',
-                    function: saveSection,
+                    function: checkExistantAgreement,
                     attr: {
-                        section: attr.section,
-                        data: attr.data
+                        element_id: 'folders-to-validation-nuc',
+                        function: saveSection,
+                        attr: {
+                            section: attr.section,
+                            data: attr.data
+                        }
                     }
                 }
             });
@@ -428,7 +448,7 @@ function spetialValidationBySection(attr){
                 function: checkNuc,
                 attr: {
                     element_id: 'recieved-folders-nuc',
-                    function: checkDuplicatedRecievedFolder,
+                    function: checkExistantEnteredFolder,
                     attr: {
                         element_id: 'recieved-folders-nuc',
                         function: saveSection,
@@ -624,7 +644,117 @@ function checkExistantRecievedFolder(attr){
                             add: false
                         });
 
-                        Swal.fire('NUC no registrado en carpetas recibidas!', 'Verifique que el NUC ya haya sido capturado en carpetas recibidas', 'warning');
+                        Swal.fire('NUC no registrado en CARPETAS RECIBIDAS!', 'Verifique que el NUC ya haya sido capturado en CARPETAS RECIBIDAS para continuar', 'warning');
+                    }
+                }
+                else{
+                    setLoader({
+                        add: false
+                    });
+
+                    Swal.fire('Oops...', 'Ha fallado la conexión!', 'error');
+                }
+                
+            }); 
+        }
+        else{
+            setLoader({
+                add: false
+            });
+
+            Swal.fire('NUC no valido', 'El NUC debe contar con 13 dígitos', 'warning');
+        }
+    }
+    else{
+        setLoader({
+            add: false
+        });
+
+        Swal.fire('Oops...', 'Ha ocurrido un error, intentelo de nuevo!', 'error');
+    }
+}
+
+function checkExistantEnteredFolder(attr){
+
+    if(document.getElementById(attr.element_id)){
+
+        if(document.getElementById(attr.element_id).value.length == 13){
+            
+            $.ajax({  
+                type: "POST",  
+                url: "service/check_entered_folder.php", 
+                dataType : 'json', 
+                data: {
+                    nuc: document.getElementById(attr.element_id).value
+                },
+            }).done(function(response){
+
+                if(response.state != "fail"){
+
+                    if(response.data != null){
+                        attr.function(attr.attr);
+                    }
+                    else{
+                        setLoader({
+                            add: false
+                        });
+
+                        Swal.fire('NUC no registrado en CARPETAS INGRESADAS!', 'Verifique que el NUC ya haya sido capturado en CARPETAS INGRESADAS para continuar', 'warning');
+                    }
+                }
+                else{
+                    setLoader({
+                        add: false
+                    });
+
+                    Swal.fire('Oops...', 'Ha fallado la conexión!', 'error');
+                }
+                
+            }); 
+        }
+        else{
+            setLoader({
+                add: false
+            });
+
+            Swal.fire('NUC no valido', 'El NUC debe contar con 13 dígitos', 'warning');
+        }
+    }
+    else{
+        setLoader({
+            add: false
+        });
+
+        Swal.fire('Oops...', 'Ha ocurrido un error, intentelo de nuevo!', 'error');
+    }
+}
+
+function checkExistantAgreement(attr){
+
+    if(document.getElementById(attr.element_id)){
+
+        if(document.getElementById(attr.element_id).value.length == 13){
+            
+            $.ajax({  
+                type: "POST",  
+                url: "service/check_agreement.php", 
+                dataType : 'json', 
+                data: {
+                    nuc: document.getElementById(attr.element_id).value
+                },
+            }).done(function(response){
+
+                if(response.state != "fail"){
+
+                    if(response.data != null){
+                        attr.function(attr.attr);
+                    }
+                    else{
+                        setLoader({
+                            add: false
+                        });
+
+                        Swal.fire('NUC no registrado en ACUERDOS CELEBRADOS!', 'Verifique que el NUC ya haya sido capturado en ACUERDOS CELEBRADOS para continuar', 'warning');
                     }
                 }
                 else{
@@ -1779,6 +1909,27 @@ function setLoader(attr){
     }
     else{
         $('#loader-div').removeClass('loader');
+    }
+}
+
+function addRemoveClassOnLateload(attr){
+    if(attr.counter <= attr.iterations && !document.getElementById(attr.id)){
+		setTimeout(
+			function(){
+				attr.counter++;
+				addRemoveClassOnLateload(attr);
+			}, attr.delay
+		);
+	}
+    else{
+        if(attr.add){
+            $('#'+attr.id).addClass(attr.class);
+            console.log('add: ', attr.id);
+        }
+        else{
+            $('#'+attr.id).removeClass(attr.class);
+            console.log('remove: ', attr.id);
+        }
     }
 }
 

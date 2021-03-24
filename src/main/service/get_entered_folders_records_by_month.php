@@ -6,7 +6,7 @@ include("common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[CarpetasIngresadas] c INNER JOIN ['.$connections['sicap']['db'].'].dbo.CatMunicipios cm on c.Municipio = cm.CatMunicipiosID 
+$db_table = '[dbo].[CarpetasIngresadas] c INNER JOIN [cat].[Municipio] m on c.Municipio = m.MunicipioID 
 LEFT JOIN dbo.Usuario u on c.Facilitador = u.UsuarioID';
 
 $month = $_POST['month'];
@@ -46,7 +46,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'entered_folders_municipality' => (object) array(
-		'db_column' => 'cm.[Nombre] AS "Municipio"',
+		'db_column' => 'm.[Nombre] AS "Municipio"',
 		'search' => true
 	),
 	'entered_folders_observations' => (object) array(

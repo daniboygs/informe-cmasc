@@ -6,26 +6,42 @@ include("../common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[AcuerdosCelebrados]';
+$db_table = '[dbo].[AcuerdosCelebrados] a RIGHT JOIN [dbo].[CarpetasRecibidas] cr ON a.NUC = cr.NUC';
 
 $month = $_POST['month'];
 $year = $_POST['year'];
 
 $data = (object) array(
-	'agreement_amount' => (object) array(
-		'db_column' => '[MontoRecuperado]',
+	'recieved_id' => (object) array(
+		'db_column' => '[CarpetaRecibidaID]',
 		'search' => true
 	),
-	'agreement_compliance' => (object) array(
-		'db_column' => '[Cumplimiento]',
+	'agreement_id' => (object) array(
+		'db_column' => '[AcuerdoCelebradoID]',
+		'search' => true
+	),
+	'agreement_nuc' => (object) array(
+		'db_column' => 'cr.[NUC]',
+		'search' => true
+	),
+	'recieved_date' => (object) array(
+		'db_column' => "cr.[Fecha] AS 'FechaRecibida'",
+		'search' => true
+	),
+	'agreement_date' => (object) array(
+		'db_column' => "a.[Fecha] AS 'FechaAcuerdo'",
 		'search' => true
 	),
 	'agreement_crime' => (object) array(
 		'db_column' => '[AcuerdoDelito]',
 		'search' => true
 	),
-	'agreement_date' => (object) array(
-		'db_column' => '[Fecha]',
+	'agreement_amount' => (object) array(
+		'db_column' => '[MontoRecuperado]',
+		'search' => true
+	),
+	'agreement_compliance' => (object) array(
+		'db_column' => '[Cumplimiento]',
 		'search' => true
 	),
 	'agreement_intervention' => (object) array(
@@ -36,16 +52,12 @@ $data = (object) array(
 		'db_column' => '[Mecanismo]',
 		'search' => true
 	),
-	'agreement_nuc' => (object) array(
-		'db_column' => '[NUC]',
-		'search' => true
-	),
 	'agreement_total' => (object) array(
-		'db_column' => "CASE [TotalParcial] WHEN 1 THEN 'Total' ELSE 'Parcial' END AS 'TotalParcial'",
+		'db_column' => "CASE [TotalParcial] WHEN 1 THEN 'Total' WHEN 2 THEN 'Parcial' ELSE NULL END AS 'TotalParcial'",
 		'search' => true
 	),
 	'agreement_unity' => (object) array(
-		'db_column' => '[Unidad]',
+		'db_column' => "CASE ISNULL(a.[Unidad], 'NULL')  WHEN 'NULL' THEN cr.[Unidad] ELSE a.[Unidad] END AS 'Unidad'",
 		'search' => true
 	),
 	'agreement_amount_in_kind' => (object) array(
@@ -53,21 +65,16 @@ $data = (object) array(
 		'search' => true
 	),
 	'user' => (object) array(
-		'db_column' => '[UsuarioID]',
+		'db_column' => 'cr.[UsuarioID]',
 		'search' => false
 	)
 );
 
 $sql_conditions = (object) array(
 	'user' => (object) array(
-		'db_column' => '[UsuarioID]',
+		'db_column' => 'cr.[UsuarioID]',
 		'condition' => '=', 
-		'value' => ''
-	),
-	'subquery' => (object) array(
-		'db_column' => 'NUC',
-		'condition' => 'NOT IN', 
-		'value' => '(SELECT NUC FROM inegi.General)'
+		'value' => '2'
 	)
 );
 
@@ -104,7 +111,7 @@ function getRecord($attr){
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
-	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY Fecha";
+	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY cr.NUC, cr.Fecha, a.Fecha";
 
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 
@@ -116,14 +123,36 @@ function getRecord($attr){
 
 		while( $row = sqlsrv_fetch_array( $result) ) {
 
-			$agreement_date = $row['Fecha'];
+			$recieved_date = $row['FechaRecibida'];
+
+			if($recieved_date != null)
+				$recieved_date = $recieved_date->format('d/m/Y');
+
+			$agreement_date = $row['FechaAcuerdo'];
 
 			if($agreement_date != null)
 				$agreement_date = $agreement_date->format('d/m/Y');
+
+			$agreement_amount = $row['MontoRecuperado'];
+
+			if($agreement_amount != null)
+				$agreement_amount = '$'.$agreement_amount;
 	
 			array_push($return, array(
+				'recieved_id' => array(
+					'name' => '',
+					'value' => $row['CarpetaRecibidaID']
+				),
+				'agreement_id' => array(
+					'name' => '',
+					'value' => $row['AcuerdoCelebradoID']
+				),
+				'recieved_date' => array(
+					'name' => 'Fecha Recibida',
+					'value' => $recieved_date
+				),
 				'agreement_date' => array(
-					'name' => 'Fecha',
+					'name' => 'Fecha Acuerdo',
 					'value' => $agreement_date
 				),
 				'agreement_crime' => array(
@@ -152,7 +181,7 @@ function getRecord($attr){
 				),
 				'agreement_amount' => array(
 					'name' => 'Monto Recuperado',
-					'value' => $row['MontoRecuperado']
+					'value' => $agreement_amount
 				),
 				'agreement_unity' => array(
 					'name' => 'Unidad',

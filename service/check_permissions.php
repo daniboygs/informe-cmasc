@@ -4,10 +4,16 @@ session_start();
     $permissions = array(
         '1' => array(
             'framebar' => array(
+                'entered_folders' => array(
+                    'id' => 'entered-folders-nav-div',
+                    'name' => 'entered_folders',
+                    'class' => '',
+                    'label' => 'CARPETAS INGRESADAS'
+                ),
                 'recieved_folders' => array(
                     'id' => 'recieved-folders-nav-div',
                     'name' => 'recieved_folders',
-                    'class' => 'active',
+                    'class' => '',
                     'label' => 'CARPETAS RECIBIDAS'
                 ),
                 'agreements' => array(
@@ -16,29 +22,23 @@ session_start();
                     'class' => '',
                     'label' => 'ACUERDOS CELEBRADOS'
                 ),
+                'folders_to_investigation' => array(
+                    'id' => 'folders-to-investigation-nav-div',
+                    'name' => 'folders_to_investigation',
+                    'class' => '',
+                    'label' => 'CARPETAS ENVIADAS A INVESTIGACIÓN'
+                ),
                 'people_served' => array(
                     'id' => 'people-served-nav-div',
                     'name' => 'people_served',
                     'class' => '',
                     'label' => 'PERSONAS ATENDIDAS'
                 ),
-                'entered_folders' => array(
-                    'id' => 'entered-folders-nav-div',
-                    'name' => 'entered_folders',
-                    'class' => '',
-                    'label' => 'CARPETAS INGRESADAS'
-                ),
                 'folders_to_validation' => array(
                     'id' => 'folders-to-validation-nav-div',
                     'name' => 'folders_to_validation',
                     'class' => '',
                     'label' => 'CARPETAS ENVIADAS A VALIDACIÓN'
-                ),
-                'folders_to_investigation' => array(
-                    'id' => 'folders-to-investigation-nav-div',
-                    'name' => 'folders_to_investigation',
-                    'class' => '',
-                    'label' => 'CARPETAS ENVIADAS A INVESTIGACIÓN'
                 ),
                 'processing_folders' => array(
                     'id' => 'processing-folders-nav-div',
@@ -59,7 +59,7 @@ session_start();
                 'recieved_folders' => array(
                     'id' => 'recieved-folders-nav-div',
                     'name' => 'recieved_folders',
-                    'class' => 'active',
+                    'class' => '',
                     'label' => 'CARPETAS RECIBIDAS'
                 ),
                 'agreements' => array(
@@ -67,6 +67,12 @@ session_start();
                     'name' => 'agreements',
                     'class' => '',
                     'label' => 'ACUERDOS CELEBRADOS'
+                ),
+                'folders_to_investigation' => array(
+                    'id' => 'folders-to-investigation-nav-div',
+                    'name' => 'folders_to_investigation',
+                    'class' => '',
+                    'label' => 'CARPETAS ENVIADAS A INVESTIGACIÓN'
                 ),
                 'people_served' => array(
                     'id' => 'people-served-nav-div',
@@ -79,12 +85,6 @@ session_start();
                     'name' => 'folders_to_validation',
                     'class' => '',
                     'label' => 'CARPETAS ENVIADAS A VALIDACIÓN'
-                ),
-                'folders_to_investigation' => array(
-                    'id' => 'folders-to-investigation-nav-div',
-                    'name' => 'folders_to_investigation',
-                    'class' => '',
-                    'label' => 'CARPETAS ENVIADAS A INVESTIGACIÓN'
                 ),
                 'processing_folders' => array(
                     'id' => 'processing-folders-nav-div',
@@ -102,10 +102,16 @@ session_start();
         ),
         '3' => array(
             'framebar' => array(
+                'entered_folders' => array(
+                    'id' => 'entered-folders-nav-div',
+                    'name' => 'entered_folders',
+                    'class' => '',
+                    'label' => 'CARPETAS INGRESADAS'
+                ),
                 'recieved_folders' => array(
                     'id' => 'recieved-folders-nav-div',
                     'name' => 'recieved_folders',
-                    'class' => 'active',
+                    'class' => '',
                     'label' => 'CARPETAS RECIBIDAS'
                 ),
                 'agreements' => array(
@@ -114,29 +120,23 @@ session_start();
                     'class' => '',
                     'label' => 'ACUERDOS CELEBRADOS'
                 ),
+                'folders_to_investigation' => array(
+                    'id' => 'folders-to-investigation-nav-div',
+                    'name' => 'folders_to_investigation',
+                    'class' => '',
+                    'label' => 'CARPETAS ENVIADAS A INVESTIGACIÓN'
+                ),
                 'people_served' => array(
                     'id' => 'people-served-nav-div',
                     'name' => 'people_served',
                     'class' => '',
                     'label' => 'PERSONAS ATENDIDAS'
                 ),
-                'entered_folders' => array(
-                    'id' => 'entered-folders-nav-div',
-                    'name' => 'entered_folders',
-                    'class' => '',
-                    'label' => 'CARPETAS INGRESADAS'
-                ),
                 'folders_to_validation' => array(
                     'id' => 'folders-to-validation-nav-div',
                     'name' => 'folders_to_validation',
                     'class' => '',
                     'label' => 'CARPETAS ENVIADAS A VALIDACIÓN'
-                ),
-                'folders_to_investigation' => array(
-                    'id' => 'folders-to-investigation-nav-div',
-                    'name' => 'folders_to_investigation',
-                    'class' => '',
-                    'label' => 'CARPETAS ENVIADAS A INVESTIGACIÓN'
                 ),
                 'processing_folders' => array(
                     'id' => 'processing-folders-nav-div',
