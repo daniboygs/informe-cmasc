@@ -33,7 +33,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'agreement_crime' => (object) array(
-		'db_column' => '[AcuerdoDelito]',
+		'db_column' => "CASE ISNULL([AcuerdoDelito], 'NULL')  WHEN 'NULL' THEN [Delito] ELSE [AcuerdoDelito] END AS 'Delito'",
 		'search' => true
 	),
 	'agreement_amount' => (object) array(
@@ -111,8 +111,8 @@ function getRecord($attr){
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
-	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY cr.NUC, cr.Fecha, a.Fecha";
-
+	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY cr.Fecha, cr.NUC, a.Fecha";
+	
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 
 	$row_count = sqlsrv_num_rows( $result );
@@ -157,7 +157,7 @@ function getRecord($attr){
 				),
 				'agreement_crime' => array(
 					'name' => 'Delito',
-					'value' => $row['AcuerdoDelito']
+					'value' => $row['Delito']
 				),
 				'agreement_intervention' => array(
 					'name' => 'Intervinientes',

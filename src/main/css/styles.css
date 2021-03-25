@@ -148,12 +148,39 @@ table tr td{
     display: block;
 }
 
-#pending-agreements-table tbody .data-table-row td{
+.primary-status{
+    background-color: #007bff; 
+    color: white;
+}
+
+.secondary-status{
+    background-color: #DCE3DF;
+    color: black;
+}
+
+.danger-status{
+    background-color: #dc3545; 
+    color: white;
+}
+
+.success-status{
+    background-color: #28a745; 
+    color: white;
+}
+
+.warning-status{
+    background-color: #ffc107; 
+    color: white;
+}
+
+#pending-agreements-table tbody .data-table-row td {
     cursor: pointer !important;
 }
 
 #pending-agreements-table .data-table-row:hover{
-    cursor: pointer;
-    background-color: #7C8B9E;
-    color: white;
+    cursor: pointer !important;
+    background-color: #7C8B9E !important;
+    color: white !important;
 }
+
+

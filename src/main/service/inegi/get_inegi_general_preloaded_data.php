@@ -6,32 +6,49 @@ include("../common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[AcuerdosCelebrados]';
+$db_table = '[dbo].[AcuerdosCelebrados] a RIGHT JOIN [dbo].[CarpetasRecibidas] cr ON a.NUC = cr.NUC';
 
-$nuc = $_POST['nuc'];
+$recieved_id = $_POST['recieved_id'];
+$agreement_id = $_POST['agreement_id'];
 
 $data = (object) array(
 	'nuc' => (object) array(
-		'db_column' => '[NUC]',
+		'db_column' => 'cr.[NUC]',
 		'search' => true
 	),
 	'crime' => (object) array(
-		'db_column' => '[AcuerdoDelito]',
+		'db_column' => "CASE ISNULL([AcuerdoDelito], 'NULL')  WHEN 'NULL' THEN [Delito] ELSE [AcuerdoDelito] END AS 'Delito'",
 		'search' => true
 	),
 	'unity' => (object) array(
-		'db_column' => '[Unidad]',
+		'db_column' => "CASE ISNULL(a.[Unidad], 'NULL')  WHEN 'NULL' THEN cr.[Unidad] ELSE a.[Unidad] END AS 'Unidad'",
 		'search' => true
 	)
 );
 
-$sql_conditions = (object) array(
-	'nuc' => (object) array(
-		'db_column' => 'NUC',
+$agreement_condition = '';
+
+if($agreement_id != ''){
+	$agreement_condition = "[AcuerdoCelebradoID] = $agreement_id";
+}
+else{
+	$agreement_condition = '[AcuerdoCelebradoID] IS NULL';
+}
+
+/*$sql_conditions = (object) array(
+	'recieved' => (object) array(
+		'db_column' => 'CarpetaRecibidaID',
 		'condition' => '=',
-		'value' => "'$nuc'"
+		'value' => "'$recieved_id'"
+	),
+	'agreement' => (object) array(
+		'db_column' => 'AcuerdoCelebradoID',
+		'condition' => '=',
+		'value' => "'$agreement_id'"
 	)
-);
+);*/
+
+$sql_conditions = "[CarpetaRecibidaID] = $recieved_id AND $agreement_condition";
 
 if(!isset($_SESSION['user_data'])){
 	echo json_encode(
@@ -62,7 +79,8 @@ else{
 function getRecord($attr){
 
 	$columns = formSearchDBColumns($attr->data);
-	$conditions = formSearchConditions($attr->sql_conditions);
+	//$conditions = formSearchConditions($attr->sql_conditions);
+	$conditions = 'WHERE '.$attr->sql_conditions;
 
 	$sql = "SELECT $columns FROM $attr->db_table $conditions";
 
@@ -83,7 +101,7 @@ function getRecord($attr){
 				),
 				'general_crime' => array(
 					'name' => 'Delito',
-					'value' => $row['AcuerdoDelito']
+					'value' => $row['Delito']
 				),
 				'general_unity' => array(
 					'name' => 'Unidad',

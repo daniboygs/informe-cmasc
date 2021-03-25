@@ -10,34 +10,51 @@
         <th>#</th>
         <th>NUC</th>
         <th>Fecha Recibida</th>
-        <th>Fecha Acuerdo</th>
         <th>Delito</th>
+        <th>Unidad</th>
+        <th>Fecha Acuerdo</th>
         <th>Intervinientes</th>
         <th>Cumplimiento</th>
         <th>Total o Parcial</th>
         <th>Mecanismo</th>
         <th>Monto en pesos</th>
         <th>Monto en especie</th>
-        <th>Unidad</th>
+        <th>Etatus Acuerdo</th>
     </tr>
 <?php
     if($data != 'null'){
         $i=1;
+        
         foreach(json_decode($data, true) as $element){
+            $agreement_status = '';
+            $agreement_class = '';
+            $agreement_status_class = '';
+
+            if($element['agreement_id']['value'] != ''){
+                $agreement_status = 'Acuerdo';
+                $agreement_class = '';
+                $agreement_status_class = 'primary-status';
+            }
+            else{
+                $agreement_status = 'Sin Acuerdo';
+                $agreement_class = '';
+                $agreement_status_class = 'secondary-status';
+            }
 ?> 
-    <tr class="data-table-row" onclick="inegiStartCapture('<?php echo $element['agreement_nuc']['value']; ?>')">
+    <tr class="data-table-row" onclick="inegiStartCapture('<?php echo $element['recieved_id']['value']; ?>', '<?php echo $element['agreement_id']['value']; ?>')">
         <td><?php echo $i; ?></td>
         <td><?php echo $element['agreement_nuc']['value']; ?></td>
         <td><?php echo $element['recieved_date']['value']; ?></td>
-        <td><?php echo $element['agreement_date']['value']; ?></td>
         <td><?php echo $element['agreement_crime']['value']; ?></td>
-        <td><?php echo $element['agreement_intervention']['value']; ?></td>
-        <td><?php echo $element['agreement_compliance']['value']; ?></td>
-        <td><?php echo $element['agreement_total']['value']; ?></td>
-        <td><?php echo $element['agreement_mechanism']['value']; ?></td>
-        <td><?php echo $element['agreement_amount']['value']; ?></td>
-        <td><?php echo $element['agreement_amount_in_kind']['value']; ?></td>
         <td><?php echo $element['agreement_unity']['value']; ?></td>
+        <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_date']['value']; ?></td>
+        <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_intervention']['value']; ?></td>
+        <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_compliance']['value']; ?></td>
+        <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_total']['value']; ?></td>
+        <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_mechanism']['value']; ?></td>
+        <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_amount']['value']; ?></td>
+        <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_amount_in_kind']['value']; ?></td>
+        <td class="<?php echo $agreement_status_class; ?>"><?php echo $agreement_status; ?></td>
     </tr>
 <?php
             $i++;

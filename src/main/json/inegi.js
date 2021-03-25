@@ -2,7 +2,9 @@ var inegi = {
     active: false,
     current: {
         general_id: null,
-        nuc: null
+        nuc: null,
+        recieved_id: null,
+        agreement_id: null
     },
     sections: {
         "general": {

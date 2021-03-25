@@ -1156,7 +1156,9 @@ function changeInegiPanel(section){
                                 service_file: 'inegi/service/get_inegi_preloaded_data_by_id.php',
                                 attr: {
                                     general_id: inegi.current.general_id,
-                                    nuc: inegi.current.nuc
+                                    nuc: inegi.current.nuc,
+                                    recieved_id: inegi.current.recieved_id,
+                                    agreement_id: inegi.current.agreement_id
                                 },
                                 section: section,
                                 success: {
@@ -1223,9 +1225,12 @@ function resetInegi(attr){
         $('#'+inegi.sections[section].sidenav_div_id).removeClass('completed');
         $('#'+inegi.sections[section].sidenav_div_id).removeClass('uncompleted');
     }
+    inegi.current.recieved_id = null;
+    inegi.current.agreement_id = null;
     inegi.current.nuc = null;
     inegi.current.general_id = null;
     $('#dashboard-alert-section').html('');
+    $('#inegi-current-record-section').html('');
 }
 
 function validateInegiSection(section){
@@ -1445,6 +1450,8 @@ function setCurrentInegiId(attr){
 
     inegi.current.general_id = attr.general_id;
     inegi.current.nuc = inegi.current.nuc;
+    inegi.current.recieved_id = inegi.current.recieved_id;
+    inegi.current.agreement_id = inegi.current.agreement_id;
 
 }
 
@@ -1632,11 +1639,14 @@ function resetInegiSection(section){
 }
 
 
-function inegiStartCapture(nuc){
+function inegiStartCapture(recieved, agreement){
 
     resetInegi(null);
 
-    inegi.current.nuc = nuc;
+    inegi.current.recieved_id = recieved;
+    inegi.current.agreement_id = agreement;
+
+    //inegi.current.nuc = nuc;
 
     console.log('jalas o noo');
     
@@ -1652,20 +1662,35 @@ function inegiStartCapture(nuc){
 function getInegiPreloadedDataBySection(attr){
 
     let service_file = null;
+    console.log('get preload: ', attr);
 
+    console.log('attr.section prev: ', attr.section);
+    
     switch(attr.section){
         case 'general':
-            service_file = 'service/inegi/get_inegi_general_preloaded_data_by_nuc.php'
+            service_file = 'service/inegi/get_inegi_general_preloaded_data.php'
             break;
         case 'masc':
-            service_file = 'service/inegi/get_inegi_masc_preloaded_data_by_nuc.php';
+            if(attr.attr.recieved_id != null){
+                
+                service_file = 'service/inegi/get_inegi_masc_preloaded_data.php';
+
+                console.log('entre: ', service_file);
+            }
             break;
         default:
+            console.log('attr.section: ', attr.section);
             break;
     }
 
+    console.log('service file: ', service_file);
+
     if(service_file != null){
+        
+        console.log('hay inegi data section: ', inegi.sections[attr.section].data);
         if(inegi.sections[attr.section].data == null){
+
+            
             $.ajax({
                 url: service_file,
                 type:'POST',
@@ -1684,6 +1709,9 @@ function getInegiPreloadedDataBySection(attr){
                 }
             });
         }
+    }
+    else{
+        console.log('nul weeeeeee');
     }    
 }
 

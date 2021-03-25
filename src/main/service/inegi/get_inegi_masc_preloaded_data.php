@@ -8,7 +8,7 @@ $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[AcuerdosCelebrados]';
 
-$nuc = $_POST['nuc'];
+$agreement_id = $_POST['agreement_id'];
 
 $data = (object) array(
 	'mechanism' => (object) array(
@@ -33,13 +33,24 @@ $data = (object) array(
 	)
 );
 
-$sql_conditions = (object) array(
+$agreement_condition = '';
+
+if($agreement_id != ''){
+	$agreement_condition = "[AcuerdoCelebradoID] = $agreement_id";
+}
+else{
+	$agreement_condition = '[AcuerdoCelebradoID] IS NULL';
+}
+
+/*$sql_conditions = (object) array(
 	'general_id' => (object) array(
 		'db_column' => 'NUC',
 		'condition' => '=',
 		'value' => "'$nuc'"
 	)
-);
+);*/
+
+$sql_conditions = $agreement_condition;
 
 if(!isset($_SESSION['user_data'])){
 	echo json_encode(
@@ -70,7 +81,8 @@ else{
 function getRecord($attr){
 
 	$columns = formSearchDBColumns($attr->data);
-	$conditions = formSearchConditions($attr->sql_conditions);
+	//$conditions = formSearchConditions($attr->sql_conditions);
+	$conditions = 'WHERE '.$attr->sql_conditions;
 
 	$sql = "SELECT $columns FROM $attr->db_table $conditions";
 	
