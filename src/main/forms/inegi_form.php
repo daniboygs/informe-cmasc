@@ -29,6 +29,9 @@
 		<div id="inegi-form-section"></div>
 	</div>
 
-	<div id="inegi-current-record-section"></div>
+	<div>
+		<div id="inegi-current-record-label-section"></div>
+		<div id="inegi-current-record-section"></div>
+	</div>
 
 </div>

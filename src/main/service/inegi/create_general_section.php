@@ -13,6 +13,18 @@ $general_date = $_POST['general_date'];
 $general_crime = $_POST['general_crime'];
 $general_unity = $_POST['general_unity'];
 $general_attended = $_POST['general_attended'];
+$recieved_id = $_POST['recieved_id'];
+
+$agreement_id = '';
+if(isset($_POST['agreement_id'])){
+	if($_POST['agreement_id'] != '')
+		$agreement_id = $_POST['agreement_id'];
+	else
+		$agreement_id = 'NULL';
+}
+else{
+	$agreement_id = 'NULL';
+}
 
 $data = (object) array(
 	'general_nuc' => (object) array(
@@ -50,6 +62,18 @@ $data = (object) array(
 		'value' => 'null',
 		'null' => true,
 		'db_column' => '[UsuarioID]'
+	),
+	'recieved_id' => (object) array(
+		'type' => 'number',
+		'value' => $recieved_id,
+		'null' => false,
+		'db_column' => '[CarpetaRecibidaID]'
+	),
+	'agreement_id' => (object) array(
+		'type' => 'number',
+		'value' => $agreement_id,
+		'null' => true,
+		'db_column' => '[AcuerdoCelebradoID]'
 	)
 );
 

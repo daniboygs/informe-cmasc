@@ -78,6 +78,15 @@
     display: inline-block;
 }
 
+#inegi-current-record-label-section, #month-records-label-section{
+    margin-top: 15px;
+    width: 100%;
+    display: inline-block;
+    font-family: LabradorA;
+    font-size: 25pt;
+    color: #152F4A;
+}
+
 #inegi-current-record-section table tbody tr td{
     /*background-color: aquamarine;*/
 }

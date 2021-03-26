@@ -1231,9 +1231,14 @@ function resetInegi(attr){
     inegi.current.general_id = null;
     $('#dashboard-alert-section').html('');
     $('#inegi-current-record-section').html('');
+    $('#inegi-current-record-label-section').html('');
 }
 
 function validateInegiSection(section){
+
+    setLoader({
+        add: true
+    });
 
     let fields = inegi.sections[section].fields;
     let data = {};
@@ -1264,6 +1269,10 @@ function validateInegiSection(section){
     }
     else{
         //alert('No has completado la sección');
+        setLoader({
+            add: false
+        });
+
         Swal.fire('Campos faltantes', 'Tiene que completar los campos faltantes', 'warning');
     }
 }
@@ -1277,14 +1286,21 @@ function spetialInegiValidationBySection(attr){
                 function: checkNuc,
                 attr: {
                     element_id: 'inegi-general-nuc',
-                    function: checkInegiNuc,
+                    //function: checkInegiNuc,
+                    function: checkInegiRecord,
                     attr: {
-                        element_id: 'inegi-general-nuc',
+                        recieved_id: inegi.current.recieved_id,
+                        agreement_id: inegi.current.agreement_id,
+                        //element_id: 'inegi-general-nuc',
                         success: {
                             function: saveInegiSection,
                             attr: {
                                 section: attr.section,
-                                data: attr.data,
+                                data: {
+                                    ...attr.data,
+                                    recieved_id: inegi.current.recieved_id,
+                                    agreement_id: inegi.current.agreement_id
+                                },
                                 success: {
                                     functions: [
                                         {
@@ -1406,13 +1422,22 @@ function saveInegiSection(attr){
                         });
                     }
                 }
+
+                setLoader({
+                    add: false
+                });
             }
             else{
+
+                setLoader({
+                    add: false
+                });
     
                 Swal.fire('Error', 'Ha ocurrido un error, vuelva a intentarlo', 'error');
     
                 console.log('not chido', response);
                 console.log('chido no lo', response.state);
+                
             }
         });
     }
@@ -1572,6 +1597,8 @@ function getInegiCurrentRecordBySectionAndID(attr){
                     file: 'templates/tables/inegi/'+attr.section+'_table.php',
                     element_id: 'inegi-current-record-section'
                 });
+
+                $('#inegi-current-record-label-section').html('CAPTURANDO: '+inegi.current.nuc);
             });
         }
         else{
@@ -1645,6 +1672,12 @@ function inegiStartCapture(recieved, agreement){
 
     inegi.current.recieved_id = recieved;
     inegi.current.agreement_id = agreement;
+
+    getInegiNuc({
+        service_file: 'service/inegi/get_inegi_nuc.php',
+        recieved_id: recieved,
+        agreement_id: agreement
+    });
 
     //inegi.current.nuc = nuc;
 
@@ -1959,6 +1992,96 @@ function addRemoveClassOnLateload(attr){
             console.log('remove: ', attr.id);
         }
     }
+}
+
+function checkInegiRecord(attr){
+
+    console.log('attr: ', attr);
+
+    if(attr.recieved_id){
+
+        if(attr.recieved_id != null || attr.recieved_id != ''){
+            
+            $.ajax({  
+                type: "POST",  
+                url: "service/inegi/check_inegi_record.php", 
+                dataType : 'json', 
+                data: {
+                    recieved_id: attr.recieved_id,
+                    agreement_id: attr.agreement_id
+                },
+            }).done(function(response){
+
+                if(response.state != "fail"){
+        
+                    if(response.data != null){
+
+                        Swal.fire('Registro Capturado previamente en INEGI', 'Verifique el registro! o ingrese uno distinto', 'warning');
+
+                    }
+                    else{
+                        attr.success.function(attr.success.attr);
+                    }
+                }
+                else{
+                    Swal.fire('Oops...', 'Ha fallado la conexión!', 'error');
+                }
+                setLoader({
+                    add: false
+                });
+                
+            }); 
+        }
+        else{
+            setLoader({
+                add: false
+            });
+
+            Swal.fire('error', 'Ha ocurrido algo un error, favor de comunicar a DPE', 'warning');
+        }
+    }
+    else{
+        setLoader({
+            add: false
+        });
+        
+        Swal.fire('error', 'Ha ocurrido algo un error, favor de comunicar a DPE', 'warning');
+    }
+
+}
+
+function getInegiNuc(attr){
+
+    setLoader({
+        add: true
+    });
+
+    if(attr != null){
+        $.ajax({
+            url: attr.service_file,
+            type:'POST',
+            dataType: "json",
+            data: {
+                recieved_id: attr.recieved_id,
+                agreement_id: attr.agreement_id
+            },
+            cache:false
+        }).done(function(response){
+
+            inegi.current.nuc = response.data.nuc;
+
+            setLoader({
+                add: false
+            });
+
+        }).fail(function (jqXHR, textStatus) {
+            Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de nofificar a DPE.', 'error');
+    
+            setLoader({
+                add: false
+            });
+        });	
+    }    
 }
 
 /*

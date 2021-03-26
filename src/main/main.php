@@ -53,6 +53,8 @@
 
 			<div id="content"></div>
 
+			<div id="month-records-label-section">REGISTROS DEL MES</div>
+
 			<hr>
 
 			<div id="records-section"></div>
