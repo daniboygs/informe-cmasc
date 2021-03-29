@@ -4,7 +4,7 @@
     else
         $data = 'null';
 ?>
-<table class="data-table">
+<table class="data-table table table-striped">
     <tr>
         <th>#</th>
         <th>NUC</th>

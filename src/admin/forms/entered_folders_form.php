@@ -22,7 +22,7 @@
 
 	<div class="form-buttons">		
 
-		<button type="button" class="btn btn-success" style="height:38px; width: 100px;"  onclick="searchSection('entered_folders')">Buscar</button>
+		<button type="button" class="btn btn-outline-success" style="height:38px; width: 100px;"  onclick="searchSection('entered_folders')">Buscar</button>
 
 	</div>
 

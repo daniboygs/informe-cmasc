@@ -65,6 +65,7 @@ function loadForm(section){
         else{
             $('#records-section').html('');
             getActivePeriod();
+            getInegiActivePeriod();
         }
         
 
@@ -598,32 +599,34 @@ function getActivePeriod(){
 		type:'POST',
         dataType: "json",
         data: {
-            id: 0
+            section: 1
         },
 	}).done(function(response){
         console.log('res de active',response);
 
-        let initial_date = new Date(response.initial_us_date);
+        let period = response;
+
+        let initial_date = new Date(period.initial_us_date);
 
         initial_date.setHours(initial_date.getHours()+6);
 
         document.getElementById('capture-period-initial-date').valueAsDate = initial_date;
 
-        let finish_date = new Date(response.finish_us_date);
+        let finish_date = new Date(period.finish_us_date);
 
         finish_date.setHours(finish_date.getHours()+6);
 
         document.getElementById('capture-period-finish-date').valueAsDate = finish_date;
 
-        document.getElementById('capture-period-daily').checked = response.daily;
+        document.getElementById('capture-period-daily').checked = period.daily;
 
-        if(response.daily){
-            $('#records-section').html('<h1 style="">Periodo de captura: Diaria</h1>');
+        if(period.daily){
+            $('#capture-period-label').html('Periodo de captura: Diaria');
             document.getElementById('capture-period-initial-date').disabled = true;
             document.getElementById('capture-period-finish-date').disabled = true;
         }
         else{
-            $('#records-section').html('<h1 style="">Periodo de captura: '+response.initial_date+' al '+response.finish_date+'</h1>');
+            $('#capture-period-label').html('Periodo de captura: '+response.initial_date+' al '+response.finish_date+'');
         }
         
 	});
@@ -784,4 +787,97 @@ function checkActivePeriod(attr){
         });
     }
     
+}
+
+function getInegiActivePeriod(){
+
+    console.log('active? o q?');
+
+	$.ajax({
+		url:'service/get_active_period.php',
+		type:'POST',
+        dataType: "json",
+        data: {
+            section: 2
+        },
+	}).done(function(response){
+        console.log('res de active',response);
+
+        let period = response;
+
+        let initial_date = new Date(period.initial_us_date);
+
+        initial_date.setHours(initial_date.getHours()+6);
+
+        document.getElementById('capture-inegi-period-initial-date').valueAsDate = initial_date;
+
+        let finish_date = new Date(period.finish_us_date);
+
+        finish_date.setHours(finish_date.getHours()+6);
+
+        document.getElementById('capture-inegi-period-finish-date').valueAsDate = finish_date;
+
+        document.getElementById('capture-inegi-period-daily').checked = period.daily;
+
+        if(period.daily){
+            $('#capture-inegi-period-label').html('Periodo de captura: Diaria');
+            document.getElementById('capture-inegi-period-initial-date').disabled = true;
+            document.getElementById('capture-inegi-period-finish-date').disabled = true;
+        }
+        else{
+            $('#capture-inegi-period-label').html('Periodo de captura: '+response.initial_date+' al '+response.finish_date);
+        }
+        
+	});
+}
+
+function activateInegiPeriod(){
+    if(document.getElementById('capture-inegi-period-initial-date') && document.getElementById('capture-inegi-period-finish-date')){
+
+        console.log('exis per');
+        if((document.getElementById('capture-inegi-period-initial-date') != '' && document.getElementById('capture-inegi-period-finish-date') != '') || document.getElementById('capture-inegi-period-daily').checked){
+            console.log('apenas voy per');
+            $.ajax({  
+                type: "POST",  
+                url: "service/update_inegi_capture_period.php", 
+                dataType : 'json', 
+                data: {
+                    initial_date: document.getElementById('capture-inegi-period-initial-date').value,
+                    finish_date: document.getElementById('capture-inegi-period-finish-date').value,
+                    daily: document.getElementById('capture-inegi-period-daily').checked
+                },
+            }).done(function(response){
+
+                console.log('response? per');
+        
+                if(response.state != "fail"){
+
+                    Swal.fire('Correcto', 'Se ha habilitado un nuevo periodo de captura', 'success');
+
+                    getInegiActivePeriod();
+                            
+                }
+                else{
+                    Swal.fire('Oops...', 'Ha fallado la conexión!', 'error');
+                }
+                
+            }); 
+        }
+        else{
+            Swal.fire('Campos incompletos', 'Debe llenar ambas fechas', 'warning');
+        }
+    }
+    else{
+    }
+}
+
+function onChangeInegiDaily(){
+    if(document.getElementById('capture-inegi-period-daily').checked){
+        document.getElementById('capture-inegi-period-initial-date').disabled = true;
+        document.getElementById('capture-inegi-period-finish-date').disabled = true;
+    }
+    else{
+        document.getElementById('capture-inegi-period-initial-date').disabled = false;
+        document.getElementById('capture-inegi-period-finish-date').disabled = false;
+    }
 }

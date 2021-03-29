@@ -5,7 +5,7 @@
         $data = 'null';
 ?>
 
-<table class="data-table" id="pending-agreements-table">
+<table class="data-table table table-striped" id="pending-agreements-table">
     <tr>
         <th>#</th>
         <th>NUC</th>

@@ -10,6 +10,7 @@
 		<!--<link rel="stylesheet" href="node_modules/normalize.css">-->
 		<link rel="shortcut icon" href="../../assets/img/fge.png"/>
 		<link rel="stylesheet" href="../../css/styles.css">
+		<link rel="stylesheet" href="css/styles.css">
 		<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
 		
 		<script src="../../node_modules/es6/ES6.js"></script>
