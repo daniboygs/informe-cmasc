@@ -14,7 +14,9 @@
 
 			<label style="font-weight:bold">Delito: *</label>
 
-			<input type="text" class="form-control" id="folders-to-validation-crime" maxlength="250">	
+			<div id="folders-to-validation-crime-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
 
 		</div>
 

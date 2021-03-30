@@ -14,7 +14,9 @@
 
 			<label style="font-weight:bold">Delito: *</label>
 
-			<input type="text" class="form-control" id="agreement-crime" maxlength="250">			
+			<div id="agreement-crime-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>		
 
 		</div>
 
@@ -113,6 +115,30 @@
 		</div>
 
 	</div>
+
+	
+<!--
+	<div class="form-row">
+
+		<div class="col-md-4 form-group">
+
+			<label style="font-weight:bold">Mecanismo: *</label>
+
+                    <div id="drugs-drop" class="button-group">
+                        <button type="button" id="comboCheck" class="form-control dropdown-toggle" data-toggle="dropdown"><div><div class="dropdown-label">Seleccione tipos de muestra</div><span class="caret"></span></div></button>
+                        <ul class="dropdown-menu" onchange="setVariantInput()">
+                            <li><a id="as1" data-value="1" name="1" tabIndex="-1"><input type="checkbox"/><label for="cbox2">&nbsp; asdasdasdasd</label></a></li>
+							<li><a id="as2" data-value="2" name="2" tabIndex="0"><input type="checkbox"/><label for="cbox3">&nbsp; asdasdasdasd12</label></a></li>
+							<li><a id="as3" data-value="3" name="3" tabIndex="1"><input type="checkbox"/><label for="cbox4">&nbsp; Retención o sustracción de persona especifica menor de edad o que no tenga capacidad para comprender el significado del hecho</label></a></li>
+							<li><a id="as4" data-value="4" name="4" tabIndex="2"><input type="checkbox"/><label for="cbox5">&nbsp; asdasdasdasd345</label></a></li>
+                        </ul>
+                    </div>
+
+		</div>	
+
+	</div>
+			-->
+	
 
 	<div class="form-buttons">		
 				

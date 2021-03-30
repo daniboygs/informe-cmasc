@@ -4,5 +4,6 @@ var data = {
 		"data": [],
 		"loaded_data": false,
 		"loading": false
-	}
+	},
+	"current_crimes": null
 }

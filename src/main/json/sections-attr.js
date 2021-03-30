@@ -28,15 +28,18 @@ var sections = {
 			{
 				"id": "agreement-crime",
 				"name": "agreement_crime",
-				"type": "text",
-                "placeholder": "Ingresa Delito",
+				"type": "multiselect",
+                "placeholder": "Selecciona Delitos",
 				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
                 },
 				"default": null,
-				"catalog": null,
+				"catalog": {
+					service_file: 'get_crimes.php',
+					data: null
+				},
 				"required": true
 			},
 			{
@@ -191,15 +194,18 @@ var sections = {
 			{
 				"id": "recieved-folders-crime",
 				"name": "recieved_folders_crime",
-				"type": "text",
-                "placeholder": "Ingresa Delito",
+				"type": "multiselect",
+                "placeholder": "Selecciona Delitos",
 				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
                 },
 				"default": null,
-				"catalog": null,
+				"catalog": {
+					service_file: 'get_crimes.php',
+					data: null
+				},
 				"required": true
 			},
 			{
@@ -270,15 +276,18 @@ var sections = {
 			{
 				"id": "folders-to-investigation-crime",
 				"name": "folders_to_investigation_crime",
-				"type": "text",
-                "placeholder": "Ingresa Delito",
+				"type": "multiselect",
+                "placeholder": "Selecciona Delitos",
 				"event_listener": null,
                 "conditions": {
                     "unlock": null,
                     "length": null
                 },
 				"default": null,
-				"catalog": null,
+				"catalog": {
+					service_file: 'get_crimes.php',
+					data: null
+				},
 				"required": true
 			},
 			{
@@ -363,15 +372,18 @@ var sections = {
 			{
 				"id": "people-served-crime",
 				"name": "people_served_crime",
-				"type": "text",
-				"placeholder": "Ingresa Delito",
+				"type": "multiselect",
+                "placeholder": "Selecciona Delitos",
 				"event_listener": null,
-				"conditions": {
-					"unlock": null,
-					"length": null
-				},
+                "conditions": {
+                    "unlock": null,
+                    "length": null
+                },
 				"default": null,
-				"catalog": null,
+				"catalog": {
+					service_file: 'get_crimes.php',
+					data: null
+				},
 				"required": true
 			},
 			{
@@ -711,15 +723,18 @@ var sections = {
 			{
 				"id": "folders-to-validation-crime",
 				"name": "folders_to_validation_crime",
-				"type": "text",
-				"placeholder": "Ingresa Delito",
+				"type": "multiselect",
+                "placeholder": "Selecciona Delitos",
 				"event_listener": null,
-				"conditions": {
-					"unlock": null,
-					"length": null
-				},
+                "conditions": {
+                    "unlock": null,
+                    "length": null
+                },
 				"default": null,
-				"catalog": null,
+				"catalog": {
+					service_file: 'get_crimes.php',
+					data: null
+				},
 				"required": true
 			},
 			{
@@ -790,15 +805,18 @@ var sections = {
 			{
 				"id": "entered-folders-crime",
 				"name": "entered_folders_crime",
-				"type": "text",
-				"placeholder": "Ingresa Delito",
+				"type": "multiselect",
+                "placeholder": "Selecciona Delitos",
 				"event_listener": null,
-				"conditions": {
-					"unlock": null,
-					"length": null
-				},
+                "conditions": {
+                    "unlock": null,
+                    "length": null
+                },
 				"default": null,
-				"catalog": null,
+				"catalog": {
+					service_file: 'get_crimes.php',
+					data: null
+				},
 				"required": true
 			},
 			{
@@ -1001,15 +1019,18 @@ var sections = {
 			{
 				"id": "entered-folders-crime",
 				"name": "entered_folders_crime",
-				"type": "text",
-				"placeholder": "Ingresa Delito",
+				"type": "multiselect",
+                "placeholder": "Selecciona Delitos",
 				"event_listener": null,
-				"conditions": {
-					"unlock": null,
-					"length": null
-				},
+                "conditions": {
+                    "unlock": null,
+                    "length": null
+                },
 				"default": null,
-				"catalog": null,
+				"catalog": {
+					service_file: 'get_crimes.php',
+					data: null
+				},
 				"required": true
 			},
 			{

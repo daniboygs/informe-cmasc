@@ -92,7 +92,10 @@ function preloadValidation(attr){
                                 function: loadCatalogsBySection,
                                 attr: {
                                     section: attr.section,
-                                    template_file: 'templates/elements/select.php',
+                                    template_file: {
+                                        select: 'templates/elements/select.php',
+                                        multiselect: 'templates/elements/multiselect.php'
+                                    },
                                     service_location: 'service/catalogs/'
                                 }
                             }
@@ -134,7 +137,10 @@ function preloadValidation(attr){
                                         function: loadCatalogsBySection,
                                         attr: {
                                             section: attr.section,
-                                            template_file: 'templates/elements/select.php',
+                                            template_file: {
+                                                select: 'templates/elements/select.php',
+                                                multiselect: 'templates/elements/multiselect.php'
+                                            },
                                             service_location: 'service/catalogs/'
                                         }
                                     }
@@ -172,7 +178,10 @@ function loadForm(attr){
         getRecordsByMonth(section);
         loadCatalogsBySection({
             section: section,
-            template_file: 'templates/elements/select.php',
+            template_file: {
+                select: 'templates/elements/select.php',
+                multiselect: 'templates/elements/multiselect.php'
+            },
             service_location: 'service/catalogs/'
         });*/
 
@@ -185,13 +194,17 @@ function loadForm(attr){
 
 function loadCatalogsBySection(attr){
 
+    console.log('loaaaaaaaaaaaaaaad sec cat: ', attr);
+
     for(field in sections[attr.section].fields){
 
         if(sections[attr.section].fields[field].catalog != null){
 
+            console.log('load type template: ', attr.template_file[sections[attr.section].fields[field].type]);
+
             if(sections[attr.section].fields[field].catalog.data != null){
                 loadSelect({
-                    template_file: attr.template_file,
+                    template_file: attr.template_file[sections[attr.section].fields[field].type],
                     element_attr: {
                         element_id: sections[attr.section].fields[field].id,
                         element_placeholder: sections[attr.section].fields[field].placeholder,
@@ -203,7 +216,7 @@ function loadCatalogsBySection(attr){
             else{
                 getCatalog({
                     service_file: attr.service_location+sections[attr.section].fields[field].catalog.service_file,
-                    template_file: attr.template_file,
+                    template_file: attr.template_file[sections[attr.section].fields[field].type],
                     element_attr: {
                         element_id: sections[attr.section].fields[field].id,
                         element_placeholder: sections[attr.section].fields[field].placeholder,
@@ -2084,6 +2097,45 @@ function getInegiNuc(attr){
     }    
 }
 
+function setMultiselectActions(attr){
+
+    if(attr.counter <= attr.iterations && !document.getElementById(attr.id)){
+		setTimeout(
+			function(){
+				attr.counter++;
+				setMultiselectActions(attr);
+			}, attr.delay
+		);
+	}
+    else{
+        data.current_crimes = {
+            element_id: attr.id,
+            data: []
+        };
+
+        $( "#"+attr.id+" .dropdown-menu a" ).on( "click", function( event ) {
+    
+            var $target = $( event.currentTarget ),
+                val = $target.attr( "data-value" ),
+                $inp = $target.find( "input" ),
+                idx;
+            
+            if( ( idx = data.current_crimes.data.indexOf( val ) ) > -1 ){
+                data.current_crimes.data.splice( idx, 1 );
+                setTimeout( function() { $inp.prop( "checked", false ) }, 0);
+            } 
+            else{
+                data.current_crimes.data.push( val );
+                setTimeout( function() { $inp.prop( "checked", true ) }, 0);
+            }
+            
+            $( event.target ).blur();
+                
+            console.log( data.current_crimes.data );
+            return false;
+            });
+    }
+}
 /*
 
 loadForm({

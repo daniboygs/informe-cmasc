@@ -13,8 +13,10 @@
 		<div class="col-md-9 form-group">
 
 			<label style="font-weight:bold">Delito: *</label>
-
-			<input type="text" class="form-control" id="recieved-folders-crime" maxlength="250">	
+			
+			<div id="recieved-folders-crime-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
 
 		</div>
 
