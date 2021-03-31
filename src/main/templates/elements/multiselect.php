@@ -25,32 +25,3 @@
 ?>
     </ul>
 </div>
-
-<script>
-    data.current_crimes = {
-        element_id: '<?php echo $element_id; ?>',
-        data: []
-    };
-
-    $( "#<?php echo $element_id; ?> .dropdown-menu a" ).on( "click", function( event ) {
-    
-    var $target = $( event.currentTarget ),
-        val = $target.attr( "data-value" ),
-        $inp = $target.find( "input" ),
-        idx;
-    
-    if ( ( idx = data.current_crimes.data.indexOf( val ) ) > -1 ) {
-        data.current_crimes.data.splice( idx, 1 );
-        setTimeout( function() { $inp.prop( "checked", false ) }, 0);
-    } else {
-        data.current_crimes.data.push( val );
-        setTimeout( function() { $inp.prop( "checked", true ) }, 0);
-    }
-    
-    $( event.target ).blur();
-        
-    console.log( data.current_crimes.data );
-    return false;
-    });
-
-</Script>

@@ -98,6 +98,10 @@ function preloadValidation(attr){
                                     },
                                     service_location: 'service/catalogs/'
                                 }
+                            },
+                            {
+                                function: setMultiselectActionsBySection,
+                                attr: attr.section
                             }
                         ] 
                     }
@@ -210,7 +214,8 @@ function loadCatalogsBySection(attr){
                         element_placeholder: sections[attr.section].fields[field].placeholder,
                         element_event_listener: sections[attr.section].fields[field].event_listener,
                         elements: sections[attr.section].fields[field].catalog.data
-                    }
+                    },
+                    select_type: sections[attr.section].fields[field].type
                 });
             }
             else{
@@ -223,7 +228,8 @@ function loadCatalogsBySection(attr){
                         element_event_listener: sections[attr.section].fields[field].event_listener
                     },
                     section: attr.section,
-                    field: field
+                    field: field,
+                    select_type: sections[attr.section].fields[field].type
                 });
             }
         }
@@ -303,6 +309,9 @@ function activeSection(section){
 }
 
 function loadDefaultValuesBySection(section){
+
+    data.current_multiselect = {};
+
     let fields = sections[section].fields;
 
     for(field in fields){
@@ -341,6 +350,25 @@ inp.valueAsDate = date1;
     }
 }
 
+function setMultiselectActionsBySection(section){
+
+    let fields = sections[section].fields;
+
+    for(field in fields){
+
+        if(fields[field].type == 'multiselect'){
+
+            setMultiselectActions({
+                id: fields[field].id,
+                name: fields[field].name,
+                counter: 1,
+                iterations: 20,
+                delay: 500
+            });
+        }
+    }
+}
+
 function validateSection(section){
 
     setLoader({
@@ -350,19 +378,40 @@ function validateSection(section){
     let fields = sections[section].fields;
     let data = {};
     let compleated = true;
-
+    let multiselect = false;
 
     for(field in fields){
         if(document.getElementById(fields[field].id)){
 
-            if(fields[field].required && document.getElementById(fields[field].id).value == ''){
-                compleated = false;
-            }
+            if(fields[field].type != 'multiselect'){
 
-            data = {
-                ...data,
-                [fields[field].name]: document.getElementById(fields[field].id).value
+                if(fields[field].required && document.getElementById(fields[field].id).value == ''){
+                    compleated = false;
+                }
+    
+                data = {
+                    ...data,
+                    [fields[field].name]: document.getElementById(fields[field].id).value
+                }
             }
+            else{
+                if(data.current_multiselect[fields[field].name]){
+                    if(data.current_multiselect[fields[field].name] != null){
+                        if(data.current_multiselect[fields[field].name].length > 0){
+                            compleated = false;
+                        }
+                    }
+                    else{
+                        compleated = false;
+                    }
+                }
+                else{
+                    compleated = false;
+                }
+            }
+        }
+        else{
+            compleated = false;
         }
     }
 
@@ -399,7 +448,25 @@ function spetialValidationBySection(attr){
                         function: saveSection,
                         attr: {
                             section: attr.section,
-                            data: attr.data
+                            data: attr.data,
+                            success: {
+                                functions: [
+                                    {
+                                        function: activeInegiForm,
+                                        attr: {
+                                            section: section
+                                        },
+                                        response: false
+                                    },
+                                    {
+                                        function: resetDashboardAlert,
+                                        attr: {
+                                            element_id: 'dashboard-alert-section'
+                                        },
+                                        response: false
+                                    }
+                                ]
+                            }    
                         }
                     }
                 }
@@ -518,6 +585,10 @@ function saveSection(attr){
             resetSection(attr.section);
             loadDefaultValuesBySection(attr.section);
             getRecordsByMonth(attr.section);
+
+            if(response.data.id != null){
+                saveMultiselectFieldsBySection(attr.section);
+            }
             
             console.log('chido chido', response);
             console.log('chido lo', response.state);
@@ -541,8 +612,87 @@ function saveSection(attr){
             add: false
         });
     });
-
     
+}
+
+function saveMultiselectFieldsBySection(attr){
+
+    let fields = sections[section].fields;
+
+    for(field in fields){
+
+        if(fields[field].type == 'multiselect'){
+
+            saveMultiselectField({
+                create_file: fields[field].create_file,
+                section: attr.section,
+                name: fields[field].name,
+                counter: 1,
+                iterations: 20,
+                delay: 500
+            });
+        }
+    }
+
+    let fields = sections[section].fields;
+
+    for(field in fields){
+        if(document.getElementById(fields[field].id)){
+
+            document.getElementById(fields[field].id).value = "";
+        }
+    }
+
+    $.ajax({
+		url: 'service/'+sections[attr.section].create_file,
+        type: 'POST',
+        dataType : 'json', 
+		data: {
+			...attr.data
+		},
+		cache: false
+	}).done(function(response){
+
+        console.log('si wasd');
+
+
+        if(response.state == 'success'){
+            
+            Swal.fire('Correcto', 'Datos guardados correctamente', 'success');
+            resetSection(attr.section);
+            loadDefaultValuesBySection(attr.section);
+            getRecordsByMonth(attr.section);
+
+            if(response.data.id != null){
+
+            }
+            
+            console.log('chido chido', response);
+            console.log('chido lo', response.state);
+        }
+        else{
+
+            Swal.fire('Error', 'Ha ocurrido un error, vuelva a intentarlo', 'error');
+
+            console.log('not chido', response);
+            console.log('chido no lo', response.state);
+        }
+
+        setLoader({
+            add: false
+        });
+
+	}).fail(function (jqXHR, textStatus) {
+        Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de nofificar a DPE.', 'error');
+
+        setLoader({
+            add: false
+        });
+    });
+}
+
+function saveMultiselectField(attr){
+
 }
 
 function resetSection(section){
@@ -2108,9 +2258,9 @@ function setMultiselectActions(attr){
 		);
 	}
     else{
-        data.current_crimes = {
-            element_id: attr.id,
-            data: []
+        data.current_multiselect = {
+            ...data.current_multiselect,
+            [attr.name]: []
         };
 
         $( "#"+attr.id+" .dropdown-menu a" ).on( "click", function( event ) {
@@ -2120,20 +2270,20 @@ function setMultiselectActions(attr){
                 $inp = $target.find( "input" ),
                 idx;
             
-            if( ( idx = data.current_crimes.data.indexOf( val ) ) > -1 ){
-                data.current_crimes.data.splice( idx, 1 );
+            if( ( idx = data.current_multiselect[attr.name].indexOf( val ) ) > -1 ){
+                data.current_multiselect[attr.name].splice( idx, 1 );
                 setTimeout( function() { $inp.prop( "checked", false ) }, 0);
             } 
             else{
-                data.current_crimes.data.push( val );
+                data.current_multiselect[attr.name].push( val );
                 setTimeout( function() { $inp.prop( "checked", true ) }, 0);
             }
             
-            $( event.target ).blur();
+            $(event.target).blur();
                 
-            console.log( data.current_crimes.data );
+            console.log(data.current_multiselect[attr.name]);
             return false;
-            });
+        });
     }
 }
 /*

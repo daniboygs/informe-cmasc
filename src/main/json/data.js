@@ -5,5 +5,5 @@ var data = {
 		"loaded_data": false,
 		"loading": false
 	},
-	"current_crimes": null
+	"current_multiselect": null
 }
