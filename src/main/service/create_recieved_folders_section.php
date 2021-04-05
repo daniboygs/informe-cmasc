@@ -9,7 +9,7 @@ $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[CarpetasRecibidas]';
 
 $recieved_folders_date = $_POST['recieved_folders_date'];
-$recieved_folders_crime = $_POST['recieved_folders_crime'];
+//$recieved_folders_crime = $_POST['recieved_folders_crime'];
 $recieved_folders_nuc = $_POST['recieved_folders_nuc'];
 $recieved_folders_unity = $_POST['recieved_folders_unity'];
 
@@ -22,12 +22,12 @@ $data = (object) array(
 		'null' => false,
 		'db_column' => '[Fecha]'
 	),
-	'recieved_folders_crime' => (object) array(
+	/*'recieved_folders_crime' => (object) array(
 		'type' => 'text',
 		'value' => $recieved_folders_crime,
 		'null' => false,
 		'db_column' => '[Delito]'
-	),
+	),*/
 	'recieved_folders_nuc' => (object) array(
 		'type' => 'text',
 		'value' => $recieved_folders_nuc,

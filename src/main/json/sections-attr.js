@@ -24,7 +24,7 @@ var sections = {
 				"default": "today",
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "agreement-crime",
@@ -42,7 +42,12 @@ var sections = {
 					data: null
 				},
 				"required": true,
-				"create_file": "create_crimes_by_section.php"
+				"service": {
+					"create_file": "crimes/create_agreement_crimes.php",
+					"update_file": null,
+					"delete_file": "crimes/delete_agreement_crimes.php",
+					"search_file": null
+				}
 			},
 			{
 				"id": "agreement-intervention",
@@ -57,7 +62,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "agreement-nuc",
@@ -75,7 +80,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "agreement-compliance",
@@ -90,7 +95,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
             },
             {
 				"id": "agreement-total",
@@ -105,7 +110,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
             },
             {
 				"id": "agreement-mechanism",
@@ -120,7 +125,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
             },
             {
 				"id": "agreement-amount",
@@ -135,7 +140,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
             },
             {
 				"id": "agreement-unity",
@@ -153,7 +158,7 @@ var sections = {
 					data: null
 				},
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "agreement-amount-in-kind",
@@ -168,7 +173,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			}
 		],
 		"active": false,
@@ -200,7 +205,7 @@ var sections = {
 				"default": "today",
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "recieved-folders-crime",
@@ -218,7 +223,12 @@ var sections = {
 					data: null
 				},
 				"required": true,
-				"create_file": "create_crimes_by_section.php"
+				"service": {
+					"create_file": "crimes/create_recieved_folders_crimes.php",
+					"update_file": null,
+					"delete_file": "crimes/delete_recieved_folders_crimes.php",
+					"search_file": null
+				}
 			},
 			{
 				"id": "recieved-folders-nuc",
@@ -236,7 +246,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
             {
 				"id": "recieved-folders-unity",
@@ -254,7 +264,7 @@ var sections = {
 					data: null
 				},
 				"required": true,
-				"create_file": null
+				"service": null
 			}
 		],
 		"active": false,
@@ -286,7 +296,7 @@ var sections = {
 				"default": "today",
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "folders-to-investigation-crime",
@@ -304,7 +314,12 @@ var sections = {
 					data: null
 				},
 				"required": true,
-				"create_file": "create_crimes_by_section.php"
+				"service": {
+					"create_file": "crimes/create_folders_to_investigation_crimes.php",
+					"update_file": null,
+					"delete_file": "crimes/delete_folders_to_investigation_crimes.php",
+					"search_file": null
+				}
 			},
 			{
 				"id": "folders-to-investigation-nuc",
@@ -322,7 +337,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "folders-to-investigation-channeling-reason",
@@ -337,7 +352,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
             {
 				"id": "folders-to-investigation-unity",
@@ -355,7 +370,7 @@ var sections = {
 					data: null
 				},
 				"required": true,
-				"create_file": null
+				"service": null
 			}
 		],
 		"active": false,
@@ -387,7 +402,7 @@ var sections = {
 				"default": "today",
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "people-served-crime",
@@ -405,7 +420,12 @@ var sections = {
 					data: null
 				},
 				"required": true,
-				"create_file": "create_crimes_by_section.php"
+				"service": {
+					"create_file": "crimes/create_people_served_crimes.php",
+					"update_file": null,
+					"delete_file": "crimes/delete_people_served_crimes.php",
+					"search_file": null
+				}
 			},
 			{
 				"id": "people-served-nuc",
@@ -423,7 +443,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "people-served-number",
@@ -438,7 +458,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "people-served-unity",
@@ -456,7 +476,7 @@ var sections = {
 					data: null
 				},
 				"required": true,
-				"create_file": null
+				"service": null
 			}
 		],
 		"active": false,
@@ -488,7 +508,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},*/
 			{
 				"id": "processing-folders-initial-date",
@@ -503,7 +523,7 @@ var sections = {
 				"default": "today",
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "processing-folders-finish-date",
@@ -518,7 +538,7 @@ var sections = {
 				"default": "today",
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "processing-folders-folders",
@@ -533,7 +553,7 @@ var sections = {
 				"default": 0,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "processing-folders-inmediate-attention",
@@ -548,7 +568,7 @@ var sections = {
 				"default": 0,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "processing-folders-cjim",
@@ -563,7 +583,7 @@ var sections = {
 				"default": 0,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "processing-folders-domestic-violence",
@@ -578,7 +598,7 @@ var sections = {
 				"default": 0,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "processing-folders-cyber-crimes",
@@ -593,7 +613,7 @@ var sections = {
 				"default": 0,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "processing-folders-teenagers",
@@ -608,7 +628,7 @@ var sections = {
 				"default": 0,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "processing-folders-swealth-and-finantial-inteligence",
@@ -623,7 +643,7 @@ var sections = {
 				"default": 0,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "processing-folders-high-impact-and-vehicles",
@@ -638,7 +658,7 @@ var sections = {
 				"default": 0,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "processing-folders-human-rights",
@@ -653,7 +673,7 @@ var sections = {
 				"default": 0,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "processing-folders-fight-corruption",
@@ -668,7 +688,7 @@ var sections = {
 				"default": 0,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "processing-folders-special-matters",
@@ -683,7 +703,7 @@ var sections = {
 				"default": 0,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "processing-folders-internal-affairs",
@@ -698,7 +718,7 @@ var sections = {
 				"default": 0,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "processing-folders-litigation",
@@ -713,7 +733,7 @@ var sections = {
 				"default": 0,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "processing-folders-environment",
@@ -728,7 +748,7 @@ var sections = {
 				"default": 0,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			}
 		],
 		"active": false,
@@ -760,7 +780,7 @@ var sections = {
 				"default": "today",
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "folders-to-validation-crime",
@@ -778,7 +798,12 @@ var sections = {
 					data: null
 				},
 				"required": true,
-				"create_file": "create_crimes_by_section.php"
+				"service": {
+					"create_file": "crimes/create_folders_to_validation_crimes.php",
+					"update_file": null,
+					"delete_file": "crimes/delete_folders_to_validation_crimes.php",
+					"search_file": null
+				}
 			},
 			{
 				"id": "folders-to-validation-nuc",
@@ -796,7 +821,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "folders-to-validation-unity",
@@ -814,7 +839,7 @@ var sections = {
 					data: null
 				},
 				"required": true,
-				"create_file": null
+				"service": null
 			}
 		],
 		"active": false,
@@ -846,7 +871,7 @@ var sections = {
 				"default": "today",
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "entered-folders-crime",
@@ -864,7 +889,12 @@ var sections = {
 					data: null
 				},
 				"required": true,
-				"create_file": "create_crimes_by_section.php"
+				"service": {
+					"create_file": "crimes/create_entered_folders_crimes.php",
+					"update_file": null,
+					"delete_file": "crimes/delete_entered_folders_crimes.php",
+					"search_file": null
+				}
 			},
 			{
 				"id": "entered-folders-nuc",
@@ -882,7 +912,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "entered-folders-unity",
@@ -900,7 +930,7 @@ var sections = {
 					data: null
 				},
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "entered-folders-mp-channeler",
@@ -915,7 +945,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "entered-folders-recieved-folder",
@@ -930,7 +960,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "entered-folders-channeler",
@@ -945,7 +975,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "entered-folders-fiscalia",
@@ -960,7 +990,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "entered-folders-municipality",
@@ -978,7 +1008,7 @@ var sections = {
 					data: null
 				},
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "entered-folders-observations",
@@ -993,7 +1023,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "entered-folders-folders-date",
@@ -1008,7 +1038,7 @@ var sections = {
 				"default": 'today',
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "entered-folders-facilitator",
@@ -1026,7 +1056,7 @@ var sections = {
 					data: null
 				},
 				"required": true,
-				"create_file": null
+				"service": null
 			}/*,
 			{
 				"id": "entered-folders-book-date",
@@ -1041,7 +1071,7 @@ var sections = {
 				"default": 'today',
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			}*/
 		],
 		"active": false,
@@ -1073,7 +1103,7 @@ var sections = {
 				"default": "today",
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "entered-folders-crime",
@@ -1091,7 +1121,12 @@ var sections = {
 					data: null
 				},
 				"required": true,
-				"create_file": "create_crimes_by_section.php"
+				"service": {
+					"create_file": "crimes/create_entered_folders_crimes.php",
+					"update_file": null,
+					"delete_file": "crimes/delete_entered_folders_crimes.php",
+					"search_file": null
+				}
 			},
 			{
 				"id": "entered-folders-nuc",
@@ -1109,7 +1144,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "entered-folders-unity",
@@ -1127,7 +1162,7 @@ var sections = {
 					data: null
 				},
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "entered-folders-recieved-folder",
@@ -1142,7 +1177,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "entered-folders-fiscalia",
@@ -1157,7 +1192,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "entered-folders-municipality",
@@ -1175,7 +1210,7 @@ var sections = {
 					data: null
 				},
 				"required": true,
-				"create_file": null
+				"service": null
 			},
 			{
 				"id": "entered-folders-observations",
@@ -1190,7 +1225,7 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			}/*,
 			{
 				"id": "entered-folders-book-date",
@@ -1205,7 +1240,7 @@ var sections = {
 				"default": 'today',
 				"catalog": null,
 				"required": true,
-				"create_file": null
+				"service": null
 			}*/
 		],
 		"active": false,

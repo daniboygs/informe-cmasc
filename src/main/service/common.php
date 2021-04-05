@@ -153,4 +153,37 @@ function formSearchConditions($data){
     }
 }
 
+function createMultipleRecords($id, $id_field, $data, $db_table, $conn, $params, $options){
+
+	$columns = formDBColumns($data);
+	$values = formInsertMultipleValues($data);
+
+	$sql = "INSERT INTO $db_table
+				( $id_field )
+				VALUES
+				( $values )
+            SELECT SCOPE_IDENTITY()";
+
+			return $sql;
+
+}
+
+
+function formInsertMultipleValues($data){
+	$values = "";
+	$i = 1;
+
+	foreach ($data as $element) {
+		
+		$values.="($element)";
+
+		if($i < count((array) $data)){
+			$values.=",";
+		}
+
+		$i++;
+	}
+	return $values;
+}
+
 ?>

@@ -310,7 +310,7 @@ function activeSection(section){
 
 function loadDefaultValuesBySection(section){
 
-    data.current_multiselect = {};
+    //handle_data.current_multiselect = {};
 
     let fields = sections[section].fields;
 
@@ -358,6 +358,14 @@ function setMultiselectActionsBySection(section){
 
         if(fields[field].type == 'multiselect'){
 
+            console.log('set multiselect', {
+                id: fields[field].id,
+                name: fields[field].name,
+                counter: 1,
+                iterations: 20,
+                delay: 500
+            });
+
             setMultiselectActions({
                 id: fields[field].id,
                 name: fields[field].name,
@@ -395,10 +403,11 @@ function validateSection(section){
                 }
             }
             else{
-                if(data.current_multiselect[fields[field].name]){
-                    if(data.current_multiselect[fields[field].name] != null){
-                        if(data.current_multiselect[fields[field].name].length > 0){
+                if(handle_data.current_multiselect[fields[field].name]){
+                    if(handle_data.current_multiselect[fields[field].name] != null){
+                        if(handle_data.current_multiselect[fields[field].name].length <= 0){
                             compleated = false;
+                            console.log(' no we obvio');
                         }
                     }
                     else{
@@ -587,7 +596,10 @@ function saveSection(attr){
             getRecordsByMonth(attr.section);
 
             if(response.data.id != null){
-                saveMultiselectFieldsBySection(attr.section);
+                saveMultiselectFieldsBySection({
+                    id: response.data.id,
+                    section: attr.section 
+                });
             }
             
             console.log('chido chido', response);
@@ -617,39 +629,42 @@ function saveSection(attr){
 
 function saveMultiselectFieldsBySection(attr){
 
-    let fields = sections[section].fields;
+    let fields = sections[attr.section].fields;
 
     for(field in fields){
 
         if(fields[field].type == 'multiselect'){
 
-            saveMultiselectField({
-                create_file: fields[field].create_file,
-                section: attr.section,
-                name: fields[field].name,
-                counter: 1,
-                iterations: 20,
-                delay: 500
-            });
+            if(fields[field].service.create_file != null){
+
+                console.log('handle', handle_data);
+                console.log('field name', fields[field].name);
+                console.log('esistes o noooooooo', handle_data.current_multiselect[fields[field].name]);
+
+                saveMultiselectField({
+                    service_file: fields[field].service.create_file,
+                    post_data: {
+                        id: attr.id,
+                        data: handle_data.current_multiselect[fields[field].name]
+                    }
+                });
+            }
+            else{
+                console.log('no existe service file');
+            }
         }
     }
+}
 
-    let fields = sections[section].fields;
+function saveMultiselectField(attr){
 
-    for(field in fields){
-        if(document.getElementById(fields[field].id)){
-
-            document.getElementById(fields[field].id).value = "";
-        }
-    }
+    console.log('save multiple: ', attr);
 
     $.ajax({
-		url: 'service/'+sections[attr.section].create_file,
+		url: 'service/'+attr.service_file,
         type: 'POST',
         dataType : 'json', 
-		data: {
-			...attr.data
-		},
+		data: attr.post_data,
 		cache: false
 	}).done(function(response){
 
@@ -659,23 +674,16 @@ function saveMultiselectFieldsBySection(attr){
         if(response.state == 'success'){
             
             Swal.fire('Correcto', 'Datos guardados correctamente', 'success');
-            resetSection(attr.section);
-            loadDefaultValuesBySection(attr.section);
-            getRecordsByMonth(attr.section);
 
-            if(response.data.id != null){
-
-            }
-            
             console.log('chido chido', response);
-            console.log('chido lo', response.state);
+
+            handle_data.current_multiselect = {};
         }
         else{
 
             Swal.fire('Error', 'Ha ocurrido un error, vuelva a intentarlo', 'error');
 
             console.log('not chido', response);
-            console.log('chido no lo', response.state);
         }
 
         setLoader({
@@ -683,16 +691,13 @@ function saveMultiselectFieldsBySection(attr){
         });
 
 	}).fail(function (jqXHR, textStatus) {
+        
         Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de nofificar a DPE.', 'error');
 
         setLoader({
             add: false
         });
     });
-}
-
-function saveMultiselectField(attr){
-
 }
 
 function resetSection(section){
@@ -2258,8 +2263,8 @@ function setMultiselectActions(attr){
 		);
 	}
     else{
-        data.current_multiselect = {
-            ...data.current_multiselect,
+        handle_data.current_multiselect = {
+            ...handle_data.current_multiselect,
             [attr.name]: []
         };
 
@@ -2270,18 +2275,18 @@ function setMultiselectActions(attr){
                 $inp = $target.find( "input" ),
                 idx;
             
-            if( ( idx = data.current_multiselect[attr.name].indexOf( val ) ) > -1 ){
-                data.current_multiselect[attr.name].splice( idx, 1 );
+            if( ( idx = handle_data.current_multiselect[attr.name].indexOf( val ) ) > -1 ){
+                handle_data.current_multiselect[attr.name].splice( idx, 1 );
                 setTimeout( function() { $inp.prop( "checked", false ) }, 0);
             } 
             else{
-                data.current_multiselect[attr.name].push( val );
+                handle_data.current_multiselect[attr.name].push( val );
                 setTimeout( function() { $inp.prop( "checked", true ) }, 0);
             }
             
             $(event.target).blur();
                 
-            console.log(data.current_multiselect[attr.name]);
+            console.log(handle_data.current_multiselect[attr.name]);
             return false;
         });
     }

@@ -1,4 +1,4 @@
-var data = {
+var handle_data = {
 	"agreements": {
 		"active": true,
 		"data": [],
