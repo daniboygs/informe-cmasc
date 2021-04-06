@@ -13,10 +13,14 @@ $month = $_POST['month'];
 $year = $_POST['year'];
 
 $data = (object) array(
-	'entered_folders_crime' => (object) array(
-		'db_column' => '[Delito]',
+	'entered_folders_id' => (object) array(
+		'db_column' => "[CarpetaIngresadaID] AS 'id'",
 		'search' => true
 	),
+	/*'entered_folders_crime' => (object) array(
+		'db_column' => '[Delito]',
+		'search' => true
+	),*/
 	'entered_folders_date' => (object) array(
 		'db_column' => '[FechaIngreso]',
 		'search' => true
@@ -122,7 +126,7 @@ else{
 				'db_table' => $db_table,
 				'conn' => $conn,
 				'params' => $params,
-				'options' => $options
+				'options' => $options,
 			)
 		), 
 		JSON_FORCE_OBJECT
@@ -166,9 +170,22 @@ function getRecord($attr){
 					'name' => 'Fecha',
 					'value' => $entered_folders_date
 				),
-				'entered_folders_crime' => array(
+				/*'entered_folders_crime' => array(
 					'name' => 'Delito',
 					'value' => $row['Delito']
+				),*/
+				'entered_folders_crime' => array(
+					'name' => 'Delito',
+					'value' => getRecordsByCondition(
+						(object) array(
+							'columns' => 'd.Nombre',
+							'condition' => "[CarpetaIngresadaID] = '".$row['id']."'",
+							'db_table' => '[delitos].[CarpetasIngresadas] ci inner join cat.Delito d on ci.DelitoID = d.DelitoID',
+							'conn' => $attr->conn,
+							'params' => $attr->params,
+							'options' => $attr->options
+						)
+					)
 				),
 				'entered_folders_nuc' => array(
 					'name' => 'NUC',

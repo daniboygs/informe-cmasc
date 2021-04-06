@@ -153,29 +153,45 @@ function formSearchConditions($data){
     }
 }
 
-function createMultipleRecords($id, $id_field, $data, $db_table, $conn, $params, $options){
+function createMultipleRecords($id, $fields, $data, $db_table, $conn, $params, $options){
 
-	$columns = formDBColumns($data);
-	$values = formInsertMultipleValues($data);
+	$values = formInsertMultipleValues($data, $id);
 
 	$sql = "INSERT INTO $db_table
-				( $id_field )
+				( $fields )
 				VALUES
-				( $values )
-            SELECT SCOPE_IDENTITY()";
+				$values";
 
-			return $sql;
+	if($conn){
+		$stmt = sqlsrv_query( $conn, $sql);
+
+		sqlsrv_next_result($stmt); 
+		sqlsrv_fetch($stmt); 
+
+		return array(
+            'state' => 'success',
+            'data' => array(
+                'id' => null
+            )
+        );
+	}
+	else{
+		return array(
+            'state' => 'fail',
+            'data' => null
+        );
+	}
 
 }
 
 
-function formInsertMultipleValues($data){
+function formInsertMultipleValues($data, $id){
 	$values = "";
 	$i = 1;
 
 	foreach ($data as $element) {
 		
-		$values.="($element)";
+		$values.="($element, $id)";
 
 		if($i < count((array) $data)){
 			$values.=",";
@@ -184,6 +200,36 @@ function formInsertMultipleValues($data){
 		$i++;
 	}
 	return $values;
+}
+
+function getRecordsByCondition($attr){
+
+	$i = 1;
+
+	$sql = "SELECT $attr->columns FROM $attr->db_table WHERE $attr->condition";
+
+    $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
+
+	$row_count = sqlsrv_num_rows( $result );
+	
+	$return = '';
+
+	if($row_count > 0){
+
+		while( $row = sqlsrv_fetch_array( $result) ) {
+
+			$return = $return.'*'.$row['Nombre'].', ';
+			
+		}
+	
+	}
+	else{
+		$return = null;
+	}
+
+	return $return;
+
+
 }
 
 ?>

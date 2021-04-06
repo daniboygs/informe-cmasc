@@ -6,6 +6,13 @@ var sections = {
 		"update_file": "update_agreements_section.php",
 		"search_file": "search_agreements_section.php",
 		"records_by_month_file": "get_agreement_records_by_month.php",
+		"service": {
+			"create_file": "create_agreements_section.php",
+			"update_file": "update_agreements_section.php",
+			"search_file": "search_agreements_section.php",
+			"records_by_month_file": "get_agreement_records_by_month.php",
+			"crime_records_by_month_file": "get_agreement_crime_records_by_month.php"
+		},
 		"form_id": "agreements-form",
 		"navigation_element_id": "agreements-nav-div",
 		"name": "acuerdos",

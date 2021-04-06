@@ -203,4 +203,9 @@ tr{
     opacity: .8;
 }
 
+.static-loader{
+    color: red;
+    font-size: 20pt;
+}
+
 /*___________*/

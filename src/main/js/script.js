@@ -591,7 +591,7 @@ function saveSection(attr){
         if(response.state == 'success'){
             
             Swal.fire('Correcto', 'Datos guardados correctamente', 'success');
-            resetSection(attr.section);
+            
             loadDefaultValuesBySection(attr.section);
             getRecordsByMonth(attr.section);
 
@@ -642,6 +642,7 @@ function saveMultiselectFieldsBySection(attr){
                 console.log('esistes o noooooooo', handle_data.current_multiselect[fields[field].name]);
 
                 saveMultiselectField({
+                    section: attr.section,
                     service_file: fields[field].service.create_file,
                     post_data: {
                         id: attr.id,
@@ -677,7 +678,8 @@ function saveMultiselectField(attr){
 
             console.log('chido chido', response);
 
-            handle_data.current_multiselect = {};
+            resetSection(attr.section);
+
         }
         else{
 
@@ -700,6 +702,16 @@ function saveMultiselectField(attr){
     });
 }
 
+function resetMultiselect(){
+    for(element in document.getElementsByClassName('multiselect-element')){
+        document.getElementsByClassName('multiselect-element')[element].checked = false;
+    }
+
+    for(element in handle_data.current_multiselect){
+        handle_data.current_multiselect[element] = [];
+    }
+}
+
 function resetSection(section){
     let fields = sections[section].fields;
 
@@ -709,6 +721,8 @@ function resetSection(section){
             document.getElementById(fields[field].id).value = "";
         }
     }
+
+    resetMultiselect();
 }
 
 function validateNumber(evt) {
@@ -1100,7 +1114,11 @@ function getRecordsByMonth(section){
 
     if(sections[section].records_by_month_file != null){
 
-        $('#records-section').html('<div style="color: #EE6E5A;">Cargando datos... </div>');
+        setStaticLoader({
+            section_id: 'records-section',
+            class: 'static-loader'
+        });
+
         $.ajax({
             url:'service/'+sections[section].records_by_month_file,
             type:'POST',
@@ -2139,6 +2157,10 @@ function setLoader(attr){
     else{
         $('#loader-div').removeClass('loader');
     }
+}
+
+function setStaticLoader(attr){
+    $('#'+attr.section_id).html('<div class="'+attr.class+'">Cargando datos... </div>');
 }
 
 function addRemoveClassOnLateload(attr){

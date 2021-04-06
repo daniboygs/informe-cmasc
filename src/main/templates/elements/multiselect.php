@@ -18,7 +18,7 @@
         foreach($elements as $element){
 ?> 
 
-            <li><a id="<?php echo $element['id']; ?>" data-value="<?php echo $element['id']; ?>" name="<?php echo $element['id']; ?>" tabIndex="<?php echo $element['id']; ?>"><input type="checkbox"/><label for="">&nbsp; <?php echo $element['name']; ?></label></a></li>
+            <li><a id="<?php echo $element['id']; ?>" data-value="<?php echo $element['id']; ?>" name="<?php echo $element['id']; ?>" tabIndex="<?php echo $element['id']; ?>"><input type="checkbox" class="multiselect-element">&nbsp; <?php echo $element['name']; ?></label></a></li>
 <?php
         }
     }

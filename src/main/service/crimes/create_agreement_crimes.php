@@ -7,10 +7,10 @@ $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[delitos].[AcuerdosCelebrados]';
-$id_field = '[AcuerdoCelebradoID]';
+$fields = '[DelitoID], [AcuerdoCelebradoID]';
 
 $id = $_POST['id'];
-$data = json_decode($_POST['data'], true);
+$data = $_POST['data'];
 
 if(!isset($_SESSION['user_data'])){
 	echo json_encode(
@@ -25,7 +25,7 @@ else{
 	echo json_encode(
 		createMultipleRecords(
 			$id,
-			$id_field,
+			$fields,
 			$data,
 			$db_table,
 			$conn, 

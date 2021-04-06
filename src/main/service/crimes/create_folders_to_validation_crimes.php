@@ -6,8 +6,8 @@ include("../common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[delitos].[CarpetasRecibidas]';
-$fields = '[DelitoID], [CarpetaRecibidaID]';
+$db_table = '[delitos].[CarpetasEnviadasValidacion]';
+$fields = '[DelitoID], [CarpetaEnviadaValidacionID]';
 
 $id = $_POST['id'];
 $data = $_POST['data'];
