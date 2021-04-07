@@ -25,9 +25,9 @@
 ?> 
     <tr>
         <td><?php echo $i; ?></td>
-        <td><?php echo $element['entered_folders_nuc']['value']; ?></td>
+        <td class="bold-text"><?php echo $element['entered_folders_nuc']['value']; ?></td>
         <td><?php echo $element['entered_folders_date']['value']; ?></td>
-        <td><?php echo $element['entered_folders_crime']['value']; ?></td>
+        <td class="align-left bold-text"><?php echo $element['entered_folders_crime']['value']; ?></td>
         <td><?php echo $element['entered_folders_unity']['value']; ?></td>
         <td><?php echo $element['entered_folders_recieved_folder']['value']; ?></td>
         <td><?php echo $element['entered_folders_fiscalia']['value']; ?></td>

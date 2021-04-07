@@ -2,7 +2,7 @@
 
 	<div class="form-row">
 
-		<div class="col-md-3 form-group">
+		<div class="col-md-6 form-group">
 
 			<label style="font-weight:bold">NUC: *</label>
 
@@ -10,7 +10,7 @@
 
 		</div>
 
-		<div class="col-md-3 form-group">
+		<div class="col-md-6 form-group">
 
 			<label style="font-weight:bold">Fecha: *</label>
 
@@ -18,13 +18,13 @@
 
 		</div>
 
-		<div class="col-md-6 form-group">
+		<!--<div class="col-md-6 form-group">
 
 			<label style="font-weight:bold">Delito: *</label>
 
 			<input type="text" class="form-control" id="inegi-general-crime" maxlength="100">			
 
-		</div>
+		</div>-->
 
 	</div>
 
@@ -47,6 +47,18 @@
 			<label style="font-weight:bold">N° Atendidos en carpeta: *</label>
 
 			<input type="text" class="form-control" id="inegi-general-attended" maxlength="4" onkeypress="validateNumber(event);">			
+
+		</div>
+
+	</div>
+
+	<div class="form-row">
+
+		<div class="form-group">
+
+			<label style="font-weight:bold">Delitos: </label>
+
+			<div class="" id="inegi-general-crime-section"><div style="color: #EE6E5A;">Cargando datos... </div></div>		
 
 		</div>
 

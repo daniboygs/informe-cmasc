@@ -204,30 +204,38 @@ function formInsertMultipleValues($data, $id){
 
 function getRecordsByCondition($attr){
 
-	$i = 1;
-
 	$sql = "SELECT $attr->columns FROM $attr->db_table WHERE $attr->condition";
 
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 
 	$row_count = sqlsrv_num_rows( $result );
 	
-	$return = '';
+	$return = array();
 
 	if($row_count > 0){
 
 		while( $row = sqlsrv_fetch_array( $result) ) {
 
-			$return = $return.'*'.$row['Nombre'].', ';
+			array_push($return, $row['Nombre']);
+
+			//$return = $return.'*'.$row['Nombre'].', ';
 			
 		}
+
+		$values = "";
+		
+		foreach ($return as $element) {
+			$values.="<li>$element</li>";
+		}
+
+		$values = "<ul>$values</ul>";
 	
 	}
 	else{
-		$return = null;
+		$values = null;
 	}
 
-	return $return;
+	return $values;
 
 
 }

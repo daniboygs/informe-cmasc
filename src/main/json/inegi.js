@@ -33,21 +33,31 @@ var inegi = {
                     },
                     "default": "today",
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-general-crime",
                     "name": "general_crime",
-                    "type": "text",
-                    "placeholder": "Ingresa Delito",
+                    "type": "multiselect",
+                    "placeholder": "Selecciona Delitos",
                     "event_listener": null,
                     "conditions": {
                         "unlock": null,
                         "length": null
                     },
                     "default": null,
-                    "catalog": null,
-                    "required": true
+                    "catalog": {
+                        service_file: 'get_inegi_crimes.php',
+                        data: null
+                    },
+                    "required": true,
+					"service": {
+                        "create_file": "crimes/create_inegi_crimes.php",
+                        "update_file": null,
+                        "delete_file": "crimes/delete_inegi_crimes.php",
+                        "search_file": null
+                    }
                 },
                 {
                     "id": "inegi-general-nuc",
@@ -64,7 +74,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-general-unity",
@@ -81,7 +92,8 @@ var inegi = {
                         service_file: 'get_unities.php',
                         data: null
                     },
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-general-attended",
@@ -95,7 +107,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 }
             ],
             "active": false,
@@ -128,7 +141,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-victim-age",
@@ -142,7 +156,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-victim-scholarship",
@@ -159,7 +174,8 @@ var inegi = {
                         service_file: 'get_scholarships.php',
                         data: null
                     },
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-victim-ocupation",
@@ -176,7 +192,8 @@ var inegi = {
                         service_file: 'get_ocupations.php',
                         data: null
                     },
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-victim-applicant",
@@ -190,7 +207,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 /*{
                     "id": "inegi-victim-required",
@@ -204,7 +222,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },*/
                 {
                     "id": "inegi-victim-type",
@@ -218,7 +237,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 }
             ],
             "active": false,
@@ -251,7 +271,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-imputed-age",
@@ -265,7 +286,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-imputed-scholarship",
@@ -282,7 +304,8 @@ var inegi = {
                         service_file: 'get_scholarships.php',
                         data: null
                     },
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-imputed-ocupation",
@@ -299,7 +322,8 @@ var inegi = {
                         service_file: 'get_ocupations.php',
                         data: null
                     },
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-imputed-applicant",
@@ -313,7 +337,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 /*{
                     "id": "inegi-imputed-required",
@@ -327,7 +352,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },*/
                 {
                     "id": "inegi-imputed-type",
@@ -341,7 +367,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 }
             ],
             "active": false,
@@ -374,7 +401,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-crime-contest",
@@ -388,7 +416,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-crime-action",
@@ -402,7 +431,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-crime-commission",
@@ -416,7 +446,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-crime-violence",
@@ -430,7 +461,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-crime-modality",
@@ -447,7 +479,8 @@ var inegi = {
                         service_file: 'get_modalities.php',
                         data: null
                     },
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-crime-instrument",
@@ -464,7 +497,8 @@ var inegi = {
                         service_file: 'get_instruments.php',
                         data: null
                     },
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-crime-alternative-justice",
@@ -478,7 +512,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 }
             ],
             "active": false,
@@ -511,7 +546,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-masc-result",
@@ -525,7 +561,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-masc-compliance",
@@ -539,7 +576,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-masc-total",
@@ -553,7 +591,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-masc-repair",
@@ -570,7 +609,8 @@ var inegi = {
                         service_file: 'get_repairs.php',
                         data: null
                     },
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-masc-conclusion",
@@ -587,7 +627,8 @@ var inegi = {
                         service_file: 'get_conclusions.php',
                         data: null
                     },
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-masc-recovered-amount",
@@ -601,7 +642,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-masc-amount-property",
@@ -615,7 +657,8 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true
+                    "required": true,
+					"service": null
                 },
                 {
                     "id": "inegi-masc-turned-to",
@@ -632,7 +675,8 @@ var inegi = {
                         service_file: 'get_turneds.php',
                         data: null
                     },
-                    "required": true
+                    "required": true,
+					"service": null
                 }
             ],
             "active": false,

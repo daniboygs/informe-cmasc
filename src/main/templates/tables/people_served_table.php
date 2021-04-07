@@ -22,9 +22,9 @@
 ?> 
     <tr>
         <td><?php echo $i; ?></td>
-        <td><?php echo $element['people_served_nuc']['value']; ?></td>
+        <td class="bold-text"><?php echo $element['people_served_nuc']['value']; ?></td>
         <td><?php echo $element['people_served_date']['value']; ?></td>
-        <td><?php echo $element['people_served_crime']['value']; ?></td>
+        <td class="align-left bold-text"><?php echo $element['people_served_crime']['value']; ?></td>
         <td><?php echo $element['people_served_number']['value']; ?></td>
         <td><?php echo $element['people_served_unity']['value']; ?></td>
     </tr>

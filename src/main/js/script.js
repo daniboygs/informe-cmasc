@@ -1887,7 +1887,37 @@ function getInegiPreloadedDataBySection(attr){
     
     switch(attr.section){
         case 'general':
-            service_file = 'service/inegi/get_inegi_general_preloaded_data.php'
+            service_file = 'service/inegi/get_inegi_general_preloaded_data.php';
+
+            getInegiPreloadedCrimes({
+                service_file: 'service/inegi/get_inegi_general_crimes_preloaded_data.php',
+                attr: {
+                    general_id: inegi.current.general_id,
+                    nuc: inegi.current.nuc,
+                    recieved_id: inegi.current.recieved_id,
+                    agreement_id: inegi.current.agreement_id
+                },
+                success: {
+                    functions: [
+                        {
+                            function: loadInegiPreloadedCrimes,
+                            attr: {
+                                section_id: 'inegi-general-crime-section',
+                                template_file: 'templates/elements/list.php',
+                                element_attr: {
+                                    element_id: 'general-inegi-crime-list',
+                                    element_placeholder: '',
+                                    element_event_listener: '',
+                                    elements: ''
+                                },
+                                data: null
+                            },
+                            response: 'data'
+                        }
+                    ]
+                }
+            });
+
             break;
         case 'masc':
             if(attr.attr.recieved_id != null){
@@ -1991,6 +2021,57 @@ function loadInegiPreloadedData(attr){
             } 
         });
     }
+}
+
+function getInegiPreloadedCrimes(attr){
+
+    if(attr.service_file != null){
+        
+        $.ajax({
+            url: attr.service_file,
+            type:'POST',
+            dataType: "json",
+            data: attr.attr,
+            cache:false
+        }).done(function(response){
+    
+            if(attr.success != null){
+                for(func in attr.success.functions){
+                    if(attr.success.functions[func].response != null){
+                        attr.success.functions[func].attr.data = response;
+                    }
+                    attr.success.functions[func].function(attr.success.functions[func].attr);
+                }
+            }
+        });
+    }
+    else{
+        console.log('nul weeeeeee');
+    }    
+}
+
+function loadInegiPreloadedCrimes(attr){
+
+    attr.element_attr.elements = attr.data;
+
+    if(attr.template_file != null){
+        
+        $.ajax({
+            url: attr.template_file,
+            type:'POST',
+            dataType: "html",
+            data: attr.element_attr,
+            cache:false
+        }).done(function(response){
+            if(response != null)
+                $('#'+attr.section_id).html(response);
+            else
+                $('#'+attr.section_id).html('No hay registros!');
+        });
+    }
+    else{
+        console.log('nul weeeeeee');
+    }  
 }
 
 function setValueOnLateLoad(attr){

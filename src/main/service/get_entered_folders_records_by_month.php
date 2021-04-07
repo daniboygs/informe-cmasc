@@ -179,7 +179,7 @@ function getRecord($attr){
 					'value' => getRecordsByCondition(
 						(object) array(
 							'columns' => 'd.Nombre',
-							'condition' => "[CarpetaIngresadaID] = '".$row['id']."'",
+							'condition' => "[CarpetaIngresadaID] = '".$row['id']."' ORDER BY d.Nombre",
 							'db_table' => '[delitos].[CarpetasIngresadas] ci inner join cat.Delito d on ci.DelitoID = d.DelitoID',
 							'conn' => $attr->conn,
 							'params' => $attr->params,

@@ -10,7 +10,7 @@ $db_table = '[inegi].[General]';
 
 $general_nuc = $_POST['general_nuc'];
 $general_date = $_POST['general_date'];
-$general_crime = $_POST['general_crime'];
+//$general_crime = $_POST['general_crime'];
 $general_unity = $_POST['general_unity'];
 $general_attended = $_POST['general_attended'];
 $recieved_id = $_POST['recieved_id'];
@@ -39,12 +39,12 @@ $data = (object) array(
 		'null' => false,
 		'db_column' => '[Fecha]'
 	),
-	'general_crime' => (object) array(
+	/*'general_crime' => (object) array(
 		'type' => 'text',
 		'value' => $general_crime,
 		'null' => false,
 		'db_column' => '[Delito]'
-	),
+	),*/
 	'general_unity' => (object) array(
 		'type' => 'text',
 		'value' => $general_unity,

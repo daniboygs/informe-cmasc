@@ -21,9 +21,9 @@
 ?> 
     <tr>
         <td><?php echo $i; ?></td>
-        <td><?php echo $element['folders_to_validation_nuc']['value']; ?></td>
+        <td class="bold-text"><?php echo $element['folders_to_validation_nuc']['value']; ?></td>
         <td><?php echo $element['folders_to_validation_date']['value']; ?></td>
-        <td><?php echo $element['folders_to_validation_crime']['value']; ?></td>
+        <td class="align-left bold-text"><?php echo $element['folders_to_validation_crime']['value']; ?></td>
         <td><?php echo $element['folders_to_validation_unity']['value']; ?></td>
     </tr>
 <?php
