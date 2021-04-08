@@ -4,6 +4,19 @@
 
 		<div class="col-md-4 form-group">
 
+			<label style="font-weight:bold">Delito: *</label>
+
+			<select class="form-control" id="inegi-crime-crime" required="true">									
+			</select>	
+
+		</div>
+
+	</div>
+
+	<div class="form-row">
+
+		<div class="col-md-4 form-group">
+
 			<label style="font-weight:bold">Calificación: *</label>
 
 			<select class="form-control" id="inegi-crime-rate" required="true">									

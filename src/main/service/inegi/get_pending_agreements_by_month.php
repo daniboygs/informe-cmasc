@@ -32,8 +32,32 @@ $data = (object) array(
 		'db_column' => "a.[Fecha] AS 'FechaAcuerdo'",
 		'search' => true
 	),
-	'agreement_crime' => (object) array(
+	/*'agreement_crime' => (object) array(
 		'db_column' => "CASE ISNULL([AcuerdoDelito], 'NULL')  WHEN 'NULL' THEN [Delito] ELSE [AcuerdoDelito] END AS 'Delito'",
+		'search' => true
+	),*/
+	'agreement_record_table' => (object) array(
+		'db_column' => "CASE ISNULL([AcuerdoDelito], 'NULL')  WHEN 'NULL' THEN '[dbo].[CarpetasRecibidas]' ELSE '[dbo].[AcuerdosCelebrados]' END AS 'RecordTable'",
+		'search' => true
+	),
+	'agreement_record_field_id' => (object) array(
+		'db_column' => "CASE ISNULL([AcuerdoDelito], 'NULL')  WHEN 'NULL' THEN '[CarpetaRecibidaID]' ELSE '[AcuerdoCelebradoID]' END AS 'RecordFieldID'",
+		'search' => true
+	),
+	'agreement_record_id' => (object) array(
+		'db_column' => "CASE ISNULL([AcuerdoDelito], 'NULL')  WHEN 'NULL' THEN [CarpetaRecibidaID] ELSE [AcuerdoCelebradoID] END AS 'RecordID'",
+		'search' => true
+	),
+	'agreement_crime_table' => (object) array(
+		'db_column' => "CASE ISNULL([AcuerdoDelito], 'NULL')  WHEN 'NULL' THEN '[delitos].[CarpetasRecibidas]' ELSE '[delitos].[AcuerdosCelebrados]' END AS 'CrimeTable'",
+		'search' => true
+	),
+	'agreement_crime_field_id' => (object) array(
+		'db_column' => "CASE ISNULL([AcuerdoDelito], 'NULL')  WHEN 'NULL' THEN '[DelitoCarpetaRecibidaID]' ELSE '[DelitoAcuerdoID]' END AS 'CrimeFieldID'",
+		'search' => true
+	),
+	'agreement_crime_id' => (object) array(
+		'db_column' => "CASE ISNULL([AcuerdoDelito], 'NULL')  WHEN 'NULL' THEN [CarpetaRecibidaID] ELSE [AcuerdoCelebradoID] END AS 'CrimeID'",
 		'search' => true
 	),
 	'agreement_amount' => (object) array(
@@ -157,7 +181,16 @@ function getRecord($attr){
 				),
 				'agreement_crime' => array(
 					'name' => 'Delito',
-					'value' => $row['Delito']
+					'value' => getRecordsByCondition(
+						(object) array(
+							'columns' => 'd.Nombre',
+							'condition' => $row['RecordFieldID']." = '".$row['RecordID']."' ORDER BY d.Nombre",
+							'db_table' => $row['CrimeTable']." ci inner join cat.Delito d on ci.DelitoID = d.DelitoID",
+							'conn' => $attr->conn,
+							'params' => $attr->params,
+							'options' => $attr->options
+						)
+					)
 				),
 				'agreement_intervention' => array(
 					'name' => 'Intervinientes',

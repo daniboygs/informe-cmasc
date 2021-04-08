@@ -52,15 +52,11 @@
 
 	</div>
 
-	<div class="form-row">
+	<div>
 
-		<div class="form-group">
+		<label style="font-weight:bold">Delitos: </label>
 
-			<label style="font-weight:bold">Delitos: </label>
-
-			<div class="" id="inegi-general-crime-section"><div style="color: #EE6E5A;">Cargando datos... </div></div>		
-
-		</div>
+		<div class="" id="inegi-general-crime-section"><div style="color: #EE6E5A;">Cargando datos... </div></div>		
 
 	</div>
 

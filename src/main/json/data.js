@@ -5,5 +5,6 @@ var handle_data = {
 		"loaded_data": false,
 		"loading": false
 	},
-	"current_multiselect": null
+	"current_multiselect": null,
+	"inegi_crimes": null
 }

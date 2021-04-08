@@ -51,7 +51,7 @@ var inegi = {
                         service_file: 'get_inegi_crimes.php',
                         data: null
                     },
-                    "required": true,
+                    "required": false,
 					"service": {
                         "create_file": "crimes/create_inegi_crimes.php",
                         "update_file": null,
@@ -389,6 +389,21 @@ var inegi = {
             "name": "crime",
             "title": "Caracteristicas de los delitos",
             "fields": [
+                {
+                    "id": "inegi-crime-crime",
+                    "name": "crime_crime",
+                    "type": "select",
+                    "placeholder": "Selecciona Delitos",
+                    "event_listener": null,
+                    "conditions": {
+                        "unlock": null,
+                        "length": null
+                    },
+                    "default": null,
+                    "catalog": null,
+                    "required": true,
+					"service": null
+                },
                 {
                     "id": "inegi-crime-rate",
                     "name": "crime_rate",
