@@ -2,7 +2,7 @@
     if(isset( $_POST['data']))
         $data = $_POST['data'];
     else
-        $data = null;
+        $data = 'null';
 ?>
 
 <div class="form-buttons" style="float: left !important; margin-bottom: 20px;">		
@@ -13,7 +13,7 @@
 
 <br>
 
-<table style="background-color: white; width: 100%; display: block; overflow-x: auto; white-space: nowrap;" id="data-section-table">
+<table class="data-table table table-striped overflow-table">
     <tr>
         <th>#</th>
         <th>NUC</th>
@@ -33,15 +33,15 @@
         <th>Acción</th>
     </tr>
 <?php
-    if($data != null){
+    if($data != 'null'){
         $i=1;
-        foreach($data as $element){
+        foreach(json_decode($data, true) as $element){
 ?> 
     <tr>
         <td><?php echo $i; ?></td>
-        <td><?php echo $element['entered_folders_nuc']['value']; ?></td>
+        <td class="bold-text"><?php echo $element['entered_folders_nuc']['value']; ?></td>
         <td><?php echo $element['entered_folders_date']['value']; ?></td>
-        <td><?php echo $element['entered_folders_crime']['value']; ?></td>
+        <td class="align-left bold-text"><?php echo $element['entered_folders_crime']['value']; ?></td>
         <td><?php echo $element['entered_folders_unity']['value']; ?></td>
         <td><?php echo $element['entered_folders_mp_channeler']['value']; ?></td>
         <td><?php echo $element['entered_folders_recieved_folder']['value']; ?></td>

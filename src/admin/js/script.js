@@ -440,13 +440,42 @@ function getRecordsByMonth(section){
         console.log(section+'_table.php');
         drawRecordsTable({
             data: response,
-            file: section+'_table.php'
+            file: 'templates/tables/'+section+'_table.php',
+            element_id: 'records-section'
         });
 	});
 }
 
 function drawRecordsTable(attr){
-	console.log('draw_t', attr.file);
+
+    if(attr.data != null){
+        $.ajax({
+            url: attr.file,
+            type: 'POST',
+            dataType: "html",
+            data: {
+                data: JSON.stringify(attr.data)
+            },
+            cache: false
+        }).done(function(response){
+            $('#'+attr.element_id).html(response);
+        });
+    }
+    else{
+        loadDashboardAlert({
+            template_file: 'templates/elements/dashboard_alert.php',
+            element_id: attr.element_id,
+            element_attr: {
+                attr: {
+                    type: 'secondary',
+                    message: 'No hay registros!'
+                }
+            } 
+        });
+    }
+
+
+	/*console.log('draw_t', attr.file);
 	$.ajax({
 		url: 'templates/tables/'+attr.file,
 		type: 'POST',
@@ -457,7 +486,7 @@ function drawRecordsTable(attr){
 		cache: false
 	}).done(function(response){
 		$('#records-section').html(response);
-	});
+	});*/
 }
 
 function searchSection(section){
@@ -523,7 +552,8 @@ function searchSection(section){
             test = response;
             drawRecordsTable({
                 data: response,
-                file: section+'_table.php'
+                file: 'templates/tables/'+section+'_table.php',
+                element_id: 'records-section'
             });
         });
     }
@@ -536,21 +566,29 @@ function searchSection(section){
 
 function deleteRecord(section, id){
 
-    console.log('hola delete', section+' - '+id);
-
-    $.ajax({
-        url:'service/delete_'+section+'.php',
-        type:'POST',
-        dataType: "json",
-        data: {
-            id: id
-        },
-        cache:false
-    }).done(function(response){
-        Swal.fire('Correcto', 'Registro eliminado correctamente', 'success');
-        getRecordsByMonth(section);
+    Swal.fire({
+        title: 'Estas seguro?',
+        text: 'El registro sera eliminado de forma permanente!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if(result.isConfirmed){
+            $.ajax({
+                url:'service/delete_'+section+'.php',
+                type:'POST',
+                dataType: "json",
+                data: {
+                    id: id
+                },
+                cache:false
+            }).done(function(response){
+                Swal.fire('Correcto', 'Registro eliminado correctamente', 'success');
+                getRecordsByMonth(section);
+            });
+        }
     });
-
 
     //let date = new Date();
 
@@ -584,7 +622,7 @@ function tableToExcel(){
     
       
   
-    table = document.getElementById('data-section-table');
+    table = document.getElementsByClassName('data-table')[0];
     var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
     window.location.href = uri + base64(format(template, ctx));
     
@@ -879,5 +917,23 @@ function onChangeInegiDaily(){
     else{
         document.getElementById('capture-inegi-period-initial-date').disabled = false;
         document.getElementById('capture-inegi-period-finish-date').disabled = false;
+    }
+}
+
+function loadDashboardAlert(attr){
+	$.ajax({
+		url: attr.template_file,
+		type:'POST',
+		dataType: "html",
+		data: attr.element_attr,
+		cache:false
+	}).done(function(response){
+		$('#'+attr.element_id).html(response);
+	});
+}
+
+function resetDashboardAlert(attr){
+    if(document.getElementById(attr.element_id)){
+        $('#'+attr.element_id).html('');
     }
 }

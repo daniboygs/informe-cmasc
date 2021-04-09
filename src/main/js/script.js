@@ -2361,14 +2361,16 @@ function resetInegiCapture(){
             showCancelButton: true,
             confirmButtonText: 'Si',
             cancelButtonText: 'No'
-          }).then((result) => {
-            document.getElementById('inegi-capture-section').style.display = 'none';
+        }).then((result) => {
+            if(result.isConfirmed){
+                document.getElementById('inegi-capture-section').style.display = 'none';
 
-            document.getElementById('inegi-pending-section').style.display = 'block';
-            $('#dashboard-alert-section').html('');
+                document.getElementById('inegi-pending-section').style.display = 'block';
+                $('#dashboard-alert-section').html('');
 
-            resetInegi(null);
-          });
+                resetInegi(null);
+            }
+        });
     }
 }
 

@@ -13,7 +13,7 @@ $year = $_POST['year'];
 
 $data = (object) array(
 	'agreement_id' => (object) array(
-		'db_column' => '[AcuerdoCelebradoID]',
+		'db_column' => "[AcuerdoCelebradoID] AS 'id'",
 		'search' => true
 	),
 	'agreement_amount' => (object) array(
@@ -24,10 +24,10 @@ $data = (object) array(
 		'db_column' => '[Cumplimiento]',
 		'search' => true
 	),
-	'agreement_crime' => (object) array(
+	/*'agreement_crime' => (object) array(
 		'db_column' => '[AcuerdoDelito]',
 		'search' => true
-	),
+	),*/
 	'agreement_date' => (object) array(
 		'db_column' => '[Fecha]',
 		'search' => true
@@ -143,7 +143,7 @@ function getRecord($attr){
 			array_push($return, array(
 				'agreement_id' => array(
 					'name' => 'ID',
-					'value' => $row['AcuerdoCelebradoID']
+					'value' => $row['id']
 				),
 				'agreement_date' => array(
 					'name' => 'Fecha',
@@ -151,7 +151,16 @@ function getRecord($attr){
 				),
 				'agreement_crime' => array(
 					'name' => 'Delito',
-					'value' => $row['AcuerdoDelito']
+					'value' => getRecordsByCondition(
+						(object) array(
+							'columns' => 'd.Nombre',
+							'condition' => "[AcuerdoCelebradoID] = '".$row['id']."' ORDER BY d.Nombre",
+							'db_table' => '[delitos].[AcuerdosCelebrados] ac inner join cat.Delito d on ac.DelitoID = d.DelitoID',
+							'conn' => $attr->conn,
+							'params' => $attr->params,
+							'options' => $attr->options
+						)
+					)
 				),
 				'agreement_intervention' => array(
 					'name' => 'Intervinientes',

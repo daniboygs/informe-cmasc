@@ -267,3 +267,10 @@ table tr td{
 .bold-text{
     font-weight: bold !important;
 }
+
+.overflow-table{
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}

@@ -5,7 +5,7 @@
         $data = 'null';
 ?>
 
-<table class="data-table table table-striped" style="background-color: white; width: 100%; display: block; overflow-x: auto; white-space: nowrap;">
+<table class="data-table table table-striped overflow-table">
     <tr>
         <th>#</th>
         <!--<th>Nombre Facilitador</th>-->

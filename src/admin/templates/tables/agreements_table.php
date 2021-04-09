@@ -2,8 +2,9 @@
     if(isset( $_POST['data']))
         $data = $_POST['data'];
     else
-        $data = null;
+        $data = 'null';
 ?>
+
 <div class="form-buttons" style="float: left !important; margin-bottom: 20px;">		
 
     <button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="tableToExcel()">Descargar EXCEL</button>
@@ -31,15 +32,15 @@
         <th>Acción</th>
     </tr>
 <?php
-    if($data != null){
+    if($data != 'null'){
         $i=1;
-        foreach($data as $element){
+        foreach(json_decode($data, true) as $element){
 ?> 
     <tr>
         <td><?php echo $i; ?></td>
-        <td><?php echo $element['agreement_nuc']['value']; ?></td>
+        <td class="bold-text"><?php echo $element['agreement_nuc']['value']; ?></td>
         <td><?php echo $element['agreement_date']['value']; ?></td>
-        <td><?php echo $element['agreement_crime']['value']; ?></td>
+        <td class="align-left bold-text"><?php echo $element['agreement_crime']['value']; ?></td>
         <td><?php echo $element['agreement_intervention']['value']; ?></td>
         <td><?php echo $element['agreement_compliance']['value']; ?></td>
         <td><?php echo $element['agreement_total']['value']; ?></td>
