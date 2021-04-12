@@ -1122,7 +1122,7 @@ function getRecordsByMonth(section){
     console.log('by moneh?', section);
 
     let date = new Date();
-    date.setHours(date.getHours()+6); 
+    //date.setHours(date.getHours()+6); 
 
     if(sections[section].records_by_month_file != null){
 
