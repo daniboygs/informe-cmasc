@@ -4,7 +4,7 @@ $(document).ready(function(){
     checkSession({
         success: {
             function: loadSection,
-            attr: 'agreements'
+            attr: 'entered_folders'
         },
         failed: {
             function: redirectTo,
@@ -13,7 +13,7 @@ $(document).ready(function(){
         location: '../../service/check_session.php'
     });
 
-    getRecordsByMonth('agreements');
+    getRecordsByMonth('entered_folders');
 
     //loadSection('agreements');
 
@@ -65,6 +65,7 @@ function loadForm(section){
         else{
             $('#records-section').html('');
             getActivePeriod();
+            getInegiActivePeriod();
         }
         
 
@@ -422,41 +423,78 @@ function getRecordsByMonth(section){
     console.log('by moneh?', section);
 
     let date = new Date();
-    date.setHours(date.getHours()+6); 
+    //date.setHours(date.getHours()+6); 
 
-	$.ajax({
-		url:'service/'+sections[section].records_by_month_file,
-		type:'POST',
-		dataType: "json",
-		data: {
-            month: (date.getMonth()+1),
-            year: date.getFullYear()
-		},
-		cache:false
-	}).done(function(response){
-        console.log(response);
-        test = response;
-        console.log(section+'_table.php');
-        drawRecordsTable({
-            data: response,
-            file: section+'_table.php'
+    if(sections[section].records_by_month_file != null){
+
+        setStaticLoader({
+            section_id: 'records-section',
+            class: 'static-loader'
         });
-	});
+
+        $.ajax({
+            url:'service/'+sections[section].records_by_month_file,
+            type:'POST',
+            dataType: "json",
+            data: {
+                month: (date.getMonth()+1),
+                year: date.getFullYear()
+            },
+            cache:false
+        }).done(function(response){
+            console.log(response);
+            test = response;
+            console.log(section+'_table.php');
+            drawRecordsTable({
+                data: response,
+                file: 'templates/tables/'+section+'_table.php',
+                element_id: 'records-section'
+            });
+        });
+    }
 }
 
 function drawRecordsTable(attr){
-	console.log('draw_t', attr.file);
+
+    if(attr.data != null){
+        $.ajax({
+            url: attr.file,
+            type: 'POST',
+            dataType: "html",
+            data: {
+                data: JSON.stringify(attr.data)
+            },
+            cache: false
+        }).done(function(response){
+            $('#'+attr.element_id).html(response);
+        });
+    }
+    else{
+        loadDashboardAlert({
+            template_file: 'templates/elements/dashboard_alert.php',
+            element_id: attr.element_id,
+            element_attr: {
+                attr: {
+                    type: 'secondary',
+                    message: 'No hay registros!'
+                }
+            } 
+        });
+    }
+
+
+	/*console.log('draw_t', attr.file);
 	$.ajax({
 		url: 'templates/tables/'+attr.file,
 		type: 'POST',
 		dataType: "html",
 		data: {
-			data: attr.data
+			data: JSON.stringify(attr.data)
 		},
 		cache: false
 	}).done(function(response){
 		$('#records-section').html(response);
-	});
+	});*/
 }
 
 function searchSection(section){
@@ -522,7 +560,8 @@ function searchSection(section){
             test = response;
             drawRecordsTable({
                 data: response,
-                file: section+'_table.php'
+                file: 'templates/tables/'+section+'_table.php',
+                element_id: 'records-section'
             });
         });
     }
@@ -535,21 +574,29 @@ function searchSection(section){
 
 function deleteRecord(section, id){
 
-    console.log('hola delete', section+' - '+id);
-
-    $.ajax({
-        url:'service/delete_'+section+'.php',
-        type:'POST',
-        dataType: "json",
-        data: {
-            id: id
-        },
-        cache:false
-    }).done(function(response){
-        Swal.fire('Correcto', 'Registro eliminado correctamente', 'success');
-        getRecordsByMonth(section);
+    Swal.fire({
+        title: 'Estas seguro?',
+        text: 'El registro sera eliminado de forma permanente!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if(result.isConfirmed){
+            $.ajax({
+                url:'service/delete_'+section+'.php',
+                type:'POST',
+                dataType: "json",
+                data: {
+                    id: id
+                },
+                cache:false
+            }).done(function(response){
+                Swal.fire('Correcto', 'Registro eliminado correctamente', 'success');
+                getRecordsByMonth(section);
+            });
+        }
     });
-
 
     //let date = new Date();
 
@@ -583,7 +630,7 @@ function tableToExcel(){
     
       
   
-    table = document.getElementById('data-section-table');
+    table = document.getElementsByClassName('data-table')[0];
     var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
     window.location.href = uri + base64(format(template, ctx));
     
@@ -598,32 +645,34 @@ function getActivePeriod(){
 		type:'POST',
         dataType: "json",
         data: {
-            id: 0
+            section: 1
         },
 	}).done(function(response){
         console.log('res de active',response);
 
-        let initial_date = new Date(response.initial_us_date);
+        let period = response;
+
+        let initial_date = new Date(period.initial_us_date);
 
         initial_date.setHours(initial_date.getHours()+6);
 
         document.getElementById('capture-period-initial-date').valueAsDate = initial_date;
 
-        let finish_date = new Date(response.finish_us_date);
+        let finish_date = new Date(period.finish_us_date);
 
         finish_date.setHours(finish_date.getHours()+6);
 
         document.getElementById('capture-period-finish-date').valueAsDate = finish_date;
 
-        document.getElementById('capture-period-daily').checked = response.daily;
+        document.getElementById('capture-period-daily').checked = period.daily;
 
-        if(response.daily){
-            $('#records-section').html('<h1 style="">Periodo de captura: Diaria</h1>');
+        if(period.daily){
+            $('#capture-period-label').html('Periodo de captura: Diaria');
             document.getElementById('capture-period-initial-date').disabled = true;
             document.getElementById('capture-period-finish-date').disabled = true;
         }
         else{
-            $('#records-section').html('<h1 style="">Periodo de captura: '+response.initial_date+' al '+response.finish_date+'</h1>');
+            $('#capture-period-label').html('Periodo de captura: '+response.initial_date+' al '+response.finish_date+'');
         }
         
 	});
@@ -734,18 +783,19 @@ function checkActivePeriod(attr){
             console.log('f_datre', form_date);
             form_date.setHours(form_date.getHours()+6);
             console.log('f_datre_af', form_date);
-            form_date = form_date.toLocaleDateString("es-MX");
+            let form_date_mx = form_date.toLocaleDateString("es-MX");
     
             let initial_date = new Date(response.initial_us_date);
             console.log('i_date', initial_date);
-            initial_date.setHours(initial_date.getHours()+6);
-            initial_date = initial_date.toLocaleDateString("es-MX");
+            //initial_date.setHours(initial_date.getHours()+6);
+            //initial_date = initial_date.toLocaleDateString("es-MX");
     
     
             let finish_date = new Date(response.finish_us_date);
             console.log('f_date', finish_date);
-            finish_date.setHours(finish_date.getHours()+6);
-            finish_date = finish_date.toLocaleDateString("es-MX");
+            finish_date.setHours(finish_date.getHours()+23);
+            finish_date.setMinutes(finish_date.getMinutes(59));
+            //finish_date = finish_date.toLocaleDateString("es-MX");
 
 
             if(response.daily){
@@ -754,9 +804,14 @@ function checkActivePeriod(attr){
                 let today = new Date();
                 today = today.toLocaleDateString("es-MX");
 
-                if(form_date != today){
+                if(form_date_mx != today){
                     console.log('daily noup: ', today);
                     console.log('daily noup form da: ', form_date);
+
+                    setLoader({
+                        add: false
+                    });
+
                     Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
                 }
                 else{
@@ -766,6 +821,10 @@ function checkActivePeriod(attr){
 
             }
             else{
+
+                console.log('form_date: ', new Date(form_date));
+                console.log('finish_date: ', new Date(finish_date));
+                console.log('initial_date: ', new Date(initial_date));
                 if(form_date <= finish_date && form_date >= initial_date){
                     console.log('yes');
     
@@ -775,6 +834,9 @@ function checkActivePeriod(attr){
                 }
                 else{
                     console.log('noup');
+                    setLoader({
+                        add: false
+                    });
     
                     Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
                 }
@@ -784,4 +846,119 @@ function checkActivePeriod(attr){
         });
     }
     
+}
+
+function getInegiActivePeriod(){
+
+    console.log('active? o q?');
+
+	$.ajax({
+		url:'service/get_active_period.php',
+		type:'POST',
+        dataType: "json",
+        data: {
+            section: 2
+        },
+	}).done(function(response){
+        console.log('res de active',response);
+
+        let period = response;
+
+        let initial_date = new Date(period.initial_us_date);
+
+        initial_date.setHours(initial_date.getHours()+6);
+
+        document.getElementById('capture-inegi-period-initial-date').valueAsDate = initial_date;
+
+        let finish_date = new Date(period.finish_us_date);
+
+        finish_date.setHours(finish_date.getHours()+6);
+
+        document.getElementById('capture-inegi-period-finish-date').valueAsDate = finish_date;
+
+        document.getElementById('capture-inegi-period-daily').checked = period.daily;
+
+        if(period.daily){
+            $('#capture-inegi-period-label').html('Periodo de captura: Diaria');
+            document.getElementById('capture-inegi-period-initial-date').disabled = true;
+            document.getElementById('capture-inegi-period-finish-date').disabled = true;
+        }
+        else{
+            $('#capture-inegi-period-label').html('Periodo de captura: '+response.initial_date+' al '+response.finish_date);
+        }
+        
+	});
+}
+
+function activateInegiPeriod(){
+    if(document.getElementById('capture-inegi-period-initial-date') && document.getElementById('capture-inegi-period-finish-date')){
+
+        console.log('exis per');
+        if((document.getElementById('capture-inegi-period-initial-date') != '' && document.getElementById('capture-inegi-period-finish-date') != '') || document.getElementById('capture-inegi-period-daily').checked){
+            console.log('apenas voy per');
+            $.ajax({  
+                type: "POST",  
+                url: "service/update_inegi_capture_period.php", 
+                dataType : 'json', 
+                data: {
+                    initial_date: document.getElementById('capture-inegi-period-initial-date').value,
+                    finish_date: document.getElementById('capture-inegi-period-finish-date').value,
+                    daily: document.getElementById('capture-inegi-period-daily').checked
+                },
+            }).done(function(response){
+
+                console.log('response? per');
+        
+                if(response.state != "fail"){
+
+                    Swal.fire('Correcto', 'Se ha habilitado un nuevo periodo de captura', 'success');
+
+                    getInegiActivePeriod();
+                            
+                }
+                else{
+                    Swal.fire('Oops...', 'Ha fallado la conexión!', 'error');
+                }
+                
+            }); 
+        }
+        else{
+            Swal.fire('Campos incompletos', 'Debe llenar ambas fechas', 'warning');
+        }
+    }
+    else{
+    }
+}
+
+function onChangeInegiDaily(){
+    if(document.getElementById('capture-inegi-period-daily').checked){
+        document.getElementById('capture-inegi-period-initial-date').disabled = true;
+        document.getElementById('capture-inegi-period-finish-date').disabled = true;
+    }
+    else{
+        document.getElementById('capture-inegi-period-initial-date').disabled = false;
+        document.getElementById('capture-inegi-period-finish-date').disabled = false;
+    }
+}
+
+function loadDashboardAlert(attr){
+	$.ajax({
+		url: attr.template_file,
+		type:'POST',
+		dataType: "html",
+		data: attr.element_attr,
+		cache:false
+	}).done(function(response){
+		$('#'+attr.element_id).html(response);
+	});
+}
+
+function resetDashboardAlert(attr){
+    if(document.getElementById(attr.element_id)){
+        $('#'+attr.element_id).html('');
+    }
+}
+
+function setStaticLoader(attr){
+    $('#'+attr.section_id).html('<div class="'+attr.class+'">Cargando datos... </div>');
 }

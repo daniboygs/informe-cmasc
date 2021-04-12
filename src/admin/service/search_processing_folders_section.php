@@ -13,7 +13,7 @@ $processing_folders_finish_date = $_POST['processing_folders_finish_date'];
 
 $data = (object) array(
 	'processing_folders_id' => (object) array(
-		'db_column' => '[CarpetaTramiteID]',
+		'db_column' => "[CarpetaTramiteID] AS 'id'",
 		'search' => true
 	),
 	/*'processing_folders_facilitator' => (object) array(
@@ -194,7 +194,7 @@ function getRecord($attr){
 			array_push($return, array(
 				'processing_folders_id' => array(
 					'name' => 'ID',
-					'value' => $row['CarpetaTramiteID']
+					'value' => $row['id']
 				),
 				/*'processing_folders_facilitator' => array(
 					'name' => 'NombreFacilitador',

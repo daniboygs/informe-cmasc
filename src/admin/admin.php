@@ -36,15 +36,34 @@
 		<div id="frame">
 
 			<div class="framebar">
-				<div class="active" id="agreements-nav-div" onclick="loadSection('agreements')">ACUERDOS CELEBRADOS</div>
+				<div id="entered-folders-nav-div" onclick="loadSection('entered_folders')">CARPETAS INGRESADAS</div>
+<?php
+		
+	if(isset($_SESSION['user_data']['type'])){
+		if($_SESSION['user_data']['type'] == 1){
+?>
+			<div id="entered-folders-super-nav-div" onclick="loadSection('entered_folders_super')">CARPETAS INGRESADAS (CAPTURA)</div>
+<?php
+		}
+	}
+?>
 				<div id="recieved-folders-nav-div" onclick="loadSection('recieved_folders')">CARPETAS RECIBIDAS</div>
+				<div class="active" id="agreements-nav-div" onclick="loadSection('agreements')">ACUERDOS CELEBRADOS</div>
 				<div id="folders-to-investigation-nav-div" onclick="loadSection('folders_to_investigation')">CARPETAS ENVIADAS A INVESTIGACIÓN</div>
 				<div id="people-served-nav-div" onclick="loadSection('people_served')">PERSONAS ATENDIDAS</div>
-				<div id="processing-folders-nav-div" onclick="loadSection('processing_folders')">CARPETAS DE TRÁMITE</div>
 				<div id="folders-to-validation-nav-div" onclick="loadSection('folders_to_validation')">CARPETAS ENVIADAS A VALIDACIÓN</div>
-				<div id="entered-folders-nav-div" onclick="loadSection('entered_folders')">CARPETAS INGRESADAS</div>
-				<div id="entered-folders-super-nav-div" onclick="loadSection('entered_folders_super')">CARPETAS INGRESADAS (CAPTURA)</div>
-				<div id="capture-period-nav-div" onclick="loadSection('capture_period')">PERIODO DE CAPTURA</div>
+				<div id="processing-folders-nav-div" onclick="loadSection('processing_folders')">CARPETAS DE TRÁMITE</div>
+<?php
+		
+	if(isset($_SESSION['user_data']['type'])){
+		if($_SESSION['user_data']['type'] == 1){
+?>
+			<div id="capture-period-nav-div" onclick="loadSection('capture_period')">PERIODO DE CAPTURA</div>
+<?php
+		}
+	}
+?>
+				
 			</div>
 
 			<br>

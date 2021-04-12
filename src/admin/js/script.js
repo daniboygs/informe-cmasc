@@ -4,7 +4,7 @@ $(document).ready(function(){
     checkSession({
         success: {
             function: loadSection,
-            attr: 'agreements'
+            attr: 'entered_folders'
         },
         failed: {
             function: redirectTo,
@@ -13,7 +13,7 @@ $(document).ready(function(){
         location: '../../service/check_session.php'
     });
 
-    getRecordsByMonth('agreements');
+    getRecordsByMonth('entered_folders');
 
     //loadSection('agreements');
 
@@ -423,27 +423,35 @@ function getRecordsByMonth(section){
     console.log('by moneh?', section);
 
     let date = new Date();
-    date.setHours(date.getHours()+6); 
+    //date.setHours(date.getHours()+6); 
 
-	$.ajax({
-		url:'service/'+sections[section].records_by_month_file,
-		type:'POST',
-		dataType: "json",
-		data: {
-            month: (date.getMonth()+1),
-            year: date.getFullYear()
-		},
-		cache:false
-	}).done(function(response){
-        console.log(response);
-        test = response;
-        console.log(section+'_table.php');
-        drawRecordsTable({
-            data: response,
-            file: 'templates/tables/'+section+'_table.php',
-            element_id: 'records-section'
+    if(sections[section].records_by_month_file != null){
+
+        setStaticLoader({
+            section_id: 'records-section',
+            class: 'static-loader'
         });
-	});
+
+        $.ajax({
+            url:'service/'+sections[section].records_by_month_file,
+            type:'POST',
+            dataType: "json",
+            data: {
+                month: (date.getMonth()+1),
+                year: date.getFullYear()
+            },
+            cache:false
+        }).done(function(response){
+            console.log(response);
+            test = response;
+            console.log(section+'_table.php');
+            drawRecordsTable({
+                data: response,
+                file: 'templates/tables/'+section+'_table.php',
+                element_id: 'records-section'
+            });
+        });
+    }
 }
 
 function drawRecordsTable(attr){
@@ -775,18 +783,19 @@ function checkActivePeriod(attr){
             console.log('f_datre', form_date);
             form_date.setHours(form_date.getHours()+6);
             console.log('f_datre_af', form_date);
-            form_date = form_date.toLocaleDateString("es-MX");
+            let form_date_mx = form_date.toLocaleDateString("es-MX");
     
             let initial_date = new Date(response.initial_us_date);
             console.log('i_date', initial_date);
-            initial_date.setHours(initial_date.getHours()+6);
-            initial_date = initial_date.toLocaleDateString("es-MX");
+            //initial_date.setHours(initial_date.getHours()+6);
+            //initial_date = initial_date.toLocaleDateString("es-MX");
     
     
             let finish_date = new Date(response.finish_us_date);
             console.log('f_date', finish_date);
-            finish_date.setHours(finish_date.getHours()+6);
-            finish_date = finish_date.toLocaleDateString("es-MX");
+            finish_date.setHours(finish_date.getHours()+23);
+            finish_date.setMinutes(finish_date.getMinutes(59));
+            //finish_date = finish_date.toLocaleDateString("es-MX");
 
 
             if(response.daily){
@@ -795,9 +804,14 @@ function checkActivePeriod(attr){
                 let today = new Date();
                 today = today.toLocaleDateString("es-MX");
 
-                if(form_date != today){
+                if(form_date_mx != today){
                     console.log('daily noup: ', today);
                     console.log('daily noup form da: ', form_date);
+
+                    setLoader({
+                        add: false
+                    });
+
                     Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
                 }
                 else{
@@ -807,6 +821,10 @@ function checkActivePeriod(attr){
 
             }
             else{
+
+                console.log('form_date: ', new Date(form_date));
+                console.log('finish_date: ', new Date(finish_date));
+                console.log('initial_date: ', new Date(initial_date));
                 if(form_date <= finish_date && form_date >= initial_date){
                     console.log('yes');
     
@@ -816,6 +834,9 @@ function checkActivePeriod(attr){
                 }
                 else{
                     console.log('noup');
+                    setLoader({
+                        add: false
+                    });
     
                     Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
                 }
@@ -936,4 +957,8 @@ function resetDashboardAlert(attr){
     if(document.getElementById(attr.element_id)){
         $('#'+attr.element_id).html('');
     }
+}
+
+function setStaticLoader(attr){
+    $('#'+attr.section_id).html('<div class="'+attr.class+'">Cargando datos... </div>');
 }

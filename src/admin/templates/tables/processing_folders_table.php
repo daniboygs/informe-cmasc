@@ -1,4 +1,14 @@
 <?php
+    session_start();
+    
+    $crud_permissions = false;
+
+    if(isset($_SESSION['user_data']['type'])){
+        if($_SESSION['user_data']['type'] == 1){
+            $crud_permissions = true;
+        }
+    }
+
     if(isset( $_POST['data']))
         $data = $_POST['data'];
     else
@@ -32,7 +42,13 @@
         <th>Medio Ambiente</th>
         <th>Facilitador</th>
         <th>Fiscalía</th>
+<?php
+    if($crud_permissions){
+?>
         <th>Acción</th>
+<?php
+    }
+?>
     </tr>
 <?php
     if($data != 'null'){
@@ -59,7 +75,13 @@
         <td><?php echo $element['processing_folders_environment']['value']; ?></td>
         <td><?php echo $element['processing_folders_user']['value']; ?></td>
         <td><?php echo $element['fiscalia']['value']; ?></td>
-        <td><button class="btn btn-outline-danger" onclick="deleteRecord('processing_folders', <?php echo $element['processing_folders_id']['value']; ?>)">Eliminar</button></td>
+<?php
+        if($crud_permissions){
+?>
+            <td><button class="btn btn-outline-danger" onclick="deleteRecord('processing_folders', <?php echo $element['processing_folders_id']['value']; ?>)">Eliminar</button></td>
+<?php
+        }
+?>
     </tr>
 <?php
             $i++;

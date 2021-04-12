@@ -131,7 +131,16 @@ function getRecord($attr){
 				),
 				'people_served_crime' => array(
 					'name' => 'Delito',
-					'value' => $row['Delito']
+					'value' => getRecordsByCondition(
+						(object) array(
+							'columns' => 'd.Nombre',
+							'condition' => "[PersonaAtendidaID] = '".$row['id']."' ORDER BY d.Nombre",
+							'db_table' => '[delitos].[PersonasAtendidas] pa inner join cat.Delito d on pa.DelitoID = d.DelitoID',
+							'conn' => $attr->conn,
+							'params' => $attr->params,
+							'options' => $attr->options
+						)
+					)
 				),
 				'people_served_nuc' => array(
 					'name' => 'NUC',
