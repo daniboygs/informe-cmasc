@@ -9,8 +9,8 @@
 		<meta http-equiv="pragma" content="no-cache" />
 		<!--<link rel="stylesheet" href="node_modules/normalize.css">-->
 		<link rel="shortcut icon" href="../../assets/img/fge.png"/>
-		<link rel="stylesheet" href="../../css/styles.css">
-		<link rel="stylesheet" href="css/styles.css">
+		<link rel="stylesheet" href="../../css/2104121425.css">
+		<link rel="stylesheet" href="css/2104121405.css">
 		<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
 		
 		<script src="../../node_modules/es6/ES6.js"></script>
@@ -18,10 +18,10 @@
 		<script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js" ></script>
 		<script src="../../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 		
-		<script src="../../js/script.js"></script>
-		<script src="json/sections-attr.js"></script>
+		<script src="../../js/2104121410.js"></script>
+		<script src="json/sections-attr-2103110000.js"></script>
 		<script src="json/data.js"></script>
-		<script src="js/script.js"></script>
+		<script src="js/2104121405.js"></script>
 
 		<title>CMASC</title>
 	</head>

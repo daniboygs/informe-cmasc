@@ -7,7 +7,7 @@ session_start();
                 'entered_folders' => array(
                     'id' => 'entered-folders-nav-div',
                     'name' => 'entered_folders',
-                    'class' => '',
+                    'class' => 'active',
                     'label' => 'CARPETAS INGRESADAS'
                 ),
                 'recieved_folders' => array(
@@ -59,7 +59,7 @@ session_start();
                 'recieved_folders' => array(
                     'id' => 'recieved-folders-nav-div',
                     'name' => 'recieved_folders',
-                    'class' => '',
+                    'class' => 'active',
                     'label' => 'CARPETAS RECIBIDAS'
                 ),
                 'agreements' => array(
@@ -105,7 +105,7 @@ session_start();
                 'entered_folders' => array(
                     'id' => 'entered-folders-nav-div',
                     'name' => 'entered_folders',
-                    'class' => '',
+                    'class' => 'active',
                     'label' => 'CARPETAS INGRESADAS'
                 ),
                 'recieved_folders' => array(
@@ -157,7 +157,7 @@ session_start();
                 'entered_folders' => array(
                     'id' => 'entered-folders-nav-div',
                     'name' => 'entered_folders',
-                    'class' => '',
+                    'class' => 'active',
                     'label' => 'CARPETAS INGRESADAS'
                 ),
                 'recieved_folders' => array(
