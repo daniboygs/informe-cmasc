@@ -421,6 +421,8 @@ function getRecordsByMonth(section){
 
     console.log('by moneh?', section);
 
+    $('#records-section').html('<h1>Cargando...</h1>');
+
     let date = new Date();
     //date.setHours(date.getHours()+6); 
 
@@ -510,6 +512,9 @@ function searchSection(section){
     }
 
     if(validated){
+
+        $('#records-section').html('<h1>Cargando...</h1>');
+        
         console.log(sections[section].search_file, attr);
         $.ajax({
             url:'service/'+sections[section].search_file,

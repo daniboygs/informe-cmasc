@@ -471,10 +471,18 @@ function checkNuc(attr){
 
 function getRecordsByMonth(section){
 
-    console.log('by moneh?', section);
+    console.log('by moneh??????', section);
 
     let date = new Date();
-    date.setHours(date.getHours()+6); 
+    //date.setHours(date.getHours()+6);
+
+    $('#records-section').html('<h1>Cargando...</h1>');
+    
+    console.log('month year', {
+        date: date,
+        month: (date.getMonth()+1),
+        year: date.getFullYear()
+    });
 
 	$.ajax({
 		url:'service/'+sections[section].records_by_month_file,
