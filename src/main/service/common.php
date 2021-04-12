@@ -153,4 +153,91 @@ function formSearchConditions($data){
     }
 }
 
+function createMultipleRecords($id, $fields, $data, $db_table, $conn, $params, $options){
+
+	$values = formInsertMultipleValues($data, $id);
+
+	$sql = "INSERT INTO $db_table
+				( $fields )
+				VALUES
+				$values";
+
+	if($conn){
+		$stmt = sqlsrv_query( $conn, $sql);
+
+		sqlsrv_next_result($stmt); 
+		sqlsrv_fetch($stmt); 
+
+		return array(
+            'state' => 'success',
+            'data' => array(
+                'id' => null
+            )
+        );
+	}
+	else{
+		return array(
+            'state' => 'fail',
+            'data' => null
+        );
+	}
+
+}
+
+
+function formInsertMultipleValues($data, $id){
+	$values = "";
+	$i = 1;
+
+	foreach ($data as $element) {
+		
+		$values.="($element, $id)";
+
+		if($i < count((array) $data)){
+			$values.=",";
+		}
+
+		$i++;
+	}
+	return $values;
+}
+
+function getRecordsByCondition($attr){
+
+	$sql = "SELECT $attr->columns FROM $attr->db_table WHERE $attr->condition";
+
+    $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
+
+	$row_count = sqlsrv_num_rows( $result );
+	
+	$return = array();
+
+	if($row_count > 0){
+
+		while( $row = sqlsrv_fetch_array( $result) ) {
+
+			array_push($return, $row['Nombre']);
+
+			//$return = $return.'*'.$row['Nombre'].', ';
+			
+		}
+
+		$values = "";
+		
+		foreach ($return as $element) {
+			$values.="<li>$element</li>";
+		}
+
+		$values = "<ul>$values</ul>";
+	
+	}
+	else{
+		$values = null;
+	}
+
+	return $values;
+
+
+}
+
 ?>

@@ -9,7 +9,7 @@ $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[PersonasAtendidas]';
 
 $people_served_date = $_POST['people_served_date'];
-$people_served_crime = $_POST['people_served_crime'];
+//$people_served_crime = $_POST['people_served_crime'];
 $people_served_nuc = $_POST['people_served_nuc'];
 $people_served_number = $_POST['people_served_number'];
 $people_served_unity = $_POST['people_served_unity'];
@@ -23,12 +23,12 @@ $data = (object) array(
 		'null' => false,
 		'db_column' => '[Fecha]'
 	),
-	'people_served_crime' => (object) array(
+	/*'people_served_crime' => (object) array(
 		'type' => 'text',
 		'value' => $people_served_crime,
 		'null' => false,
 		'db_column' => '[Delito]'
-	),
+	),*/
 	'people_served_nuc' => (object) array(
 		'type' => 'text',
 		'value' => $people_served_nuc,

@@ -14,7 +14,7 @@ $year = $_POST['year'];
 
 $data = (object) array(
 	'recieved_folders_id' => (object) array(
-		'db_column' => '[CarpetaRecibidaID]',
+		'db_column' => "[CarpetaRecibidaID] AS 'id'",
 		'search' => true
 	),
 	'recieved_folders_crime' => (object) array(
@@ -52,10 +52,6 @@ $data = (object) array(
 	'fiscalia' => (object) array(
 		'db_column' => "f.[Nombre] AS 'Fiscalia'",
 		'search' => true
-	),
-	'fiscalia' => array(
-		'name' => 'Fiscalía',
-		'value' => $row['Fiscalia']
 	)
 );
 
@@ -147,7 +143,7 @@ function getRecord($attr){
 			array_push($return, array(
 				'recieved_folders_id' => array(
 					'name' => 'ID',
-					'value' => $row['CarpetaRecibidaID']
+					'value' => $row['id']
 				),
 				'recieved_folders_date' => array(
 					'name' => 'Fecha',
@@ -155,7 +151,16 @@ function getRecord($attr){
 				),
 				'recieved_folders_crime' => array(
 					'name' => 'Delito',
-					'value' => $row['Delito']
+					'value' => getRecordsByCondition(
+						(object) array(
+							'columns' => 'd.Nombre',
+							'condition' => "[CarpetaRecibidaID] = '".$row['id']."' ORDER BY d.Nombre",
+							'db_table' => '[delitos].[CarpetasRecibidas] cr inner join cat.Delito d on cr.DelitoID = d.DelitoID',
+							'conn' => $attr->conn,
+							'params' => $attr->params,
+							'options' => $attr->options
+						)
+					)
 				),
 				'recieved_folders_nuc' => array(
 					'name' => 'NUC',
@@ -168,6 +173,10 @@ function getRecord($attr){
 				'recieved_folders_user' => array(
 					'name' => 'Facilitador',
 					'value' => $row['Nombre'].' '.$row['ApellidoPaterno'].' '.$row['ApellidoMaterno']
+				),			
+				'fiscalia' => array(
+					'name' => 'Fiscalía',
+					'value' => $row['Fiscalia']
 				)
 			));
 			

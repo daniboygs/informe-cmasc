@@ -9,7 +9,7 @@ $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[CarpetasEnviadasValidacion]';
 
 $folders_to_validation_date = $_POST['folders_to_validation_date'];
-$folders_to_validation_crime = $_POST['folders_to_validation_crime'];
+//$folders_to_validation_crime = $_POST['folders_to_validation_crime'];
 $folders_to_validation_nuc = $_POST['folders_to_validation_nuc'];
 $folders_to_validation_unity = $_POST['folders_to_validation_unity'];
 
@@ -22,12 +22,12 @@ $data = (object) array(
 		'null' => false,
 		'db_column' => '[Fecha]'
 	),
-	'folders_to_validation_crime' => (object) array(
+	/*'folders_to_validation_crime' => (object) array(
 		'type' => 'text',
 		'value' => $folders_to_validation_crime,
 		'null' => false,
 		'db_column' => '[Delito]'
-	),
+	),*/
 	'folders_to_validation_nuc' => (object) array(
 		'type' => 'text',
 		'value' => $folders_to_validation_nuc,

@@ -13,7 +13,7 @@ $processing_folders_finish_date = $_POST['processing_folders_finish_date'];
 
 $data = (object) array(
 	'processing_folders_id' => (object) array(
-		'db_column' => '[CarpetaTramiteID]',
+		'db_column' => "[CarpetaTramiteID] AS 'id'",
 		'search' => true
 	),
 	/*'processing_folders_facilitator' => (object) array(
@@ -80,6 +80,10 @@ $data = (object) array(
 		'db_column' => '[Litigacion]',
 		'search' => true
 	),
+	'processing_folders_environment' => (object) array(
+		'db_column' => '[MedioAmbiente]',
+		'search' => true
+	),
 	'user' => (object) array(
 		'db_column' => 'a.[UsuarioID]',
 		'search' => false
@@ -112,10 +116,6 @@ $sql_conditions = (object) array(
 		'db_column' => '[FechaFin]',
 		'condition' => '=', 
 		'value' => $processing_folders_finish_date
-	),
-	'fiscalia' => array(
-		'name' => 'Fiscalía',
-		'value' => $row['Fiscalia']
 	)
 	/*'month' => (object) array(
 		'db_column' => 'MONTH(Fecha)',
@@ -194,7 +194,7 @@ function getRecord($attr){
 			array_push($return, array(
 				'processing_folders_id' => array(
 					'name' => 'ID',
-					'value' => $row['CarpetaTramiteID']
+					'value' => $row['id']
 				),
 				/*'processing_folders_facilitator' => array(
 					'name' => 'NombreFacilitador',
@@ -259,6 +259,14 @@ function getRecord($attr){
 				'processing_folders_litigation' => array(
 					'name' => 'Litigacion',
 					'value' => $row['Litigacion']
+				),
+				'processing_folders_environment' => array(
+					'name' => 'Medio Ambiente',
+					'value' => $row['MedioAmbiente']
+				),
+				'fiscalia' => array(
+					'name' => 'Fiscalía',
+					'value' => $row['Fiscalia']
 				),
 				'processing_folders_user' => array(
 					'name' => 'Facilitador',

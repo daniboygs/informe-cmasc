@@ -1,62 +1,87 @@
 <?php
+    session_start();
+    
+    $crud_permissions = false;
+
+    if(isset($_SESSION['user_data']['type'])){
+        if($_SESSION['user_data']['type'] == 1){
+            $crud_permissions = true;
+        }
+    }
+
     if(isset( $_POST['data']))
         $data = $_POST['data'];
     else
-        $data = null;
+        $data = 'null';
 ?>
+
 <div class="form-buttons" style="float: left !important; margin-bottom: 20px;">		
 
-<button type="button" class="btn btn-success" style="height:38px;"  onclick="tableToExcel()">Descargar EXCEL</button>
+<button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="tableToExcel()">Descargar EXCEL</button>
 
 </div>
 
-<table style="background-color: white; width: 100%; display: block; overflow-x: auto; white-space: nowrap;" id="data-section-table">
+<table class="data-table table table-striped overflow-table">
     <tr>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">#</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fecha de inicio</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fecha de fin</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Carpetas investigación</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Atención inmediata</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">CJIM</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Violencia familiar</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Delitos cibernéticos</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Adolescentes</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Inteligencia patrimonial</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Alto impacto</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Derechos humanos</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Combate corrupción</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Asuntos especiales</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Asuntos internos</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Litigación</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Facilitador</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fiscalía</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Acción</th>
+        <th>#</th>
+        <th>Fecha de inicio</th>
+        <th>Fecha de fin</th>
+        <th>Carpetas investigación</th>
+        <th>Atención inmediata</th>
+        <th>CJIM</th>
+        <th>Violencia familiar</th>
+        <th>Delitos cibernéticos</th>
+        <th>Adolescentes</th>
+        <th>Inteligencia patrimonial</th>
+        <th>Alto impacto</th>
+        <th>Derechos humanos</th>
+        <th>Combate corrupción</th>
+        <th>Asuntos especiales</th>
+        <th>Asuntos internos</th>
+        <th>Litigación</th>
+        <th>Medio Ambiente</th>
+        <th>Facilitador</th>
+        <th>Fiscalía</th>
+<?php
+    if($crud_permissions){
+?>
+        <th>Acción</th>
+<?php
+    }
+?>
     </tr>
 <?php
-    if($data != null){
+    if($data != 'null'){
         $i=1;
-        foreach($data as $element){
+        foreach(json_decode($data, true) as $element){
 ?> 
     <tr>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $i; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['processing_folders_initial_date']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['processing_folders_finish_date']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['processing_folders_folders']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['processing_folders_inmediate_attention']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['processing_folders_cjim']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['processing_folders_domestic_violence']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['processing_folders_cyber_crimes']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['processing_folders_teenagers']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['processing_folders_swealth_and_finantial_inteligence']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['processing_folders_high_impact_and_vehicles']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['processing_folders_human_rights']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['processing_folders_fight_corruption']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['processing_folders_special_matters']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['processing_folders_internal_affairs']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['processing_folders_litigation']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['processing_folders_user']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['fiscalia']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><button class="btn btn-danger" onclick="deleteRecord('processing_folders', <?php echo $element['processing_folders_id']['value']; ?>)">Eliminar</button></td>
+        <td><?php echo $i; ?></td>
+        <td><?php echo $element['processing_folders_initial_date']['value']; ?></td>
+        <td><?php echo $element['processing_folders_finish_date']['value']; ?></td>
+        <td><?php echo $element['processing_folders_folders']['value']; ?></td>
+        <td><?php echo $element['processing_folders_inmediate_attention']['value']; ?></td>
+        <td><?php echo $element['processing_folders_cjim']['value']; ?></td>
+        <td><?php echo $element['processing_folders_domestic_violence']['value']; ?></td>
+        <td><?php echo $element['processing_folders_cyber_crimes']['value']; ?></td>
+        <td><?php echo $element['processing_folders_teenagers']['value']; ?></td>
+        <td><?php echo $element['processing_folders_swealth_and_finantial_inteligence']['value']; ?></td>
+        <td><?php echo $element['processing_folders_high_impact_and_vehicles']['value']; ?></td>
+        <td><?php echo $element['processing_folders_human_rights']['value']; ?></td>
+        <td><?php echo $element['processing_folders_fight_corruption']['value']; ?></td>
+        <td><?php echo $element['processing_folders_special_matters']['value']; ?></td>
+        <td><?php echo $element['processing_folders_internal_affairs']['value']; ?></td>
+        <td><?php echo $element['processing_folders_litigation']['value']; ?></td>
+        <td><?php echo $element['processing_folders_environment']['value']; ?></td>
+        <td><?php echo $element['processing_folders_user']['value']; ?></td>
+        <td><?php echo $element['fiscalia']['value']; ?></td>
+<?php
+        if($crud_permissions){
+?>
+            <td><button class="btn btn-outline-danger" onclick="deleteRecord('processing_folders', <?php echo $element['processing_folders_id']['value']; ?>)">Eliminar</button></td>
+<?php
+        }
+?>
     </tr>
 <?php
             $i++;
@@ -65,7 +90,7 @@
     else{
 ?> 
     <tr>
-        <td colspan="7" style="text-align: center; padding: 7px;">
+        <td colspan="12" style="text-align: center; padding: 7px;">
             No hay registros
         </td>
     </tr>

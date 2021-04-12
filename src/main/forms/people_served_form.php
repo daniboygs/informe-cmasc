@@ -13,8 +13,10 @@
 		<div class="col-md-9 form-group">
 
 			<label style="font-weight:bold">Delito: *</label>
-
-			<input type="text" class="form-control" id="people-served-crime" maxlength="150">	
+			
+			<div id="people-served-crime-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
 
 		</div>
 
@@ -52,8 +54,8 @@
 
 	<div class="form-buttons">		
 				
-		<button type="button" class="btn btn-dark" style="height:38px; width: 100px;"  onclick="resetSection('people_served')">Nuevo</button>	
-		<button type="button" class="btn btn-success" style="height:38px; width: 100px;"  onclick="validateSection('people_served')">Guardar</button>	
+		<button type="button" class="btn btn-outline-dark" style="height:38px; width: 100px;"  onclick="resetSection('people_served')">Nuevo</button>	
+		<button type="button" class="btn btn-outline-primary" style="height:38px; width: 100px;"  onclick="validateSection('people_served')">Guardar</button>	
  
 	</div>
 

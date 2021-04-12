@@ -2,29 +2,29 @@
     if(isset( $_POST['data']))
         $data = $_POST['data'];
     else
-        $data = null;
+        $data = 'null';
 ?>
 
-<table style="background-color: white; width: 100%; overflow-x: auto;">
+<table class="data-table table table-striped">
     <tr>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">#</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">NUC</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fecha</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Delito</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Unidad</th>
-        <!--<th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Acción</th>-->
+        <th>#</th>
+        <th>NUC</th>
+        <th>Fecha</th>
+        <th>Delito</th>
+        <th>Unidad</th>
+        <!--<th>Acción</th>-->
     </tr>
 <?php
-    if($data != null){
+    if($data != 'null'){
         $i=1;
-        foreach($data as $element){
+        foreach(json_decode($data, true) as $element){
 ?> 
     <tr>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $i; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['folders_to_validation_nuc']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['folders_to_validation_date']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['folders_to_validation_crime']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['folders_to_validation_unity']['value']; ?></td>
+        <td><?php echo $i; ?></td>
+        <td class="bold-text"><?php echo $element['folders_to_validation_nuc']['value']; ?></td>
+        <td><?php echo $element['folders_to_validation_date']['value']; ?></td>
+        <td class="align-left bold-text"><?php echo $element['folders_to_validation_crime']['value']; ?></td>
+        <td><?php echo $element['folders_to_validation_unity']['value']; ?></td>
     </tr>
 <?php
             $i++;
@@ -33,7 +33,7 @@
     else{
 ?> 
     <tr>
-        <td colspan="7" style="text-align: center; padding: 7px;">
+        <td colspan="12" style="text-align: center; padding: 7px;">
             No hay registros
         </td>
     </tr>

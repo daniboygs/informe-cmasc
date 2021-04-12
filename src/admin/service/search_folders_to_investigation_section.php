@@ -14,7 +14,7 @@ $year = $_POST['year'];
 
 $data = (object) array(
 	'folders_to_investigation_id' => (object) array(
-		'db_column' => '[CarpetaEnviadaInvestigacionID]',
+		'db_column' => "[CarpetaEnviadaInvestigacionID] AS 'id'",
 		'search' => true
 	),
 	'folders_to_investigation_crime' => (object) array(
@@ -126,7 +126,7 @@ function getRecord($attr){
 		$sql = "SELECT $columns FROM $attr->db_table WHERE [NUC] = '$nuc' ORDER BY Fecha, Nombre";
 	}
 	else{
-		$sql = "SELECT $columns FROM $attr->db_table WHERE MONTH(Fecha) = '$month' AND YEAR(Fecha) = '$year ORDER BY Fecha, Nombre'";
+		$sql = "SELECT $columns FROM $attr->db_table WHERE MONTH(Fecha) = '$month' AND YEAR(Fecha) = '$year' ORDER BY Fecha, Nombre";
 	}
 
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
@@ -147,7 +147,7 @@ function getRecord($attr){
 			array_push($return, array(
 				'folders_to_investigation_id' => array(
 					'name' => 'ID',
-					'value' => $row['CarpetaEnviadaInvestigacionID']
+					'value' => $row['id']
 				),
 				'folders_to_investigation_date' => array(
 					'name' => 'Fecha',
@@ -155,7 +155,16 @@ function getRecord($attr){
 				),
 				'folders_to_investigation_crime' => array(
 					'name' => 'Delito',
-					'value' => $row['Delito']
+					'value' => getRecordsByCondition(
+						(object) array(
+							'columns' => 'd.Nombre',
+							'condition' => "[CarpetaEnviadaInvestigacionID] = '".$row['id']."' ORDER BY d.Nombre",
+							'db_table' => '[delitos].[CarpetasEnviadasInvestigacion] ci inner join cat.Delito d on ci.DelitoID = d.DelitoID',
+							'conn' => $attr->conn,
+							'params' => $attr->params,
+							'options' => $attr->options
+						)
+					)
 				),
 				'folders_to_investigation_nuc' => array(
 					'name' => 'NUC',

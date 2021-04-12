@@ -146,12 +146,20 @@
 
 		</div>
 
+		<div class="col-md-3 form-group">
+
+			<label style="font-weight:bold">Delitos Cometidos Contra el Medio Ambiente y la Fauna: *</label>
+
+			<input type="number" class="form-control" id="processing-folders-environment" min="0">	
+
+		</div>
+
 	</div>
 
 	<div class="form-buttons">		
 				
-		<button type="button" class="btn btn-dark" style="height:38px; width: 100px;"  onclick="resetSection('processing_folders')">Nuevo</button>	
-		<button type="button" class="btn btn-success" style="height:38px; width: 100px;"  onclick="validateSection('processing_folders')">Guardar</button>	
+		<button type="button" class="btn btn-outline-dark" style="height:38px; width: 100px;"  onclick="resetSection('processing_folders')">Nuevo</button>	
+		<button type="button" class="btn btn-outline-primary" style="height:38px; width: 100px;"  onclick="validateSection('processing_folders')">Guardar</button>	
  
 	</div>
 

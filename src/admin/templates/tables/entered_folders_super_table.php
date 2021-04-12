@@ -1,58 +1,80 @@
 <?php
+    session_start();
+    
+    $crud_permissions = false;
+
+    if(isset($_SESSION['user_data']['type'])){
+        if($_SESSION['user_data']['type'] == 1){
+            $crud_permissions = true;
+        }
+    }
+
     if(isset( $_POST['data']))
         $data = $_POST['data'];
     else
-        $data = null;
+        $data = 'null';
 ?>
 
 <div class="form-buttons" style="float: left !important; margin-bottom: 20px;">		
 
-    <button type="button" class="btn btn-success" style="height:38px;"  onclick="tableToExcel()">Descargar EXCEL</button>
+    <button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="tableToExcel()">Descargar EXCEL</button>
 
 </div>
 
 <br>
 
-<table style="background-color: white; width: 100%; display: block; overflow-x: auto; white-space: nowrap;" id="data-section-table">
+<table class="data-table table table-striped overflow-table">
     <tr>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">#</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">NUC</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fecha Ingreso</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Delito</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Unidad</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">MP Canalizador</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Carpeta Recibida</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Canalizador</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fiscalía</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Municipio</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Observaciones</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fecha Carpetas</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Facilitador</th>
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fiscalía</th>
-        <!--<th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Fecha Libro</th>-->
-        <th style="text-align: center; border: solid 1px #ccc; background-color: #152F4A; color: white; padding: 7px;">Acción</th>
+        <th>#</th>
+        <th>NUC</th>
+        <th>Fecha Ingreso</th>
+        <th>Delito</th>
+        <th>Unidad</th>
+        <th>MP Canalizador</th>
+        <th>Carpeta Recibida</th>
+        <th>Canalizador</th>
+        <th>Fiscalía</th>
+        <th>Municipio</th>
+        <th>Observaciones</th>
+        <th>Fecha Carpetas</th>
+        <th>Facilitador</th>
+        <th>Fiscalía</th>
+        <!--<th>Fecha Libro</th>-->
+<?php
+    if($crud_permissions){
+?>
+        <th>Acción</th>
+<?php
+    }
+?>
     </tr>
 <?php
-    if($data != null){
+    if($data != 'null'){
         $i=1;
-        foreach($data as $element){
+        foreach(json_decode($data, true) as $element){
 ?> 
     <tr>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $i; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['entered_folders_nuc']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['entered_folders_date']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['entered_folders_crime']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['entered_folders_unity']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['entered_folders_mp_channeler']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['entered_folders_recieved_folder']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['entered_folders_channeler']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['entered_folders_fiscalia']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['entered_folders_municipality']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['entered_folders_observations']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['entered_folders_folders_date']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['entered_folders_facilitator']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><?php echo $element['fiscalia']['value']; ?></td>
-        <td style="text-align: center; border: solid 1px #ccc;"><button class="btn btn-danger" onclick="deleteRecord('entered_folders', <?php echo $element['entered_folders_id']['value']; ?>)">Eliminar</button></td>
+        <td><?php echo $i; ?></td>
+        <td class="bold-text"><?php echo $element['entered_folders_nuc']['value']; ?></td>
+        <td><?php echo $element['entered_folders_date']['value']; ?></td>
+        <td class="align-left bold-text"><?php echo $element['entered_folders_crime']['value']; ?></td>
+        <td><?php echo $element['entered_folders_unity']['value']; ?></td>
+        <td><?php echo $element['entered_folders_mp_channeler']['value']; ?></td>
+        <td><?php echo $element['entered_folders_recieved_folder']['value']; ?></td>
+        <td><?php echo $element['entered_folders_channeler']['value']; ?></td>
+        <td><?php echo $element['entered_folders_fiscalia']['value']; ?></td>
+        <td><?php echo $element['entered_folders_municipality']['value']; ?></td>
+        <td><?php echo $element['entered_folders_observations']['value']; ?></td>
+        <td><?php echo $element['entered_folders_folders_date']['value']; ?></td>
+        <td><?php echo $element['entered_folders_facilitator']['value']; ?></td>
+        <td><?php echo $element['fiscalia']['value']; ?></td>
+<?php
+        if($crud_permissions){
+?>
+            <td><button class="btn btn-outline-danger" onclick="deleteRecord('entered_folders', <?php echo $element['entered_folders_id']['value']; ?>)">Eliminar</button></td>
+<?php
+        }
+?>
     </tr>
 <?php
             $i++;
@@ -61,7 +83,7 @@
     else{
 ?> 
     <tr>
-        <td colspan="7" style="text-align: center; padding: 7px;">
+        <td colspan="12" style="text-align: center; padding: 7px;">
             No hay registros
         </td>
     </tr>

@@ -21,10 +21,11 @@ body{
     display: contents;
 
     */
-    background-color: #F9F9F9 !important;
+    background-color: #DCE3DF !important;
+    zoom: 80%;
 }
 
-.form-signin {
+.login-form {
     width: 100%;
     max-width: 330px;
     padding: 15px;
@@ -35,10 +36,10 @@ body{
     -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.50);
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.50);
     margin-top: 200px;
-    background-color: lightsteelblue;
+    background-color: white;
 }
 
-.form-signin .form-control {
+.login-form .form-control {
     position: relative;
     box-sizing: border-box;
     height: auto;
@@ -46,20 +47,25 @@ body{
     font-size: 16px;
 }
 
-.form-signin .form-control:focus {
+.login-form .form-control:focus {
     z-index: 2;
 }
 
-.form-signin input[type="text"] {
+.login-form input[type="text"] {
     margin-bottom: -1px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 }
 
-.form-signin input[type="password"] {
+.login-form input[type="password"] {
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+}
+
+.login-form h1{
+    font-family: LabradorA;
+    font-size: 30pt;
 }
 
 .notifyjs-corner{
@@ -103,7 +109,7 @@ tr{
     width: 80%;
     margin: 0 auto;
     padding: 20px;
-    background-color: lightsteelblue;
+    background-color: white;
     margin-top: 70px;
 }
 
@@ -138,7 +144,8 @@ tr{
 
 /* Add a color to the active/current link */
 .framebar div.active {
-    background-color: #4CAF50;
+    /*background-color: #4CAF50;*/
+    background-color: #4CAF8E;
     color: white;
 }
 /*___________*/
@@ -179,6 +186,27 @@ tr{
 .topnav div.session:hover {
     background-color: #ddd;
     color: black;
+}
+
+#content{
+    padding: 15px;
+    border: lightgrey solid 1px;
+}
+
+.loader{
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url('../assets/img/loader.svg') 50% 50% no-repeat rgb(62,62,62);
+    opacity: .8;
+}
+
+.static-loader{
+    color: red;
+    font-size: 20pt;
 }
 
 /*___________*/

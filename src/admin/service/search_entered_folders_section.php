@@ -6,7 +6,7 @@ include("common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[CarpetasIngresadas] c INNER JOIN ['.$connections['sicap']['db'].'].dbo.CatMunicipios cm on c.Municipio = cm.CatMunicipiosID 
+$db_table = '[dbo].[CarpetasIngresadas] c INNER JOIN [cat].[Municipio] cm on c.Municipio = cm.MunicipioID 
 LEFT JOIN dbo.Usuario u on c.Facilitador = u.UsuarioID INNER JOIN [cat].[Fiscalia] f ON  u.FiscaliaID = f.FiscaliaID';
 
 $nuc = $_POST['nuc'];
@@ -17,7 +17,7 @@ $year = $_POST['year'];*/
 
 $data = (object) array(
 	'entered_folders_id' => (object) array(
-		'db_column' => '[CarpetaIngresadaID]',
+		'db_column' => "[CarpetaIngresadaID] AS 'id'",
 		'search' => true
 	),
 	'entered_folders_crime' => (object) array(
@@ -168,7 +168,7 @@ function getRecord($attr){
 	else{
 		$sql = "SELECT $columns FROM $attr->db_table WHERE MONTH(FechaIngreso) = '$month' AND YEAR(FechaIngreso) = '$year' ORDER BY FechaIngreso, Nombre";
 	}
-
+	
 	//$month = date('m', $month.'-01');
 
 	//$sql = "SELECT $columns FROM $attr->db_table WHERE [NUC] = '$nuc' AND MONTH(FechaIngreso) = '$month' AND YEAR(FechaIngreso) = '$year'";
@@ -201,7 +201,7 @@ function getRecord($attr){
 			array_push($return, array(
 				'entered_folders_id' => array(
 					'name' => 'ID',
-					'value' => $row['CarpetaIngresadaID']
+					'value' => $row['id']
 				),
 				'entered_folders_date' => array(
 					'name' => 'Fecha',
@@ -209,7 +209,16 @@ function getRecord($attr){
 				),
 				'entered_folders_crime' => array(
 					'name' => 'Delito',
-					'value' => $row['Delito']
+					'value' => getRecordsByCondition(
+						(object) array(
+							'columns' => 'd.Nombre',
+							'condition' => "[CarpetaIngresadaID] = '".$row['id']."' ORDER BY d.Nombre",
+							'db_table' => '[delitos].[CarpetasIngresadas] ci inner join cat.Delito d on ci.DelitoID = d.DelitoID',
+							'conn' => $attr->conn,
+							'params' => $attr->params,
+							'options' => $attr->options
+						)
+					)
 				),
 				'entered_folders_nuc' => array(
 					'name' => 'NUC',

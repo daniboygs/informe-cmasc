@@ -10,21 +10,25 @@
 		<!--<link rel="stylesheet" href="node_modules/normalize.css">-->
 		<link rel="shortcut icon" href="../../assets/img/fge.png"/>
 		<link rel="stylesheet" href="../../css/styles.css">
+		<link rel="stylesheet" href="css/styles.css">
 		<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
 		
 		<script src="../../node_modules/es6/ES6.js"></script>
 		<script src="../../node_modules/jquery/dist/jquery.min.js" ></script>
-		<script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js" ></script>
+		<script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" ></script>
 		<script src="../../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 		
 		<script src="../../js/script.js"></script>
 		<script src="json/sections-attr.js"></script>
 		<script src="json/data.js"></script>
+		<script src="json/inegi.js"></script>
 		<script src="js/script.js"></script>
 
 		<title>CMASC</title>
 	</head>
 	<body>
+
+		<div id="loader-div"></div>
 
 		<div class="topnav">
 			<div class="home">CMASC</div>
@@ -34,17 +38,22 @@
 
 		<div id="frame">
 
-			<div class="framebar" id="framebar">
-				
-			</div>
+			<div class="framebar" id="framebar"></div>
 
 			<br>
 
 			<h1 class="title"></h1>
 
-			<br>
+			<div id="dashboard-alert-section">
+				<!--<div class="alert alert-warning" role="alert">
+					<strong>Atención!</strong>, Se ha precargado Información previamente capturada.
+				</div>-->
+			</div>
+
 
 			<div id="content"></div>
+
+			<div id="month-records-label-section">REGISTROS DEL MES</div>
 
 			<hr>
 

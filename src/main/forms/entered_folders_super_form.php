@@ -14,7 +14,9 @@
 
 			<label style="font-weight:bold">Delito: *</label>
 
-			<input type="text" class="form-control" id="entered-folders-crime" maxlength="150">	
+			<div id="entered-folders-crime-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>	
 
 		</div>
 
@@ -150,8 +152,8 @@
 
 	<div class="form-buttons">		
 				
-		<button type="button" class="btn btn-dark" style="height:38px; width: 100px;"  onclick="resetSection('entered_folders')">Nuevo</button>	
-		<button type="button" class="btn btn-success" style="height:38px; width: 100px;"  onclick="validateSection('entered_folders')">Guardar</button>	
+		<button type="button" class="btn btn-outline-dark" style="height:38px; width: 100px;"  onclick="resetSection('entered_folders')">Nuevo</button>	
+		<button type="button" class="btn btn-outline-primary" style="height:38px; width: 100px;"  onclick="validateSection('entered_folders')">Guardar</button>	
  
 	</div>
 

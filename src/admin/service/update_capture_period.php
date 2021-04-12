@@ -74,7 +74,7 @@ function updatePeriod($data, $db_table, $conn, $params, $options){
 	$sql = "UPDATE $db_table
 				SET $initial_date_column = '$initial_date',
 					$finish_date_column = '$finish_date',
-					$daily_column = '$daily'";
+					$daily_column = '$daily' WHERE Seccion = 1";
 
 
 	if($conn){

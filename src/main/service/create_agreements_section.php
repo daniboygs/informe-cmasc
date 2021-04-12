@@ -10,7 +10,7 @@ $db_table = '[dbo].[AcuerdosCelebrados]';
 
 $amount = $_POST['agreement_amount'];
 $compliance = $_POST['agreement_compliance'];
-$crime = $_POST['agreement_crime'];
+//$crime = $_POST['agreement_crime'];
 $date = $_POST['agreement_date'];
 $intervention = $_POST['agreement_intervention'];
 $mechanism = $_POST['agreement_mechanism'];
@@ -34,12 +34,12 @@ $data = (object) array(
 		'null' => false,
 		'db_column' => '[Cumplimiento]'
 	),
-	'crime' => (object) array(
+	/*'crime' => (object) array(
 		'type' => 'text',
 		'value' => $crime,
 		'null' => false,
 		'db_column' => '[AcuerdoDelito]'
-	),
+	),*/
 	'date' => (object) array(
 		'type' => 'date',
 		'value' => $date,

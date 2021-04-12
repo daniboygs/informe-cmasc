@@ -24,6 +24,7 @@ $processing_folders_fight_corruption = $_POST['processing_folders_fight_corrupti
 $processing_folders_special_matters = $_POST['processing_folders_special_matters'];
 $processing_folders_internal_affairs = $_POST['processing_folders_internal_affairs'];
 $processing_folders_litigation = $_POST['processing_folders_litigation'];
+$processing_folders_environment = $_POST['processing_folders_environment'];
 
 $data = (object) array(
 	/*'processing_folders_facilitator' => (object) array(
@@ -121,6 +122,12 @@ $data = (object) array(
 		'value' => $processing_folders_litigation,
 		'null' => false,
 		'db_column' => '[Litigacion]'
+	),
+	'processing_folders_environment' => (object) array(
+		'type' => 'number',
+		'value' => $processing_folders_environment,
+		'null' => false,
+		'db_column' => '[MedioAmbiente]'
 	),
 	'user' => (object) array(
 		'type' => 'number',

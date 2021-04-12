@@ -12,10 +12,14 @@ $month = $_POST['month'];
 $year = $_POST['year'];
 
 $data = (object) array(
-	'folders_to_investigation_crime' => (object) array(
-		'db_column' => '[Delito]',
+	'folders_to_investigation_id' => (object) array(
+		'db_column' => "[CarpetaEnviadaInvestigacionID] AS 'id'",
 		'search' => true
 	),
+	/*'folders_to_investigation_crime' => (object) array(
+		'db_column' => '[Delito]',
+		'search' => true
+	),*/
 	'folders_to_investigation_date' => (object) array(
 		'db_column' => '[Fecha]',
 		'search' => true
@@ -113,7 +117,16 @@ function getRecord($attr){
 				),
 				'folders_to_investigation_crime' => array(
 					'name' => 'Delito',
-					'value' => $row['Delito']
+					'value' => getRecordsByCondition(
+						(object) array(
+							'columns' => 'd.Nombre',
+							'condition' => "[CarpetaEnviadaInvestigacionID] = '".$row['id']."' ORDER BY d.Nombre",
+							'db_table' => '[delitos].[CarpetasEnviadasInvestigacion] ci inner join cat.Delito d on ci.DelitoID = d.DelitoID',
+							'conn' => $attr->conn,
+							'params' => $attr->params,
+							'options' => $attr->options
+						)
+					)
 				),
 				'folders_to_investigation_nuc' => array(
 					'name' => 'NUC',

@@ -12,6 +12,10 @@ $month = $_POST['month'];
 $year = $_POST['year'];
 
 $data = (object) array(
+	'agreement_id' => (object) array(
+		'db_column' => "[AcuerdoCelebradoID] AS 'id'",
+		'search' => true
+	),
 	'agreement_amount' => (object) array(
 		'db_column' => '[MontoRecuperado]',
 		'search' => true
@@ -20,10 +24,10 @@ $data = (object) array(
 		'db_column' => '[Cumplimiento]',
 		'search' => true
 	),
-	'agreement_crime' => (object) array(
+	/*'agreement_crime' => (object) array(
 		'db_column' => '[AcuerdoDelito]',
 		'search' => true
-	),
+	),*/
 	'agreement_date' => (object) array(
 		'db_column' => '[Fecha]',
 		'search' => true
@@ -133,7 +137,16 @@ function getRecord($attr){
 				),
 				'agreement_crime' => array(
 					'name' => 'Delito',
-					'value' => $row['AcuerdoDelito']
+					'value' => getRecordsByCondition(
+						(object) array(
+							'columns' => 'd.Nombre',
+							'condition' => "[AcuerdoCelebradoID] = '".$row['id']."' ORDER BY d.Nombre",
+							'db_table' => '[delitos].[AcuerdosCelebrados] ac inner join cat.Delito d on ac.DelitoID = d.DelitoID',
+							'conn' => $attr->conn,
+							'params' => $attr->params,
+							'options' => $attr->options
+						)
+					)
 				),
 				'agreement_intervention' => array(
 					'name' => 'Intervinientes',
@@ -157,7 +170,7 @@ function getRecord($attr){
 				),
 				'agreement_amount' => array(
 					'name' => 'Monto Recuperado',
-					'value' => $row['MontoRecuperado']
+					'value' => '$'.$row['MontoRecuperado']
 				),
 				'agreement_unity' => array(
 					'name' => 'Unidad',

@@ -13,7 +13,7 @@ $year = $_POST['year'];
 
 $data = (object) array(
 	'processing_folders_id' => (object) array(
-		'db_column' => '[CarpetaTramiteID]',
+		'db_column' => "[CarpetaTramiteID] AS 'id'",
 		'search' => true
 	),
 	/*'processing_folders_facilitator' => (object) array(
@@ -78,6 +78,10 @@ $data = (object) array(
 	),
 	'processing_folders_litigation' => (object) array(
 		'db_column' => '[Litigacion]',
+		'search' => true
+	),
+	'processing_folders_environment' => (object) array(
+		'db_column' => '[MedioAmbiente]',
 		'search' => true
 	),
 	'user' => (object) array(
@@ -178,7 +182,7 @@ function getRecord($attr){
 			array_push($return, array(
 				'processing_folders_id' => array(
 					'name' => 'ID',
-					'value' => $row['CarpetaTramiteID']
+					'value' => $row['id']
 				),
 				/*'processing_folders_facilitator' => array(
 					'name' => 'NombreFacilitador',
@@ -243,6 +247,10 @@ function getRecord($attr){
 				'processing_folders_litigation' => array(
 					'name' => 'Litigacion',
 					'value' => $row['Litigacion']
+				),
+				'processing_folders_environment' => array(
+					'name' => 'Medio Ambiente',
+					'value' => $row['MedioAmbiente']
 				),
 				'processing_folders_user' => array(
 					'name' => 'Facilitador',

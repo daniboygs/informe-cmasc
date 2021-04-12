@@ -9,7 +9,7 @@ $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[CarpetasEnviadasInvestigacion]';
 
 $folders_to_investigation_date = $_POST['folders_to_investigation_date'];
-$folders_to_investigation_crime = $_POST['folders_to_investigation_crime'];
+//$folders_to_investigation_crime = $_POST['folders_to_investigation_crime'];
 $folders_to_investigation_nuc = $_POST['folders_to_investigation_nuc'];
 $folders_to_investigation_channeling_reason = $_POST['folders_to_investigation_channeling_reason'];
 $folders_to_investigation_unity = $_POST['folders_to_investigation_unity'];
@@ -23,12 +23,12 @@ $data = (object) array(
 		'null' => false,
 		'db_column' => '[Fecha]'
 	),
-	'folders_to_investigation_crime' => (object) array(
+	/*'folders_to_investigation_crime' => (object) array(
 		'type' => 'text',
 		'value' => $folders_to_investigation_crime,
 		'null' => false,
 		'db_column' => '[Delito]'
-	),
+	),*/
 	'folders_to_investigation_nuc' => (object) array(
 		'type' => 'text',
 		'value' => $folders_to_investigation_nuc,
