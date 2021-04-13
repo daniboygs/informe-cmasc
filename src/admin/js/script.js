@@ -51,11 +51,21 @@ function loadForm(section){
             switch(section){
                 case 'entered_folders_super':
                     loadDefaultValuesBySection(section);
-                    loadCatalogsBySection({
+                    /*loadCatalogsBySection({
                         section: section,
                         template_file: 'templates/elements/select.php',
                         service_location: 'service/catalogs/'
+                    });*/
+                    loadCatalogsBySection({
+                        section: section,
+                        template_file: {
+                            select: 'templates/elements/select.php',
+                            multiselect: 'templates/elements/multiselect.php'
+                        },
+                        service_location: 'service/catalogs/'
                     });
+                    setMultiselectActionsBySection(section);
+                    break;
                     break;
                 default:
                     break;
@@ -73,6 +83,46 @@ function loadForm(section){
 }
 
 function loadCatalogsBySection(attr){
+
+    console.log('loaaaaaaaaaaaaaaad sec cat: ', attr);
+
+    for(field in sections[attr.section].fields){
+
+        if(sections[attr.section].fields[field].catalog != null){
+
+            console.log('load type template: ', attr.template_file[sections[attr.section].fields[field].type]);
+
+            if(sections[attr.section].fields[field].catalog.data != null){
+                loadSelect({
+                    template_file: attr.template_file[sections[attr.section].fields[field].type],
+                    element_attr: {
+                        element_id: sections[attr.section].fields[field].id,
+                        element_placeholder: sections[attr.section].fields[field].placeholder,
+                        element_event_listener: sections[attr.section].fields[field].event_listener,
+                        elements: sections[attr.section].fields[field].catalog.data
+                    },
+                    select_type: sections[attr.section].fields[field].type
+                });
+            }
+            else{
+                getCatalog({
+                    service_file: attr.service_location+sections[attr.section].fields[field].catalog.service_file,
+                    template_file: attr.template_file[sections[attr.section].fields[field].type],
+                    element_attr: {
+                        element_id: sections[attr.section].fields[field].id,
+                        element_placeholder: sections[attr.section].fields[field].placeholder,
+                        element_event_listener: sections[attr.section].fields[field].event_listener
+                    },
+                    section: attr.section,
+                    field: field,
+                    select_type: sections[attr.section].fields[field].type
+                });
+            }
+        }
+    }
+}
+
+/*function loadCatalogsBySection(attr){
 
     for(field in sections[attr.section].fields){
 
@@ -104,7 +154,7 @@ function loadCatalogsBySection(attr){
             }
         }
     }
-}
+}*/
 
 function activeSection(section){
 
@@ -144,7 +194,7 @@ function loadDefaultValuesBySection(section){
     }
 }
 
-function validateSection(section){
+/*function validateSection(section){
 
     let fields = sections[section].fields;
     let data = {};
@@ -175,6 +225,75 @@ function validateSection(section){
     }
     else{
         //alert('No has completado la sección');
+        Swal.fire('Campos faltantes', 'Tiene que completar los campos faltantes', 'warning');
+    }
+}*/
+
+function validateSection(section){
+
+
+    console.log('si entre a validar');
+    /*setLoader({
+        add: true
+    });*/
+
+    let fields = sections[section].fields;
+    let data = {};
+    let compleated = true;
+    let multiselect = false;
+
+    for(field in fields){
+        //console.log('fields', fields[field]);
+        if(document.getElementById(fields[field].id)){
+
+            if(fields[field].type != 'multiselect'){
+
+                if(fields[field].required && document.getElementById(fields[field].id).value == ''){
+                    compleated = false;
+                }
+    
+                data = {
+                    ...data,
+                    [fields[field].name]: document.getElementById(fields[field].id).value
+                }
+            }
+            else{
+                console.log('multisaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+                if(handle_data.current_multiselect[fields[field].name]){
+                    if(handle_data.current_multiselect[fields[field].name] != null){
+                        if(handle_data.current_multiselect[fields[field].name].length <= 0){
+                            compleated = false;
+                            console.log(' no we obvio');
+                        }
+                    }
+                    else{
+                        compleated = false;
+                    }
+                }
+                else{
+                    compleated = false;
+                }
+            }
+        }
+        else{
+            compleated = false;
+        }
+    }
+
+    if(compleated){
+        spetialValidationBySection({
+            section: section,
+            data: data
+        });
+        //saveSection(section, data);
+        console.log('guardando: ', data);
+    }
+    else{
+        //alert('No has completado la sección');
+        /*setLoader({
+            add: false
+        });*/
+
         Swal.fire('Campos faltantes', 'Tiene que completar los campos faltantes', 'warning');
     }
 }
@@ -289,9 +408,16 @@ function saveSection(attr){
         if(response.state == 'success'){
             
             Swal.fire('Correcto', 'Datos guardados correctamente', 'success');
-            resetSection(attr.section);
+            //resetSection(attr.section);
             loadDefaultValuesBySection(attr.section);
-            getRecordsByMonth(attr.section);
+            //getRecordsByMonth(attr.section);
+
+            if(response.data.id != null){
+                saveMultiselectFieldsBySection({
+                    id: response.data.id,
+                    section: attr.section 
+                });
+            }
             
             console.log('chido chido', response);
             console.log('chido lo', response.state);
@@ -303,7 +429,13 @@ function saveSection(attr){
             console.log('not chido', response);
             console.log('chido no lo', response.state);
         }
-	});
+	}).fail(function (jqXHR, textStatus) {
+        Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de nofificar a DPE.', 'error');
+
+        setLoader({
+            add: false
+        });
+    });
 }
 
 function resetSection(section){
@@ -315,6 +447,9 @@ function resetSection(section){
             document.getElementById(fields[field].id).value = "";
         }
     }
+
+    resetMultiselect();
+
 }
 
 function validateNumber(evt) {
@@ -728,28 +863,38 @@ function onChangeDaily(){
         document.getElementById('capture-period-finish-date').disabled = false;
     }
 }
-
 function getCatalog(attr){
 
-    $.ajax({
-        url: attr.service_file,
-        dataType: "json",
-        cache:false
-    }).done(function(response){
+    if(attr.service_file != null){
+        $.ajax({
+            url: attr.service_file,
+            dataType: "json",
+            cache:false
+        }).done(function(response){
+    
+            sections[attr.section].fields[attr.field].catalog.data = response;
 
-        sections[attr.section].fields[attr.field].catalog.data = response;
-
-        loadSelect({
-            template_file: attr.template_file,
-            element_attr: {
-                ...attr.element_attr,
-                elements: response
-            }
+            console.log('load select before: ', {
+                template_file: attr.template_file,
+                element_attr: {
+                    ...attr.element_attr,
+                    elements: response
+                }
+            });
+    
+            loadSelect({
+                template_file: attr.template_file,
+                element_attr: {
+                    ...attr.element_attr,
+                    elements: response
+                }
+            });
+            
+    
+            console.log(response);
+    
         });
-
-        console.log(response);
-
-    });
+    }
 }
 
 function loadSelect(attr){
@@ -808,9 +953,9 @@ function checkActivePeriod(attr){
                     console.log('daily noup: ', today);
                     console.log('daily noup form da: ', form_date);
 
-                    setLoader({
+                    /*setLoader({
                         add: false
-                    });
+                    });*/
 
                     Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
                 }
@@ -834,9 +979,9 @@ function checkActivePeriod(attr){
                 }
                 else{
                     console.log('noup');
-                    setLoader({
+                    /*setLoader({
                         add: false
-                    });
+                    });*/
     
                     Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
                 }

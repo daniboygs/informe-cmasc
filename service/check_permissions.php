@@ -91,13 +91,13 @@ session_start();
                     'name' => 'processing_folders',
                     'class' => '',
                     'label' => 'CARPETAS DE TRÁMITE'
-                )/*,
+                ),
                 'inegi' => array(
                     'id' => 'inegi-nav-div',
                     'name' => 'inegi',
                     'class' => '',
                     'label' => 'INEGI'
-                )*/
+                )
             )
         ),
         '3' => array(
@@ -143,13 +143,13 @@ session_start();
                     'name' => 'processing_folders',
                     'class' => '',
                     'label' => 'CARPETAS DE TRÁMITE'
-                )/*,
+                ),
                 'inegi' => array(
                     'id' => 'inegi-nav-div',
                     'name' => 'inegi',
                     'class' => '',
                     'label' => 'INEGI'
-                )*/
+                )
             )
         ),
         '4' => array(

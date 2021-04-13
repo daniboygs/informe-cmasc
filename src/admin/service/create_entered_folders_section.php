@@ -9,7 +9,7 @@ $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[CarpetasIngresadas]';
 
 $entered_folders_date = $_POST['entered_folders_date'];
-$entered_folders_crime = $_POST['entered_folders_crime'];
+//$entered_folders_crime = $_POST['entered_folders_crime'];
 $entered_folders_nuc = $_POST['entered_folders_nuc'];
 $entered_folders_unity = $_POST['entered_folders_unity'];
 
@@ -55,12 +55,12 @@ $data = (object) array(
 		'null' => false,
 		'db_column' => '[FechaIngreso]'
 	),
-	'entered_folders_crime' => (object) array(
+	/*'entered_folders_crime' => (object) array(
 		'type' => 'text',
 		'value' => $entered_folders_crime,
 		'null' => false,
 		'db_column' => '[Delito]'
-	),
+	),*/
 	'entered_folders_nuc' => (object) array(
 		'type' => 'text',
 		'value' => $entered_folders_nuc,
