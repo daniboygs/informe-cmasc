@@ -22,6 +22,8 @@
 		<script src="json/sections-attr.js"></script>
 		<script src="json/data.js"></script>
 		<script src="json/inegi.js"></script>
+		<script src="js/inegi.js"></script>
+		<script src="js/multiselect.js"></script>
 		<script src="js/script.js"></script>
 
 		<title>CMASC</title>
