@@ -33,7 +33,7 @@ function saveMultiselectFieldsBySection(attr){
 
     for(field in fields){
 
-        if(fields[field].type == 'multiselect'){
+        if(fields[field].type == 'multiselect' || fields[field].type == 'list'){
 
             if(fields[field].service.create_file != null){
 

@@ -520,7 +520,7 @@ function loadInegiCatalogsBySection(attr){
 
     for(field in inegi.sections[attr.section].fields){
 
-        if(inegi.sections[attr.section].fields[field].catalog != null){
+        if(inegi.sections[attr.section].fields[field].catalog != null && inegi.sections[attr.section].fields[field].type != 'list'){
 
             if(inegi.sections[attr.section].fields[field].catalog.data != null){
                 loadSelect({

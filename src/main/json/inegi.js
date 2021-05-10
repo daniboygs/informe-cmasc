@@ -39,7 +39,7 @@ var inegi = {
                 {
                     "id": "inegi-general-crime",
                     "name": "general_crime",
-                    "type": "multiselect",
+                    "type": "list",
                     "placeholder": "Selecciona Delitos",
                     "event_listener": null,
                     "conditions": {
