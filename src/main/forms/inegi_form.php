@@ -1,7 +1,7 @@
 <div id="inegi-form">
 
 	<div>
-		<div id="pending-records-label-section">PENDIENTES DEL MES</div>
+		<div id="pending-records-label-section">PENDIENTES DE CAPTURA</div>
 		<div id="inegi-pending-section"></div>
 	</div>
 	

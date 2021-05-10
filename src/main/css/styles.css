@@ -87,6 +87,10 @@
     color: #152F4A;
 }
 
+#inegi-current-record-label-section{
+    text-align: center;
+}
+
 #pending-records-label-section{
     width: 100%;
     display: inline-block;

@@ -655,9 +655,11 @@ function loadInegiDefaultValuesBySection(section){
                     case "date":
                         if(fields[field].default == "today"){
                             let today = new Date();
-                            //today.setHours(today.getHours()+6); 
                             console.log('tod', today);
-                            document.getElementById(fields[field].id).valueAsDate = today;
+                            var inp = document.getElementById(fields[field].id);
+                            var date1 = new Date();
+                            date1 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()); 
+                            inp.valueAsDate = date1;
                         }
                         break;
                     default:
@@ -1051,7 +1053,7 @@ function getInegiPendingAgreementsByMonth(attr){
     $('#'+attr.section_id).html('<div style="color: #EE6E5A;">Cargando datos... </div>');
 
     $.ajax({
-        url:'service/inegi/get_pending_agreements_by_month_2.php',
+        url:'service/inegi/get_pending_agreements_by_month.php',
         type:'POST',
         dataType: "json",
         data: {

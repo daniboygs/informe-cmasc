@@ -6,104 +6,61 @@ include("../common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[AcuerdosCelebrados] a RIGHT JOIN [dbo].[CarpetasRecibidas] cr ON a.NUC = cr.NUC';
+$db_table = "(SELECT 
+	res.[CarpetaRecibidaID],
+	NULL AS AcuerdoCelebradoID,
+	res.NUC, 
+	res.Fecha
+	,res.Unidad
+	,res.UsuarioID
+	,'[dbo].[CarpetasRecibidas]' AS 'RecordTable'
+	,'[CarpetaRecibidaID]' AS 'RecordFieldID'
+	,res.[CarpetaRecibidaID] AS 'RecordID'
+	,'[delitos].[CarpetasRecibidas]' AS 'CrimeTable'
+	,'[DelitoCarpetaRecibidaID]' AS 'CrimeFieldID'
+	,res.[CarpetaRecibidaID] AS 'CrimeID'
+	,NULL AS Intervinientes
+	,NULL AS Cumplimiento
+	,NULL AS TotalParcial
+	,NULL AS Mecanismo
+	,NULL AS MontoRecuperado
+	,NULL AS MontoEspecie
+FROM [CarpetasRecibidas] res WHERE res.CarpetaRecibidaID NOT IN (SELECT CarpetaRecibidaID FROM inegi.General WHERE CarpetaRecibidaID IS NOT NULL)
+AND res.NUC NOT IN (SELECT DISTINCT [NUC] FROM dbo.AcuerdosCelebrados)
+UNION  
+SELECT
+	NULL AS CarpetaRecibidaID,
+	acu.AcuerdoCelebradoID,
+	acu.nuc,
+	acu.Fecha 
+	,acu.[Unidad]
+	,acu.[UsuarioID]
+	,'[dbo].[AcuerdosCelebrados]' AS 'RecordTable'
+	,'[AcuerdoCelebradoID]' AS 'RecordFieldID'
+	,acu.[AcuerdoCelebradoID] AS 'RecordID'
+	,'[delitos].[AcuerdosCelebrados]' AS 'CrimeTable'
+	,'[DelitoAcuerdoID]' AS 'CrimeFieldID'
+	,acu.[AcuerdoCelebradoID] AS 'CrimeID'
+	,acu.[Intervinientes]
+	,acu.[Cumplimiento]
+	,CASE [TotalParcial] 
+		WHEN 1 THEN 'Total' WHEN 2 THEN 'Parcial' ELSE NULL END AS 'TotalParcial'
+	,acu.[Mecanismo]
+	,acu.[MontoRecuperado]
+	,acu.[MontoEspecie]
+FROM [AcuerdosCelebrados] acu WHERE acu.AcuerdoCelebradoID NOT IN (SELECT AcuerdoCelebradoID FROM inegi.General WHERE AcuerdoCelebradoID IS NOT NULL)
+) subq";
 
 $month = $_POST['month'];
 $year = $_POST['year'];
 
-$data = (object) array(
-	'recieved_id' => (object) array(
-		'db_column' => '[CarpetaRecibidaID]',
-		'search' => true
-	),
-	'agreement_id' => (object) array(
-		'db_column' => '[AcuerdoCelebradoID]',
-		'search' => true
-	),
-	'agreement_nuc' => (object) array(
-		'db_column' => 'cr.[NUC]',
-		'search' => true
-	),
-	'recieved_date' => (object) array(
-		'db_column' => "cr.[Fecha] AS 'FechaRecibida'",
-		'search' => true
-	),
-	'agreement_date' => (object) array(
-		'db_column' => "a.[Fecha] AS 'FechaAcuerdo'",
-		'search' => true
-	),
-	/*'agreement_crime' => (object) array(
-		'db_column' => "CASE ISNULL([AcuerdoDelito], 'NULL')  WHEN 'NULL' THEN [Delito] ELSE [AcuerdoDelito] END AS 'Delito'",
-		'search' => true
-	),*/
-	'agreement_record_table' => (object) array(
-		'db_column' => "CASE ISNULL(a.[NUC], 'NULL')  WHEN 'NULL' THEN '[dbo].[CarpetasRecibidas]' ELSE '[dbo].[AcuerdosCelebrados]' END AS 'RecordTable'",
-		'search' => true
-	),
-	'agreement_record_field_id' => (object) array(
-		'db_column' => "CASE ISNULL(a.[NUC], 'NULL')  WHEN 'NULL' THEN '[CarpetaRecibidaID]' ELSE '[AcuerdoCelebradoID]' END AS 'RecordFieldID'",
-		'search' => true
-	),
-	'agreement_record_id' => (object) array(
-		'db_column' => "CASE ISNULL(a.[NUC], 'NULL')  WHEN 'NULL' THEN [CarpetaRecibidaID] ELSE [AcuerdoCelebradoID] END AS 'RecordID'",
-		'search' => true
-	),
-	'agreement_crime_table' => (object) array(
-		'db_column' => "CASE ISNULL(a.[NUC], 'NULL')  WHEN 'NULL' THEN '[delitos].[CarpetasRecibidas]' ELSE '[delitos].[AcuerdosCelebrados]' END AS 'CrimeTable'",
-		'search' => true
-	),
-	'agreement_crime_field_id' => (object) array(
-		'db_column' => "CASE ISNULL(a.[NUC], 'NULL')  WHEN 'NULL' THEN '[DelitoCarpetaRecibidaID]' ELSE '[DelitoAcuerdoID]' END AS 'CrimeFieldID'",
-		'search' => true
-	),
-	'agreement_crime_id' => (object) array(
-		'db_column' => "CASE ISNULL(a.[NUC], 'NULL')  WHEN 'NULL' THEN [CarpetaRecibidaID] ELSE [AcuerdoCelebradoID] END AS 'CrimeID'",
-		'search' => true
-	),
-	'agreement_amount' => (object) array(
-		'db_column' => '[MontoRecuperado]',
-		'search' => true
-	),
-	'agreement_compliance' => (object) array(
-		'db_column' => '[Cumplimiento]',
-		'search' => true
-	),
-	'agreement_intervention' => (object) array(
-		'db_column' => '[Intervinientes]',
-		'search' => true
-	),
-	'agreement_mechanism' => (object) array(
-		'db_column' => '[Mecanismo]',
-		'search' => true
-	),
-	'agreement_total' => (object) array(
-		'db_column' => "CASE [TotalParcial] WHEN 1 THEN 'Total' WHEN 2 THEN 'Parcial' ELSE NULL END AS 'TotalParcial'",
-		'search' => true
-	),
-	'agreement_unity' => (object) array(
-		'db_column' => "CASE ISNULL(a.[Unidad], 'NULL')  WHEN 'NULL' THEN cr.[Unidad] ELSE a.[Unidad] END AS 'Unidad'",
-		'search' => true
-	),
-	'agreement_amount_in_kind' => (object) array(
-		'db_column' => '[MontoEspecie]',
-		'search' => true
-	),
-	'user' => (object) array(
-		'db_column' => 'cr.[UsuarioID]',
-		'search' => false
-	)
-);
+$data = (object) array();
 
 $sql_conditions = (object) array(
 	'user' => (object) array(
-		'db_column' => 'cr.[UsuarioID]',
+		'db_column' => 'UsuarioID',
 		'condition' => '=', 
-		'value' => '2'
-	),
-	'recorded' => (object) array(
-		'db_column' => '',
-		'condition' => 'NOT', 
-		'value' => '([CarpetaRecibidaID] = 30 AND [AcuerdoCelebradoID] = 46)'
+		'value' => null
 	)
 );
 
@@ -137,10 +94,10 @@ else{
 
 function getRecord($attr){
 
-	$columns = formSearchDBColumns($attr->data);
+	//$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
-	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY cr.Fecha, cr.NUC, a.Fecha";
+	$sql = "SELECT * FROM $attr->db_table $conditions ORDER BY subq.Fecha, subq.NUC DESC";
 	
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 
@@ -152,15 +109,10 @@ function getRecord($attr){
 
 		while( $row = sqlsrv_fetch_array( $result) ) {
 
-			$recieved_date = $row['FechaRecibida'];
+			$date = $row['Fecha'];
 
-			if($recieved_date != null)
-				$recieved_date = $recieved_date->format('d/m/Y');
-
-			$agreement_date = $row['FechaAcuerdo'];
-
-			if($agreement_date != null)
-				$agreement_date = $agreement_date->format('d/m/Y');
+			if($date != null)
+				$date = $date->format('d/m/Y');
 
 			$agreement_amount = $row['MontoRecuperado'];
 
@@ -176,13 +128,9 @@ function getRecord($attr){
 					'name' => '',
 					'value' => $row['AcuerdoCelebradoID']
 				),
-				'recieved_date' => array(
-					'name' => 'Fecha Recibida',
-					'value' => $recieved_date
-				),
-				'agreement_date' => array(
-					'name' => 'Fecha Acuerdo',
-					'value' => $agreement_date
+				'date' => array(
+					'name' => 'Fecha',
+					'value' => $date
 				),
 				'agreement_crime' => array(
 					'name' => 'Delito',
