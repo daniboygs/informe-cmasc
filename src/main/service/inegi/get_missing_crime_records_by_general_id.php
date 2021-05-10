@@ -12,9 +12,9 @@ $general_id = $_POST['general_id'];
 
 $elements = array();
 
-$sql = "SELECT d.[DelitoID] AS 'id'
+$sql = "SELECT DISTINCT d.[DelitoID] AS 'id'
 			,d.[Nombre]
-		FROM $db_table WHERE g.GeneralID = $general_id";
+		FROM $db_table WHERE g.GeneralID = $general_id AND d.DelitoID NOT IN (SELECT DelitoID FROM inegi.Delito WHERE GeneralID = $general_id )";
 
 $result = sqlsrv_query( $conn, $sql , $params, $options );
 

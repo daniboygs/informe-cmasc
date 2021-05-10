@@ -8,18 +8,30 @@ $recieved_id = $_POST['recieved_id'];
 
 $agreement_id = '';
 
+$db_table = '[dbo].[CarpetasRecibidas]';
+$sql_conditions = "[CarpetaRecibidaID] = $recieved_id";
+
 if(isset($_POST['agreement_id'])){
 	if($_POST['agreement_id'] != '')
-		$agreement_id = '= '.$_POST['agreement_id'];
+		$agreement_id = $_POST['agreement_id'];
 	else
-		$agreement_id = 'IS NULL';
+		$agreement_id = '';
 }
 else{
-	$agreement_id = 'IS NULL';
+	$agreement_id = '';
+}
+
+if($agreement_id != ''){
+	$db_table = '[dbo].[AcuerdosCelebrados]';
+	$sql_conditions = "[AcuerdoCelebradoID] = $agreement_id";
+}
+else{
+	$db_table = '[dbo].[CarpetasRecibidas]';
+	$sql_conditions = "[CarpetaRecibidaID] = $recieved_id";
 }
 
 if($conn){
-    $sql = "SELECT NUC FROM [dbo].[CarpetasRecibidas] WHERE [CarpetaRecibidaID] = $recieved_id";
+    $sql = "SELECT NUC FROM $db_table WHERE $sql_conditions";
 
     $params = array();
     $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );

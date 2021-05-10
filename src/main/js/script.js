@@ -9,7 +9,7 @@ $(document).ready(function(){
                     functions: [
                         {
                             function: loadSection,
-                            attr: 'entered_folders'
+                            attr: 'recieved_folders'
                         }
                     ]
                 },
@@ -60,6 +60,10 @@ function preloadValidation(attr){
                         },
                         {
                             function: changeInegiPanel,
+                            attr: 'general'
+                        },
+                        {
+                            function: getInegiRecordsByMonth,
                             attr: 'general'
                         }
                     ] 
@@ -1094,11 +1098,17 @@ function checkActivePeriod(attr){
                 console.log('daily');
 
                 let today = new Date();
+
+                console.log('tod bef: ', today);
+
                 today = today.toLocaleDateString("es-MX");
 
+                console.log('daily noup: ', today);
+                console.log('daily noup form da: ', form_date_mx);
+
                 if(form_date_mx != today){
-                    console.log('daily noup: ', today);
-                    console.log('daily noup form da: ', form_date);
+                    //console.log('daily noup: ', today);
+                    //console.log('daily noup form da: ', form_date_mx);
 
                     setLoader({
                         add: false

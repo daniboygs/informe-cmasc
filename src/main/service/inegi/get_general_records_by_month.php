@@ -6,38 +6,21 @@ include("../common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[inegi].[General] g
-LEFT JOIN (
-	select distinct 
-		sg.GeneralID 
-	from [inegi].[General] sg 
-	INNER JOIN [inegi].[Victima] sv 
-	on sg.GeneralID = sv.GeneralID 
-	where sg.[UsuarioID] = 2 AND MONTH(sg.Fecha) = 3 AND YEAR(sg.Fecha) = 2021
-) v 
-ON g.GeneralID = v.GeneralID
-LEFT JOIN (
-	select distinct 
-		sg.GeneralID 
-	from [inegi].[General] sg 
-	INNER JOIN [inegi].[Imputado] si 
-	on sg.GeneralID = si.GeneralID 
-	where sg.[UsuarioID] = 2 AND MONTH(sg.Fecha) = 3 AND YEAR(sg.Fecha) = 2021
-) i
-ON g.GeneralID = i.GeneralID
-LEFT JOIN [inegi].[Delito] d
-ON g.GeneralID = d.GeneralID
-LEFT JOIN [inegi].[MASC] m
-ON g.GeneralID = m.GeneralID';
 
 $month = $_POST['month'];
 $year = $_POST['year'];
 
+$db_table = '[inegi].[General]';
+
 $data = (object) array(
-	'general_crime' => (object) array(
-		'db_column' => '[Delito]',
+	'general_id' => (object) array(
+		'db_column' => "g.[GeneralID] AS 'id'",
 		'search' => true
 	),
+	/*'general_crime' => (object) array(
+		'db_column' => '[Delito]',
+		'search' => true
+	),*/
 	'general_date' => (object) array(
 		'db_column' => '[Fecha]',
 		'search' => true
@@ -63,11 +46,23 @@ $data = (object) array(
 		'search' => true
 	),
 	'crime' => (object) array(
-		'db_column' => "d.DelitoID AS 'TDelito'",
+		'db_column' => "d.CNT AS 'CDelito'",
+		'search' => true
+	),
+	'crime_inegi' => (object) array(
+		'db_column' => "di.DICNT AS 'CDelitoInegi'",
 		'search' => true
 	),
 	'masc' => (object) array(
 		'db_column' => "m.MASCID AS 'TMASC'",
+		'search' => true
+	),
+	'general_recieved_id' => (object) array(
+		'db_column' => "g.[CarpetaRecibidaID] AS 'CR_ID'",
+		'search' => true
+	),
+	'general_agreement_id' => (object) array(
+		'db_column' => "g.[AcuerdoCelebradoID] AS 'AC_ID'",
 		'search' => true
 	),
 	'user' => (object) array(
@@ -115,7 +110,9 @@ else{
 				'db_table' => $db_table,
 				'conn' => $conn,
 				'params' => $params,
-				'options' => $options
+				'options' => $options,
+				'month' => $month,
+				'year' => $year
 			)
 		), 
 		JSON_FORCE_OBJECT
@@ -126,6 +123,45 @@ function getRecord($attr){
 
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
+
+	$attr->db_table = '[inegi].[General] g
+	LEFT JOIN (
+		select distinct 
+			sg.GeneralID 
+		from [inegi].[General] sg 
+		INNER JOIN [inegi].[Victima] sv 
+		on sg.GeneralID = sv.GeneralID 
+		where sg.[UsuarioID] = '.$attr->sql_conditions->user->value.' AND MONTH(sg.Fecha) = '.$attr->month.' AND YEAR(sg.Fecha) = '.$attr->year.'
+	) v 
+	ON g.GeneralID = v.GeneralID
+	LEFT JOIN (
+		select distinct 
+			sg.GeneralID 
+		from [inegi].[General] sg 
+		INNER JOIN [inegi].[Imputado] si 
+		on sg.GeneralID = si.GeneralID 
+		where sg.[UsuarioID] = '.$attr->sql_conditions->user->value.' AND MONTH(sg.Fecha) = '.$attr->month.' AND YEAR(sg.Fecha) = '.$attr->year.'
+	) i
+	ON g.GeneralID = i.GeneralID
+	LEFT JOIN [inegi].[MASC] m
+	ON g.GeneralID = m.GeneralID
+	
+	LEFT JOIN
+	(select sg.GeneralID , COUNT(sg.GeneralID) as "CNT"
+	from [inegi].[General] sg 
+	INNER JOIN [inegi].[Delito] di on sg.GeneralID = di.GeneralID 
+	where sg.[UsuarioID] = '.$attr->sql_conditions->user->value.' AND MONTH(sg.Fecha) = '.$attr->month.' AND YEAR(sg.Fecha) = '.$attr->year.' GROUP BY sg.GeneralID) d
+	
+	ON g.GeneralID = d.GeneralID
+
+	LEFT JOIN
+	(select sg.GeneralID , COUNT(sg.GeneralID) as "DICNT"
+	from [inegi].[General] sg 
+	INNER JOIN [delitos].[INEGI] di on sg.GeneralID = di.GeneralID 
+	where sg.[UsuarioID] = '.$attr->sql_conditions->user->value.' AND MONTH(sg.Fecha) = '.$attr->month.' AND YEAR(sg.Fecha) = '.$attr->year.' GROUP BY sg.GeneralID) di
+
+	ON g.GeneralID = di.GeneralID
+	';
 
 	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY Fecha";
 	
@@ -151,7 +187,16 @@ function getRecord($attr){
 				),
 				'general_crime' => array(
 					'name' => 'Delito',
-					'value' => $row['Delito']
+					'value' => getRecordsByCondition(
+						(object) array(
+							'columns' => 'd.Nombre',
+							'condition' => "[GeneralID] = '".$row['id']."' ORDER BY d.Nombre",
+							'db_table' => '[delitos].[INEGI] ac inner join cat.Delito d on ac.DelitoID = d.DelitoID',
+							'conn' => $attr->conn,
+							'params' => $attr->params,
+							'options' => $attr->options
+						)
+					)
 				),
 				'general_nuc' => array(
 					'name' => 'NUC',
@@ -175,11 +220,23 @@ function getRecord($attr){
 				),
 				'crime' => array(
 					'name' => 'Delito',
-					'value' => $row['TDelito']
+					'value' => $row['CDelito']
 				),
 				'masc' => array(
 					'name' => 'MASC',
 					'value' => $row['TMASC']
+				),
+				'crime_inegi' => array(
+					'name' => 'Delito Inegi',
+					'value' => $row['CDelitoInegi']
+				),
+				'general_recieved_id' => array(
+					'name' => 'Recibida',
+					'value' => $row['CR_ID']
+				),
+				'general_agreement_id' => array(
+					'name' => 'Acuerdo',
+					'value' => $row['AC_ID']
 				)
 			));
 			

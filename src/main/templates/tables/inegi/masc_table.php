@@ -10,7 +10,6 @@
         <th>NUC</th>
         <th>Fecha</th>
         <th>Mecanismo</th>
-        <th>Resultado</th>
         <th>Cumplimiento</th>
         <th>Total</th>
         <th>Tipo de Reparación</th>
@@ -26,10 +25,9 @@
 ?> 
     <tr>
         <td><?php echo $i; ?></td>
-        <td><?php echo $element['nuc']['value']; ?></td>
+        <td class="bold-text"><?php echo $element['nuc']['value']; ?></td>
         <td><?php echo $element['date']['value']; ?></td>
         <td><?php echo $element['masc_mechanism']['value']; ?></td>
-        <td><?php echo $element['masc_result']['value']; ?></td>
         <td><?php echo $element['masc_compliance']['value']; ?></td>
         <td><?php echo $element['masc_total']['value']; ?></td>
         <td><?php echo $element['masc_repair']['value']; ?></td>

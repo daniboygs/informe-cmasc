@@ -9,7 +9,7 @@ $conn = $connections['cmasc']['conn'];
 $db_table = '[inegi].[MASC]';
 
 $masc_mechanism = $_POST['masc_mechanism'];
-$masc_result = $_POST['masc_result'];
+//$masc_result = $_POST['masc_result'];
 $masc_compliance = $_POST['masc_compliance'];
 $masc_total = $_POST['masc_total'];
 $masc_repair = $_POST['masc_repair'];
@@ -26,12 +26,12 @@ $data = (object) array(
 		'null' => false,
 		'db_column' => '[Mecanismo]'
 	),
-	'masc_result' => (object) array(
+	/*'masc_result' => (object) array(
 		'type' => 'text',
 		'value' => $masc_result,
 		'null' => false,
 		'db_column' => '[Resultado]'
-	),
+	),*/
 	'masc_compliance' => (object) array(
 		'type' => 'text',
 		'value' => $masc_compliance,
@@ -63,7 +63,7 @@ $data = (object) array(
 		'db_column' => '[MontoRecuperado]'
 	),
 	'masc_amount_property' => (object) array(
-		'type' => 'number',
+		'type' => 'text',
 		'value' => $masc_amount_property,
 		'null' => false,
 		'db_column' => '[MontoInmueble]'

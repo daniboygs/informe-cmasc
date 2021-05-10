@@ -87,6 +87,18 @@
     color: #152F4A;
 }
 
+#inegi-current-record-label-section{
+    text-align: center;
+}
+
+#pending-records-label-section{
+    width: 100%;
+    display: inline-block;
+    font-family: LabradorA;
+    font-size: 25pt;
+    color: #152F4A;
+}
+
 #inegi-current-record-section table tbody tr td{
     /*background-color: aquamarine;*/
 }
@@ -154,7 +166,7 @@ table tr td{
 }
 
 #pending-agreements-table{
-    height: 300px;
+    height: 500px;
     overflow: scroll;
     display: block;
 }

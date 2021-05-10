@@ -32,7 +32,7 @@ $entered_folders_municipality = $_POST['entered_folders_municipality'];
 $entered_folders_observations = $_POST['entered_folders_observations'];
 
 
-if(isset($_POST['entered_folders_folders_date']))
+/*if(isset($_POST['entered_folders_folders_date']))
 	$entered_folders_folders_date = $_POST['entered_folders_folders_date'];
 else
 	$entered_folders_folders_date = 'null';
@@ -40,8 +40,29 @@ else
 if(isset($_POST['entered_folders_facilitator']))
 	$entered_folders_facilitator = $_POST['entered_folders_facilitator'];
 else
-	$entered_folders_facilitator = 'null';
+	$entered_folders_facilitator = 'null';*/
 
+if(isset($_POST['entered_folders_folders_date'])){
+	if($_POST['entered_folders_folders_date'] != ''){
+		$entered_folders_folders_date = $_POST['entered_folders_folders_date'];
+	}
+	else{
+		$entered_folders_folders_date = 'null';
+	}
+}
+else
+	$entered_folders_folders_date = 'null';
+
+if(isset($_POST['entered_folders_facilitator'])){
+	if($_POST['entered_folders_facilitator']){
+		$entered_folders_facilitator = $_POST['entered_folders_facilitator'];
+	}
+	else{
+		$entered_folders_facilitator = 'null';
+	}
+}
+else
+	$entered_folders_facilitator = 'null';
 
 //$entered_folders_book_date = $_POST['entered_folders_book_date'];
 

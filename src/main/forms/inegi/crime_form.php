@@ -6,8 +6,11 @@
 
 			<label style="font-weight:bold">Delito: *</label>
 
-			<select class="form-control" id="inegi-crime-crime" required="true">									
-			</select>	
+			<!--<select class="form-control" id="inegi-crime-crime" required="true">									
+			</select-->
+			<div id="inegi-crime-crime-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
 
 		</div>
 
@@ -116,7 +119,7 @@
 
 		</div>
 
-		<div class="col-md-8 form-group">
+		<!--<div class="col-md-8 form-group">
 
 			<label style="font-weight:bold">¿El delito es atendido en el esquema de justicia alternativa?: *</label>
 
@@ -127,7 +130,7 @@
 
 			</select>
 
-		</div>
+		</div>-->
 
 	</div>
 

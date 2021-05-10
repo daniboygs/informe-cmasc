@@ -2,7 +2,7 @@
 
 	<div class="form-row">
 
-		<div class="col-md-4 form-group">
+		<div class="col-md-6 form-group">
 
 			<label style="font-weight:bold">Mecanismo: *</label>
 
@@ -14,7 +14,7 @@
 
 		</div>
 
-		<div class="col-md-4 form-group">
+		<!--<div class="col-md-4 form-group">
 
 			<label style="font-weight:bold">Resultado: *</label>
 
@@ -23,9 +23,9 @@
 				<option value ="No acuerdo">No acuerdo</option>
 			</select>	
 
-		</div>
+		</div>-->
 
-		<div class="col-md-4 form-group">
+		<div class="col-md-6 form-group">
 
 			<label style="font-weight:bold">Cumplimiento: *</label>
 			

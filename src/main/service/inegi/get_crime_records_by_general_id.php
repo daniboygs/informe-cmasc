@@ -7,7 +7,7 @@ $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[inegi].[Delito] d INNER JOIN [inegi].[General] g ON d.GeneralID = g.GeneralID INNER JOIN [cat].[Modalidad] m ON d.Modalidad = m.ModalidadID
-INNER JOIN [cat].[Instrumento] i ON d.Instrumento = i.InstrumentoID';
+INNER JOIN [cat].[Instrumento] i ON d.Instrumento = i.InstrumentoID INNER JOIN [cat].[Delito] cd ON d.DelitoID = cd.DelitoID';
 
 $general_id = $_POST['general_id'];
 
@@ -18,6 +18,10 @@ $data = (object) array(
 	),
 	'date' => (object) array(
 		'db_column' => 'g.[Fecha]',
+		'search' => true
+	),
+	'crime_crime' => (object) array(
+		'db_column' => "cd.[Nombre] AS 'Delito'",
 		'search' => true
 	),
 	'crime_rate' => (object) array(
@@ -125,6 +129,10 @@ function getRecord($attr){
 				'date' => array(
 					'name' => 'Fecha',
 					'value' => $date
+				),
+				'crime_crime' => array(
+					'name' => 'Delito',
+					'value' => $row['Delito']
 				),
 				'crime_rate' => array(
 					'name' => 'Calificación',

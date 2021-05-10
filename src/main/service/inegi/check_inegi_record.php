@@ -4,9 +4,20 @@ include('../../../../service/connection.php');
 $conn = $connections['cmasc']['conn'];
 $db = $connections['cmasc']['db'];
 
-$recieved_id = $_POST['recieved_id'];
+$recieved_id = '';
 
 $agreement_id = '';
+
+if(isset($_POST['recieved_id'])){
+	if($_POST['recieved_id'] != '')
+		$recieved_id = '= '.$_POST['recieved_id'];
+	else
+		$recieved_id = 'IS NULL';
+}
+else{
+	$recieved_id = 'IS NULL';
+}
+
 
 if(isset($_POST['agreement_id'])){
 	if($_POST['agreement_id'] != '')
@@ -19,8 +30,8 @@ else{
 }
 
 if($conn){
-    $sql = "SELECT NUC FROM [inegi].[General] WHERE [CarpetaRecibidaID] = $recieved_id AND [AcuerdoCelebradoID] $agreement_id";
-
+    $sql = "SELECT NUC FROM [inegi].[General] WHERE [CarpetaRecibidaID] $recieved_id AND [AcuerdoCelebradoID] $agreement_id";
+    
     $params = array();
     $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
     $result = sqlsrv_query( $conn, $sql , $params, $options );

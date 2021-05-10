@@ -11,7 +11,8 @@ $elements = array();
 
 $sql = "SELECT [DelitoID] AS 'id'
 			,[Nombre]
-		FROM $db_table";
+			,[Prioridad]
+		FROM $db_table ORDER BY [Prioridad], [Nombre]";
 
 $result = sqlsrv_query( $conn, $sql , $params, $options );
 

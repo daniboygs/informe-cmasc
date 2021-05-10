@@ -9,6 +9,7 @@
         <th>#</th>
         <th>NUC</th>
         <th>Fecha</th>
+        <th>Delito</th>
         <th>Calificación</th>
         <th>Concurso</th>
         <th>Forma de Acción</th>
@@ -16,7 +17,6 @@
         <th>Violencia</th>
         <th>Modalidad</th>
         <th>Instrumento</th>
-        <th>Justicia Alternativa</th>
     </tr>
 <?php
     if($data != 'null'){
@@ -25,8 +25,9 @@
 ?> 
     <tr>
         <td><?php echo $i; ?></td>
-        <td><?php echo $element['nuc']['value']; ?></td>
+        <td class="bold-text"><?php echo $element['nuc']['value']; ?></td>
         <td><?php echo $element['date']['value']; ?></td>
+        <td class="align-left bold-text"><?php echo $element['crime_crime']['value']; ?></td>
         <td><?php echo $element['crime_rate']['value']; ?></td>
         <td><?php echo $element['crime_contest']['value']; ?></td>
         <td><?php echo $element['crime_action']['value']; ?></td>
@@ -34,7 +35,6 @@
         <td><?php echo $element['crime_violence']['value']; ?></td>
         <td><?php echo $element['crime_modality']['value']; ?></td>
         <td><?php echo $element['crime_instrument']['value']; ?></td>
-        <td><?php echo $element['crime_alternative_justice']['value']; ?></td>
     </tr>
 <?php
             $i++;

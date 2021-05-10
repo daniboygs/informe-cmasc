@@ -13,7 +13,17 @@ $general_date = $_POST['general_date'];
 //$general_crime = $_POST['general_crime'];
 $general_unity = $_POST['general_unity'];
 $general_attended = $_POST['general_attended'];
-$recieved_id = $_POST['recieved_id'];
+
+$recieved_id = '';
+if(isset($_POST['recieved_id'])){
+	if($_POST['recieved_id'] != '')
+		$recieved_id = $_POST['recieved_id'];
+	else
+		$recieved_id = 'NULL';
+}
+else{
+	$recieved_id = 'NULL';
+}
 
 $agreement_id = '';
 if(isset($_POST['agreement_id'])){
