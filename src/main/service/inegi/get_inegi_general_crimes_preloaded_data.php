@@ -25,14 +25,14 @@ $data = (object) array(
 $sql_conditions = '';
 
 if($agreement_id != ''){
-	$sql_conditions = "[CarpetaRecibidaID] = $recieved_id";
-	$db_table = '[cat].[Delito] d INNER JOIN [delitos].[CarpetasRecibidas] cr ON d.DelitoID = cr.DelitoID';
-	//$data->id = "[CarpetaRecibidaID] AS 'id'";
-}
-else{
 	$sql_conditions = "[AcuerdoCelebradoID] = $agreement_id";
 	$db_table = '[cat].[Delito] d INNER JOIN [delitos].[AcuerdosCelebrados] ac ON d.DelitoID = ac.DelitoID';
 	//$data->id = "[AcuerdoCelebradoID] AS 'id'";
+}
+else{
+	$sql_conditions = "[CarpetaRecibidaID] = $recieved_id";
+	$db_table = '[cat].[Delito] d INNER JOIN [delitos].[CarpetasRecibidas] cr ON d.DelitoID = cr.DelitoID';
+	//$data->id = "[CarpetaRecibidaID] AS 'id'";
 }
 
 /*$sql_conditions = (object) array(

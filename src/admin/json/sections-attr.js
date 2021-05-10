@@ -1044,7 +1044,7 @@ var sections = {
 				},
 				"default": 'today',
 				"catalog": null,
-				"required": true,
+				"required": false,
 				"service": null
 			},
 			{
@@ -1062,7 +1062,7 @@ var sections = {
 					service_file: 'get_facilitators.php',
 					data: null
 				},
-				"required": true,
+				"required": false,
 				"service": null
 			}/*,
 			{

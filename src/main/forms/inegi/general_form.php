@@ -44,7 +44,7 @@
 
 		<div class="col-md-4 form-group">
 
-			<label style="font-weight:bold">N° Atendidos en carpeta: *</label>
+			<label style="font-weight:bold">Intervinientes: *</label>
 
 			<input type="text" class="form-control" id="inegi-general-attended" maxlength="4" onkeypress="validateNumber(event);">			
 

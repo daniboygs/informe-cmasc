@@ -24,7 +24,7 @@
 ?> 
     <tr>
         <td><?php echo $i; ?></td>
-        <td><?php echo $element['nuc']['value']; ?></td>
+        <td class="bold-text"><?php echo $element['nuc']['value']; ?></td>
         <td><?php echo $element['date']['value']; ?></td>
         <td><?php echo $element['victim_gener']['value']; ?></td>
         <td><?php echo $element['victim_age']['value']; ?></td>

@@ -6,33 +6,31 @@ include("../common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[AcuerdosCelebrados] a RIGHT JOIN [dbo].[CarpetasRecibidas] cr ON a.NUC = cr.NUC';
+$db_table = '[dbo].[CarpetasRecibidas]';
 
 $recieved_id = $_POST['recieved_id'];
 $agreement_id = $_POST['agreement_id'];
 
 $data = (object) array(
 	'nuc' => (object) array(
-		'db_column' => 'cr.[NUC]',
-		'search' => true
-	),
-	'crime' => (object) array(
-		'db_column' => "CASE ISNULL([AcuerdoDelito], 'NULL')  WHEN 'NULL' THEN [Delito] ELSE [AcuerdoDelito] END AS 'Delito'",
+		'db_column' => '[NUC]',
 		'search' => true
 	),
 	'unity' => (object) array(
-		'db_column' => "CASE ISNULL(a.[Unidad], 'NULL')  WHEN 'NULL' THEN cr.[Unidad] ELSE a.[Unidad] END AS 'Unidad'",
+		'db_column' => "[Unidad]",
 		'search' => true
 	)
 );
 
-$agreement_condition = '';
+$sql_conditions = '';
 
 if($agreement_id != ''){
-	$agreement_condition = "[AcuerdoCelebradoID] = $agreement_id";
+	$db_table = '[dbo].[AcuerdosCelebrados]';
+	$sql_conditions = "[AcuerdoCelebradoID] = $agreement_id";
 }
 else{
-	$agreement_condition = '[AcuerdoCelebradoID] IS NULL';
+	$db_table = '[dbo].[CarpetasRecibidas]';
+	$sql_conditions = "[CarpetaRecibidaID] = $recieved_id";
 }
 
 /*$sql_conditions = (object) array(
@@ -48,7 +46,6 @@ else{
 	)
 );*/
 
-$sql_conditions = "[CarpetaRecibidaID] = $recieved_id AND $agreement_condition";
 
 if(!isset($_SESSION['user_data'])){
 	echo json_encode(
@@ -98,10 +95,6 @@ function getRecord($attr){
 				'general_nuc' => array(
 					'name' => 'NUC',
 					'value' => $row['NUC']
-				),
-				'general_crime' => array(
-					'name' => 'Delito',
-					'value' => $row['Delito']
 				),
 				'general_unity' => array(
 					'name' => 'Unidad',

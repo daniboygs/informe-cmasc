@@ -37,27 +37,27 @@ $data = (object) array(
 		'search' => true
 	),*/
 	'agreement_record_table' => (object) array(
-		'db_column' => "CASE ISNULL([AcuerdoDelito], 'NULL')  WHEN 'NULL' THEN '[dbo].[CarpetasRecibidas]' ELSE '[dbo].[AcuerdosCelebrados]' END AS 'RecordTable'",
+		'db_column' => "CASE ISNULL(a.[NUC], 'NULL')  WHEN 'NULL' THEN '[dbo].[CarpetasRecibidas]' ELSE '[dbo].[AcuerdosCelebrados]' END AS 'RecordTable'",
 		'search' => true
 	),
 	'agreement_record_field_id' => (object) array(
-		'db_column' => "CASE ISNULL([AcuerdoDelito], 'NULL')  WHEN 'NULL' THEN '[CarpetaRecibidaID]' ELSE '[AcuerdoCelebradoID]' END AS 'RecordFieldID'",
+		'db_column' => "CASE ISNULL(a.[NUC], 'NULL')  WHEN 'NULL' THEN '[CarpetaRecibidaID]' ELSE '[AcuerdoCelebradoID]' END AS 'RecordFieldID'",
 		'search' => true
 	),
 	'agreement_record_id' => (object) array(
-		'db_column' => "CASE ISNULL([AcuerdoDelito], 'NULL')  WHEN 'NULL' THEN [CarpetaRecibidaID] ELSE [AcuerdoCelebradoID] END AS 'RecordID'",
+		'db_column' => "CASE ISNULL(a.[NUC], 'NULL')  WHEN 'NULL' THEN [CarpetaRecibidaID] ELSE [AcuerdoCelebradoID] END AS 'RecordID'",
 		'search' => true
 	),
 	'agreement_crime_table' => (object) array(
-		'db_column' => "CASE ISNULL([AcuerdoDelito], 'NULL')  WHEN 'NULL' THEN '[delitos].[CarpetasRecibidas]' ELSE '[delitos].[AcuerdosCelebrados]' END AS 'CrimeTable'",
+		'db_column' => "CASE ISNULL(a.[NUC], 'NULL')  WHEN 'NULL' THEN '[delitos].[CarpetasRecibidas]' ELSE '[delitos].[AcuerdosCelebrados]' END AS 'CrimeTable'",
 		'search' => true
 	),
 	'agreement_crime_field_id' => (object) array(
-		'db_column' => "CASE ISNULL([AcuerdoDelito], 'NULL')  WHEN 'NULL' THEN '[DelitoCarpetaRecibidaID]' ELSE '[DelitoAcuerdoID]' END AS 'CrimeFieldID'",
+		'db_column' => "CASE ISNULL(a.[NUC], 'NULL')  WHEN 'NULL' THEN '[DelitoCarpetaRecibidaID]' ELSE '[DelitoAcuerdoID]' END AS 'CrimeFieldID'",
 		'search' => true
 	),
 	'agreement_crime_id' => (object) array(
-		'db_column' => "CASE ISNULL([AcuerdoDelito], 'NULL')  WHEN 'NULL' THEN [CarpetaRecibidaID] ELSE [AcuerdoCelebradoID] END AS 'CrimeID'",
+		'db_column' => "CASE ISNULL(a.[NUC], 'NULL')  WHEN 'NULL' THEN [CarpetaRecibidaID] ELSE [AcuerdoCelebradoID] END AS 'CrimeID'",
 		'search' => true
 	),
 	'agreement_amount' => (object) array(
@@ -99,6 +99,11 @@ $sql_conditions = (object) array(
 		'db_column' => 'cr.[UsuarioID]',
 		'condition' => '=', 
 		'value' => '2'
+	),
+	'recorded' => (object) array(
+		'db_column' => '',
+		'condition' => 'NOT', 
+		'value' => '([CarpetaRecibidaID] = 30 AND [AcuerdoCelebradoID] = 46)'
 	)
 );
 

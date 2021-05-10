@@ -3,6 +3,35 @@ function changeInegiPanel(section){
     console.log('section: ', section);
     console.log('inegi: ', inegi);
 
+    /*if(section != 'general'){
+        showSections({
+            sections: [
+                {
+                    id: 'month-records-label-section',
+                    show: false
+                },
+                {
+                    id: 'records-section',
+                    show: false
+                }
+            ]
+        });
+    }
+    else{
+        showSections({
+            sections: [
+                {
+                    id: 'month-records-label-section',
+                    show: true
+                },
+                {
+                    id: 'records-section',
+                    show: true
+                }
+            ]
+        });
+    }*/
+
     
 
     if(inegi.active || (!inegi.active && inegi.sections[section].main_form)){
@@ -32,10 +61,10 @@ function changeInegiPanel(section){
                                 service_location: 'service/catalogs/'
                             }
                         },
-                        {
+                        /*{
                             function: getInegiRecordsByMonth,
                             attr: section
-                        },
+                        },*/
                         {
                             function: getInegiCurrentRecordBySectionAndID,
                             attr: {
@@ -50,7 +79,7 @@ function changeInegiPanel(section){
                         {
                             function: getInegiPreloadedDataBySection,
                             attr: {
-                                service_file: 'inegi/service/get_inegi_preloaded_data_by_id.php',
+                                service_file: 'service/inegi/get_inegi_general_preloaded_data.php',
                                 attr: {
                                     general_id: inegi.current.general_id,
                                     nuc: inegi.current.nuc,
@@ -130,6 +159,26 @@ function resetInegi(attr){
     $('#dashboard-alert-section').html('');
     $('#inegi-current-record-section').html('');
     $('#inegi-current-record-label-section').html('');
+    showSections({
+        sections: [
+            {
+                id: 'month-records-label-section',
+                show: true
+            },
+            {
+                id: 'records-section',
+                show: true
+            },
+            {
+                id: 'masc-side-div',
+                show: true
+            },
+            {
+                id: 'pending-records-label-section',
+                show: true
+            }
+        ]
+    });
 }
 
 function validateInegiSection(section){
@@ -202,7 +251,7 @@ function spetialInegiValidationBySection(attr){
                                 success: {
                                     functions: [
                                         {
-                                            function: drawCompletedInegiSection,
+                                            function: validateCompletedInegiSection,
                                             attr: attr.section,
                                             response: false
                                         },
@@ -226,11 +275,11 @@ function spetialInegiValidationBySection(attr){
                                             attr: null,
                                             response: true 
                                         },
-                                        {
+                                        /*{
                                             function: getInegiRecordsByMonth,
                                             attr: attr.section,
                                             response: false
-                                        },
+                                        },*/
                                         {
                                             function: resetInegiSection,
                                             attr: attr.section,
@@ -246,86 +295,6 @@ function spetialInegiValidationBySection(attr){
                 break;
         case 'crime':
 
-            checkActivePeriod({
-                element_id: 'inegi-general-date',
-                function: checkNuc,
-                attr: {
-                    element_id: 'inegi-general-nuc',
-                    //function: checkInegiNuc,
-                    function: checkInegiRecord,
-                    attr: {
-                        recieved_id: inegi.current.recieved_id,
-                        agreement_id: inegi.current.agreement_id,
-                        //element_id: 'inegi-general-nuc',
-                        success: {
-                            function: saveInegiSection,
-                            attr: {
-                                section: attr.section,
-                                data: {
-                                    ...attr.data,
-                                    recieved_id: inegi.current.recieved_id,
-                                    agreement_id: inegi.current.agreement_id
-                                },
-                                success: {
-                                    functions: [
-                                        {
-                                            function: drawCompletedInegiSection,
-                                            attr: attr.section,
-                                            response: false
-                                        },
-                                        {
-                                            function: drawUncompletedInegiSections,
-                                            attr: null,
-                                            response: false
-                                        },
-                                        {
-                                            function: activeInegi,
-                                            attr: null,
-                                            response: false
-                                        },
-                                        {
-                                            function: setCurrentInegiId,
-                                            attr: null,
-                                            response: true
-                                        },
-                                        {
-                                            function: getInegiCurrentRecordBySectionAndID,
-                                            attr: null,
-                                            response: true 
-                                        },
-                                        {
-                                            function: getInegiRecordsByMonth,
-                                            attr: attr.section,
-                                            response: false
-                                        },
-                                        {
-                                            function: resetInegiSection,
-                                            attr: attr.section,
-                                            response: false
-                                        },
-                                        {
-                                            function: getMissingInegiCrimesByGeneralId,
-                                            attr: {
-                                                service_file: 'service/inegi/get_missing_crime_records_by_general_id.php',
-                                                template_file: 'templates/elements/select.php',
-                                                element_attr: {
-                                                    element_id: 'inegi-crime-crime',
-                                                    element_placeholder: 'Selecciona Delito',
-                                                    element_event_listener: ''
-                                                },
-                                                select_type: 'select'
-                                            },
-                                            response: false
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-            break;
-        default:
             saveInegiSection({
                 section: attr.section,
                 data: {
@@ -335,7 +304,7 @@ function spetialInegiValidationBySection(attr){
                 success: {
                     functions: [
                         {
-                            function: drawCompletedInegiSection,
+                            function: validateCompletedInegiSection,
                             attr: attr.section,
                             response: false
                         },
@@ -347,11 +316,67 @@ function spetialInegiValidationBySection(attr){
                             },
                             response: false 
                         },
-                        {
+                        /*{
                             function: getInegiRecordsByMonth,
                             attr: attr.section,
                             response: false
+                        },*/
+                        {
+                            function: loadInegiDefaultValuesBySection,
+                            attr: attr.section,
+                            response: false
                         },
+                        {
+                            function: resetInegiSection,
+                            attr: attr.section,
+                            response: false
+                        },
+                        {
+                            function: getMissingInegiCrimesByGeneralId,
+                            attr: {
+                                service_file: 'service/inegi/get_missing_crime_records_by_general_id.php',
+                                template_file: 'templates/elements/select.php',
+                                element_attr: {
+                                    element_id: 'inegi-crime-crime',
+                                    element_placeholder: 'Selecciona Delito',
+                                    element_event_listener: ''
+                                },
+                                select_type: 'select'
+                            },
+                            response: false
+                        }
+                    ] 
+                }
+            });
+
+            break;
+        default:
+            saveInegiSection({
+                section: attr.section,
+                data: {
+                    ...attr.data,
+                    general_id: inegi.current.general_id
+                },
+                success: {
+                    functions: [
+                        {
+                            function: validateCompletedInegiSection,
+                            attr: attr.section,
+                            response: false
+                        },
+                        {
+                            function: getInegiCurrentRecordBySectionAndID,
+                            attr: {
+                                section: attr.section,
+                                general_id: inegi.current.general_id
+                            },
+                            response: false 
+                        },
+                        /*{
+                            function: getInegiRecordsByMonth,
+                            attr: attr.section,
+                            response: false
+                        },*/
                         {
                             function: loadInegiDefaultValuesBySection,
                             attr: attr.section,
@@ -372,7 +397,7 @@ function spetialInegiValidationBySection(attr){
 function saveInegiSection(attr){
 
     console.log('seeeec', inegi.sections[attr.section]);
-    if(inegi.sections[attr.section].data == null || attr.section == 'victim' || attr.section == 'imputed'){
+    if(inegi.sections[attr.section].data == null || attr.section == 'victim' || attr.section == 'imputed' || attr.section == 'crime'){
         $.ajax({
             url: 'service/inegi/'+inegi.sections[attr.section].create_file,
             type: 'POST',
@@ -433,17 +458,37 @@ function saveInegiSection(attr){
         });
     }
     else{
+        setLoader({
+            add: false
+        });
+
         Swal.fire('Error', 'Ya se ha guardado esta seccion antes', 'error');
     }
     
 }
 
-function drawCompletedInegiSection(section){
+function validateCompletedInegiSection(section){
 
-    //inegi.sections[section].compleated = true;
-    $('#'+inegi.sections[section].sidenav_div_id).removeClass('uncompleted');
-    $('#'+inegi.sections[section].sidenav_div_id).addClass('completed');
+    switch(section){
+        case 'crime':
+            checkMissingInegiCrimesByGeneralId({
+                service_file: 'service/inegi/get_missing_crime_records_by_general_id.php',
+                section: section
+            });
+            break;
+        default:
+            drawCompletedInegiSection({
+                section: section
+            });
+            break;
+    }
 
+}
+
+function drawCompletedInegiSection(attr){
+    //inegi.sections[attr.section].compleated = true;
+    $('#'+inegi.sections[attr.section].sidenav_div_id).removeClass('uncompleted');
+    $('#'+inegi.sections[attr.section].sidenav_div_id).addClass('completed');
 }
 
 function drawUncompletedInegiSections(attr){
@@ -679,6 +724,44 @@ function inegiStartCapture(recieved, agreement){
 
     document.getElementById('inegi-pending-section').style.display = 'none';
 
+    showSections({
+        sections: [
+            {
+                id: 'month-records-label-section',
+                show: false
+            },
+            {
+                id: 'records-section',
+                show: false
+            },
+            {
+                id: 'pending-records-label-section',
+                show: false
+            }
+        ]
+    });
+
+    if(agreement == ''){
+        showSections({
+            sections: [
+                {
+                    id: 'masc-side-div',
+                    show: false
+                }
+            ]
+        });
+    }
+    else{
+        showSections({
+            sections: [
+                {
+                    id: 'masc-side-div',
+                    show: true
+                }
+            ]
+        });
+    }
+
     changeInegiPanel('general');
 
 }
@@ -767,6 +850,8 @@ function getInegiPreloadedDataBySection(attr){
                 data: attr.attr,
                 cache:false
             }).done(function(response){
+
+                console.log('get preloaded  data res: ', response);
         
                 if(attr.success != null){
                     for(func in attr.success.functions){
@@ -785,6 +870,8 @@ function getInegiPreloadedDataBySection(attr){
 }
 
 function loadInegiPreloadedData(attr){
+
+    console.log('tell me what r u setting: ',attr);
 
     let loaded = false;
 
@@ -854,6 +941,7 @@ function getInegiPreloadedCrimes(attr){
             data: attr.attr,
             cache:false
         }).done(function(response){
+            console.log(response);
     
             if(attr.success != null){
                 for(func in attr.success.functions){
@@ -963,7 +1051,7 @@ function getInegiPendingAgreementsByMonth(attr){
     $('#'+attr.section_id).html('<div style="color: #EE6E5A;">Cargando datos... </div>');
 
     $.ajax({
-        url:'service/inegi/get_pending_agreements_by_month.php',
+        url:'service/inegi/get_pending_agreements_by_month_2.php',
         type:'POST',
         dataType: "json",
         data: {
@@ -991,11 +1079,17 @@ function resetInegiCapture(){
         $('#dashboard-alert-section').html('');
 
         resetInegi(null);
+
+        getInegiRecordsByMonth('general');
+
+        getInegiPendingAgreementsByMonth({
+            section_id: 'inegi-pending-section'
+        });
     }
     else{
         Swal.fire({
             title: 'Estas seguro?',
-            text: 'No será posible seguir capturando la información de la carpeta si quieres capturar una nueva!',
+            text: 'No será posible seguir capturando la información de este registro si quieres capturar un nuevo!',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Si',
@@ -1008,6 +1102,13 @@ function resetInegiCapture(){
                 $('#dashboard-alert-section').html('');
 
                 resetInegi(null);
+
+                getInegiRecordsByMonth('general');
+
+                getInegiPendingAgreementsByMonth({
+                    section_id: 'inegi-pending-section'
+                });
+
             }
         });
     }
@@ -1017,9 +1118,9 @@ function checkInegiRecord(attr){
 
     console.log('attr: ', attr);
 
-    if(attr.recieved_id){
+    if(attr.recieved_id || attr.agreement_id){
 
-        if(attr.recieved_id != null || attr.recieved_id != ''){
+        if((attr.recieved_id != null || attr.recieved_id != '') || (attr.agreement_id != null || attr.agreement_id != '')){
             
             $.ajax({  
                 type: "POST",  
@@ -1116,16 +1217,7 @@ function getMissingInegiCrimesByGeneralId(attr){
             cache:false
         }).done(function(response){
 
-    
             loadSelect({
-                template_file: attr.template_file,
-                element_attr: {
-                    ...attr.element_attr,
-                    elements: response
-                }
-            });
-    
-            console.log('misiisisisisisi: ', {
                 template_file: attr.template_file,
                 element_attr: {
                     ...attr.element_attr,
@@ -1135,4 +1227,44 @@ function getMissingInegiCrimesByGeneralId(attr){
     
         });
     }
+}
+
+function checkMissingInegiCrimesByGeneralId(attr){
+
+    if(attr.service_file != null){
+        $.ajax({
+            url: attr.service_file,
+            type:'POST',
+            dataType: "json",
+            data: {
+                general_id: inegi.current.general_id
+            },
+            cache:false
+        }).done(function(response){
+
+            console.log('check res:', response);
+
+            if(response == null){
+                drawCompletedInegiSection({
+                    section: attr.section
+                });
+            }
+    
+        });
+    }
+}
+
+function showSections(attr){
+
+    for(section in attr.sections){
+        if(document.getElementById(attr.sections[section].id)){
+            if(!attr.sections[section].show){
+                document.getElementById(attr.sections[section].id).style.display = 'none';
+            }
+            else{
+                document.getElementById(attr.sections[section].id).style.display = '';
+            }
+        }
+    }
+
 }

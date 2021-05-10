@@ -11,10 +11,14 @@ $db_table = '[inegi].[General]';
 $general_id = $_POST['general_id'];
 
 $data = (object) array(
-	'general_crime' => (object) array(
-		'db_column' => '[Delito]',
+	'general_id' => (object) array(
+		'db_column' => "g.[GeneralID] AS 'id'",
 		'search' => true
 	),
+	/*'general_crime' => (object) array(
+		'db_column' => '[Delito]',
+		'search' => true
+	),*/
 	'general_date' => (object) array(
 		'db_column' => '[Fecha]',
 		'search' => true
@@ -31,6 +35,34 @@ $data = (object) array(
 		'db_column' => '[Atendidos]',
 		'search' => true
 	),
+	'victim' => (object) array(
+		'db_column' => "v.GeneralID AS 'TVictima'",
+		'search' => true
+	),
+	'imputed' => (object) array(
+		'db_column' => "i.GeneralID AS 'TImputado'",
+		'search' => true
+	),
+	'crime' => (object) array(
+		'db_column' => "d.CNT AS 'CDelito'",
+		'search' => true
+	),
+	'crime_inegi' => (object) array(
+		'db_column' => "di.DICNT AS 'CDelitoInegi'",
+		'search' => true
+	),
+	'masc' => (object) array(
+		'db_column' => "m.MASCID AS 'TMASC'",
+		'search' => true
+	),
+	'general_recieved_id' => (object) array(
+		'db_column' => "g.[CarpetaRecibidaID] AS 'CR_ID'",
+		'search' => true
+	),
+	'general_agreement_id' => (object) array(
+		'db_column' => "g.[AcuerdoCelebradoID] AS 'AC_ID'",
+		'search' => true
+	),
 	'user' => (object) array(
 		'db_column' => '[UsuarioID]',
 		'search' => false
@@ -44,7 +76,7 @@ $sql_conditions = (object) array(
 		'value' => ''
 	),
 	'general_id' => (object) array(
-		'db_column' => 'GeneralID',
+		'db_column' => 'g.GeneralID',
 		'condition' => '=', 
 		'value' => $general_id
 	)
@@ -83,6 +115,45 @@ function getRecord($attr){
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
+	$attr->db_table = '[inegi].[General] g
+	LEFT JOIN (
+		select distinct 
+			sg.GeneralID 
+		from [inegi].[General] sg 
+		INNER JOIN [inegi].[Victima] sv 
+		on sg.GeneralID = sv.GeneralID 
+		where sg.[UsuarioID] = '.$attr->sql_conditions->user->value.'
+	) v 
+	ON g.GeneralID = v.GeneralID
+	LEFT JOIN (
+		select distinct 
+			sg.GeneralID 
+		from [inegi].[General] sg 
+		INNER JOIN [inegi].[Imputado] si 
+		on sg.GeneralID = si.GeneralID 
+		where sg.[UsuarioID] = '.$attr->sql_conditions->user->value.'
+	) i
+	ON g.GeneralID = i.GeneralID
+	LEFT JOIN [inegi].[MASC] m
+	ON g.GeneralID = m.GeneralID
+	
+	LEFT JOIN
+	(select sg.GeneralID , COUNT(sg.GeneralID) as "CNT"
+	from [inegi].[General] sg 
+	INNER JOIN [inegi].[Delito] di on sg.GeneralID = di.GeneralID 
+	where sg.[UsuarioID] = '.$attr->sql_conditions->user->value.' GROUP BY sg.GeneralID) d
+	
+	ON g.GeneralID = d.GeneralID
+
+	LEFT JOIN
+	(select sg.GeneralID , COUNT(sg.GeneralID) as "DICNT"
+	from [inegi].[General] sg 
+	INNER JOIN [delitos].[INEGI] di on sg.GeneralID = di.GeneralID 
+	where sg.[UsuarioID] = '.$attr->sql_conditions->user->value.' GROUP BY sg.GeneralID) di
+
+	ON g.GeneralID = di.GeneralID
+	';
+
 	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY Fecha";
 
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
@@ -107,7 +178,16 @@ function getRecord($attr){
 				),
 				'general_crime' => array(
 					'name' => 'Delito',
-					'value' => $row['Delito']
+					'value' => getRecordsByCondition(
+						(object) array(
+							'columns' => 'd.Nombre',
+							'condition' => "[GeneralID] = '".$row['id']."' ORDER BY d.Nombre",
+							'db_table' => '[delitos].[INEGI] ac inner join cat.Delito d on ac.DelitoID = d.DelitoID',
+							'conn' => $attr->conn,
+							'params' => $attr->params,
+							'options' => $attr->options
+						)
+					)
 				),
 				'general_nuc' => array(
 					'name' => 'NUC',
@@ -120,6 +200,34 @@ function getRecord($attr){
 				'general_attended' => array(
 					'name' => 'Atendidos',
 					'value' => $row['Atendidos']
+				),
+				'victim' => array(
+					'name' => 'Víctima',
+					'value' => $row['TVictima']
+				),
+				'imputed' => array(
+					'name' => 'Imputado',
+					'value' => $row['TImputado']
+				),
+				'crime' => array(
+					'name' => 'Delito',
+					'value' => $row['CDelito']
+				),
+				'masc' => array(
+					'name' => 'MASC',
+					'value' => $row['TMASC']
+				),
+				'crime_inegi' => array(
+					'name' => 'Delito Inegi',
+					'value' => $row['CDelitoInegi']
+				),
+				'general_recieved_id' => array(
+					'name' => 'Recibida',
+					'value' => $row['CR_ID']
+				),
+				'general_agreement_id' => array(
+					'name' => 'Acuerdo',
+					'value' => $row['AC_ID']
 				)
 			));
 			

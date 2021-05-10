@@ -1,6 +1,10 @@
 <div id="inegi-form">
 
-	<div id="inegi-pending-section"></div>
+	<div>
+		<div id="pending-records-label-section">PENDIENTES DEL MES</div>
+		<div id="inegi-pending-section"></div>
+	</div>
+	
 
 	<br>
 
@@ -22,7 +26,7 @@
 				Caracteristicas de los delitos
 			</div>
 			<div class="element" id="masc-side-div" onclick="changeInegiPanel('masc')">
-				MASC
+				Datos generales del acuerdo
 			</div>
 		</div>
 

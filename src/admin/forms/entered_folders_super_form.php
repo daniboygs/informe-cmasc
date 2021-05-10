@@ -124,7 +124,7 @@
 
 		<div class="col-md-4 form-group">
 
-			<label style="font-weight:bold">Fecha carpetas: *</label>
+			<label style="font-weight:bold">Fecha carpetas: </label>
 
 			<input type="date" class="form-control" id="entered-folders-folders-date">	
 
@@ -132,7 +132,7 @@
 
 		<div class="col-md-4 form-group">
 
-			<label style="font-weight:bold">Facilitador: *</label>
+			<label style="font-weight:bold">Facilitador: </label>
 
 			<div id="entered-folders-facilitator-section">
 				<div style="color: #EE6E5A;">Cargando datos... </div>

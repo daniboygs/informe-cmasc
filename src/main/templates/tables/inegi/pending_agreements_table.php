@@ -9,10 +9,9 @@
     <tr>
         <th>#</th>
         <th>NUC</th>
-        <th>Fecha Recibida</th>
+        <th>Fecha</th>
         <th>Delito</th>
         <th>Unidad</th>
-        <th>Fecha Acuerdo</th>
         <th>Intervinientes</th>
         <th>Cumplimiento</th>
         <th>Total o Parcial</th>
@@ -36,18 +35,17 @@
                 $agreement_status_class = 'primary-status';
             }
             else{
-                $agreement_status = 'Sin Acuerdo';
+                $agreement_status = 'Recibida';
                 $agreement_class = '';
                 $agreement_status_class = 'secondary-status';
             }
 ?> 
     <tr class="data-table-row" onclick="inegiStartCapture('<?php echo $element['recieved_id']['value']; ?>', '<?php echo $element['agreement_id']['value']; ?>')">
         <td><?php echo $i; ?></td>
-        <td><?php echo $element['agreement_nuc']['value']; ?></td>
-        <td><?php echo $element['recieved_date']['value']; ?></td>
-        <td><?php echo $element['agreement_crime']['value']; ?></td>
+        <td class="bold-text"><?php echo $element['agreement_nuc']['value']; ?></td>
+        <td><?php echo $element['date']['value']; ?></td>
+        <td class="align-left bold-text"><?php echo $element['agreement_crime']['value']; ?></td>
         <td><?php echo $element['agreement_unity']['value']; ?></td>
-        <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_date']['value']; ?></td>
         <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_intervention']['value']; ?></td>
         <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_compliance']['value']; ?></td>
         <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_total']['value']; ?></td>

@@ -514,7 +514,7 @@ var inegi = {
                     },
                     "required": true,
 					"service": null
-                },
+                }/*,
                 {
                     "id": "inegi-crime-alternative-justice",
                     "name": "crime_alternative_justice",
@@ -527,9 +527,9 @@ var inegi = {
                     },
                     "default": null,
                     "catalog": null,
-                    "required": true,
+                    "required": false,
 					"service": null
-                }
+                }*/
             ],
             "active": false,
             "data": null,
@@ -564,7 +564,7 @@ var inegi = {
                     "required": true,
 					"service": null
                 },
-                {
+                /*{
                     "id": "inegi-masc-result",
                     "name": "masc_result",
                     "type": "select",
@@ -578,7 +578,7 @@ var inegi = {
                     "catalog": null,
                     "required": true,
 					"service": null
-                },
+                },*/
                 {
                     "id": "inegi-masc-compliance",
                     "name": "masc_compliance",

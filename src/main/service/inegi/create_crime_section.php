@@ -8,6 +8,7 @@ $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[inegi].[Delito]';
 
+$general_crime = $_POST['crime_crime'];
 $crime_rate = $_POST['crime_rate'];
 $crime_contest = $_POST['crime_contest'];
 $crime_action = $_POST['crime_action'];
@@ -15,10 +16,16 @@ $crime_commission = $_POST['crime_commission'];
 $crime_violence = $_POST['crime_violence'];
 $crime_modality = $_POST['crime_modality'];
 $crime_instrument = $_POST['crime_instrument'];
-$crime_alternative_justice = $_POST['crime_alternative_justice'];
+//$crime_alternative_justice = $_POST['crime_alternative_justice'];
 $general_id = $_POST['general_id'];
 
 $data = (object) array(
+	'general_crime' => (object) array(
+		'type' => 'text',
+		'value' => $general_crime,
+		'null' => false,
+		'db_column' => '[DelitoID]'
+	),
 	'crime_rate' => (object) array(
 		'type' => 'text',
 		'value' => $crime_rate,
@@ -61,12 +68,12 @@ $data = (object) array(
 		'null' => false,
 		'db_column' => '[Instrumento]'
 	),
-	'crime_alternative_justice' => (object) array(
+	/*'crime_alternative_justice' => (object) array(
 		'type' => 'number',
 		'value' => $crime_alternative_justice,
 		'null' => false,
 		'db_column' => '[JusticiaAlternativa]'
-	),
+	),*/
 	'general_id' => (object) array(
 		'type' => 'number',
 		'value' => $general_id,
