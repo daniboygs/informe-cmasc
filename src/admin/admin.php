@@ -54,6 +54,7 @@
 				<div id="people-served-nav-div" onclick="loadSection('people_served')">PERSONAS ATENDIDAS</div>
 				<div id="folders-to-validation-nav-div" onclick="loadSection('folders_to_validation')">CARPETAS ENVIADAS A VALIDACIÓN</div>
 				<div id="processing-folders-nav-div" onclick="loadSection('processing_folders')">CARPETAS DE TRÁMITE</div>
+				<div id="inegi-nav-div" onclick="loadSection('inegi')">INEGI</div>
 <?php
 		
 	if(isset($_SESSION['user_data']['type'])){
