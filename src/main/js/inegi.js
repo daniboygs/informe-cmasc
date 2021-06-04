@@ -230,6 +230,7 @@ function spetialInegiValidationBySection(attr){
         case 'general':
             checkActivePeriod({
                 element_id: 'inegi-general-date',
+                section: 2,
                 function: checkNuc,
                 attr: {
                     element_id: 'inegi-general-nuc',
