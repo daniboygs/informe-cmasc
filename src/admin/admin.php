@@ -21,7 +21,7 @@
 		<script src="../../js/script-2105100000.js"></script>
 		<script src="json/sections-attr-2105100000.js"></script>
 		<script src="json/data-2105100000.js"></script>
-		<script src="js/multiselect-2105100000.js"></script>
+		<script src="js/multiselect-2105120000.js"></script>
 		<script src="js/script-2105100000.js"></script>
 
 		<title>CMASC</title>

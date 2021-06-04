@@ -10,7 +10,7 @@ function setMultiselectActionsBySection(section){
                 id: fields[field].id,
                 name: fields[field].name,
                 counter: 1,
-                iterations: 20,
+                iterations: 120,
                 delay: 500
             });
 
@@ -18,7 +18,7 @@ function setMultiselectActionsBySection(section){
                 id: fields[field].id,
                 name: fields[field].name,
                 counter: 1,
-                iterations: 20,
+                iterations: 120,
                 delay: 500
             });
         }
@@ -27,15 +27,13 @@ function setMultiselectActionsBySection(section){
 
 function saveMultiselectFieldsBySection(attr){
 
-    console.log('save multi sections: ', attr);
-
     let has_multiselect = false;
 
     let fields = sections[attr.section].fields;
 
     for(field in fields){
 
-        if(fields[field].type == 'multiselect'){
+        if(fields[field].type == 'multiselect' || fields[field].type == 'list'){
 
             if(fields[field].service.create_file != null){
 
@@ -98,9 +96,9 @@ function saveMultiselectField(attr){
 
         getRecordsByMonth(attr.section);
 
-        /*setLoader({
+        setLoader({
             add: false
-        });*/
+        });
 
 	}).fail(function (jqXHR, textStatus) {
         
@@ -108,9 +106,9 @@ function saveMultiselectField(attr){
 
         getRecordsByMonth(attr.section);
 
-        /*setLoader({
+        setLoader({
             add: false
-        });*/
+        });
     });
 }
 
