@@ -1316,5 +1316,52 @@ var sections = {
 		"active": false,
 		"data": [],
 		"loaded_data": false
-	}
+	},
+	"inegi": {
+		"index": 7,
+		"form_file": "inegi_form.php",
+		"create_file": "create_inegi_section.php",
+		"update_file": "update_inegi_section.php",
+		"search_file": "search_inegi_section.php",
+		"records_by_month_file": "get_inegi_records_by_month.php",
+		"form_id": "inegi-form",
+		"navigation_element_id": "inegi-nav-div",
+		"name": "inegi",
+		"title": "INEGI",
+		"fields": [
+			{
+				"id": "inegi-initial-date",
+				"name": "inegi_initial_date",
+				"type": "date",
+				"placeholder": "Ingresa Fecha",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": "today",
+				"catalog": null,
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "inegi-finish-date",
+				"name": "inegi_finish_date",
+				"type": "date",
+				"placeholder": "Ingresa Fecha",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": "today",
+				"catalog": null,
+				"required": true,
+				"service": null
+			}
+		],
+		"active": false,
+		"data": [],
+		"loaded_data": false
+	},
 }
