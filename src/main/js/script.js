@@ -425,6 +425,7 @@ function spetialValidationBySection(attr){
             console.log('agg');
             checkActivePeriod({
                 element_id: 'agreement-date',
+                section: 1,
                 function: checkNuc,
                 attr: {
                     element_id: 'agreement-nuc',
@@ -461,6 +462,7 @@ function spetialValidationBySection(attr){
         case 'folders_to_investigation':
             checkActivePeriod({
                 element_id: 'folders-to-investigation-date',
+                section: 1,
                 function: checkNuc,
                 attr: {
                     element_id: 'folders-to-investigation-nuc',
@@ -479,6 +481,7 @@ function spetialValidationBySection(attr){
         case 'folders_to_validation':
             checkActivePeriod({
                 element_id: 'folders-to-validation-date',
+                section: 1,
                 function: checkNuc,
                 attr: {
                     element_id: 'folders-to-validation-nuc',
@@ -497,6 +500,7 @@ function spetialValidationBySection(attr){
         case 'people_served':
             checkActivePeriod({
                 element_id: 'people-served-date',
+                section: 1,
                 function: checkNuc,
                 attr: {
                     element_id: 'people-served-nuc',
@@ -511,6 +515,7 @@ function spetialValidationBySection(attr){
         case 'recieved_folders':
             checkActivePeriod({
                 element_id: 'recieved-folders-date',
+                section: 1,
                 function: checkNuc,
                 attr: {
                     element_id: 'recieved-folders-nuc',
@@ -529,6 +534,7 @@ function spetialValidationBySection(attr){
         case 'entered_folders':
                 checkActivePeriod({
                     element_id: 'entered-folders-date',
+                    section: 1,
                     function: checkNuc,
                     attr: {
                         element_id: 'entered-folders-nuc',
@@ -1070,7 +1076,7 @@ function checkActivePeriod(attr){
             type:'POST',
             dataType: "json",
             data: {
-                id: 0
+                section: attr.section
             },
         }).done(function(response){
             console.log('res de active',response);

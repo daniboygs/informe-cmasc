@@ -8,6 +8,8 @@ $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[PeriodoCaptura]';
 
+$section = $_POST['section'];
+
 $data = (object) array(
 	'capture_period_id' => (object) array(
 		'db_column' => '[PeriodoID]',
@@ -44,7 +46,8 @@ else{
 				'db_table' => $db_table,
 				'conn' => $conn,
 				'params' => $params,
-				'options' => $options
+				'options' => $options,
+				'section' => $section
 			)
 		), 
 		JSON_FORCE_OBJECT
@@ -55,7 +58,7 @@ function getRecord($attr){
 
 	$columns = formSearchDBColumns($attr->data);
 
-	$sql = "SELECT TOP(1) $columns FROM $attr->db_table";
+	$sql = "SELECT TOP(1) $columns FROM $attr->db_table WHERE Seccion = $attr->section";
 
     $result = sqlsrv_query($attr->conn, $sql , $attr->params, $attr->options);
 
