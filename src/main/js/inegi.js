@@ -619,26 +619,55 @@ function getInegiCurrentRecordBySectionAndID(attr){
 
     if(attr != null){
         if(inegi.sections[attr.section].records_by_general_id_file != null && attr.general_id != null){
-            $.ajax({
-                url:'service/inegi/'+inegi.sections[attr.section].records_by_general_id_file,
-                type:'POST',
-                dataType: "json",
-                data: {
-                    general_id: attr.general_id
-                },
-                cache:false
-            }).done(function(response){
-                console.log(response);
-                test2 = response;
 
-                drawRecordsTable({
-                    data: response,
-                    file: 'templates/tables/inegi/'+attr.section+'_table.php',
-                    element_id: 'inegi-current-record-section'
+            if(attr.section != 'general'){
+                $.ajax({
+                    url:'service/inegi/'+inegi.sections[attr.section].records_by_general_id_file,
+                    type:'POST',
+                    dataType: "json",
+                    data: {
+                        general_id: attr.general_id
+                    },
+                    cache:false
+                }).done(function(response){
+                    console.log(response);
+                    test2 = response;
+    
+                    drawRecordsTable({
+                        data: response,
+                        file: 'templates/tables/inegi/'+attr.section+'_table.php',
+                        element_id: 'inegi-current-record-section'
+                    });
+    
+                    $('#inegi-current-record-label-section').html('CAPTURANDO: '+inegi.current.nuc);
                 });
-
-                $('#inegi-current-record-label-section').html('CAPTURANDO: '+inegi.current.nuc);
-            });
+            }
+            else{
+                setTimeout(
+                    function(){
+                        $.ajax({
+                            url:'service/inegi/'+inegi.sections[attr.section].records_by_general_id_file,
+                            type:'POST',
+                            dataType: "json",
+                            data: {
+                                general_id: attr.general_id
+                            },
+                            cache:false
+                        }).done(function(response){
+                            console.log(response);
+                            test2 = response;
+            
+                            drawRecordsTable({
+                                data: response,
+                                file: 'templates/tables/inegi/'+attr.section+'_table.php',
+                                element_id: 'inegi-current-record-section'
+                            });
+            
+                            $('#inegi-current-record-label-section').html('CAPTURANDO: '+inegi.current.nuc);
+                        });
+                    }, 500
+                );
+            }
         }
         else{
             console.log('nada nada nada q no q no', attr);
