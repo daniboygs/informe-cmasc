@@ -430,14 +430,17 @@ function saveInegiSection(attr){
                     }
                 }
 
-                saveMultiselectField({
-                    section: 'inegi',
-                    service_file: 'crimes/create_inegi_crimes.php',
-                    post_data: {
-                        id: response.data.id,
-                        data: handle_data.inegi_crimes
-                    }
-                });
+                if(attr.section == 'general'){
+                    console.log('saving crimes...');
+                    saveMultiselectField({
+                        section: 'inegi',
+                        service_file: 'crimes/create_inegi_crimes.php',
+                        post_data: {
+                            id: response.data.id,
+                            data: handle_data.inegi_crimes
+                        }
+                    });
+                }
 
                 setLoader({
                     add: false

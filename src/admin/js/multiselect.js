@@ -10,7 +10,7 @@ function setMultiselectActionsBySection(section){
                 id: fields[field].id,
                 name: fields[field].name,
                 counter: 1,
-                iterations: 20,
+                iterations: 50,
                 delay: 500
             });
 
@@ -18,7 +18,7 @@ function setMultiselectActionsBySection(section){
                 id: fields[field].id,
                 name: fields[field].name,
                 counter: 1,
-                iterations: 20,
+                iterations: 50,
                 delay: 500
             });
         }
