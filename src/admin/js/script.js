@@ -727,11 +727,32 @@ function searchSection(section){
         }).done(function(response){
             console.log(response);
             test = response;
-            drawRecordsTable({
+            if(section == 'processing_folders' || section == 'inegi'){
+                drawRecordsTable({
+                    data: response,
+                    file: 'templates/tables/'+section+'_table.php',
+                    element_id: 'records-section'
+                });
+                
+            }
+            else{
+                getNucsDate({
+                    func: drawRecordsTable,
+                    attr: {
+                        data: response,
+                        file: 'templates/tables/'+section+'_table.php',
+                        element_id: 'records-section',
+                        nuc_dates: null
+                    },
+                    section: section
+                });
+            }
+
+            /*drawRecordsTable({
                 data: response,
                 file: 'templates/tables/'+section+'_table.php',
                 element_id: 'records-section'
-            });
+            });*/
         });
     }
     else{
