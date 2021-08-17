@@ -28,6 +28,7 @@
     <tr>
         <th>#</th>
         <th>NUC</th>
+        <th>Fecha SIGI</th>
         <th>Fecha</th>
         <th>Delito</th>
         <th>Intervinientes</th>
@@ -49,14 +50,26 @@
     </tr>
 <?php
     if($data != 'null'){
+
+        $nd = json_decode($_POST['nuc_dates'], true);
+        $ndtxt = "";
+
         $i=1;
         foreach(json_decode($data, true) as $element){
+
+            if(isset($nd[$element['agreement_nuc']['value']])){
+                $ndtxt = $nd[$element['agreement_nuc']['value']];
+            }
+            else{
+                $ndtxt = "";
+            }
 ?> 
     <tr>
         <td><?php echo $i; ?></td>
         <td class="bold-text"><?php echo $element['agreement_nuc']['value']; ?></td>
+        <td class="bold-text"><?php echo $ndtxt; ?></td>
         <td><?php echo $element['agreement_date']['value']; ?></td>
-        <td class="align-left bold-text"><?php echo $element['agreement_crime']['value']; ?></td>
+        <td class="align-left bold-text"><?php echo $element['agreement_crime']['value']['listed_values']; ?></td>
         <td><?php echo $element['agreement_intervention']['value']; ?></td>
         <td><?php echo $element['agreement_compliance']['value']; ?></td>
         <td><?php echo $element['agreement_total']['value']; ?></td>

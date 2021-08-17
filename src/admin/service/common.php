@@ -210,32 +210,51 @@ function getRecordsByCondition($attr){
 
 	$row_count = sqlsrv_num_rows( $result );
 	
-	$return = array();
+	$crimes = array();
 
 	if($row_count > 0){
 
 		while( $row = sqlsrv_fetch_array( $result) ) {
 
-			array_push($return, $row['Nombre']);
+			array_push($crimes, $row['Nombre']);
 
-			//$return = $return.'*'.$row['Nombre'].', ';
+			//$crimes = $crimes.'*'.$row['Nombre'].', ';
 			
 		}
 
-		$values = "";
+		$listed_values = "";
+		$counted_values = "";
 		
-		foreach ($return as $element) {
-			$values.="<li>$element</li>";
+		foreach ($crimes as $element) {
+			$listed_values.="<li>$element</li>";
 		}
 
-		$values = "<ul>$values</ul>";
+		$i = 1;
+		foreach ($crimes as $element) {
+			if($i < count($crimes)){
+				$counted_values.="$i.- $element, ";
+			}
+			else{
+				$counted_values.="$i.- $element.";
+			}
+			$i++;
+			
+		}
+
+		//$values = "<ul>$values</ul>";
 	
 	}
 	else{
-		$values = null;
+		$listed_values = null;
+		$counted_values = null;
 	}
 
-	return $values;
+	$return = (object) array(
+		'listed_values' => $listed_values,
+		'counted_values' => $counted_values
+	);
+
+	return $return;
 
 
 }
