@@ -25,6 +25,7 @@
     <tr>
         <th>#</th>
         <th>NUC</th>
+        <th>Fecha SIGI</th>
         <th>Fecha</th>
         <th>Delito</th>
         <th>Unidad</th>
@@ -40,14 +41,27 @@
     </tr>
 <?php
     if($data != 'null'){
+        
+        $nd = json_decode($_POST['nuc_dates'], true);
+        $ndtxt = "";
+
         $i=1;
         foreach(json_decode($data, true) as $element){
+            
+
+            if(isset($nd[$element['recieved_folders_nuc']['value']])){
+                $ndtxt = $nd[$element['recieved_folders_nuc']['value']];
+            }
+            else{
+                $ndtxt = "";
+            }
 ?> 
     <tr>
         <td><?php echo $i; ?></td>
         <td class="bold-text"><?php echo $element['recieved_folders_nuc']['value']; ?></td>
+        <td class="bold-text"><?php echo $ndtxt; ?></td>
         <td><?php echo $element['recieved_folders_date']['value']; ?></td>
-        <td class="align-left bold-text"><?php echo $element['recieved_folders_crime']['value']; ?></td>
+        <td class="align-left bold-text"><?php echo $element['recieved_folders_crime']['value']['listed_values']; ?></td>
         <td><?php echo $element['recieved_folders_unity']['value']; ?></td>
         <td><?php echo $element['recieved_folders_user']['value']; ?></td>
         <td><?php echo $element['fiscalia']['value']; ?></td>

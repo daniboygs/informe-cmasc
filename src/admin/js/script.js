@@ -13,7 +13,7 @@ $(document).ready(function(){
         location: '../../service/check_session.php'
     });
 
-    getRecordsByMonth('entered_folders');
+    //getRecordsByMonth('entered_folders');
 
     //loadSection('agreements');
 
@@ -585,16 +585,44 @@ function getRecordsByMonth(section){
             console.log(response);
             test = response;
             console.log(section+'_table.php');
-            drawRecordsTable({
+
+            if(section == 'processing_folders' || section == 'inegi'){
+                drawRecordsTable({
+                    data: response,
+                    file: 'templates/tables/'+section+'_table.php',
+                    element_id: 'records-section'
+                });
+                
+            }
+            else{
+                getNucsDate({
+                    func: drawRecordsTable,
+                    attr: {
+                        data: response,
+                        file: 'templates/tables/'+section+'_table.php',
+                        element_id: 'records-section',
+                        nuc_dates: null
+                    },
+                    section: section
+                });
+            }
+
+
+            
+
+
+            /*drawRecordsTable({
                 data: response,
                 file: 'templates/tables/'+section+'_table.php',
                 element_id: 'records-section'
-            });
+            });*/
         });
     }
 }
 
 function drawRecordsTable(attr){
+
+    console.log('pintando...: ', attr);
 
     if(attr.data != null){
         $.ajax({
@@ -602,7 +630,8 @@ function drawRecordsTable(attr){
             type: 'POST',
             dataType: "html",
             data: {
-                data: JSON.stringify(attr.data)
+                data: JSON.stringify(attr.data),
+                nuc_dates: JSON.stringify(attr.nuc_dates)
             },
             cache: false
         }).done(function(response){
@@ -816,6 +845,43 @@ function getActivePeriod(){
         }
         
 	});
+}
+
+function getNucsDate(attr){
+
+    console.log('nucs date attr: ', attr);
+
+	$.ajax({
+		url:'service/get_nucs_date.php',
+		type:'POST',
+        dataType: "json",
+        data: {
+            nucs: getNucsFromRecords(attr)
+        },
+	}).done(function(response){
+        attr.attr.nuc_dates = response.data
+
+        attr.func(attr.attr);
+
+	});
+}
+
+function getNucsFromRecords(attr){
+
+    console.log('attr de nucs',attr);
+
+    let nucs = [];
+
+	for(records in attr.attr.data){
+        if(attr.section == 'agreements'){
+            nucs.push(attr.attr.data[records]['agreement_nuc'].value);
+        }
+        else{
+            nucs.push(attr.attr.data[records][attr.section+'_nuc'].value);
+        }
+    }
+
+    return nucs;
 }
 
 function activatePeriod(){
