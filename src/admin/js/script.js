@@ -508,6 +508,11 @@ function checkNuc(attr){
         
                     if(response.data != null){
 
+                        attr.attr.data = {
+                            ...attr.attr.data,
+                            sigi_date: response.data.date.date
+                        }
+
                         attr.function(attr.attr);
 
                         //Swal.fire('NUC verificado', 'NUC registrado con el delito de: '+response.data.crime, 'success');
@@ -586,7 +591,7 @@ function getRecordsByMonth(section){
             test = response;
             console.log(section+'_table.php');
 
-            if(section == 'processing_folders' || section == 'inegi'){
+            /*if(section == 'processing_folders' || section == 'inegi'){
                 drawRecordsTable({
                     data: response,
                     file: 'templates/tables/'+section+'_table.php',
@@ -605,17 +610,17 @@ function getRecordsByMonth(section){
                     },
                     section: section
                 });
-            }
+            }*/
 
 
             
 
 
-            /*drawRecordsTable({
+            drawRecordsTable({
                 data: response,
                 file: 'templates/tables/'+section+'_table.php',
                 element_id: 'records-section'
-            });*/
+            });
         });
     }
 }
@@ -727,7 +732,9 @@ function searchSection(section){
         }).done(function(response){
             console.log(response);
             test = response;
-            if(section == 'processing_folders' || section == 'inegi'){
+
+
+            /*if(section == 'processing_folders' || section == 'inegi'){
                 drawRecordsTable({
                     data: response,
                     file: 'templates/tables/'+section+'_table.php',
@@ -746,13 +753,13 @@ function searchSection(section){
                     },
                     section: section
                 });
-            }
+            }*/
 
-            /*drawRecordsTable({
+            drawRecordsTable({
                 data: response,
                 file: 'templates/tables/'+section+'_table.php',
                 element_id: 'records-section'
-            });*/
+            });
         });
     }
     else{

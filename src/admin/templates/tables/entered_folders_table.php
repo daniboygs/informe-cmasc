@@ -27,7 +27,7 @@
     <tr>
         <th>#</th>
         <th>NUC</th>
-        <th>Fecha SIGI</th>
+        <th>Fecha Inicio</th>
         <th>Fecha Ingreso</th>
         <th>Delito</th>
         <th>Unidad</th>
@@ -52,27 +52,13 @@
 <?php
     if($data != 'null'){
 
-        $nd = json_decode($_POST['nuc_dates'], true);
-        $ndtxt = "";
-
         $i=1;
         foreach(json_decode($data, true) as $element){
-
-            if(isset($nd[$element['entered_folders_nuc']['value']])){
-                $ndtxt = $nd[$element['entered_folders_nuc']['value']];
-            }
-            else{
-                $ndtxt = "";
-            }
-
 ?> 
     <tr>
         <td><?php echo $i; ?></td>
         <td class="bold-text"><?php echo $element['entered_folders_nuc']['value']; ?></td>
-
-        <td class="bold-text"><?php echo $ndtxt; ?></td>
-
-
+        <td class="bold-text"><?php echo $element['sigi_initial_date']['value']; ?></td>
         <td><?php echo $element['entered_folders_date']['value']; ?></td>
         <td class="align-left bold-text"><?php echo $element['entered_folders_crime']['value']['listed_values']; ?></td>
         <td><?php echo $element['entered_folders_unity']['value']; ?></td>

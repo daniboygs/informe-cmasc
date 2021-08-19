@@ -20,6 +20,10 @@ $data = (object) array(
 		'db_column' => '[Delito]',
 		'search' => true
 	),*/
+	'sigi_initial_date' => (object) array(
+		'db_column' => '[FechaInicioSigi]',
+		'search' => true
+	),
 	'recieved_folders_date' => (object) array(
 		'db_column' => '[Fecha]',
 		'search' => true
@@ -105,8 +109,17 @@ function getRecord($attr){
 
 			if($recieved_folders_date != null)
 				$recieved_folders_date = $recieved_folders_date->format('d/m/Y');
+
+			$sigi_initial_date = $row['FechaInicioSigi'];
+
+			if($sigi_initial_date != null)
+				$sigi_initial_date = $sigi_initial_date->format('d/m/Y');
 	
 			array_push($return, array(
+				'sigi_initial_date' => array(
+					'name' => 'FechaSigi',
+					'value' => $sigi_initial_date
+				),
 				'recieved_folders_date' => array(
 					'name' => 'Fecha',
 					'value' => $recieved_folders_date

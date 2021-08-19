@@ -428,6 +428,7 @@ function spetialValidationBySection(attr){
                 section: 1,
                 function: checkNuc,
                 attr: {
+                    current_section: attr.section,
                     element_id: 'agreement-nuc',
                     function: checkExistantRecievedFolder,
                     attr: {
@@ -465,6 +466,7 @@ function spetialValidationBySection(attr){
                 section: 1,
                 function: checkNuc,
                 attr: {
+                    current_section: attr.section,
                     element_id: 'folders-to-investigation-nuc',
                     function: checkExistantRecievedFolder,
                     attr: {
@@ -484,6 +486,7 @@ function spetialValidationBySection(attr){
                 section: 1,
                 function: checkNuc,
                 attr: {
+                    current_section: attr.section,
                     element_id: 'folders-to-validation-nuc',
                     function: checkExistantAgreement,
                     attr: {
@@ -502,6 +505,7 @@ function spetialValidationBySection(attr){
                 element_id: 'people-served-date',
                 section: 1,
                 function: checkNuc,
+                current_section: attr.section,
                 attr: {
                     element_id: 'people-served-nuc',
                     function: saveSection,
@@ -518,6 +522,7 @@ function spetialValidationBySection(attr){
                 section: 1,
                 function: checkNuc,
                 attr: {
+                    current_section: attr.section,
                     element_id: 'recieved-folders-nuc',
                     function: checkExistantEnteredFolder,
                     attr: {
@@ -537,6 +542,7 @@ function spetialValidationBySection(attr){
                     section: 1,
                     function: checkNuc,
                     attr: {
+                        current_section: attr.section,
                         element_id: 'entered-folders-nuc',
                         function: saveSection,
                         attr: {
@@ -557,6 +563,8 @@ function spetialValidationBySection(attr){
 }
 
 function saveSection(attr){
+
+    console.log('espero guarde: ', attr);
 
     $.ajax({
 		url: 'service/'+sections[attr.section].create_file,
@@ -756,6 +764,8 @@ function checkExistantRecievedFolder(attr){
 
 function checkExistantEnteredFolder(attr){
 
+    console.log('check existant folder?: ', attr);
+
     if(document.getElementById(attr.element_id)){
 
         if(document.getElementById(attr.element_id).value.length == 13){
@@ -893,6 +903,31 @@ function checkNuc(attr){
                 if(response.state != "fail"){
         
                     if(response.data != null){
+
+                        let some_sec = ['entered_folders', 'people_served'];
+
+                        console.log('attr de check nuc: ', attr);
+
+                        console.log('attr.attr de check nuc: ', attr.attr);
+
+                        console.log('section de check nuc: ', attr.attr.section);
+
+                        if(attr.attr.section == 'people_served' || attr.attr.section == 'entered_folders'){
+                            attr.attr.data = {
+                                ...attr.attr.data,
+                                sigi_date: response.data.date.date
+                            }
+                        }
+                        else{
+                            attr.attr.attr.data = {
+                                ...attr.attr.attr.data,
+                                sigi_date: response.data.date.date
+                            }
+                        }
+
+                        
+
+                        console.log('voy a guardar sigi fecha: ', attr.attr);
 
                         attr.function(attr.attr);
 

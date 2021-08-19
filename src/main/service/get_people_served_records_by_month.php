@@ -20,6 +20,10 @@ $data = (object) array(
 		'db_column' => '[Delito]',
 		'search' => true
 	),*/
+	'sigi_initial_date' => (object) array(
+		'db_column' => '[FechaInicioSigi]',
+		'search' => true
+	),
 	'people_served_date' => (object) array(
 		'db_column' => '[Fecha]',
 		'search' => true
@@ -109,8 +113,17 @@ function getRecord($attr){
 
 			if($people_served_date != null)
 				$people_served_date = $people_served_date->format('d/m/Y');
+
+			$sigi_initial_date = $row['FechaInicioSigi'];
+
+			if($sigi_initial_date != null)
+				$sigi_initial_date = $sigi_initial_date->format('d/m/Y');
 	
 			array_push($return, array(
+				'sigi_initial_date' => array(
+					'name' => 'FechaSigi',
+					'value' => $sigi_initial_date
+				),
 				'people_served_date' => array(
 					'name' => 'Fecha',
 					'value' => $people_served_date

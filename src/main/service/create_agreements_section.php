@@ -8,6 +8,8 @@ $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[AcuerdosCelebrados]';
 
+$sigi_date = $_POST['sigi_date'];
+
 $amount = $_POST['agreement_amount'];
 $compliance = $_POST['agreement_compliance'];
 //$crime = $_POST['agreement_crime'];
@@ -22,6 +24,12 @@ $amount_in_kind = $_POST['agreement_amount_in_kind'];
 
 
 $data = (object) array(
+	'sigi_date' => (object) array(
+		'type' => 'date',
+		'value' => $sigi_date,
+		'null' => false,
+		'db_column' => '[FechaInicioSigi]'
+	),
 	'amount' => (object) array(
 		'type' => 'number',
 		'value' => $amount,

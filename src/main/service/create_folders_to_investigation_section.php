@@ -8,6 +8,8 @@ $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[CarpetasEnviadasInvestigacion]';
 
+$sigi_date = $_POST['sigi_date'];
+
 $folders_to_investigation_date = $_POST['folders_to_investigation_date'];
 //$folders_to_investigation_crime = $_POST['folders_to_investigation_crime'];
 $folders_to_investigation_nuc = $_POST['folders_to_investigation_nuc'];
@@ -17,6 +19,12 @@ $folders_to_investigation_unity = $_POST['folders_to_investigation_unity'];
 
 
 $data = (object) array(
+	'sigi_date' => (object) array(
+		'type' => 'date',
+		'value' => $sigi_date,
+		'null' => false,
+		'db_column' => '[FechaInicioSigi]'
+	),
 	'folders_to_investigation_date' => (object) array(
 		'type' => 'date',
 		'value' => $folders_to_investigation_date,

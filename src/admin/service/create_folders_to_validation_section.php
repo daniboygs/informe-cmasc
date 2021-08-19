@@ -8,6 +8,8 @@ $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[CarpetasEnviadasValidacion]';
 
+$sigi_date = $_POST['sigi_date'];
+
 $folders_to_validation_date = $_POST['folders_to_validation_date'];
 $folders_to_validation_crime = $_POST['folders_to_validation_crime'];
 $folders_to_validation_nuc = $_POST['folders_to_validation_nuc'];
@@ -16,6 +18,12 @@ $folders_to_validation_unity = $_POST['folders_to_validation_unity'];
 
 
 $data = (object) array(
+	'sigi_date' => (object) array(
+		'type' => 'date',
+		'value' => $sigi_date,
+		'null' => false,
+		'db_column' => '[FechaInicioSigi]'
+	),
 	'folders_to_validation_date' => (object) array(
 		'type' => 'date',
 		'value' => $folders_to_validation_date,

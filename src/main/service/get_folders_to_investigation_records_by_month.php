@@ -20,6 +20,10 @@ $data = (object) array(
 		'db_column' => '[Delito]',
 		'search' => true
 	),*/
+	'sigi_initial_date' => (object) array(
+		'db_column' => '[FechaInicioSigi]',
+		'search' => true
+	),
 	'folders_to_investigation_date' => (object) array(
 		'db_column' => '[Fecha]',
 		'search' => true
@@ -109,8 +113,17 @@ function getRecord($attr){
 
 			if($folders_to_investigation_date != null)
 				$folders_to_investigation_date = $folders_to_investigation_date->format('d/m/Y');
+
+			$sigi_initial_date = $row['FechaInicioSigi'];
+
+			if($sigi_initial_date != null)
+				$sigi_initial_date = $sigi_initial_date->format('d/m/Y');
 	
 			array_push($return, array(
+				'sigi_initial_date' => array(
+					'name' => 'FechaSigi',
+					'value' => $sigi_initial_date
+				),
 				'folders_to_investigation_date' => array(
 					'name' => 'Fecha',
 					'value' => $folders_to_investigation_date
