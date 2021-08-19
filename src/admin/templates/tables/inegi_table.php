@@ -142,7 +142,7 @@
         <td><?php echo $i; ?></td>
         <td class="bold-text"><?php echo $element['general_nuc']['value']; ?></td>
         <td><?php echo $element['general_date']['value']; ?></td>
-        <td class="align-left bold-text"><?php echo $element['general_crime']['value']; ?></td>
+        <td class="align-left bold-text"><?php echo $element['general_crime']['value']['listed_values']; ?></td>
         <td><?php echo $element['general_attended']['value']; ?></td>
         <td><?php echo $element['general_unity']['value']; ?></td>
         <td class="<?php echo $victim_status; ?>"><?php echo $victim_status_label; ?></td>

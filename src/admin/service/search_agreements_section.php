@@ -19,6 +19,10 @@ $data = (object) array(
 		'db_column' => "[AcuerdoCelebradoID] AS 'id'",
 		'search' => true
 	),
+	'sigi_initial_date' => (object) array(
+		'db_column' => '[FechaInicioSigi]',
+		'search' => true
+	),
 	'agreement_amount' => (object) array(
 		'db_column' => '[MontoRecuperado]',
 		'search' => true
@@ -174,11 +178,20 @@ function getRecord($attr){
 
 			if($agreement_date != null)
 				$agreement_date = $agreement_date->format('d/m/Y');
+
+			$sigi_initial_date = $row['FechaInicioSigi'];
+
+			if($sigi_initial_date != null)
+				$sigi_initial_date = $sigi_initial_date->format('d/m/Y');
 	
 			array_push($return, array(
 				'agreement_id' => array(
 					'name' => 'ID',
 					'value' => $row['id']
+				),
+				'sigi_initial_date' => array(
+					'name' => 'FechaSigi',
+					'value' => $sigi_initial_date
 				),
 				'agreement_date' => array(
 					'name' => 'Fecha',

@@ -8,6 +8,8 @@ $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[PersonasAtendidas]';
 
+$sigi_date = $_POST['sigi_date'];
+
 $people_served_date = $_POST['people_served_date'];
 //$people_served_crime = $_POST['people_served_crime'];
 $people_served_nuc = $_POST['people_served_nuc'];
@@ -17,6 +19,12 @@ $people_served_unity = $_POST['people_served_unity'];
 
 
 $data = (object) array(
+	'sigi_date' => (object) array(
+		'type' => 'date',
+		'value' => $sigi_date,
+		'null' => false,
+		'db_column' => '[FechaInicioSigi]'
+	),
 	'people_served_date' => (object) array(
 		'type' => 'date',
 		'value' => $people_served_date,

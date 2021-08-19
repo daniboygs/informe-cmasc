@@ -21,6 +21,10 @@ $data = (object) array(
 		'db_column' => '[Delito]',
 		'search' => true
 	),*/
+	'sigi_initial_date' => (object) array(
+		'db_column' => '[FechaInicioSigi]',
+		'search' => true
+	),
 	'entered_folders_date' => (object) array(
 		'db_column' => '[FechaIngreso]',
 		'search' => true
@@ -160,12 +164,21 @@ function getRecord($attr){
 			if($entered_folders_folders_date != null)
 				$entered_folders_folders_date = $entered_folders_folders_date->format('d/m/Y');
 
+			$sigi_initial_date = $row['FechaInicioSigi'];
+
+			if($sigi_initial_date != null)
+				$sigi_initial_date = $sigi_initial_date->format('d/m/Y');
+
 			/*$entered_folders_book_date = $row['FechaLibro'];
 
 			if($entered_folders_book_date != null)
 				$entered_folders_book_date = $entered_folders_book_date->format('d/m/Y');*/
 	
 			array_push($return, array(
+				'sigi_initial_date' => array(
+					'name' => 'FechaSigi',
+					'value' => $sigi_initial_date
+				),
 				'entered_folders_date' => array(
 					'name' => 'Fecha',
 					'value' => $entered_folders_date
