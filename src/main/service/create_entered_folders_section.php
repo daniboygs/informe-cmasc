@@ -8,7 +8,7 @@ $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[CarpetasIngresadas]';
 
-$entered_folders_initial_date = $_POST['sigi_date'];
+$sigi_date = $_POST['sigi_date'];
 
 $entered_folders_date = $_POST['entered_folders_date'];
 //$entered_folders_crime = $_POST['entered_folders_crime'];
@@ -54,12 +54,6 @@ $data = (object) array(
 	'sigi_date' => (object) array(
 		'type' => 'date',
 		'value' => $sigi_date,
-		'null' => false,
-		'db_column' => '[FechaInicioSigi]'
-	),
-	'entered_folders_initial_date' => (object) array(
-		'type' => 'date',
-		'value' => $entered_folders_initial_date,
 		'null' => false,
 		'db_column' => '[FechaInicioSigi]'
 	),

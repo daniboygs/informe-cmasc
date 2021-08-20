@@ -26,4 +26,10 @@
 
 	</div>
 
+	<div class="form-buttons">		
+
+		<button type="button" class="btn btn-outline-success" style="height:38px; width: 100px;"  onclick="checkNucDates()">Buscar Fechas</button>
+
+	</div>
+
 </form>

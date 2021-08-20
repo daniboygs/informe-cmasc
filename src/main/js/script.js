@@ -918,7 +918,7 @@ function checkNuc(attr){
                                 sigi_date: response.data.date.date
                             }
                         }
-                        else{
+                        else if(attr.attr.section != undefined){
                             attr.attr.attr.data = {
                                 ...attr.attr.attr.data,
                                 sigi_date: response.data.date.date
