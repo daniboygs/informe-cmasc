@@ -1206,3 +1206,32 @@ function resetDashboardAlert(attr){
 function setStaticLoader(attr){
     $('#'+attr.section_id).html('<div class="'+attr.class+'">Cargando datos... </div>');
 }
+
+function checkNucDates(){
+
+    $.ajax({  
+        type: "POST",  
+        url: "service/check_nuc_dates.php", 
+        dataType : 'json', 
+        data: {
+            nuc: null
+        },
+    }).done(function(response){
+
+        if(response.state != "fail"){
+
+            if(response.data != null){
+
+                console.log('nuc dates: ', response.data);
+            }
+            else{
+                Swal.fire('NUC no encontrado', 'Verifique el NUC!', 'warning');
+            }
+        }
+        else{
+            Swal.fire('Oops...', 'Ha fallado la conexión!', 'error');
+        }
+        
+    }); 
+
+}
