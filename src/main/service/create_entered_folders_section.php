@@ -15,6 +15,17 @@ $entered_folders_date = $_POST['entered_folders_date'];
 $entered_folders_nuc = $_POST['entered_folders_nuc'];
 $entered_folders_unity = $_POST['entered_folders_unity'];
 
+if(isset($_POST['entered_folders_rejection_reason'])){
+	if($_POST['entered_folders_rejection_reason'] != ''){
+		$entered_folders_rejection_reason = $_POST['entered_folders_rejection_reason'];
+	}
+	else{
+		$entered_folders_rejection_reason = 'null';
+	}
+}
+else
+	$entered_folders_rejection_reason = 'null';
+
 if(isset($_POST['entered_folders_mp_channeler']))
 	$entered_folders_mp_channeler = $_POST['entered_folders_mp_channeler'];
 else
@@ -56,6 +67,12 @@ $data = (object) array(
 		'value' => $sigi_date,
 		'null' => false,
 		'db_column' => '[FechaInicioSigi]'
+	),
+	'entered_folders_rejection_reason' => (object) array(
+		'type' => 'number',
+		'value' => $entered_folders_rejection_reason,
+		'null' => false,
+		'db_column' => '[MotivoRechazo]'
 	),
 	'entered_folders_date' => (object) array(
 		'type' => 'date',

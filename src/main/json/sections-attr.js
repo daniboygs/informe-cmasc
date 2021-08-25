@@ -346,7 +346,7 @@ var sections = {
 				"required": true,
 				"service": null
 			},
-			{
+			/*{
 				"id": "folders-to-investigation-channeling-reason",
 				"name": "folders_to_investigation_channeling_reason",
 				"type": "text",
@@ -360,7 +360,7 @@ var sections = {
 				"catalog": null,
 				"required": true,
 				"service": null
-			},
+			},*/
             {
 				"id": "folders-to-investigation-unity",
 				"name": "folders_to_investigation_unity",
@@ -374,6 +374,24 @@ var sections = {
 				"default": null,
 				"catalog": {
 					service_file: 'get_unities.php',
+					data: null
+				},
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "folders-to-investigation-channeling-reason",
+				"name": "folders_to_investigation_channeling_reason",
+				"type": "select",
+                "placeholder": "Selecciona Motivo",
+				"event_listener": null,
+                "conditions": {
+                    "unlock": null,
+                    "length": null
+                },
+				"default": null,
+				"catalog": {
+					service_file: 'get_channeling_reason.php',
 					data: null
 				},
 				"required": true,
@@ -970,6 +988,24 @@ var sections = {
 				"service": null
 			},
 			{
+				"id": "entered-folders-rejection-reason",
+				"name": "entered_folders_rejection_reason",
+				"type": "select",
+				"placeholder": "Selecciona",
+				"event_listener": 'onchange="onChangeRejectionReason()"',
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 1,
+				"catalog": {
+					service_file: 'get_rejection_reasons.php',
+					data: null
+				},
+				"required": false,
+				"service": null
+			},
+			{
 				"id": "entered-folders-channeler",
 				"name": "entered_folders_channeler",
 				"type": "text",
@@ -1184,6 +1220,24 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-rejection-reason",
+				"name": "entered_folders_rejection_reason",
+				"type": "select",
+				"placeholder": "Selecciona",
+				"event_listener": 'onchange="onChangeRejectionReason()"',
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 1,
+				"catalog": {
+					service_file: 'get_rejection_reasons.php',
+					data: null
+				},
+				"required": false,
 				"service": null
 			},
 			{

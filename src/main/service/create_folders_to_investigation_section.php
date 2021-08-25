@@ -43,11 +43,17 @@ $data = (object) array(
 		'null' => false,
 		'db_column' => '[NUC]'
 	),
-	'folders_to_investigation_channeling_reason' => (object) array(
+	/*'folders_to_investigation_channeling_reason' => (object) array(
 		'type' => 'text',
 		'value' => $folders_to_investigation_channeling_reason,
 		'null' => false,
 		'db_column' => '[MotivoCancelacion]'
+	),*/
+	'folders_to_investigation_channeling_reason' => (object) array(
+		'type' => 'number',
+		'value' => $folders_to_investigation_channeling_reason,
+		'null' => false,
+		'db_column' => '[MotivoCanalizacionInvestID]'
 	),
 	'folders_to_investigation_unity' => (object) array(
 		'type' => 'text',

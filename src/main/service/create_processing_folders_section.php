@@ -8,8 +8,6 @@ $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[CarpetasTramite]';
 
-$sigi_date = $_POST['sigi_date'];
-
 //$processing_folders_facilitator = $_POST['processing_folders_facilitator'];
 $processing_folders_initial_date = $_POST['processing_folders_initial_date'];
 $processing_folders_finish_date = $_POST['processing_folders_finish_date'];

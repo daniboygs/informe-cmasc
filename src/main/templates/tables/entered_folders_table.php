@@ -13,6 +13,7 @@
         <th>Delito</th>
         <th>Unidad</th>
         <th>Carpeta Recibida</th>
+        <th>Motivo de rechazo</th>
         <th>Fiscalía</th>
         <th>Municipio</th>
         <th>Observaciones</th>
@@ -30,6 +31,7 @@
         <td class="align-left bold-text"><?php echo $element['entered_folders_crime']['value']; ?></td>
         <td><?php echo $element['entered_folders_unity']['value']; ?></td>
         <td><?php echo $element['entered_folders_recieved_folder']['value']; ?></td>
+        <td><?php echo $element['entered_folders_rejection_reason']['value']; ?></td>
         <td><?php echo $element['entered_folders_fiscalia']['value']; ?></td>
         <td><?php echo $element['entered_folders_municipality']['value']; ?></td>
         <td><?php echo $element['entered_folders_observations']['value']; ?></td>

@@ -918,11 +918,14 @@ function checkNuc(attr){
                                 sigi_date: response.data.date.date
                             }
                         }
-                        else if(attr.attr.section != undefined){
-                            attr.attr.attr.data = {
-                                ...attr.attr.attr.data,
-                                sigi_date: response.data.date.date
+                        else{
+                            if(attr.element_id != 'inegi-general-nuc'){
+                                attr.attr.attr.data = {
+                                    ...attr.attr.attr.data,
+                                    sigi_date: response.data.date.date
+                                }
                             }
+                            
                         }
 
                         
@@ -1065,6 +1068,7 @@ function getRecordsByMonth(section){
             console.log('res de month:', JSON.stringify(response));
             
             drawRecordsTable({
+                section: section,
                 data: response,
                 file: 'templates/tables/'+section+'_table.php',
                 element_id: 'records-section'
@@ -1084,7 +1088,10 @@ function drawRecordsTable(attr){
             },
             cache: false
         }).done(function(response){
-            $('#'+attr.element_id).html(response);
+            console.log('sec inegi', attr.section);
+            if(sections[attr.section].active){
+                $('#'+attr.element_id).html(response);
+            }
         });
     }
     else{
@@ -1318,6 +1325,27 @@ function addRemoveClassOnLateload(attr){
         else{
             $('#'+attr.id).removeClass(attr.class);
             console.log('remove: ', attr.id);
+        }
+    }
+}
+
+function hideRejectionReason(){
+    if(document.getElementById('entered-folders-recieved-folder')){
+        if(document.getElementById('entered-folders-recieved-folder').value == 1){
+            document.getElementById("entered-folders-rejection-reason").selectedIndex = "0";
+            document.getElementById('rejection-reason-row').style.display = 'none';
+        }
+        else{
+            document.getElementById('rejection-reason-row').style.display = '';
+            document.getElementById("entered-folders-rejection-reason").selectedIndex = "1";
+        }
+    }
+}
+
+function onChangeRejectionReason(){
+    if(document.getElementById('entered-folders-rejection-reason')){
+        if(document.getElementById('entered-folders-rejection-reason').value == '' && document.getElementById('entered-folders-recieved-folder').value != "1"){
+            document.getElementById("entered-folders-rejection-reason").selectedIndex = "1";
         }
     }
 }

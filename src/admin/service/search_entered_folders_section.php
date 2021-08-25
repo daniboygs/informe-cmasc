@@ -7,7 +7,8 @@ $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[CarpetasIngresadas] c INNER JOIN [cat].[Municipio] cm on c.Municipio = cm.MunicipioID 
-LEFT JOIN dbo.Usuario u on c.Facilitador = u.UsuarioID INNER JOIN [cat].[Fiscalia] f ON  u.FiscaliaID = f.FiscaliaID';
+LEFT JOIN dbo.Usuario u on c.Facilitador = u.UsuarioID INNER JOIN [cat].[Fiscalia] f ON  u.FiscaliaID = f.FiscaliaID 
+LEFT JOIN cat.MotivoRechazo mr ON mr.MotivoID = c.MotivoRechazo';
 
 $nuc = $_POST['nuc'];
 $month = $_POST['month'];
@@ -22,6 +23,10 @@ $data = (object) array(
 	),
 	'sigi_initial_date' => (object) array(
 		'db_column' => '[FechaInicioSigi]',
+		'search' => true
+	),
+	'entered_folders_rejection_reason' => (object) array(
+		'db_column' => "mr.Nombre AS 'MotivoRechazo'",
 		'search' => true
 	),
 	'entered_folders_crime' => (object) array(
@@ -211,6 +216,10 @@ function getRecord($attr){
 				'entered_folders_id' => array(
 					'name' => 'ID',
 					'value' => $row['id']
+				),
+				'entered_folders_rejection_reason' => array(
+					'name' => 'MotivoRechazo',
+					'value' => $row['MotivoRechazo']
 				),
 				'sigi_initial_date' => array(
 					'name' => 'FechaSigi',

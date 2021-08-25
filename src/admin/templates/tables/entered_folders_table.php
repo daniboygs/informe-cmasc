@@ -2,10 +2,14 @@
     session_start();
     
     $crud_permissions = false;
+    $dpe_permissions = false;
 
     if(isset($_SESSION['user_data']['type'])){
         if($_SESSION['user_data']['type'] == 1){
             $crud_permissions = true;
+        }
+        if($_SESSION['user_data']['type'] == 5){
+            $dpe_permissions = true;
         }
     }
 
@@ -33,13 +37,27 @@
         <th>Unidad</th>
         <th>MP Canalizador</th>
         <th>Carpeta Recibida</th>
-        <th>Canalizador</th>
-        <th>Fiscalía</th>
-        <th>Municipio</th>
-        <th>Observaciones</th>
-        <th>Fecha Carpetas</th>
-        <th>Facilitador</th>
-        <th>Fiscalía</th>
+        <th>Motivo de rechazo</th>
+<?php
+        if($dpe_permissions){
+?>
+            <th>Observaciones</th>
+<?php
+        }
+        else{
+?>
+            <th>Canalizador</th>
+            <th>Fiscalía</th>
+            <th>Municipio</th>
+            <th>Observaciones</th>
+            <th>Fecha Carpetas</th>
+            <th>Facilitador</th>
+            <th>Fiscalía</th>
+<?php
+        }
+?>
+        
+        
         <!--<th>Fecha Libro</th>-->
 <?php
     if($crud_permissions){
@@ -64,13 +82,26 @@
         <td><?php echo $element['entered_folders_unity']['value']; ?></td>
         <td><?php echo $element['entered_folders_mp_channeler']['value']; ?></td>
         <td><?php echo $element['entered_folders_recieved_folder']['value']; ?></td>
-        <td><?php echo $element['entered_folders_channeler']['value']; ?></td>
-        <td><?php echo $element['entered_folders_fiscalia']['value']; ?></td>
-        <td><?php echo $element['entered_folders_municipality']['value']; ?></td>
-        <td><?php echo $element['entered_folders_observations']['value']; ?></td>
-        <td><?php echo $element['entered_folders_folders_date']['value']; ?></td>
-        <td><?php echo $element['entered_folders_facilitator']['value']; ?></td>
-        <td><?php echo $element['fiscalia']['value']; ?></td>
+        <td><?php echo $element['entered_folders_rejection_reason']['value']; ?></td>
+<?php
+        if($dpe_permissions){
+?>
+            <td><?php echo $element['entered_folders_observations']['value']; ?></td>
+<?php
+        }
+        else{
+?>
+            <td><?php echo $element['entered_folders_channeler']['value']; ?></td>
+            <td><?php echo $element['entered_folders_fiscalia']['value']; ?></td>
+            <td><?php echo $element['entered_folders_municipality']['value']; ?></td>
+            <td><?php echo $element['entered_folders_observations']['value']; ?></td>
+            <td><?php echo $element['entered_folders_folders_date']['value']; ?></td>
+            <td><?php echo $element['entered_folders_facilitator']['value']; ?></td>
+            <td><?php echo $element['fiscalia']['value']; ?></td>
+<?php
+        }
+?>   
+        
 <?php
         if($crud_permissions){
 ?>

@@ -6,6 +6,7 @@ var sections = {
 		"update_file": "update_agreements_section.php",
 		"search_file": "search_agreements_section.php",
 		"records_by_month_file": "get_agreement_records_by_month.php",
+		"records_by_day_file": "get_agreement_records_by_mont4h.php",
 		"form_id": "agreements-form",
 		"navigation_element_id": "agreements-nav-div",
 		"name": "acuerdos",
@@ -179,6 +180,7 @@ var sections = {
 		"update_file": "update_recieved_folders_section.php",
 		"search_file": "search_recieved_folders_section.php",
 		"records_by_month_file": "get_recieved_folders_records_by_month.php",
+		"records_by_day_file": "get_recieved_folders_records_by_day.php",
 		"form_id": "recieved-folders-form",
 		"navigation_element_id": "recieved-folders-nav-div",
 		"name": "recieved_folders",
@@ -262,6 +264,7 @@ var sections = {
 		"update_file": "update_folders_to_investigation_section.php",
 		"search_file": "search_folders_to_investigation_section.php",
 		"records_by_month_file": "get_folders_to_investigation_records_by_month.php",
+		"records_by_day_file": "get_folders_to_investigation_records_by_day.php",
 		"form_id": "folders-to-investigation-form",
 		"navigation_element_id": "folders-to-investigation-nav-div",
 		"name": "folders_to_investigation",
@@ -360,6 +363,7 @@ var sections = {
 		"update_file": "update_people_served_section.php",
 		"search_file": "search_people_served_section.php",
 		"records_by_month_file": "get_people_served_records_by_month.php",
+		"records_by_day_file": "get_people_served_records_by_day.php",
 		"form_id": "people-served-form",
 		"navigation_element_id": "people-served-nav-div",
 		"name": "people_served",
@@ -458,6 +462,7 @@ var sections = {
 		"update_file": "update_processing_folders_section.php",
 		"search_file": "search_processing_folders_section.php",
 		"records_by_month_file": "get_processing_folders_records_by_month.php",
+		"records_by_day_file": "get_processing_folders_records_by_day.php",
 		"form_id": "processing-folders-form",
 		"navigation_element_id": "processing-folders-nav-div",
 		"name": "processing_folders",
@@ -730,6 +735,7 @@ var sections = {
 		"update_file": "update_folders_to_validation_section.php",
 		"search_file": "search_folders_to_validation_section.php",
 		"records_by_month_file": "get_folders_to_validation_records_by_month.php",
+		"records_by_day_file": "get_folders_to_validation_records_by_day.php",
 		"form_id": "folders-to-validation-form",
 		"navigation_element_id": "folders-to-validation-nav-div",
 		"name": "folders_to_validation",
@@ -813,6 +819,7 @@ var sections = {
 		"update_file": "update_capture_period_section.php",
 		"search_file": "search_capture_period_section.php",
 		"records_by_month_file": "get_capture_period_records_by_month.php",
+		"records_by_day_file": "get_capture_period_records_by_day.php",
 		"form_id": "capture-period-form",
 		"navigation_element_id": "capture-period-nav-div",
 		"name": "capture_period",
@@ -860,6 +867,7 @@ var sections = {
 		"update_file": "update_entered_folders_section.php",
 		"search_file": "search_entered_folders_section.php",
 		"records_by_month_file": "get_entered_folders_records_by_month.php",
+		"records_by_day_file": "get_entered_folders_records_by_day.php",
 		"form_id": "entered-folders-form",
 		"navigation_element_id": "entered-folders-nav-div",
 		"name": "entered_folders",
@@ -967,6 +975,24 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-rejection-reason",
+				"name": "entered_folders_rejection_reason",
+				"type": "select",
+				"placeholder": "Selecciona",
+				"event_listener": "onChangeRejectionReason()",
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 1,
+				"catalog": {
+					service_file: 'get_rejection_reasons.php',
+					data: null
+				},
+				"required": false,
 				"service": null
 			},
 			{
@@ -1092,6 +1118,7 @@ var sections = {
 		"update_file": "update_entered_folders_section.php",
 		"search_file": "search_entered_folders_section.php",
 		"records_by_month_file": "get_entered_folders_records_by_month.php",
+		"records_by_day_file": "get_entered_folders_records_by_day.php",
 		"form_id": "entered-folders-super-form",
 		"navigation_element_id": "entered-folders-super-nav-div",
 		"name": "entered_folders_super",
@@ -1199,6 +1226,24 @@ var sections = {
 				"default": null,
 				"catalog": null,
 				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-rejection-reason",
+				"name": "entered_folders_rejection_reason",
+				"type": "select",
+				"placeholder": "Selecciona",
+				"event_listener": 'onchange="onChangeRejectionReason()"',
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": 1,
+				"catalog": {
+					service_file: 'get_rejection_reasons.php',
+					data: null
+				},
+				"required": false,
 				"service": null
 			},
 			{
@@ -1324,6 +1369,7 @@ var sections = {
 		"update_file": "update_inegi_section.php",
 		"search_file": "search_inegi_section.php",
 		"records_by_month_file": "get_inegi_records_by_month.php",
+		"records_by_day_file": "get_inegi_records_by_day.php",
 		"form_id": "inegi-form",
 		"navigation_element_id": "inegi-nav-div",
 		"name": "inegi",

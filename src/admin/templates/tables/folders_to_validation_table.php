@@ -2,10 +2,14 @@
     session_start();
     
     $crud_permissions = false;
+    $dpe_permissions = false;
 
     if(isset($_SESSION['user_data']['type'])){
         if($_SESSION['user_data']['type'] == 1){
             $crud_permissions = true;
+        }
+        if($_SESSION['user_data']['type'] == 5){
+            $dpe_permissions = true;
         }
     }
 
@@ -29,7 +33,13 @@
         <th>Fecha</th>
         <th>Delito</th>
         <th>Unidad</th>
-        <th>Facilitador</th>
+<?php
+        if(!$dpe_permissions){
+?>
+            <th>Facilitador</th>
+<?php
+        }
+?>
         <th>Fiscalía</th>
 <?php
     if($crud_permissions){
@@ -52,7 +62,13 @@
         <td><?php echo $element['folders_to_validation_date']['value']; ?></td>
         <td class="align-left bold-text"><?php echo $element['folders_to_validation_crime']['value']['listed_values']; ?></td>
         <td><?php echo $element['folders_to_validation_unity']['value']; ?></td>
-        <td><?php echo $element['folders_to_validation_user']['value']; ?></td>
+<?php
+        if(!$dpe_permissions){
+?>
+            <td><?php echo $element['folders_to_validation_user']['value']; ?></td>
+<?php
+        }
+?>
         <td><?php echo $element['fiscalia']['value']; ?></td>
 <?php
         if($crud_permissions){
