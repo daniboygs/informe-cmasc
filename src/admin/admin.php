@@ -9,8 +9,8 @@
 		<meta http-equiv="pragma" content="no-cache" />
 		<!--<link rel="stylesheet" href="node_modules/normalize.css">-->
 		<link rel="shortcut icon" href="../../assets/img/fge.png"/>
-		<link rel="stylesheet" href="../../css/styles.css">
-		<link rel="stylesheet" href="css/styles.css">
+		<link rel="stylesheet" href="../../css/styles-210825114000.css">
+		<link rel="stylesheet" href="css/styles-210825114000.css">
 		<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
 		
 		<script src="../../node_modules/es6/ES6.js"></script>
@@ -18,11 +18,11 @@
 		<script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" ></script>
 		<script src="../../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 		
-		<script src="../../js/script.js"></script>
-		<script src="json/sections-attr.js"></script>
-		<script src="json/data.js"></script>
-		<script src="js/multiselect.js"></script>
-		<script src="js/script.js"></script>
+		<script src="../../js/script-210825114000.js"></script>
+		<script src="json/sections-attr-210825114000.js"></script>
+		<script src="json/data-210825114000.js"></script>
+		<script src="js/multiselect-210825114000.js"></script>
+		<script src="js/script-210825114000.js"></script>
 
 		<title>CMASC</title>
 	</head>
