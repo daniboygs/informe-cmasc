@@ -236,6 +236,7 @@ function spetialInegiValidationBySection(attr){
                     element_id: 'inegi-general-nuc',
                     //function: checkInegiNuc,
                     function: checkInegiRecord,
+                    sec_ine: 'inegi',
                     attr: {
                         recieved_id: inegi.current.recieved_id,
                         agreement_id: inegi.current.agreement_id,

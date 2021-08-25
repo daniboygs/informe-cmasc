@@ -24,7 +24,7 @@
 		<script src="json/inegi-210819192000.js"></script>
 		<script src="js/inegi-210819192000.js"></script>
 		<script src="js/multiselect-210819192000.js"></script>
-		<script src="js/script-210819192000.js"></script>
+		<script src="js/script-210819192001.js"></script>
 
 		<title>CMASC</title>
 	</head>

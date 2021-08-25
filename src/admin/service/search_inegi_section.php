@@ -153,47 +153,87 @@ function getRecord($attr){
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
-	$attr->db_table = '[inegi].[General] g
-	LEFT JOIN (
-		select distinct 
-			sg.GeneralID 
-		from [inegi].[General] sg 
-		INNER JOIN [inegi].[Victima] sv 
-		on sg.GeneralID = sv.GeneralID 
-		where MONTH(sg.Fecha) = '.$attr->month.' AND YEAR(sg.Fecha) = '.$attr->year.'
-	) v 
-	ON g.GeneralID = v.GeneralID
-	LEFT JOIN (
-		select distinct 
-			sg.GeneralID 
-		from [inegi].[General] sg 
-		INNER JOIN [inegi].[Imputado] si 
-		on sg.GeneralID = si.GeneralID 
-		where MONTH(sg.Fecha) = '.$attr->month.' AND YEAR(sg.Fecha) = '.$attr->year.'
-	) i
-	ON g.GeneralID = i.GeneralID
-	LEFT JOIN [inegi].[MASC] m
-	ON g.GeneralID = m.GeneralID
+	if($attr->month != '' && $attr->year != ''){
+		$attr->db_table = '[inegi].[General] g
+			LEFT JOIN (
+				select distinct 
+					sg.GeneralID 
+				from [inegi].[General] sg 
+				INNER JOIN [inegi].[Victima] sv 
+				on sg.GeneralID = sv.GeneralID 
+				where MONTH(sg.Fecha) = '.$attr->month.' AND YEAR(sg.Fecha) = '.$attr->year.'
+			) v 
+			ON g.GeneralID = v.GeneralID
+			LEFT JOIN (
+				select distinct 
+					sg.GeneralID 
+				from [inegi].[General] sg 
+				INNER JOIN [inegi].[Imputado] si 
+				on sg.GeneralID = si.GeneralID 
+				where MONTH(sg.Fecha) = '.$attr->month.' AND YEAR(sg.Fecha) = '.$attr->year.'
+			) i
+			ON g.GeneralID = i.GeneralID
+			LEFT JOIN [inegi].[MASC] m
+			ON g.GeneralID = m.GeneralID
+			
+			LEFT JOIN
+			(select sg.GeneralID , COUNT(sg.GeneralID) as "CNT"
+			from [inegi].[General] sg 
+			INNER JOIN [inegi].[Delito] di on sg.GeneralID = di.GeneralID 
+			where MONTH(sg.Fecha) = '.$attr->month.' AND YEAR(sg.Fecha) = '.$attr->year.' GROUP BY sg.GeneralID) d
+			
+			ON g.GeneralID = d.GeneralID
+
+			LEFT JOIN
+			(select sg.GeneralID , COUNT(sg.GeneralID) as "DICNT"
+			from [inegi].[General] sg 
+			INNER JOIN [delitos].[INEGI] di on sg.GeneralID = di.GeneralID 
+			where MONTH(sg.Fecha) = '.$attr->month.' AND YEAR(sg.Fecha) = '.$attr->year.' GROUP BY sg.GeneralID) di
+
+			ON g.GeneralID = di.GeneralID
+
+			INNER JOIN Usuario u ON g.UsuarioID = u.UsuarioID
+			INNER JOIN cat.Fiscalia f ON f.FiscaliaID = u.FiscaliaID
+			';
+	}
+	else{
+		$attr->db_table = '[inegi].[General] g
+			LEFT JOIN (
+				select distinct 
+					sg.GeneralID 
+				from [inegi].[General] sg 
+				INNER JOIN [inegi].[Victima] sv 
+				on sg.GeneralID = sv.GeneralID) v 
+			ON g.GeneralID = v.GeneralID
+			LEFT JOIN (
+				select distinct 
+					sg.GeneralID 
+				from [inegi].[General] sg 
+				INNER JOIN [inegi].[Imputado] si 
+				on sg.GeneralID = si.GeneralID) i
+			ON g.GeneralID = i.GeneralID
+			LEFT JOIN [inegi].[MASC] m
+			ON g.GeneralID = m.GeneralID
+			
+			LEFT JOIN
+			(select sg.GeneralID , COUNT(sg.GeneralID) as "CNT"
+			from [inegi].[General] sg 
+			INNER JOIN [inegi].[Delito] di on sg.GeneralID = di.GeneralID GROUP BY sg.GeneralID) d
+			
+			ON g.GeneralID = d.GeneralID
+
+			LEFT JOIN
+			(select sg.GeneralID , COUNT(sg.GeneralID) as "DICNT"
+			from [inegi].[General] sg 
+			INNER JOIN [delitos].[INEGI] di on sg.GeneralID = di.GeneralID GROUP BY sg.GeneralID) di
+
+			ON g.GeneralID = di.GeneralID
+
+			INNER JOIN Usuario u ON g.UsuarioID = u.UsuarioID
+			INNER JOIN cat.Fiscalia f ON f.FiscaliaID = u.FiscaliaID
+			';
+	}
 	
-	LEFT JOIN
-	(select sg.GeneralID , COUNT(sg.GeneralID) as "CNT"
-	from [inegi].[General] sg 
-	INNER JOIN [inegi].[Delito] di on sg.GeneralID = di.GeneralID 
-	where MONTH(sg.Fecha) = '.$attr->month.' AND YEAR(sg.Fecha) = '.$attr->year.' GROUP BY sg.GeneralID) d
-	
-	ON g.GeneralID = d.GeneralID
-
-	LEFT JOIN
-	(select sg.GeneralID , COUNT(sg.GeneralID) as "DICNT"
-	from [inegi].[General] sg 
-	INNER JOIN [delitos].[INEGI] di on sg.GeneralID = di.GeneralID 
-	where MONTH(sg.Fecha) = '.$attr->month.' AND YEAR(sg.Fecha) = '.$attr->year.' GROUP BY sg.GeneralID) di
-
-	ON g.GeneralID = di.GeneralID
-
-	INNER JOIN Usuario u ON g.UsuarioID = u.UsuarioID
-	INNER JOIN cat.Fiscalia f ON f.FiscaliaID = u.FiscaliaID
-	';
 
 	//$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY Fecha";
 
