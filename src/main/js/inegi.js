@@ -600,6 +600,7 @@ function getInegiRecordsByMonth(section){
             test = response;
 
             drawRecordsTable({
+                section: 'inegi',
                 data: response,
                 file: 'templates/tables/inegi/'+section+'_table.php',
                 element_id: 'records-section'
@@ -635,6 +636,7 @@ function getInegiCurrentRecordBySectionAndID(attr){
                     test2 = response;
     
                     drawRecordsTable({
+                        section: 'inegi',
                         data: response,
                         file: 'templates/tables/inegi/'+attr.section+'_table.php',
                         element_id: 'inegi-current-record-section'
@@ -659,6 +661,7 @@ function getInegiCurrentRecordBySectionAndID(attr){
                             test2 = response;
             
                             drawRecordsTable({
+                                section: 'inegi',
                                 data: response,
                                 file: 'templates/tables/inegi/'+attr.section+'_table.php',
                                 element_id: 'inegi-current-record-section'
@@ -1096,6 +1099,7 @@ function getInegiPendingAgreementsByMonth(attr){
         cache:false
     }).done(function(response){
         drawRecordsTable({
+            section: 'inegi',
             data: response,
             file: 'templates/tables/inegi/pending_agreements_table.php',
             element_id: attr.section_id

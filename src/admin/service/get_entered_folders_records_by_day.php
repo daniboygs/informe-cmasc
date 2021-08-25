@@ -7,7 +7,7 @@ $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[CarpetasIngresadas] c INNER JOIN [cat].[Municipio] m on c.Municipio = m.MunicipioID 
-LEFT JOIN dbo.Usuario u on c.Facilitador = u.UsuarioID LEFT JOIN cat.MotivoRechazo mr ON mr.MotivoID = c.MotivoRechazo';
+LEFT JOIN dbo.Usuario u on c.Facilitador = u.UsuarioID LEFT JOIN [cat].[Fiscalia] f ON  u.FiscaliaID = f.FiscaliaID';
 
 $month = $_POST['month'];
 $year = $_POST['year'];
@@ -23,14 +23,6 @@ $data = (object) array(
 	),*/
 	'sigi_initial_date' => (object) array(
 		'db_column' => '[FechaInicioSigi]',
-		'search' => true
-	),
-	'entered_folders_rejection_reason' => (object) array(
-	'db_column' => "mr.Nombre AS 'MotivoRechazo'",
-	'search' => true
-),
-	'entered_folders_rejection_reason' => (object) array(
-		'db_column' => '[MotivoRechazo]',
 		'search' => true
 	),
 	'entered_folders_date' => (object) array(
@@ -96,15 +88,14 @@ $data = (object) array(
 	'user_ms' => (object) array(
 		'db_column' => 'u.[ApellidoMaterno]',
 		'search' => true
+	),
+	'fiscalia' => (object) array(
+		'db_column' => "f.[Nombre] AS 'Fiscalia'",
+		'search' => true
 	)
 );
 
 $sql_conditions = (object) array(
-	'user' => (object) array(
-		'db_column' => 'c.[UsuarioID]',
-		'condition' => '=', 
-		'value' => ''
-	),
 	'month' => (object) array(
 		'db_column' => 'MONTH(FechaIngreso)',
 		'condition' => '=', 
@@ -128,7 +119,6 @@ if(!isset($_SESSION['user_data'])){
 }
 else{
 
-	$sql_conditions->user->value = $_SESSION['user_data']['id'];
 	
 	echo json_encode(
 		getRecord(
@@ -138,7 +128,7 @@ else{
 				'db_table' => $db_table,
 				'conn' => $conn,
 				'params' => $params,
-				'options' => $options,
+				'options' => $options
 			)
 		), 
 		JSON_FORCE_OBJECT
@@ -150,7 +140,7 @@ function getRecord($attr){
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
-	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY FechaIngreso";
+	$sql = "SELECT TOP 1 $columns FROM $attr->db_table $conditions ORDER BY FechaIngreso";
 
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 
@@ -183,22 +173,18 @@ function getRecord($attr){
 				$entered_folders_book_date = $entered_folders_book_date->format('d/m/Y');*/
 	
 			array_push($return, array(
+				'entered_folders_id' => array(
+					'name' => 'ID',
+					'value' => $row['id']
+				),
 				'sigi_initial_date' => array(
 					'name' => 'FechaSigi',
 					'value' => $sigi_initial_date
-				),
-				'entered_folders_rejection_reason' => array(
-					'name' => 'MotivoRechazo',
-					'value' => $row['MotivoRechazo']
 				),
 				'entered_folders_date' => array(
 					'name' => 'Fecha',
 					'value' => $entered_folders_date
 				),
-				/*'entered_folders_crime' => array(
-					'name' => 'Delito',
-					'value' => $row['Delito']
-				),*/
 				'entered_folders_crime' => array(
 					'name' => 'Delito',
 					'value' => getRecordsByCondition(
@@ -251,6 +237,10 @@ function getRecord($attr){
 				'entered_folders_facilitator' => array(
 					'name' => 'Facilitador',
 					'value' => $row['Nombre'].' '.$row['ApellidoPaterno'].' '.$row['ApellidoMaterno']
+				),
+				'fiscalia' => array(
+					'name' => 'Fiscalía',
+					'value' => $row['Fiscalia']
 				)/*,
 				'entered_folders_book_date' => array(
 					'name' => 'Fecha Libro',

@@ -42,11 +42,21 @@
 
 		</div>
 
-		<div class="col-md-12 form-group">
+		<!--<div class="col-md-12 form-group">
 
 			<label style="font-weight:bold">Motivo de canalización: *</label>
 
 			<input type="text" class="form-control" id="folders-to-investigation-channeling-reason" maxlength="50">
+
+		</div>-->
+
+		<div class="col-md-12 form-group">
+
+			<label style="font-weight:bold">Motivo de canalización: *</label>
+
+			<div id="folders-to-investigation-channeling-reason-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
 
 		</div>
 

@@ -6,7 +6,8 @@ include("common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[CarpetasEnviadasInvestigacion]';
+$db_table = '[dbo].[CarpetasEnviadasInvestigacion] c LEFT JOIN [cat].[MotivoCanalizacionInvestigacion] m
+ON c.MotivoCanalizacionInvestID = m.MotivoCanalizacionID';
 
 $month = $_POST['month'];
 $year = $_POST['year'];
@@ -36,8 +37,12 @@ $data = (object) array(
 		'db_column' => '[Unidad]',
 		'search' => true
 	),
-	'folders_to_investigation_channeling_reason' => (object) array(
+	/*'folders_to_investigation_channeling_reason' => (object) array(
 		'db_column' => '[MotivoCancelacion]',
+		'search' => true
+	),*/
+	'folders_to_investigation_channeling_reason' => (object) array(
+		'db_column' => "CASE WHEN m.Nombre IS NULL THEN [MotivoCancelacion] ELSE m.Nombre END AS 'MotivoCanalizacion'",
 		'search' => true
 	),
 	'user' => (object) array(
@@ -149,9 +154,13 @@ function getRecord($attr){
 					'name' => 'Unidad',
 					'value' => $row['Unidad']
 				),
-				'folders_to_investigation_channeling_reason' => array(
+				/*'folders_to_investigation_channeling_reason' => array(
 					'name' => 'MotivoCancelacion',
 					'value' => $row['MotivoCancelacion']
+				),*/
+				'folders_to_investigation_channeling_reason' => array(
+					'name' => 'MotivoCanalizacion',
+					'value' => $row['MotivoCanalizacion']
 				)
 			));
 			

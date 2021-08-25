@@ -231,7 +231,7 @@ function loadDefaultValuesBySection(section){
 function validateSection(section){
 
 
-    console.log('si entre a validar');
+    console.log('si entre a validar: ', section);
     /*setLoader({
         add: true
     });*/
@@ -376,6 +376,21 @@ function spetialValidationBySection(attr){
             });
             break;
         case 'entered_folders':
+                checkActivePeriod({
+                    element_id: 'entered-folders-date',
+                    section: 1,
+                    function: checkNuc,
+                    attr: {
+                        element_id: 'entered-folders-nuc',
+                        function: saveSection,
+                        attr: {
+                            section: attr.section,
+                            data: attr.data
+                        }
+                    }
+                });
+                break;
+        case 'entered_folders_super':
                 checkActivePeriod({
                     element_id: 'entered-folders-date',
                     section: 1,
@@ -617,6 +632,7 @@ function getRecordsByMonth(section){
 
 
             drawRecordsTable({
+                section: section,
                 data: response,
                 file: 'templates/tables/'+section+'_table.php',
                 element_id: 'records-section'
@@ -640,7 +656,10 @@ function drawRecordsTable(attr){
             },
             cache: false
         }).done(function(response){
-            $('#'+attr.element_id).html(response);
+
+            if(sections[attr.section].active){
+                $('#'+attr.element_id).html(response);
+            }
         });
     }
     else{
@@ -722,6 +741,10 @@ function searchSection(section){
     }
 
     if(validated){
+        setStaticLoader({
+            section_id: 'records-section',
+            class: 'static-loader'
+        });
         console.log(sections[section].search_file, attr);
         $.ajax({
             url:'service/'+sections[section].search_file,
@@ -756,6 +779,7 @@ function searchSection(section){
             }*/
 
             drawRecordsTable({
+                section: section,
                 data: response,
                 file: 'templates/tables/'+section+'_table.php',
                 element_id: 'records-section'
@@ -1234,4 +1258,25 @@ function checkNucDates(){
         
     }); 
 
+}
+
+function hideRejectionReason(){
+    if(document.getElementById('entered-folders-recieved-folder')){
+        if(document.getElementById('entered-folders-recieved-folder').value == 1){
+            document.getElementById("entered-folders-rejection-reason").selectedIndex = "0";
+            document.getElementById('rejection-reason-row').style.display = 'none';
+        }
+        else{
+            document.getElementById('rejection-reason-row').style.display = '';
+            document.getElementById("entered-folders-rejection-reason").selectedIndex = "1";
+        }
+    }
+}
+
+function onChangeRejectionReason(){
+    if(document.getElementById('entered-folders-rejection-reason')){
+        if(document.getElementById('entered-folders-rejection-reason').value == '' && document.getElementById('entered-folders-recieved-folder').value != "1"){
+            document.getElementById("entered-folders-rejection-reason").selectedIndex = "1";
+        }
+    }
 }

@@ -2,6 +2,7 @@
     session_start();
     
     $crud_permissions = false;
+    $dpe_permissions = false;
 
     if(isset($_SESSION['user_data']['type'])){
         if($_SESSION['user_data']['type'] == 1){
@@ -33,6 +34,7 @@
         <th>Unidad</th>
         <th>MP Canalizador</th>
         <th>Carpeta Recibida</th>
+        <th>Motivo de rechazo</th>
         <th>Canalizador</th>
         <th>Fiscalía</th>
         <th>Municipio</th>
@@ -64,6 +66,7 @@
         <td><?php echo $element['entered_folders_unity']['value']; ?></td>
         <td><?php echo $element['entered_folders_mp_channeler']['value']; ?></td>
         <td><?php echo $element['entered_folders_recieved_folder']['value']; ?></td>
+        <td><?php echo $element['entered_folders_rejection_reason']['value']; ?></td>
         <td><?php echo $element['entered_folders_channeler']['value']; ?></td>
         <td><?php echo $element['entered_folders_fiscalia']['value']; ?></td>
         <td><?php echo $element['entered_folders_municipality']['value']; ?></td>

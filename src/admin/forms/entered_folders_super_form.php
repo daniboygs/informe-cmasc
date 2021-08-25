@@ -58,10 +58,24 @@
 
 			<label style="font-weight:bold">Carpeta recibida: *</label>
 
-			<select id="entered-folders-recieved-folder" name="tipo" style="height: 40px" class="form-control"  required="true">									
+			<select id="entered-folders-recieved-folder" name="tipo" style="height: 40px" class="form-control"  required="true" onchange="hideRejectionReason();">									
 				<option value ="1" selected>Si</option>
 				<option value ="0">No</option>
 			</select>	
+
+		</div>
+
+	</div>
+
+	<div class="form-row" style="display: none;" id="rejection-reason-row">
+
+		<div class="col-md-12 form-group">
+
+			<label style="font-weight:bold">Motivo de rechazo: *</label>
+
+			<div id="entered-folders-rejection-reason-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
 
 		</div>
 
@@ -152,8 +166,8 @@
 
 	<div class="form-buttons">		
 				
-		<button type="button" class="btn btn-outline-dark" style="height:38px; width: 100px;"  onclick="resetSection('entered_folders')">Nuevo</button>	
-		<button type="button" class="btn btn-outline-success" style="height:38px; width: 100px;"  onclick="validateSection('entered_folders')">Guardar</button>	
+		<button type="button" class="btn btn-outline-dark" style="height:38px; width: 100px;"  onclick="resetSection('entered_folders_super')">Nuevo</button>	
+		<button type="button" class="btn btn-outline-success" style="height:38px; width: 100px;"  onclick="validateSection('entered_folders_super')">Guardar</button>	
  
 	</div>
 
