@@ -1410,4 +1410,52 @@ var sections = {
 		"data": [],
 		"loaded_data": false
 	},
+	"rejected_folders": {
+		"index": 8,
+		"form_file": "rejected_folders_form.php",
+		"create_file": "create_rejected_folders_section.php",
+		"update_file": "update_rejected_folders_section.php",
+		"search_file": "search_rejected_folders_section.php",
+		"records_by_month_file": "get_rejected_folders_records_by_month.php",
+		"records_by_day_file": "get_rejected_folders_records_by_day.php",
+		"form_id": "rejected-folders-form",
+		"navigation_element_id": "rejected-folders-nav-div",
+		"name": "rejected_folders",
+		"title": "CARPETAS RECHAZADAS",
+		"fields": [
+			{
+				"id": "rejected-folders-initial-date",
+				"name": "rejected_folders_initial_date",
+				"type": "date",
+				"placeholder": "Ingresa Fecha",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": "today",
+				"catalog": null,
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "rejected-folders-finish-date",
+				"name": "rejected_folders_finish_date",
+				"type": "date",
+				"placeholder": "Ingresa Fecha",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": "today",
+				"catalog": null,
+				"required": true,
+				"service": null
+			}
+		],
+		"active": false,
+		"data": [],
+		"loaded_data": false
+	}
 }

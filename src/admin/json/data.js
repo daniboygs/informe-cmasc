@@ -15,5 +15,6 @@ var handle_data = {
 		"loading": false
 	},
 	"current_multiselect": null,
-	"inegi_crimes": null
+	"inegi_crimes": null,
+	"rejected_folders_has_changed": false
 }

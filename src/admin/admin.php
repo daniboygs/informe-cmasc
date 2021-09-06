@@ -12,6 +12,7 @@
 		<link rel="stylesheet" href="../../css/styles.css">
 		<link rel="stylesheet" href="css/styles.css">
 		<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../../libs/font-awesome-4.7.0/css/font-awesome.min.css">
 		
 		<script src="../../node_modules/es6/ES6.js"></script>
 		<script src="../../node_modules/jquery/dist/jquery.min.js" ></script>
@@ -73,6 +74,7 @@
 		if($_SESSION['user_data']['type'] == 1){
 ?>
 			<div id="capture-period-nav-div" onclick="loadSection('capture_period')">PERIODO DE CAPTURA</div>
+			<div id="rejected-folders-nav-div" onclick="loadSection('rejected_folders')">CARPETAS RECHAZADAS</div>
 <?php
 		}
 	}
@@ -93,9 +95,11 @@
 			<div id="records-section"></div>
 
 			<!--<img src="../../assets/img/fge_nav.png" alt="" width="500" height="500" style="opacity: 0.5;">-->
-
+			
 		</div>
 
+		<div id="admin-default-modal-section"></div>
 
 	</body>
+	
 </html>

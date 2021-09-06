@@ -26,11 +26,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'entered_folders_rejection_reason' => (object) array(
-	'db_column' => "mr.Nombre AS 'MotivoRechazo'",
-	'search' => true
-),
-	'entered_folders_rejection_reason' => (object) array(
-		'db_column' => '[MotivoRechazo]',
+		'db_column' => "mr.Nombre AS 'MotivoRechazo'",
 		'search' => true
 	),
 	'entered_folders_date' => (object) array(
