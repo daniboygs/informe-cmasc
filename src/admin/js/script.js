@@ -1280,3 +1280,212 @@ function onChangeRejectionReason(){
         }
     }
 }
+
+function edithRejectedFolder(entered_folder_id){
+    if(entered_folder_id != null && entered_folder_id != undefined && entered_folder_id != ''){
+
+        getRejectedDataByEnteredFolder({
+            file_location: 'service/get_rejected_folder_by_entered_folder.php',
+            post_data: {
+                entered_folder_id: entered_folder_id
+            },
+            success: {
+                function: setModal,
+                attr: {
+                    file_location: 'templates/modals/edit_rejected_folders_modal.php',
+                    element_modal_section_id: 'admin-default-modal-section',
+                    post_data: {
+                        entered_folder_id: entered_folder_id
+                    },
+                    success: {
+                        function: showModal,
+                        attr: {
+                            show: true,
+                            modal_id: 'large-modal'
+                        }
+                    },
+                }
+            }
+        });
+    }
+}
+
+function getRejectedDataByEnteredFolder(attr){
+
+    if(attr.post_data != null){
+        $.ajax({
+            url: attr.file_location,
+            type: 'POST',
+            dataType: "JSON",
+            data: attr.post_data,
+            cache: false
+        }).done(function(response){
+
+            console.log('response de rejected: ', response);
+
+            attr.success.attr.post_data = response;
+
+            console.log('to modal: ', attr.success.attr);
+
+            if(attr.success != undefined && attr.success != null){
+                attr.success.function(attr.success.attr);
+            }
+
+        });
+    }
+}
+
+
+function setModal(attr){
+
+    console.log('set modal: ', attr);
+
+    if(attr.post_data != null){
+        $.ajax({
+            url: attr.file_location,
+            type: 'POST',
+            dataType: "html",
+            data: attr.post_data,
+            cache: false
+        }).done(function(response){
+
+            $('#'+attr.element_modal_section_id).html(response);
+
+            if(attr.success != undefined){
+                attr.success.function(attr.success.attr);
+            }
+
+        });
+    }
+}
+
+function showModal(attr){
+
+    if(attr.modal_id != null && attr.show != null){
+
+        if(attr.show){
+            $('#'+attr.modal_id).modal('show');
+        }
+        else{
+            $('#'+attr.modal_id).modal('hide');
+        }
+    }
+}
+
+function updateRejectedFolder(rejected_folder_id){
+
+    if(rejected_folder_id != null && rejected_folder_id != undefined){
+
+        if(document.getElementById('rejected_folio')){
+            $.ajax({
+                url: 'service/update_rejected_folder.php',
+                type: 'POST',
+                dataType: "JSON",
+                data: {
+                    rejected_folder_id: rejected_folder_id,
+                    rejected_folio: document.getElementById('rejected_folio').value
+                },
+                cache: false
+            }).done(function(response){
+
+                showModal({
+                    show: false,
+                    modal_id: 'large-modal'
+                });
+
+                getRecordsByMonth('rejected_folders');
+    
+                Swal.fire('Exito', 'Todo bien', 'warning');
+    
+            });
+        }
+        else{
+            Swal.fire('Ups...', 'Ups...', 'warning');
+        }
+        
+    }
+}
+
+function saveRejectedFolder(entered_folder_id){
+
+    if(document.getElementById('rejected_folio')){
+        $.ajax({
+            url: 'service/create_rejected_folder.php',
+            type: 'POST',
+            dataType: "JSON",
+            data: {
+                entered_folder_id: entered_folder_id,
+                rejected_folio: document.getElementById('rejected_folio').value
+            },
+            cache: false
+        }).done(function(response){
+
+            showModal({
+                show: false,
+                modal_id: 'large-modal'
+            });
+
+            getRecordsByMonth('rejected_folders');
+
+            Swal.fire('Exito', 'Todo bien', 'warning');
+
+        });
+    }
+    else{
+        Swal.fire('Ups...', 'Ups...', 'warning');
+    }
+}
+
+function generateRejectedPDFReport(attr){
+
+    window.open('templates/pdf/rejected_folder_report.php');
+}
+
+function createPDF(entered_folder_id){
+
+    if(entered_folder_id != null && entered_folder_id != undefined && entered_folder_id != ''){
+
+        getRejectedDataByEnteredFolder({
+            file_location: 'service/get_rejected_folder_by_entered_folder.php',
+            post_data: {
+                entered_folder_id: entered_folder_id
+            },
+            success: {
+                function: setSessionVariables,
+                attr: {
+                    file_location: 'service/set_pdf_session_var.php',
+                    post_data: {
+                        entered_folder_id: entered_folder_id
+                    },
+                    success: {
+                        function: generateRejectedPDFReport,
+                        attr: null
+                    },
+                }
+            }
+        });
+    }
+}
+
+function setSessionVariables(attr){
+
+    console.log('im gonna set: ', attr);
+
+    if(attr.file_location != null && attr.file_location != undefined){
+
+        $.ajax({
+            url: attr.file_location,
+            type: 'POST',
+            dataType: "JSON",
+            data: attr.post_data,
+            cache: false
+        }).done(function(response){
+
+            if(attr.success != undefined && attr.success != null){
+                attr.success.function(attr.success.attr);
+            }
+
+        });
+        
+    }
+}

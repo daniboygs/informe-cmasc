@@ -209,4 +209,23 @@ tr{
     font-size: 20pt;
 }
 
+.modal-backdrop{
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.input-custom-cell{
+    border: 0;
+    background: unset;
+    outline: none;
+    text-align: center;
+    line-height: 2em;
+    /* width: -webkit-fill-available; */
+    width: 100%;
+}
+
+.update-row{
+    background-color: khaki;
+}
+
 /*___________*/

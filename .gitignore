@@ -1,4 +1,5 @@
 /node_modules
+/libs
 /fonts
 /assets
 /service/connection.php

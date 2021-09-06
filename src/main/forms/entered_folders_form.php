@@ -24,7 +24,7 @@
 
 	<div class="form-row">
 
-		<div class="col-md-4 form-group">
+		<div class="col-md-3 form-group">
 
 			<label style="font-weight:bold">NUC: *</label>
 
@@ -32,13 +32,21 @@
 
 		</div>
 
-		<div class="col-md-8 form-group">
+		<div class="col-md-4 form-group">
 
 			<label style="font-weight:bold">Unidad: *</label>
 
 			<div id="entered-folders-unity-section">
 				<div style="color: #EE6E5A;">Cargando datos... </div>
 			</div>
+
+		</div>
+
+		<div class="col-md-5 form-group">
+
+			<label style="font-weight:bold">MP Canalizador: *</label>
+
+			<input type="text" class="form-control" id="entered-folders-mp-channeler" maxlength="50">
 
 		</div>
 

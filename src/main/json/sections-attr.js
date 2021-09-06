@@ -1208,6 +1208,21 @@ var sections = {
 				"service": null
 			},
 			{
+				"id": "entered-folders-mp-channeler",
+				"name": "entered_folders_mp_channeler",
+				"type": "text",
+				"placeholder": "Ingresa MP Canalizador",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true,
+				"service": null
+			},
+			{
 				"id": "entered-folders-recieved-folder",
 				"name": "entered_folders_recieved_folder",
 				"type": "select",
