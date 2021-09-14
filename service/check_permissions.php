@@ -149,6 +149,12 @@ session_start();
                     'name' => 'inegi',
                     'class' => '',
                     'label' => 'INEGI'
+                ),
+                'rejected_folders' => array(
+                    'id' => 'rejected-folders-nav-div',
+                    'name' => 'rejected_folders',
+                    'class' => '',
+                    'label' => 'CARPETAS RECHAZADAS'
                 )
             )
         ),

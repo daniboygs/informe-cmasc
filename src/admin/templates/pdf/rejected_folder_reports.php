@@ -6,11 +6,13 @@ session_start();
 //$records = json_decode($_POST['records'], true);
 
 //$rejected_folders_pdf_data = $_SESSION['rejected_folders_pdf_data'];
-$rejected_folders_pdf_data = $_SESSION['rejected_folders_pdf_data'];
+$rejected_folders_pdf_data = $_SESSION['pdf_array'];
 
 $pdf2 = new PDF_MC_Table();
 
-set_page_template($pdf2, $rejected_folders_pdf_data);
+for($i=0; $i<count($rejected_folders_pdf_data); $i++){
+    set_page_template($pdf2, (object) $rejected_folders_pdf_data[$i]);
+}
 
 $pdf2->Output();
 
@@ -41,7 +43,7 @@ function set_page_template($pdf2, $rejected_folders_pdf_data){
     $pdf2->Ln(5);
     $pdf2->SetFont('Arial','',8);
     $pdf2->Cell(121, 5, "", "", "", 'C');
-    $pdf2->Cell(50, 5, iconv('UTF-8', 'windows-1252', $rejected_folders_pdf_data->folio), "", "", 'L');
+    $pdf2->Cell(50, 5, iconv('UTF-8', 'windows-1252', $rejected_folders_pdf_data->rejected_folders_folio['value']), "", "", 'L');
 
     $pdf2->Ln(5);
     $pdf2->SetFont('Arial','',8);
@@ -64,14 +66,14 @@ function set_page_template($pdf2, $rejected_folders_pdf_data){
 
     $pdf2->SetFont('','B','');
     $pdf2->Cell(10, 7, "", "", "", 'C');
-    $pdf2->Cell(20, 7, iconv('UTF-8', 'windows-1252', 'LIC. '.mb_strtoupper($rejected_folders_pdf_data->mp_channeler, 'utf-8')), "", "", 'L');
+    $pdf2->Cell(20, 7, iconv('UTF-8', 'windows-1252', 'LIC. '.mb_strtoupper($rejected_folders_pdf_data->entered_folders_mp_channeler['value'], 'utf-8')), "", "", 'L');
 
     $pdf2->Ln(5);
     $pdf2->Cell(10, 7, "", "", "", 'C');
     $pdf2->Cell(35, 7, iconv('UTF-8', 'windows-1252', 'AGENTE DEL MINISTERIO PÚBLICO:'), "", "", 'L');
     $pdf2->Ln(5);
     $pdf2->Cell(10, 7, "", "", "", 'C');
-    $pdf2->Cell(35, 7, iconv('UTF-8', 'windows-1252', 'DE LA UNIDAD DE '.mb_strtoupper($rejected_folders_pdf_data->unity, 'utf-8')), "", "", 'L');
+    $pdf2->Cell(35, 7, iconv('UTF-8', 'windows-1252', 'DE LA UNIDAD DE '.mb_strtoupper($rejected_folders_pdf_data->entered_folders_unity['value'], 'utf-8')), "", "", 'L');
     $pdf2->Ln(5);
     $pdf2->Cell(10, 7, "", "", "", 'C');
     $pdf2->Cell(35, 7, iconv('UTF-8', 'windows-1252', 'DE LA FISCALÍA DEL ESTADO:'), "", "", 'L');
@@ -107,7 +109,7 @@ function set_paragraph($pdf2, $section, $rejected_folders_pdf_data){
         case 1:
             $pdf2->SetFont('','');
             $pdf2->Cell(10, 6, "", "", "", 'C');
-            $pdf2->MultiCell(170,6,iconv('UTF-8', 'windows-1252', 'Por medio del presente y en atención a su oficio de derivación, se remite la carpeta original de investigación citada en rubro, misma que nos fue enviada para someterse a los medios alternos de solución de controversias. Informo a usted que, una vez analizado el contenido de la presente carpeta ('.strval($rejected_folders_pdf_data->nuc).'), esta no puede ser admitida debido a que '.strval($rejected_folders_pdf_data->rejected_reason).', de acuerdo a lo estipulado en el '.strval($rejected_folders_pdf_data->rejected_basis).'.'), 'J');
+            $pdf2->MultiCell(170,6,iconv('UTF-8', 'windows-1252', 'Por medio del presente y en atención a su oficio de derivación, se remite la carpeta original de investigación citada en rubro, misma que nos fue enviada para someterse a los medios alternos de solución de controversias. Informo a usted que, una vez analizado el contenido de la presente carpeta ('.strval($rejected_folders_pdf_data->entered_folders_nuc['value']).'), esta no puede ser admitida debido a que '.strval($rejected_folders_pdf_data->entered_folders_rejection_reason['value']).', de acuerdo a lo estipulado en el '.strval($rejected_folders_pdf_data->rejected_basis['value']).'.'), 'J');
             /*$pdf2->SetFont('','B','');
             $pdf2->Cell(20, 7, iconv('UTF-8', 'windows-1252', ''.mb_strtoupper('TESTING THIS THING', 'utf-8')), "", "", 'L');*/
         break;

@@ -18,6 +18,7 @@ if($conn){
             ,[ApellidoPaterno]
             ,[ApellidoMaterno]
             ,[Tipo]
+            ,[FiscaliaID]
         FROM $db.[dbo].[Usuario] 
         WHERE [Usuario] = '$user'
         AND [Contrasena] = '$pass'";
@@ -46,7 +47,8 @@ if($conn){
                 'name' => $json['Nombre'],
                 'paternal_surname' => $json['ApellidoPaterno'],
                 'maternal_surname' => $json['ApellidoMaterno'],
-                'type' => $json['Tipo']
+                'type' => $json['Tipo'],
+                'fiscalia' => $json['FiscaliaID']
             )
         );
         

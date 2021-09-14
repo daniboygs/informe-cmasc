@@ -7,9 +7,9 @@ $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[EJERCICIOS].[dbo].[CarpetasIngresadas] ci LEFT JOIN [EJERCICIOS].[dbo].[CarpetasRechazadas] cr
-ON ci.CarpetaIngresadaID = cr.CarpetaIngresadaID INNER JOIN cat.MotivoRechazo mr ON ci.MotivoRechazo = mr.MotivoID';
+ON ci.CarpetaIngresadaID = cr.CarpetaIngresadaID';
 
-$entered_folder_id = $_POST['entered_folder_id'];
+$rejected_folders_id = $_POST['rejected_folders_id'];
 
 $data = (object) array(
 	'entered_folders_id' => (object) array(
@@ -31,34 +31,19 @@ $data = (object) array(
 	'folio' => (object) array(
 		'db_column' => 'cr.[Folio]',
 		'search' => true
-	),
-	'entered_folders_unity' => (object) array(
-		'db_column' => 'ci.[Unidad]',
-		'search' => true
-	),
-	'entered_folders_mp_channeler' => (object) array(
-		'db_column' => 'ci.[MPCanalizador]',
-		'search' => true
-	),
-	'rejected_reason' => (object) array(
-		'db_column' => "mr.[Nombre] AS 'MotivoRechazo'",
-		'search' => true
-	),
-	'rejected_basis' => (object) array(
-		'db_column' => "mr.[fundamentacion] AS 'Fundamentacion'",
-		'search' => true
-	),
-	'rejected_reason_id' => (object) array(
-		'db_column' => "ci.MotivoRechazo AS 'MotivoRechazoID'",
-		'search' => true
 	)
 );
 
 $sql_conditions = (object) array(
-	'entered_folder' => (object) array(
-		'db_column' => 'ci.[CarpetaIngresadaID]',
+	'fiscalia' => (object) array(
+		'db_column' => 'u.[FiscaliaID]',
 		'condition' => '=', 
-		'value' => $entered_folder_id
+		'value' => ''
+	),
+	'rejected_folder' => (object) array(
+		'db_column' => 'cr.[CarpetaRechazadaID]',
+		'condition' => '=', 
+		'value' => $rejected_folders_id
 	)
 );
 
@@ -73,6 +58,7 @@ if(!isset($_SESSION['user_data'])){
 }
 else{
 
+	$sql_conditions->fiscalia->value = $_SESSION['user_data']['fiscalia'];
 	
 	echo json_encode(
 		getRecord(
@@ -132,26 +118,6 @@ function getRecord($attr){
 				'folio' => array(
 					'name' => 'Folio',
 					'value' => $row['Folio']
-				),
-				'unity' => array(
-					'name' => 'Unidad',
-					'value' => $row['Unidad']
-				),
-				'mp_channeler' => array(
-					'name' => 'MP Canalizador',
-					'value' => $row['MPCanalizador']
-				),
-				'rejected_reason' => array(
-					'name' => 'Motivo Rechazo',
-					'value' => $row['MotivoRechazo']
-				),
-				'rejected_reason_id' => array(
-					'name' => 'Motivo Rechazo ID',
-					'value' => $row['MotivoRechazoID']
-				),
-				'rejected_basis' => array(
-					'name' => 'Fundamentacion',
-					'value' => $row['Fundamentacion']
 				)
 			);
 			

@@ -110,6 +110,11 @@ $data = (object) array(
 );
 
 $sql_conditions = (object) array(
+	'fiscalia' => (object) array(
+		'db_column' => 'u.[FiscaliaID]',
+		'condition' => '=', 
+		'value' => ''
+	),
 	'month' => (object) array(
 		'db_column' => 'MONTH(FechaIngreso)',
 		'condition' => '=', 
@@ -133,6 +138,7 @@ if(!isset($_SESSION['user_data'])){
 }
 else{
 
+	$sql_conditions->fiscalia->value = $_SESSION['user_data']['fiscalia'];
 	
 	echo json_encode(
 		getRecord(

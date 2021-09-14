@@ -225,7 +225,13 @@ tr{
 }
 
 .update-row{
-    background-color: khaki;
+    /*background-color: khaki !important;*/
+    background-color: #fff3cd !important;
+}
+
+.error-row{
+    /*background-color: khaki !important;*/
+    background-color: #f8d7da !important;
 }
 
 /*___________*/

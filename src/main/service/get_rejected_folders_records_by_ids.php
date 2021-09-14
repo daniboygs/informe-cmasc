@@ -10,9 +10,7 @@ $db_table = '[dbo].[CarpetasIngresadas] c INNER JOIN [cat].[Municipio] m on c.Mu
 LEFT JOIN dbo.Usuario u on c.Facilitador = u.UsuarioID LEFT JOIN [cat].[Fiscalia] f ON  u.FiscaliaID = f.FiscaliaID 
 INNER JOIN cat.MotivoRechazo mr ON mr.MotivoID = c.MotivoRechazo LEFT JOIN [dbo].[CarpetasRechazadas] cr ON c.CarpetaIngresadaID = cr.CarpetaIngresadaID';
 
-$month = $_POST['month'];
-$year = $_POST['year'];
-//$month = 8;
+$records = formSearchByMultipleValues($_POST['records']);
 
 $data = (object) array(
 	'rejected_folders_id' => (object) array(
@@ -106,19 +104,28 @@ $data = (object) array(
 	'fiscalia' => (object) array(
 		'db_column' => "f.[Nombre] AS 'Fiscalia'",
 		'search' => true
+	),
+	'rejected_basis' => (object) array(
+		'db_column' => "mr.[fundamentacion] AS 'Fundamentacion'",
+		'search' => true
 	)
 );
 
 $sql_conditions = (object) array(
-	'month' => (object) array(
-		'db_column' => 'MONTH(FechaIngreso)',
+	'fiscalia' => (object) array(
+		'db_column' => 'u.[FiscaliaID]',
 		'condition' => '=', 
-		'value' => $month
+		'value' => ''
 	),
-	'year' => (object) array(
-		'db_column' => 'YEAR(FechaIngreso)',
-		'condition' => '=', 
-		'value' => $year
+	'entered_folders' => (object) array(
+		'db_column' => 'c.[CarpetaIngresadaID]',
+		'condition' => 'IN', 
+		'value' => '('.$records.')'
+	),
+	'rejected_folder_id' => (object) array(
+		'db_column' => 'cr.[CarpetaRechazadaID]',
+		'condition' => 'IS NOT', 
+		'value' => 'NULL'
 	)
 );
 
@@ -133,6 +140,7 @@ if(!isset($_SESSION['user_data'])){
 }
 else{
 
+	$sql_conditions->fiscalia->value = $_SESSION['user_data']['fiscalia'];
 	
 	echo json_encode(
 		getRecord(
@@ -267,6 +275,10 @@ function getRecord($attr){
 				'fiscalia' => array(
 					'name' => 'Fiscalía',
 					'value' => $row['Fiscalia']
+				),
+				'rejected_basis' => array(
+					'name' => 'Fundamentacion',
+					'value' => $row['Fundamentacion']
 				)/*,
 				'entered_folders_book_date' => array(
 					'name' => 'Fecha Libro',
@@ -280,6 +292,8 @@ function getRecord($attr){
 	else{
 		$return = null;
 	}
+
+	$_SESSION['pdf_array'] = $return;
 
 	return $return;
 

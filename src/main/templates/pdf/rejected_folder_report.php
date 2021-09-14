@@ -126,16 +126,18 @@ function set_paragraph($pdf2, $section, $rejected_folders_pdf_data){
 
 function set_sign_footer($pdf2){
 
+    $array_fiscalias = array('Apatzingán', 'La Piedad', 'Lázaro Cárdenas', 'Morelia', 'Uruapan', 'Zamora', 'Zitácuaro', 'Coalcomán', 'Huetamo', 'Jiquilpan');
+
     $pdf2->SetY(-75);
     $pdf2->Cell(0, 10, iconv('UTF-8', 'windows-1252', 'ATENTAMENTE'), 0, 0, 'C');
     $pdf2->SetY(-70);
-    $pdf2->Cell(0, 10, iconv('UTF-8', 'windows-1252', 'LIC. NOE MARTINEZ PONCE'), 0, 0, 'C');
+    $pdf2->Cell(0, 10, iconv('UTF-8', 'windows-1252', 'LIC. '.mb_strtoupper($_SESSION['user_data']['name'].' '.$_SESSION['user_data']['paternal_surname'].' '.$_SESSION['user_data']['maternal_surname'], 'utf-8')), 0, 0, 'C');
     $pdf2->SetY(-65);
-    $pdf2->Cell(0, 10, iconv('UTF-8', 'windows-1252', 'AGENTE DEL MINISTERIO PÚBLICO ADSCRITO'), 0, 0, 'C');
+    $pdf2->Cell(0, 10, iconv('UTF-8', 'windows-1252', 'MINISTERIO PÚBLICO FACILITADOR'), 0, 0, 'C');
     $pdf2->SetY(-60);
-    $pdf2->Cell(0, 10, iconv('UTF-8', 'windows-1252', 'A LA DIRRECCION DE ACUERDOS REPARATORIOS DEL CENTRO'), 0, 0, 'C');
+    $pdf2->Cell(0, 10, iconv('UTF-8', 'windows-1252', 'DEL CENTRO DE MECANISMOS ALTERNATIVOS DE SOLUCIÓN DE CONTROVERSÍAS'), 0, 0, 'C');
     $pdf2->SetY(-55);
-    $pdf2->Cell(0, 10, iconv('UTF-8', 'windows-1252', 'DE MECANISMOS ALTERNATIVOS DE SOLUCIÓN DE CONTROVERSÍAS'), 0, 0, 'C');
+    $pdf2->Cell(0, 10, iconv('UTF-8', 'windows-1252', 'DE LA FISCALÍA REGIONAL DE '.mb_strtoupper($array_fiscalias[$_SESSION['user_data']['fiscalia']-1], 'utf-8')), 0, 0, 'C');
 }
 
 function set_counted_paragraph($pdf2, $section, $year){

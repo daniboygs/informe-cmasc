@@ -74,7 +74,7 @@
 		if($_SESSION['user_data']['type'] == 1){
 ?>
 			<div id="capture-period-nav-div" onclick="loadSection('capture_period')">PERIODO DE CAPTURA</div>
-			<!--<div id="rejected-folders-nav-div" onclick="loadSection('rejected_folders')">CARPETAS RECHAZADAS</div>-->
+			<div id="rejected-folders-nav-div" onclick="loadSection('rejected_folders')">CARPETAS RECHAZADAS</div>
 <?php
 		}
 	}

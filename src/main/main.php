@@ -12,6 +12,7 @@
 		<link rel="stylesheet" href="../../css/styles.css">
 		<link rel="stylesheet" href="css/styles.css">
 		<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../../libs/font-awesome-4.7.0/css/font-awesome.min.css">
 		
 		<script src="../../node_modules/es6/ES6.js"></script>
 		<script src="../../node_modules/jquery/dist/jquery.min.js" ></script>
@@ -25,6 +26,7 @@
 		<script src="js/inegi.js"></script>
 		<script src="js/multiselect.js"></script>
 		<script src="js/script.js"></script>
+		<script src="js/rejected-folders.js"></script>
 
 		<title>CMASC</title>
 	</head>
