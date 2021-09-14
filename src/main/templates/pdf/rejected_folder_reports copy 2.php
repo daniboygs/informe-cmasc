@@ -5,12 +5,13 @@ session_start();
 
 //$records = json_decode($_POST['records'], true);
 
-//$rejected_folders_pdf_data = $_SESSION['rejected_folders_pdf_data'];
 $rejected_folders_pdf_data = $_SESSION['rejected_folders_pdf_data'];
 
 $pdf2 = new PDF_MC_Table();
 
-set_page_template($pdf2, $rejected_folders_pdf_data);
+for($i=0; $i<5; $i++){
+    set_page_template($pdf2, $rejected_folders_pdf_data);
+}
 
 $pdf2->Output();
 
@@ -24,7 +25,7 @@ function set_page_template($pdf2, $rejected_folders_pdf_data){
 
     $pdf2->AddPage();
 
-    $pdf2->Image('../../../../assets/img/pdf_1_modif.jpg', 15, -5, 183);
+    $pdf2->Image('../../../../assets/img/pdf_1.jpg', 15, -5, 183);
 
     $pdf2->SetFont('Arial','',10);
 
@@ -64,17 +65,17 @@ function set_page_template($pdf2, $rejected_folders_pdf_data){
 
     $pdf2->SetFont('','B','');
     $pdf2->Cell(10, 7, "", "", "", 'C');
-    $pdf2->Cell(20, 7, iconv('UTF-8', 'windows-1252', 'LIC. '.mb_strtoupper($rejected_folders_pdf_data->mp_channeler, 'utf-8')), "", "", 'L');
+    $pdf2->Cell(20, 7, iconv('UTF-8', 'windows-1252', 'LIC. '.strtoupper($rejected_folders_pdf_data->mp_channeler)), "", "", 'L');
 
     $pdf2->Ln(5);
     $pdf2->Cell(10, 7, "", "", "", 'C');
-    $pdf2->Cell(35, 7, iconv('UTF-8', 'windows-1252', 'AGENTE DEL MINISTERIO PÚBLICO:'), "", "", 'L');
+    $pdf2->Cell(35, 7, iconv('UTF-8', 'windows-1252', 'AGENTE DEL MINISTERIO PUBLICO:'), "", "", 'L');
     $pdf2->Ln(5);
     $pdf2->Cell(10, 7, "", "", "", 'C');
-    $pdf2->Cell(35, 7, iconv('UTF-8', 'windows-1252', 'DE LA UNIDAD DE '.mb_strtoupper($rejected_folders_pdf_data->unity, 'utf-8')), "", "", 'L');
+    $pdf2->Cell(35, 7, iconv('UTF-8', 'windows-1252', 'DE LA UNIDAD DE '.strtoupper($rejected_folders_pdf_data->unity)), "", "", 'L');
     $pdf2->Ln(5);
     $pdf2->Cell(10, 7, "", "", "", 'C');
-    $pdf2->Cell(35, 7, iconv('UTF-8', 'windows-1252', 'DE LA FISCALÍA DEL ESTADO:'), "", "", 'L');
+    $pdf2->Cell(35, 7, iconv('UTF-8', 'windows-1252', 'DE LA FISCALIA DEL ESTADO:'), "", "", 'L');
     $pdf2->Ln(5);
     $pdf2->Cell(10, 7, "", "", "", 'C');
     $pdf2->Cell(35, 7, iconv('UTF-8', 'windows-1252', 'PRESENTE.-'), "", "", 'L');
@@ -83,18 +84,28 @@ function set_page_template($pdf2, $rejected_folders_pdf_data){
 
     $pdf2->SetFont('', '', 12);
 
-    set_paragraph($pdf2, 1, $rejected_folders_pdf_data);
-
-    $pdf2->Ln(10);
-
-    set_paragraph($pdf2, 2, $rejected_folders_pdf_data);
+    switch($rejected_folders_pdf_data->rejected_reason_id){
+        case 9:
+            set_paragraph($pdf2, 2, $rejected_folders_pdf_data);
+            break;
+        default:
+            set_paragraph($pdf2, 1, $rejected_folders_pdf_data);
+    }
 
     $pdf2->Ln(10);
 
     set_paragraph($pdf2, 3, $rejected_folders_pdf_data);
 
-    set_sign_footer($pdf2);
-
+    $pdf2->SetY(-60);
+    $pdf2->Cell(0, 10, iconv('UTF-8', 'windows-1252', 'ATENTAMENTE'), 0, 0, 'C');
+    $pdf2->SetY(-55);
+    $pdf2->Cell(0, 10, iconv('UTF-8', 'windows-1252', 'LIC. NOE MARTINEZ PONCE'), 0, 0, 'C');
+    $pdf2->SetY(-50);
+    $pdf2->Cell(0, 10, iconv('UTF-8', 'windows-1252', 'AGENTE DEL MINISTERIO PUBLICO ADSCRITO'), 0, 0, 'C');
+    $pdf2->SetY(-45);
+    $pdf2->Cell(0, 10, iconv('UTF-8', 'windows-1252', 'A LA DIRRECCION DE ACUERDOS REPARATORIOS DEL CENTRO'), 0, 0, 'C');
+    $pdf2->SetY(-40);
+    $pdf2->Cell(0, 10, iconv('UTF-8', 'windows-1252', 'DE MECANISMOS ALTERNATIVOS DE SOLUCIÓN DE CONTROVERSÍAS'), 0, 0, 'C');
 }
 
 
@@ -107,14 +118,12 @@ function set_paragraph($pdf2, $section, $rejected_folders_pdf_data){
         case 1:
             $pdf2->SetFont('','');
             $pdf2->Cell(10, 6, "", "", "", 'C');
-            $pdf2->MultiCell(170,6,iconv('UTF-8', 'windows-1252', 'Por medio del presente y en atención a su oficio de derivación, se remite la carpeta original de investigación citada en rubro, misma que nos fue enviada para someterse a los medios alternos de solución de controversias. Informo a usted que, una vez analizado el contenido de la presente carpeta ('.strval($rejected_folders_pdf_data->nuc).'), esta no puede ser admitida debido a que '.strval($rejected_folders_pdf_data->rejected_reason).', de acuerdo a lo estipulado en el '.strval($rejected_folders_pdf_data->rejected_basis).'.'), 'J');
-            /*$pdf2->SetFont('','B','');
-            $pdf2->Cell(20, 7, iconv('UTF-8', 'windows-1252', ''.mb_strtoupper('TESTING THIS THING', 'utf-8')), "", "", 'L');*/
+            $pdf2->MultiCell(170,6,iconv('UTF-8', 'windows-1252', 'Por medio del presente y en atención a su oficio de canalización, se remite la carpeta original de investigación citada en rubro, misma que nos fue enviada para someterse a los medios alternos de solución de controversias. Informo a usted que, una vez analizado el contenido de la presente carpeta, esta no puede ser admitida debido a que '.strval($rejected_folders_pdf_data->rejected_reason).', lo cual no cumple con los requisitos de admisibilidad, lo anterior con fundamento en lo establecido en los artículos 9, 10,11 y 12 de la ley Nacional de Mecanismos Alternativos de Solución de Controversias en materia Penal. Es por eso que este órgano, estima que no es procedente realizar el mecanismo. Lo anterior para los efectos legales que haya lugar.'), 'J');
         break;
         case 2:
             $pdf2->SetFont('','');
             $pdf2->Cell(10, 6, "", "", "", 'C');
-            $pdf2->MultiCell(170,6,iconv('UTF-8', 'windows-1252', 'Es por eso que este órgano, estima que no es procedente realizar el mecanismo. Lo anterior para los efectos legales que haya lugar.'), 'J');
+            $pdf2->MultiCell(170,6,iconv('UTF-8', 'windows-1252', 'Por medio del presente y en atención a su oficio de canalización, se remite la carpeta original de investigación citada en rubro, misma que nos fue enviada para someterse a los medios alternos de solución de controversias. Informo a usted que, una vez analizado el contenido de la presente carpeta, esta no puede ser admitida debido a que, los presentes hechos NO son susceptibles de resolverse a través de un mecanismo alternativo, ya que no entra en los supuestos por lo establecido en los artículos 186 y 187 del Código Nacional de Procedimientos Penales;. Es por eso que este órgano, estima que no es procedente realizar el mecanismo. Lo anterior para los efectos legales que haya lugar.'), 'J');
         break;
         case 3:
             $pdf2->SetFont('','');
@@ -122,20 +131,6 @@ function set_paragraph($pdf2, $section, $rejected_folders_pdf_data){
             $pdf2->MultiCell(170,6,iconv('UTF-8', 'windows-1252', 'Sin otro particular, reciba un cordial Saludo, reiterando mi más distinguida consideración.'), 'J');
         break;
     }
-}
-
-function set_sign_footer($pdf2){
-
-    $pdf2->SetY(-75);
-    $pdf2->Cell(0, 10, iconv('UTF-8', 'windows-1252', 'ATENTAMENTE'), 0, 0, 'C');
-    $pdf2->SetY(-70);
-    $pdf2->Cell(0, 10, iconv('UTF-8', 'windows-1252', 'LIC. NOE MARTINEZ PONCE'), 0, 0, 'C');
-    $pdf2->SetY(-65);
-    $pdf2->Cell(0, 10, iconv('UTF-8', 'windows-1252', 'AGENTE DEL MINISTERIO PÚBLICO ADSCRITO'), 0, 0, 'C');
-    $pdf2->SetY(-60);
-    $pdf2->Cell(0, 10, iconv('UTF-8', 'windows-1252', 'A LA DIRRECCION DE ACUERDOS REPARATORIOS DEL CENTRO'), 0, 0, 'C');
-    $pdf2->SetY(-55);
-    $pdf2->Cell(0, 10, iconv('UTF-8', 'windows-1252', 'DE MECANISMOS ALTERNATIVOS DE SOLUCIÓN DE CONTROVERSÍAS'), 0, 0, 'C');
 }
 
 function set_counted_paragraph($pdf2, $section, $year){
@@ -148,7 +143,7 @@ function set_counted_paragraph($pdf2, $section, $year){
             $pdf2->SetFont('','B');
             $pdf2->Cell(10, 5, "1.", "", "", 'C');
             $pdf2->SetFont('','');
-            $pdf2->MultiCell(175,6,iconv('UTF-8', 'windows-1252', 'Por medio del presente y en atención a su oficio de derivación, se remite la carpeta original de investigación citada en rubro, misma que nos fue enviada para someterse a los medios alternos de solución de controversias. Informo a usted que una vez analizado el contenido de la presente carpeta, los presentes hechos  '.strval($year).'.'), 'J');
+            $pdf2->MultiCell(175,6,iconv('UTF-8', 'windows-1252', 'Por medio del presente y en atención a su oficio de canalización, se remite la carpeta original de investigación citada en rubro, misma que nos fue enviada para someterse a los medios alternos de solución de controversias. Informo a usted que una vez analizado el contenido de la presente carpeta, los presentes hechos  '.strval($year).'.'), 'J');
         break;
         case 2:
             $pdf2->SetFont('','B');

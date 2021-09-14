@@ -259,4 +259,22 @@ function getRecordsByCondition($attr){
 
 }
 
+function formSearchByMultipleValues($data){
+	$values = "";
+	$i = 1;
+
+	foreach ($data as $element) {
+		
+		$values.="$element";
+
+		if($i < count((array) $data)){
+			$values.=",";
+		}
+
+		$i++;
+	}
+
+	return $values;
+}
+
 ?>

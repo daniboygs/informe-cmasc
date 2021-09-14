@@ -5,7 +5,7 @@
     $dpe_permissions = false;
 
     if(isset($_SESSION['user_data']['type'])){
-        if($_SESSION['user_data']['type'] == 1){
+        if($_SESSION['user_data']['type'] == 1 || $_SESSION['user_data']['type'] == 3){
             $crud_permissions = true;
         }
         if($_SESSION['user_data']['type'] == 5){

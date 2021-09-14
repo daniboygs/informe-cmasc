@@ -1066,6 +1066,10 @@ function getRecordsByMonth(section){
             cache:false
         }).done(function(response){
             console.log('res de month:', JSON.stringify(response));
+
+            if(sections[section].active){
+                handle_data.current_records_search_data = response;
+            }
             
             drawRecordsTable({
                 section: section,
@@ -1348,4 +1352,111 @@ function onChangeRejectionReason(){
             document.getElementById("entered-folders-rejection-reason").selectedIndex = "1";
         }
     }
+}
+
+function searchSection(section){
+
+    console.log('search?', section+'-nuc');
+
+    //let date = new Date();
+    
+    let attr = {};
+    let validated = false;
+
+    switch(section){
+        case 'processing_folders':
+            if(document.getElementById('search-initial-date') && document.getElementById('search-finish-date')){
+                attr = {
+                    processing_folders_initial_date: document.getElementById('search-initial-date').value,
+                    processing_folders_finish_date: document.getElementById('search-finish-date').value
+                }
+                validated = true;
+            }
+            break;
+        default:
+            console.log('defa');
+            if(document.getElementById('search-nuc') && document.getElementById('search-month')){
+                console.log('exis');
+                if(document.getElementById('search-nuc').value == '' && document.getElementById('search-month').value == ''){
+                    console.log('vaci');
+                    Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
+                }
+                else{
+                    
+                    date = document.getElementById('search-month').value;
+                    d = new Date(date+'-01');
+                    d.setHours(d.getHours()+6); 
+                    attr = {
+                        nuc: document.getElementById('search-nuc').value,
+                        month: (d.getMonth()+1),
+                        year: d.getFullYear()
+                        //month: document.getElementById('search-month').value
+                    }
+                    if(document.getElementById('search-month').value == ''){
+                        attr.month = '';
+                        attr.year = '';
+                    }
+                    validated = true;
+                }
+                
+                
+            }
+            break;
+    }
+
+    if(validated){
+        setStaticLoader({
+            section_id: 'records-section',
+            class: 'static-loader'
+        });
+        console.log(sections[section].search_file, attr);
+        $.ajax({
+            url:'service/'+sections[section].search_file,
+            type:'POST',
+            dataType: "json",
+            data: attr,
+            cache:false
+        }).done(function(response){
+            console.log(response);
+            test = response;
+
+
+            /*if(section == 'processing_folders' || section == 'inegi'){
+                drawRecordsTable({
+                    data: response,
+                    file: 'templates/tables/'+section+'_table.php',
+                    element_id: 'records-section'
+                });
+                
+            }
+            else{
+                getNucsDate({
+                    func: drawRecordsTable,
+                    attr: {
+                        data: response,
+                        file: 'templates/tables/'+section+'_table.php',
+                        element_id: 'records-section',
+                        nuc_dates: null
+                    },
+                    section: section
+                });
+            }*/
+
+            if(sections[section].active){
+                handle_data.current_records_search_data = response;
+            }
+
+            drawRecordsTable({
+                section: section,
+                data: response,
+                file: 'templates/tables/'+section+'_table.php',
+                element_id: 'records-section'
+            });
+        });
+    }
+    else{
+        //Swal.fire('Error', 'Ha ocurrido un error, vuelva a intentarlo', 'error');
+    }
+
+	
 }
