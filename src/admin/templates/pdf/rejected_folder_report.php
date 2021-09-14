@@ -100,6 +100,10 @@ function set_page_template($pdf2, $rejected_folders_pdf_data){
 
 function set_paragraph($pdf2, $section, $rejected_folders_pdf_data){
 
+    if($rejected_folders_pdf_data->rejected_reason == 'No mediable'){
+        $rejected_folders_pdf_data->rejected_reason = 'es No mediable';
+    }
+
     $pdf2->SetTextColor(0);
     $pdf2->SetFont('', '', 12);
 
