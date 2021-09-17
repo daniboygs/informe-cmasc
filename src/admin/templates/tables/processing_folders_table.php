@@ -73,7 +73,7 @@
         <td><?php echo $element['processing_folders_inmediate_attention']['value']; ?></td>
         <td><?php echo $element['processing_folders_cjim']['value']; ?></td>
         <td><?php echo $element['processing_folders_domestic_violence']['value']; ?></td>
-        <td><?php echo $element['processing_folders_cyber_crimes']['value']['listed_values']; ?></td>
+        <td><?php echo $element['processing_folders_cyber_crimes']['value']; ?></td>
         <td><?php echo $element['processing_folders_teenagers']['value']; ?></td>
         <td><?php echo $element['processing_folders_swealth_and_finantial_inteligence']['value']; ?></td>
         <td><?php echo $element['processing_folders_high_impact_and_vehicles']['value']; ?></td>

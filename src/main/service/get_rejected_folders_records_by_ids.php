@@ -279,6 +279,10 @@ function getRecord($attr){
 				'rejected_basis' => array(
 					'name' => 'Fundamentacion',
 					'value' => $row['Fundamentacion']
+				),
+				'rejected_reason_id' => array(
+					'name' => 'Motivo',
+					'value' => $row['MotivoID']
 				)/*,
 				'entered_folders_book_date' => array(
 					'name' => 'Fecha Libro',
