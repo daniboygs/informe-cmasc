@@ -6,7 +6,22 @@ include("common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[CarpetasRecibidas] a INNER JOIN Usuario u ON a.UsuarioID = u.UsuarioID INNER JOIN [cat].[Fiscalia] f ON  u.FiscaliaID = f.FiscaliaID';
+$db_table = "[dbo].[CarpetasRecibidas] cr INNER JOIN Usuario u ON cr.UsuarioID = u.UsuarioID INNER JOIN [cat].[Fiscalia] f ON  u.FiscaliaID = f.FiscaliaID 
+LEFT JOIN 
+(
+SELECT MAX([Fecha]) AS 'inves_max_date'
+	,[NUC]
+FROM [EJERCICIOS].[dbo].[CarpetasEnviadasInvestigacion]
+GROUP BY NUC
+) ci 
+ON cr.NUC = ci.NUC 
+LEFT JOIN 
+(
+SELECT MAX([Fecha]) AS 'val_max_date'
+	,[NUC]
+FROM [EJERCICIOS].[dbo].[CarpetasEnviadasValidacion]
+GROUP BY NUC
+) cv on cr.NUC = cv.NUC";
 
 $nuc = $_POST['nuc'];
 $month = $_POST['month'];
@@ -30,7 +45,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'recieved_folders_nuc' => (object) array(
-		'db_column' => '[NUC]',
+		'db_column' => 'cr.[NUC]',
 		'search' => true
 	),
 	'recieved_folders_unity' => (object) array(
@@ -38,7 +53,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'user' => (object) array(
-		'db_column' => 'a.[UsuarioID]',
+		'db_column' => 'cr.[UsuarioID]',
 		'search' => false
 	),
 	'user_name' => (object) array(
@@ -56,12 +71,26 @@ $data = (object) array(
 	'fiscalia' => (object) array(
 		'db_column' => "f.[Nombre] AS 'Fiscalia'",
 		'search' => true
+	),
+	'recieved_folders_investigation_date' => (object) array(
+		'db_column' => "ci.inves_max_date AS 'FechaInvestigacion'",
+		'search' => true
+	),
+	'recieved_folders_validation_date' => (object) array(
+		'db_column' => "cv.val_max_date AS 'FechaValidacion'",
+		'search' => true
+	),
+	'recieved_folders_status' => (object) array(
+		'db_column' => "CASE WHEN ci.inves_max_date IS NOT NULL THEN 'Investigación'
+	  WHEN ci.inves_max_date IS NULL AND cv.val_max_date IS NOT NULL THEN 'Validación'
+	  ELSE 'Tramite' END AS 'Estatus'",
+		'search' => true
 	)
 );
 
 $sql_conditions = (object) array(
 	'nuc' => (object) array(
-		'db_column' => '[NUC]',
+		'db_column' => 'cr.[NUC]',
 		'condition' => '=', 
 		'value' => $nuc
 	),
@@ -120,10 +149,10 @@ function getRecord($attr){
 	$sql = "";
 
 	if($nuc != '' && $month != ''){
-		$sql = "SELECT $columns FROM $attr->db_table WHERE [NUC] = '$nuc' AND MONTH(Fecha) = '$month' AND YEAR(Fecha) = '$year' ORDER BY Fecha, Nombre";
+		$sql = "SELECT $columns FROM $attr->db_table WHERE cr.[NUC] = '$nuc' AND MONTH(Fecha) = '$month' AND YEAR(Fecha) = '$year' ORDER BY Fecha, Nombre";
 	}
 	else if($nuc != ''){
-		$sql = "SELECT $columns FROM $attr->db_table WHERE [NUC] = '$nuc' ORDER BY Fecha, Nombre";
+		$sql = "SELECT $columns FROM $attr->db_table WHERE cr.[NUC] = '$nuc' ORDER BY Fecha, Nombre";
 	}
 	else{
 		$sql = "SELECT $columns FROM $attr->db_table WHERE MONTH(Fecha) = '$month' AND YEAR(Fecha) = '$year' ORDER BY Fecha, Nombre";
@@ -190,6 +219,10 @@ function getRecord($attr){
 				'fiscalia' => array(
 					'name' => 'Fiscalía',
 					'value' => $row['Fiscalia']
+				),
+				'recieved_folders_status' => array(
+					'name' => 'Estatus',
+					'value' => $row['Estatus']
 				)
 			));
 			

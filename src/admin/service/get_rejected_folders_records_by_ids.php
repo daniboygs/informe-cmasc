@@ -33,6 +33,10 @@ $data = (object) array(
 		'db_column' => "mr.Nombre AS MotivoRechazo",
 		'search' => true
 	),
+	'rejected_reason' => (object) array(
+		'db_column' => "mr.MotivoID AS MotivoID",
+		'search' => true
+	),
 	'rejected_folders_folio' => (object) array(
 		'db_column' => 'cr.[Folio]',
 		'search' => true
@@ -273,6 +277,10 @@ function getRecord($attr){
 				'rejected_basis' => array(
 					'name' => 'Fundamentacion',
 					'value' => $row['Fundamentacion']
+				),
+				'rejected_reason_id' => array(
+					'name' => 'Motivo',
+					'value' => $row['MotivoID']
 				)/*,
 				'entered_folders_book_date' => array(
 					'name' => 'Fecha Libro',
