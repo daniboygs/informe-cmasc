@@ -20,15 +20,6 @@ function set_page_template($pdf2, $rejected_folders_pdf_data){
     $month = date("n");
     $year = date("Y");
 
-    $rejected_reason_prepo = '';
-
-    switch($rejected_folders_pdf_data->rejected_reason_id){
-        case 9: $rejected_reason_prepo = 'a que es';
-        break;
-        default: $rejected_reason_prepo = 'a que';
-        break;
-    }
-
     $array_months = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
 
     $pdf2->AddPage();
@@ -120,7 +111,7 @@ function set_paragraph($pdf2, $section, $rejected_folders_pdf_data){
         case 1:
             $pdf2->SetFont('','');
             $pdf2->Cell(10, 6, "", "", "", 'C');
-            $pdf2->MultiCell(170,6,iconv('UTF-8', 'windows-1252', 'Por medio del presente y en atención a su oficio de derivación, se remite la carpeta original de investigación citada en rubro, misma que nos fue enviada para someterse a los medios alternos de solución de controversias. Informo a usted que, una vez analizado el contenido de la presente carpeta ('.strval($rejected_folders_pdf_data->nuc).'), esta no puede ser admitida debido '.strval($rejected_reason_prepo).' '.strval($rejected_folders_pdf_data->rejected_reason).', de acuerdo a lo estipulado en el '.strval($rejected_folders_pdf_data->rejected_basis).'.'), 'J');
+            $pdf2->MultiCell(170,6,iconv('UTF-8', 'windows-1252', 'Por medio del presente y en atención a su oficio de derivación, se remite la carpeta original de investigación citada en rubro, misma que nos fue enviada para someterse a los medios alternos de solución de controversias. Informo a usted que, una vez analizado el contenido de la presente carpeta ('.strval($rejected_folders_pdf_data->nuc).'), esta no puede ser admitida debido a que '.strval($rejected_folders_pdf_data->rejected_reason).', de acuerdo a lo estipulado en el '.strval($rejected_folders_pdf_data->rejected_basis).'.'), 'J');
             /*$pdf2->SetFont('','B','');
             $pdf2->Cell(20, 7, iconv('UTF-8', 'windows-1252', ''.mb_strtoupper('TESTING THIS THING', 'utf-8')), "", "", 'L');*/
         break;
