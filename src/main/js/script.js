@@ -9,7 +9,7 @@ $(document).ready(function(){
                     functions: [
                         {
                             function: loadSection,
-                            attr: 'recieved_folders'
+                            attr: null
                         }
                     ]
                 },
@@ -32,7 +32,9 @@ $(document).ready(function(){
 var test = "";
 
 function loadSection(section){
-    console.log(section);
+    if(section == null)
+        section = handle_data.main_section;
+    console.log('loading sec: ',section);
     if(!sections[section].active){
         console.log('entre preload ', section);
         preloadValidation({
@@ -552,6 +554,22 @@ function spetialValidationBySection(attr){
                     }
                 });
                 break;
+        case 'entered_folders_super':
+                checkActivePeriod({
+                    element_id: 'entered-folders-date',
+                    section: 1,
+                    function: checkNuc,
+                    attr: {
+                        current_section: attr.section,
+                        element_id: 'entered-folders-nuc',
+                        function: saveSection,
+                        attr: {
+                            section: attr.section,
+                            data: attr.data
+                        }
+                    }
+                });
+                break;
         default:
             console.log('defa');
             saveSection({
@@ -912,7 +930,7 @@ function checkNuc(attr){
 
                         console.log('section de check nuc: ', attr.attr.section);
 
-                        if(attr.attr.section == 'people_served' || attr.attr.section == 'entered_folders'){
+                        if(attr.attr.section == 'people_served' || attr.attr.section == 'entered_folders' || attr.attr.section == 'entered_folders_super'){
                             attr.attr.data = {
                                 ...attr.attr.data,
                                 sigi_date: response.data.date.date

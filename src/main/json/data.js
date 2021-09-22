@@ -9,5 +9,6 @@ var handle_data = {
 	"inegi_crimes": null,
 	"rejected_folders_has_changed": false,
 	"rejected_folders_changed_folders": [],
-	"current_records_search_data": null
+	"current_records_search_data": null,
+	"main_section": 'recieved_folders'
 }
