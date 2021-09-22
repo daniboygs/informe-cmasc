@@ -872,14 +872,15 @@ var sections = {
 		"loaded_data": false
 	},
 	"entered_folders_super": {
-		"index": 7,
+		"index": 9,
 		"form_file": "entered_folders_super_form.php",
 		"create_file": "create_entered_folders_section.php",
 		"update_file": "update_entered_folders_section.php",
 		"search_file": "search_entered_folders_section.php",
 		"records_by_month_file": "get_entered_folders_records_by_month.php",
-		"form_id": "entered-folders-form",
-		"navigation_element_id": "entered-folders-nav-div",
+		"records_by_day_file": "get_entered_folders_records_by_day.php",
+		"form_id": "entered-folders-super-form",
+		"navigation_element_id": "entered-folders-super-nav-div",
 		"name": "entered_folders_super",
 		"title": "CARPETAS INGRESADAS",
 		"fields": [
@@ -902,12 +903,12 @@ var sections = {
 				"id": "entered-folders-crime",
 				"name": "entered_folders_crime",
 				"type": "multiselect",
-                "placeholder": "Selecciona Delitos",
+				"placeholder": "Selecciona Delito",
 				"event_listener": null,
-                "conditions": {
-                    "unlock": null,
-                    "length": null
-                },
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
 				"default": null,
 				"catalog": {
 					service_file: 'get_crimes.php',

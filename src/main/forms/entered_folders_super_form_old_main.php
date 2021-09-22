@@ -1,4 +1,4 @@
-<form id="entered-folders-super-form" action="#">	
+<form id="entered-folders-form" action="#">	
 
 	<div class="form-row">
 
@@ -58,24 +58,10 @@
 
 			<label style="font-weight:bold">Carpeta recibida: *</label>
 
-			<select id="entered-folders-recieved-folder" name="tipo" style="height: 40px" class="form-control"  required="true" onchange="hideRejectionReason();">									
+			<select id="entered-folders-recieved-folder" name="tipo" style="height: 40px" class="form-control"  required="true">									
 				<option value ="1" selected>Si</option>
 				<option value ="0">No</option>
 			</select>	
-
-		</div>
-
-	</div>
-
-	<div class="form-row" style="display: none;" id="rejection-reason-row">
-
-		<div class="col-md-12 form-group">
-
-			<label style="font-weight:bold">Motivo de rechazo: *</label>
-
-			<div id="entered-folders-rejection-reason-section">
-				<div style="color: #EE6E5A;">Cargando datos... </div>
-			</div>
 
 		</div>
 
@@ -138,7 +124,7 @@
 
 		<div class="col-md-4 form-group">
 
-			<label style="font-weight:bold">Fecha carpetas: </label>
+			<label style="font-weight:bold">Fecha carpetas: *</label>
 
 			<input type="date" class="form-control" id="entered-folders-folders-date">	
 
@@ -146,7 +132,7 @@
 
 		<div class="col-md-4 form-group">
 
-			<label style="font-weight:bold">Facilitador: </label>
+			<label style="font-weight:bold">Facilitador: *</label>
 
 			<div id="entered-folders-facilitator-section">
 				<div style="color: #EE6E5A;">Cargando datos... </div>
@@ -166,8 +152,8 @@
 
 	<div class="form-buttons">		
 				
-		<button type="button" class="btn btn-outline-dark" style="height:38px; width: 100px;"  onclick="resetSection('entered_folders_super')">Nuevo</button>	
-		<button type="button" class="btn btn-outline-success" style="height:38px; width: 100px;"  onclick="validateSection('entered_folders_super')">Guardar</button>	
+		<button type="button" class="btn btn-outline-dark" style="height:38px; width: 100px;"  onclick="resetSection('entered_folders')">Nuevo</button>	
+		<button type="button" class="btn btn-outline-primary" style="height:38px; width: 100px;"  onclick="validateSection('entered_folders')">Guardar</button>	
  
 	</div>
 

@@ -250,6 +250,16 @@ session_start();
                 )
             )
         ),
+        '6' => array(
+            'framebar' => array(
+                'entered_folders' => array(
+                    'id' => 'entered-folders-nav-div',
+                    'name' => 'entered_folders',
+                    'class' => '',
+                    'label' => 'CARPETAS INGRESADAS'
+                )
+            )
+        ),
         '404' => array(
             'framebar' => array(
                 '404' => array(

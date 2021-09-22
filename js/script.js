@@ -63,6 +63,16 @@ function checkSession(attr){
 	}).done(function(response){
 
         if(response.state == 'success'){
+
+            switch(response.type){
+                case 6: handle_data.main_section = 'entered_folders_super';
+                    break;
+                default: handle_data.main_section = 'recieved_folders';
+                    break;
+            }
+
+            console.log('handle_data.main_section', handle_data.main_section);
+
             if(attr.success.function != null)
                 attr.success.function(attr.success.attr);
         }
