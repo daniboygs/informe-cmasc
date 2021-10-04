@@ -12,6 +12,7 @@
         <th>Fecha Ingreso</th>
         <th>Delito</th>
         <th>Unidad</th>
+        <th>Con detenido</th>
         <th>Carpeta Recibida</th>
         <th>Motivo de rechazo</th>
         <th>MP Canalizador</th>
@@ -31,6 +32,7 @@
         <td><?php echo $element['entered_folders_date']['value']; ?></td>
         <td class="align-left bold-text"><?php echo $element['entered_folders_crime']['value']; ?></td>
         <td><?php echo $element['entered_folders_unity']['value']; ?></td>
+        <td><?php echo $element['entered_folders_priority']['value']; ?></td>
         <td><?php echo $element['entered_folders_recieved_folder']['value']; ?></td>
         <td><?php echo $element['entered_folders_rejection_reason']['value']; ?></td>
         <td><?php echo $element['entered_folders_mp_channeler']['value']; ?></td>
