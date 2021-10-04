@@ -1,0 +1,85 @@
+//import {main} from 'main.js';
+
+
+//import * as validation from './validation.js';
+//import attrBySec from '../src/main/json/fields-attr.json';
+
+//const attrBySec = require('../src/main/json/fields-attr.json');
+
+//var attrBySec = require('../src/main/json/fields-attr.json');
+
+function setSessionVariables(type, data){
+
+    $.ajax({  
+        type: "POST",  
+        url: "service/set_session_variables.php", 
+        data: {
+            user_data: JSON.stringify({
+                type: type,
+                data: data
+            })
+        },
+        dataType: 'json'
+    }).done(function(response){
+        return response;
+    });  
+    
+    return false;
+}
+
+function showLoading(ind){
+    if(ind)
+        $(".loader-div").addClass("loader");
+    else
+        $(".loader-div").removeClass("loader");
+}
+
+function redirectTo(location){
+    window.location = location;
+}
+
+function closeSession(){
+    console.log('close');
+    $.ajax({
+		url: '../../service/close_session.php',
+        type: 'POST',
+        dataType : 'json',
+		cache: false
+	}).done(function(response){
+
+        if(response.state == 'success'){
+            redirectTo('../../index.html');
+        }
+
+	});
+}
+
+function checkSession(attr){
+    $.ajax({
+		url: attr.location,
+        type: 'POST',
+        dataType : 'json',
+		cache: false
+	}).done(function(response){
+
+        if(response.state == 'success'){
+
+            switch(response.type){
+                case 6: handle_data.main_section = 'entered_folders_super';
+                    break;
+                default: handle_data.main_section = 'recieved_folders';
+                    break;
+            }
+
+            console.log('handle_data.main_section', handle_data.main_section);
+
+            if(attr.success.function != null)
+                attr.success.function(attr.success.attr);
+        }
+        else{
+            if(attr.failed.function != null)
+                attr.failed.function(attr.failed.attr);
+        }
+
+	});
+}
