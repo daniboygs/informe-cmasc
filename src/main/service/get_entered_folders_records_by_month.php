@@ -45,6 +45,10 @@ $data = (object) array(
 		'db_column' => '[MPCanalizador]',
 		'search' => true
 	),
+	'entered_folders_priority' => (object) array(
+		'db_column' => "CASE c.[Prioridad] WHEN 1 THEN 'Si' ELSE 'No' END AS 'Prioridad'",
+		'search' => true
+	),
 	'entered_folders_recieved_folder' => (object) array(
 		'db_column' => "CASE [CarpetaRecibida] WHEN 1 THEN 'Si' ELSE 'No' END AS 'CarpetaRecibida'",
 		'search' => true
@@ -219,6 +223,10 @@ function getRecord($attr){
 				'entered_folders_mp_channeler' => array(
 					'name' => 'MP Canalizador',
 					'value' => $row['MPCanalizador']
+				),
+				'entered_folders_priority' => array(
+					'name' => 'Prioridad',
+					'value' => $row['Prioridad']
 				),
 				'entered_folders_recieved_folder' => array(
 					'name' => 'Carpeta Recibida',

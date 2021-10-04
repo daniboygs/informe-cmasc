@@ -31,7 +31,7 @@ if(isset($_POST['entered_folders_mp_channeler']))
 else
 	$entered_folders_mp_channeler = 'null';
 
-
+$entered_folders_priority = $_POST['entered_folders_priority'];
 $entered_folders_recieved_folder = $_POST['entered_folders_recieved_folder'];
 
 if(isset($_POST['entered_folders_channeler']))
@@ -103,6 +103,12 @@ $data = (object) array(
 		'value' => $entered_folders_mp_channeler,
 		'null' => true,
 		'db_column' => '[MPCanalizador]'
+	),
+	'entered_folders_priority' => (object) array(
+		'type' => 'number',
+		'value' => $entered_folders_priority,
+		'null' => false,
+		'db_column' => '[Prioridad]'
 	),
 	'entered_folders_recieved_folder' => (object) array(
 		'type' => 'number',

@@ -13,6 +13,7 @@
         <th>Delito</th>
         <th>Unidad</th>
         <th>MP Canalizador</th>
+        <th>Con detenido</th>
         <th>Carpeta Recibida</th>
         <th>Canalizador</th>
         <th>Fiscalía</th>
@@ -34,6 +35,7 @@
         <td class="align-left bold-text"><?php echo $element['entered_folders_crime']['value']; ?></td>
         <td><?php echo $element['entered_folders_unity']['value']; ?></td>
         <td><?php echo $element['entered_folders_mp_channeler']['value']; ?></td>
+        <td><?php echo $element['entered_folders_priority']['value']; ?></td>
         <td><?php echo $element['entered_folders_recieved_folder']['value']; ?></td>
         <td><?php echo $element['entered_folders_channeler']['value']; ?></td>
         <td><?php echo $element['entered_folders_fiscalia']['value']; ?></td>

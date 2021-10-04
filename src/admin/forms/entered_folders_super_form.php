@@ -44,7 +44,7 @@
 
 	<div class="form-row">
 
-		<div class="col-md-8 form-group">
+		<div class="col-md-6 form-group">
 
 			<label style="font-weight:bold">Unidad: *</label>
 
@@ -54,7 +54,18 @@
 
 		</div>
 
-		<div class="col-md-4 form-group">
+		<div class="col-md-3 form-group">
+
+			<label style="font-weight:bold">Con detenido: *</label>
+
+			<select id="entered-folders-priority" name="tipo" style="height: 40px" class="form-control"  required="true">									
+				<option value ="1">Si</option>
+				<option value ="0" selected>No</option>
+			</select>	
+
+		</div>
+
+		<div class="col-md-3 form-group">
 
 			<label style="font-weight:bold">Carpeta recibida: *</label>
 

@@ -1951,3 +1951,76 @@ function generateGeneralRejectedPDFReport(attr){
 
     window.open('templates/pdf/rejected_folder_reports.php');
 }
+
+function getInegiRecords(attr){
+
+    attr = {
+        file_location: 'service/get_raw_data.php',
+        post_data: {
+            data: null
+        }
+    }
+
+    console.log('current records', attr);
+
+    /*if(attr.file_location != null && current_records.length > 0){*/
+    if(attr.file_location != null){
+        $.ajax({
+            url: attr.file_location,
+            type: 'POST',
+            dataType: "JSON",
+            data: attr.post_data,
+            cache: false
+        }).done(function(response){
+
+            console.log(response);
+
+            if(response != undefined){
+
+                /*console.log('attr', attr);
+                attr.success.attr.post_data = response;
+
+                //handle_data.current_records_search_data = response;
+
+                if(attr.success != undefined && attr.success != null){
+
+                    console.log('voy a generar');
+                    attr.success.function(attr.success.attr);
+                }*/
+
+                createExcelReport({
+                    data: response,
+                    url_service_file: 'templates/excel/inegi.php',
+                    file_name: 'test'
+                });
+            }
+        });
+    }
+}
+
+function createExcelReport(attr) {
+
+    if(attr.data != null){
+
+        console.log('createeee', attr);
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            url: attr.url_service_file,
+            data: {
+                data: JSON.stringify(attr.data)
+                //data: attr.data
+            },
+        }).done(function(data){
+            console.log('good response');
+            var $a = $("<a>");
+            $a.attr("href",data.file);
+            $("body").append($a);
+            $a.attr("download", attr.file_name);
+            $a[0].click();
+            $a.remove();
+            showLoading(false);
+        });
+    }
+
+}
