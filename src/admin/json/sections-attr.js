@@ -1406,7 +1406,7 @@ var sections = {
 		"title": "INEGI",
 		"fields": [
 			{
-				"id": "inegi-initial-date",
+				"id": "search-initial-date",
 				"name": "inegi_initial_date",
 				"type": "date",
 				"placeholder": "Ingresa Fecha",
@@ -1415,13 +1415,13 @@ var sections = {
 					"unlock": null,
 					"length": null
 				},
-				"default": "today",
+				"default": "first_month_date",
 				"catalog": null,
 				"required": true,
 				"service": null
 			},
 			{
-				"id": "inegi-finish-date",
+				"id": "search-finish-date",
 				"name": "inegi_finish_date",
 				"type": "date",
 				"placeholder": "Ingresa Fecha",

@@ -83,7 +83,7 @@
 
 	<div class="form-row">
 
-		<div class="col-md-6 form-group">
+		<div class="col-md-4 form-group">
 
 			<label style="font-weight:bold">Canalizador: *</label>
 
@@ -91,7 +91,7 @@
 
 		</div>
 
-		<div class="col-md-3 form-group">
+		<div class="col-md-2 form-group">
 
 			<label style="font-weight:bold">Fiscalía: *</label>
 
@@ -117,6 +117,17 @@
 			<div id="entered-folders-municipality-section">
 				<div style="color: #EE6E5A;">Cargando datos... </div>
 			</div>
+
+		</div>
+
+		<div class="col-md-3 form-group">
+
+			<label style="font-weight:bold">Con detenido: *</label>
+
+			<select id="entered-folders-priority" name="tipo" style="height: 40px" class="form-control"  required="true">									
+				<option value ="1">Si</option>
+				<option value ="0" selected>No</option>
+			</select>	
 
 		</div>
 

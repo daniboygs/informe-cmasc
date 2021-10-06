@@ -11,15 +11,15 @@ $nuc = $_POST['nuc'];
 //$month = $_POST['month'];
 //$year = $_POST['year'];
 
-if(isset( $_POST['month']))
-	$month = $_POST['month'];
+if(isset( $_POST['initial_date']))
+	$initial_date = $_POST['initial_date'];
 else
-	$month = '';
+	$initial_date = '';
 
-if(isset( $_POST['year']))
-	$year = $_POST['year'];
+if(isset( $_POST['finish_date']))
+	$finish_date = $_POST['finish_date'];
 else
-	$year = '';
+	$finish_date = '';
 
 $db_table = '[inegi].[General]';
 
@@ -108,15 +108,10 @@ $sql_conditions = (object) array(
 		'condition' => '=', 
 		'value' => $nuc
 	),
-	'month' => (object) array(
-		'db_column' => 'MONTH(Fecha)',
-		'condition' => '=', 
-		'value' => $month
-	),
-	'year' => (object) array(
-		'db_column' => 'YEAR(Fecha)',
-		'condition' => '=', 
-		'value' => $year
+	'range' => (object) array(
+		'db_column' => 'Fecha',
+		'condition' => 'between', 
+		'value' => "'$initial_date' AND '$finish_date'"
 	)
 );
 
@@ -140,8 +135,8 @@ else{
 				'conn' => $conn,
 				'params' => $params,
 				'options' => $options,
-				'month' => $month,
-				'year' => $year
+				'initial_date' => $initial_date,
+				'finish_date' => $finish_date
 			)
 		), 
 		JSON_FORCE_OBJECT
@@ -153,15 +148,15 @@ function getRecord($attr){
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
-	if($attr->month != '' && $attr->year != ''){
-		$attr->db_table = '[inegi].[General] g
+	if($attr->initial_date != '' && $attr->finish_date != ''){
+		$attr->db_table = "[inegi].[General] g
 			LEFT JOIN (
 				select distinct 
 					sg.GeneralID 
 				from [inegi].[General] sg 
 				INNER JOIN [inegi].[Victima] sv 
 				on sg.GeneralID = sv.GeneralID 
-				where MONTH(sg.Fecha) = '.$attr->month.' AND YEAR(sg.Fecha) = '.$attr->year.'
+				where sg.Fecha between '$attr->initial_date' AND '$attr->finish_date'
 			) v 
 			ON g.GeneralID = v.GeneralID
 			LEFT JOIN (
@@ -170,31 +165,31 @@ function getRecord($attr){
 				from [inegi].[General] sg 
 				INNER JOIN [inegi].[Imputado] si 
 				on sg.GeneralID = si.GeneralID 
-				where MONTH(sg.Fecha) = '.$attr->month.' AND YEAR(sg.Fecha) = '.$attr->year.'
+				where sg.Fecha between '$attr->initial_date' AND '$attr->finish_date'
 			) i
 			ON g.GeneralID = i.GeneralID
 			LEFT JOIN [inegi].[MASC] m
 			ON g.GeneralID = m.GeneralID
 			
 			LEFT JOIN
-			(select sg.GeneralID , COUNT(sg.GeneralID) as "CNT"
+			(select sg.GeneralID , COUNT(sg.GeneralID) as 'CNT'
 			from [inegi].[General] sg 
 			INNER JOIN [inegi].[Delito] di on sg.GeneralID = di.GeneralID 
-			where MONTH(sg.Fecha) = '.$attr->month.' AND YEAR(sg.Fecha) = '.$attr->year.' GROUP BY sg.GeneralID) d
+			where sg.Fecha between '$attr->initial_date' AND '$attr->finish_date' GROUP BY sg.GeneralID) d
 			
 			ON g.GeneralID = d.GeneralID
 
 			LEFT JOIN
-			(select sg.GeneralID , COUNT(sg.GeneralID) as "DICNT"
+			(select sg.GeneralID , COUNT(sg.GeneralID) as 'DICNT'
 			from [inegi].[General] sg 
 			INNER JOIN [delitos].[INEGI] di on sg.GeneralID = di.GeneralID 
-			where MONTH(sg.Fecha) = '.$attr->month.' AND YEAR(sg.Fecha) = '.$attr->year.' GROUP BY sg.GeneralID) di
+			where sg.Fecha between '$attr->initial_date' AND '$attr->finish_date' GROUP BY sg.GeneralID) di
 
 			ON g.GeneralID = di.GeneralID
 
 			INNER JOIN Usuario u ON g.UsuarioID = u.UsuarioID
 			INNER JOIN cat.Fiscalia f ON f.FiscaliaID = u.FiscaliaID
-			';
+			";
 	}
 	else{
 		$attr->db_table = '[inegi].[General] g
@@ -237,19 +232,19 @@ function getRecord($attr){
 	//$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY Fecha";
 
 	$nuc = $attr->sql_conditions->nuc->value;
-	$month = $attr->sql_conditions->month->value;
-	$year = $attr->sql_conditions->year->value;
+	$initial_date = $attr->initial_date;
+	$finish_date = $attr->finish_date;
 
 	$sql = "";
 
-	if($nuc != '' && $month != ''){
-		$sql = "SELECT $columns FROM $attr->db_table WHERE g.[NUC] = '$nuc' AND MONTH(g.Fecha) = '$month' AND YEAR(g.Fecha) = '$year' ORDER BY g.Fecha, u.Nombre";
+	if($nuc != '' && $initial_date != ''){
+		$sql = "SELECT $columns FROM $attr->db_table WHERE g.[NUC] = '$nuc' AND g.Fecha BETWEEN '$initial_date' AND '$finish_date' ORDER BY g.Fecha, u.Nombre";
 	}
 	else if($nuc != ''){
 		$sql = "SELECT $columns FROM $attr->db_table WHERE g.[NUC] = '$nuc' ORDER BY g.Fecha, u.Nombre";
 	}
 	else{
-		$sql = "SELECT $columns FROM $attr->db_table WHERE MONTH(g.Fecha) = '$month' AND YEAR(g.Fecha) = '$year' ORDER BY g.Fecha, u.Nombre";
+		$sql = "SELECT $columns FROM $attr->db_table WHERE g.Fecha BETWEEN '$initial_date' AND '$finish_date' ORDER BY g.Fecha, u.Nombre";
 	}
 	
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );

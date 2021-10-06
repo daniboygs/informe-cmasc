@@ -96,6 +96,9 @@ function loadForm(section){
                     });
                     setMultiselectActionsBySection(section);
                     break;
+                case 'inegi':
+                    loadDefaultValuesBySection(section);
+                    break;
                 default:
                     break;
             }
@@ -213,6 +216,11 @@ function loadDefaultValuesBySection(section){
                             //today.setHours(today.getHours()+6); 
                             console.log('tod', today);
                             document.getElementById(fields[field].id).valueAsDate = today;
+                        }
+                        else if(fields[field].default == "first_month_date"){
+                            let date = new Date();
+                            let firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+                            document.getElementById(fields[field].id).valueAsDate = firstDay;
                         }
                         break;
                     default:
@@ -1952,16 +1960,64 @@ function generateGeneralRejectedPDFReport(attr){
     window.open('templates/pdf/rejected_folder_reports.php');
 }
 
-function getInegiRecords(attr){
+function getRecExcel(){
 
-    attr = {
-        file_location: 'service/get_raw_data.php',
-        post_data: {
-            data: null
+    let validated = false;
+    let post_data = {};
+
+    if(document.getElementById('search-initial-date') && document.getElementById('search-finish-date')){
+        post_data = {
+            initial_date: document.getElementById('search-initial-date').value,
+            finish_date: document.getElementById('search-finish-date').value
+        }
+        if(document.getElementById('search-initial-date').value != '' && document.getElementById('search-finish-date').value != ''){
+            validated = true;
         }
     }
 
-    console.log('current records', attr);
+    if(validated){
+
+        handle_data.inegi_excel.data = [];
+        handle_data.inegi_excel.count = 0;
+    
+        let service_files = [
+            {
+                service: 'service/inegi/get_general_records_by_month.php',
+                name: 'Datos generales'
+            },
+            {
+                service: 'service/inegi/get_crime_records_by_month.php',
+                name: 'Delito'
+            },
+            {
+                service: 'service/inegi/get_imputed_records_by_month.php',
+                name: 'Imputado'
+            },
+            {
+                service: 'service/inegi/get_victim_records_by_month.php',
+                name: 'Víctima'
+            },
+            {
+                service: 'service/inegi/get_masc_records_by_month.php',
+                name: 'Datos generales del acuerdo'
+            }
+        ];
+    
+        for(element in service_files){
+            getInegiRecords({
+                file_location: service_files[element].service,
+                name: service_files[element].name,
+                post_data: post_data
+            });
+        }
+    }
+    else{
+        Swal.fire('Error', 'Campos faltantes', 'error');
+    }
+}
+
+
+function getInegiRecords(attr){
 
     /*if(attr.file_location != null && current_records.length > 0){*/
     if(attr.file_location != null){
@@ -1977,24 +2033,42 @@ function getInegiRecords(attr){
 
             if(response != undefined){
 
-                /*console.log('attr', attr);
-                attr.success.attr.post_data = response;
+                onServiceSuccess({
+                    data: {
+                        [attr.name]: response  
+                    },
+                    status: 'success'
+                });
+            }
+            else{
 
-                //handle_data.current_records_search_data = response;
-
-                if(attr.success != undefined && attr.success != null){
-
-                    console.log('voy a generar');
-                    attr.success.function(attr.success.attr);
-                }*/
-
-                createExcelReport({
-                    data: response,
-                    url_service_file: 'templates/excel/inegi.php',
-                    file_name: 'test'
+                onServiceSuccess({
+                    response: response,
+                    status: 'fail'
                 });
             }
         });
+    }
+}
+
+function onServiceSuccess(attr){
+
+    if(attr.status != 'fail'){
+
+        handle_data.inegi_excel.count ++;
+
+        handle_data.inegi_excel.data.push(attr.data);
+
+        if(handle_data.inegi_excel.count >= 5){
+
+            let d = new Date();
+            
+            createExcelReport({
+                data: handle_data.inegi_excel.data,
+                url_service_file: 'templates/excel/inegi.php',
+                file_name: 'inegi-'+d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()
+            });
+        }
     }
 }
 
@@ -2023,4 +2097,65 @@ function createExcelReport(attr) {
         });
     }
 
+}
+
+function searchSectionByRange(section){
+
+    console.log('search?', section+'-nuc');
+
+    //let date = new Date();
+    
+    let attr = {};
+    let validated = false;
+
+    switch(section){
+        case 'inegi':
+            if(document.getElementById('search-initial-date') && document.getElementById('search-finish-date') && document.getElementById('search-nuc')){
+                attr = {
+                    nuc: document.getElementById('search-nuc').value,
+                    initial_date: document.getElementById('search-initial-date').value,
+                    finish_date: document.getElementById('search-finish-date').value
+                }
+                validated = true;
+            }
+            break;
+        default:
+            break;
+    }
+
+    if(validated){
+
+        setStaticLoader({
+            section_id: 'records-section',
+            class: 'static-loader'
+        });
+        
+        console.log(sections[section].search_file, attr);
+        $.ajax({
+            url:'service/'+sections[section].search_file,
+            type:'POST',
+            dataType: "json",
+            data: attr,
+            cache:false
+        }).done(function(response){
+            console.log(response);
+            test = response;
+
+            if(sections[section].active){
+                handle_data.current_records_search_data = response;
+            }
+
+            drawRecordsTable({
+                section: section,
+                data: response,
+                file: 'templates/tables/'+section+'_table.php',
+                element_id: 'records-section'
+            });
+        });
+    }
+    else{
+        //Swal.fire('Error', 'Ha ocurrido un error, vuelva a intentarlo', 'error');
+    }
+
+	
 }
