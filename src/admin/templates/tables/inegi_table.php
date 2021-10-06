@@ -14,11 +14,11 @@
         $data = 'null';
 ?>
 
-<div class="form-buttons" style="float: left !important; margin-bottom: 20px;">		
+<!--<div class="form-buttons" style="float: left !important; margin-bottom: 20px;">		
 
-<button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="tableToExcel()">Descargar EXCEL</button>
+<button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="getRecExcel()">Descargar EXCEL</button>
 
-</div>
+</div>-->
 
 <table class="data-table table table-striped">
     <tr>

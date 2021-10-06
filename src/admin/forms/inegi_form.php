@@ -12,17 +12,27 @@
 
 		<div class="col-md-4 form-group">
 
-			<label style="font-weight:bold">Mes: *</label>
+			<label style="font-weight:bold">Fecha de inicio: *</label>
 
-			<input type="month" class="form-control" id="search-month">	
+			<input type="date" class="form-control" id="search-initial-date">	
+
+		</div>
+
+		<div class="col-md-4 form-group">
+
+			<label style="font-weight:bold">Fecha de fin: *</label>
+
+			<input type="date" class="form-control" id="search-finish-date">	
 
 		</div>
 
 	</div>
 
-	<div class="form-buttons">		
+	<div class="form-buttons">
+		
+		<button type="button" class="btn btn-outline-success" style="height:38px; width: 200px;"  onclick="getRecExcel()">Descargar EXCEL</button>
 
-		<button type="button" class="btn btn-outline-success" style="height:38px; width: 100px;"  onclick="searchSection('inegi')">Buscar</button>
+		<button type="button" class="btn btn-outline-primary" style="height:38px; width: 200px;"  onclick="searchSectionByRange('inegi')">Buscar</button>
 
 	</div>
 
