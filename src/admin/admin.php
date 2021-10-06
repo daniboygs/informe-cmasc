@@ -9,8 +9,8 @@
 		<meta http-equiv="pragma" content="no-cache" />
 		<!--<link rel="stylesheet" href="node_modules/normalize.css">-->
 		<link rel="shortcut icon" href="../../assets/img/fge.png"/>
-		<link rel="stylesheet" href="../../css/styles.css">
-		<link rel="stylesheet" href="css/styles.css">
+		<link rel="stylesheet" href="../../css/styles-211006150500.css">
+		<link rel="stylesheet" href="css/styles-211006150500.css">
 		<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="../../libs/font-awesome-4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="../../node_modules/datatables/media/css/jquery.dataTables.min.css">
@@ -21,11 +21,11 @@
 		<script src="../../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 		<script src="../../node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
 		
-		<script src="../../js/script.js"></script>
-		<script src="json/sections-attr.js"></script>
-		<script src="json/data.js"></script>
-		<script src="js/multiselect.js"></script>
-		<script src="js/script.js"></script>
+		<script src="../../js/script-211006150500.js"></script>
+		<script src="json/sections-attr-211006150500.js"></script>
+		<script src="json/data-211006150500.js"></script>
+		<script src="js/multiselect-211006150500.js"></script>
+		<script src="js/script-211006150500.js"></script>
 
 		<title>CMASC</title>
 	</head>
