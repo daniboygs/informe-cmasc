@@ -96,10 +96,10 @@ function loadForm(section){
                     });
                     setMultiselectActionsBySection(section);
                     break;
-                case 'inegi':
-                    loadDefaultValuesBySection(section);
+                case 'capture_period':
                     break;
                 default:
+                    loadDefaultValuesBySection(section);
                     break;
             }
             
@@ -2109,17 +2109,23 @@ function searchSectionByRange(section){
     let validated = false;
 
     switch(section){
-        case 'inegi':
+        case null:
+            break;
+        default:
             if(document.getElementById('search-initial-date') && document.getElementById('search-finish-date') && document.getElementById('search-nuc')){
                 attr = {
                     nuc: document.getElementById('search-nuc').value,
                     initial_date: document.getElementById('search-initial-date').value,
                     finish_date: document.getElementById('search-finish-date').value
                 }
-                validated = true;
+
+                if(document.getElementById('search-nuc').value != '' || (document.getElementById('search-initial-date').value != '' && document.getElementById('search-finish-date').value != '')){
+                    validated = true;
+                }
+                else{
+                    Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
+                }
             }
-            break;
-        default:
             break;
     }
 
@@ -2130,9 +2136,9 @@ function searchSectionByRange(section){
             class: 'static-loader'
         });
         
-        console.log(sections[section].search_file, attr);
+        console.log(sections[section].search_by_range_file, attr);
         $.ajax({
-            url:'service/'+sections[section].search_file,
+            url:'service/'+sections[section].search_by_range_file,
             type:'POST',
             dataType: "json",
             data: attr,
