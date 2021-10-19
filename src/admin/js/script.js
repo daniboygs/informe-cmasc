@@ -77,7 +77,9 @@ function loadForm(section){
         //loadDefaultValuesBySection(section);
         if(section != 'capture_period'){
             console.log('search month');
-            getRecordsByMonth(section);
+            getRecordsByMonth({
+                section: section
+            });
             switch(section){
                 case 'entered_folders_super':
                     loadDefaultValuesBySection(section);
@@ -616,68 +618,90 @@ function checkNuc(attr){
 }
 
 
-function getRecordsByMonth(section){
+function getRecordsByMonth(attr){
 
-    console.log('by moneh?', section);
+    if(!attr.hasOwnProperty('initial_interation')){
+        attr = {
+            ...attr,
+            initial_interation: 1,
+            finish_interation: 10
+        }
+    }
 
-    let date = new Date();
-    //date.setHours(date.getHours()+6); 
+    if(attr.initial_interation < attr.finish_interation){
+        console.log('by moneh?', attr.section);
 
-    if(sections[section].records_by_month_file != null){
+        let date = new Date();
+        //date.setHours(date.getHours()+6); 
 
-        setStaticLoader({
-            section_id: 'records-section',
-            class: 'static-loader'
-        });
+        if(sections[attr.section].records_by_month_file != null){
 
-        $.ajax({
-            url:'service/'+sections[section].records_by_month_file,
-            type:'POST',
-            dataType: "json",
-            data: {
-                month: (date.getMonth()+1),
-                year: date.getFullYear()
-            },
-            cache:false
-        }).done(function(response){
-            console.log(response);
-            test = response;
-            console.log(section+'_table.php');
+            setStaticLoader({
+                section_id: 'records-section',
+                class: 'static-loader'
+            });
 
-            /*if(section == 'processing_folders' || section == 'inegi'){
-                drawRecordsTable({
-                    data: response,
-                    file: 'templates/tables/'+section+'_table.php',
-                    element_id: 'records-section'
-                });
-                
-            }
-            else{
-                getNucsDate({
-                    func: drawRecordsTable,
-                    attr: {
+            $.ajax({
+                url:'service/'+sections[attr.section].records_by_month_file,
+                type:'POST',
+                dataType: "json",
+                data: {
+                    month: (date.getMonth()+1),
+                    year: date.getFullYear()
+                },
+                cache:false
+            }).done(function(response){
+                console.log(response);
+                test = response;
+                console.log(attr.section+'_table.php');
+
+                /*if(section == 'processing_folders' || section == 'inegi'){
+                    drawRecordsTable({
                         data: response,
                         file: 'templates/tables/'+section+'_table.php',
-                        element_id: 'records-section',
-                        nuc_dates: null
-                    },
-                    section: section
+                        element_id: 'records-section'
+                    });
+                    
+                }
+                else{
+                    getNucsDate({
+                        func: drawRecordsTable,
+                        attr: {
+                            data: response,
+                            file: 'templates/tables/'+section+'_table.php',
+                            element_id: 'records-section',
+                            nuc_dates: null
+                        },
+                        section: section
+                    });
+                }*/
+
+                if(sections[attr.section].active){
+                    handle_data.current_records_search_data = response;
+                }
+
+
+                drawRecordsTable({
+                    section: attr.section,
+                    data: response,
+                    file: 'templates/tables/'+attr.section+'_table.php',
+                    element_id: 'records-section'
                 });
-            }*/
+            }).fail(function(){
 
-            if(sections[section].active){
-                handle_data.current_records_search_data = response;
-            }
+                attr.initial_interation++;
 
+                console.log('attr +iteration', attr);
 
-            drawRecordsTable({
-                section: section,
-                data: response,
-                file: 'templates/tables/'+section+'_table.php',
-                element_id: 'records-section'
+                getRecordsByMonth(attr);
             });
-        });
+        }
     }
+    else{
+        Swal.fire('error', 'Ha ocurrido un error inesperado, favor de contactar a DPE', 'error');
+    }
+
+    
 }
 
 function drawRecordsTable(attr){
@@ -857,7 +881,9 @@ function deleteRecord(section, id){
                 cache:false
             }).done(function(response){
                 Swal.fire('Correcto', 'Registro eliminado correctamente', 'success');
-                getRecordsByMonth(section);
+                getRecordsByMonth({
+                    section: section
+                });
             });
         }
     });
@@ -1436,7 +1462,9 @@ function updateRejectedFolder(rejected_folder_id){
                     modal_id: 'large-modal'
                 });
 
-                getRecordsByMonth('rejected_folders');
+                getRecordsByMonth({
+                    section: 'rejected_folders'
+                });
     
                 Swal.fire('Exito', 'Todo bien', 'warning');
     
@@ -1468,7 +1496,9 @@ function saveRejectedFolder(entered_folder_id){
                 modal_id: 'large-modal'
             });
 
-            getRecordsByMonth('rejected_folders');
+            getRecordsByMonth({
+                section: 'rejected_folders'
+            });
 
             Swal.fire('Exito', 'Todo bien', 'warning');
 

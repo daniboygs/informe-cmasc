@@ -63,9 +63,9 @@ $data = (object) array(
 		'search' => true
 	),
 	'recieved_folders_status' => (object) array(
-		'db_column' => "CASE WHEN ci.inves_max_date IS NOT NULL THEN 'Investigación'
-	  WHEN ci.inves_max_date IS NULL AND cv.val_max_date IS NOT NULL THEN 'Validación'
-	  ELSE 'Tramite' END AS 'Estatus'",
+		'db_column' => "CASE WHEN ci.inves_max_date IS NOT NULL AND ci.inves_max_date >= cr.Fecha AND (cv.val_max_date IS NULL OR (cv.val_max_date IS NOT NULL AND cv.val_max_date < ci.inves_max_date)) THEN 'Investigación' 
+		WHEN cv.val_max_date IS NOT NULL AND cv.val_max_date >= cr.Fecha AND (ci.inves_max_date IS NULL OR (ci.inves_max_date IS NOT NULL AND ci.inves_max_date < cv.val_max_date)) THEN 'Validación' 
+		ELSE 'Tramite' END AS 'Estatus'",
 		'search' => true
 	)
 );

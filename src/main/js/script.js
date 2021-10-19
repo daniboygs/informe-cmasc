@@ -92,7 +92,9 @@ function preloadValidation(attr){
                             },
                             {
                                 function: getRecordsByMonth,
-                                attr: attr.section
+                                attr: {
+                                    section: attr.section
+                                }
                             },
                             {
                                 function: loadCatalogsBySection,
@@ -141,7 +143,9 @@ function preloadValidation(attr){
                                     },
                                     {
                                         function: getRecordsByMonth,
-                                        attr: attr.section
+                                        attr: {
+                                            section: attr.section
+                                        }
                                     },
                                     {
                                         function: loadCatalogsBySection,
@@ -1059,44 +1063,66 @@ function drawRecordsTable(attr){
 }
 */
 
-function getRecordsByMonth(section){
+function getRecordsByMonth(attr){
 
-    console.log('by moneh?', section);
+    if(!attr.hasOwnProperty('initial_interation')){
+        attr = {
+            ...attr,
+            initial_interation: 1,
+            finish_interation: 10
+        }
+    }
 
-    let date = new Date();
-    //date.setHours(date.getHours()+6); 
+    if(attr.initial_interation < attr.finish_interation){
 
-    if(sections[section].records_by_month_file != null){
+        console.log('by moneh?', attr.section);
 
-        setStaticLoader({
-            section_id: 'records-section',
-            class: 'static-loader'
-        });
+        let date = new Date();
+        //date.setHours(date.getHours()+6); 
 
-        $.ajax({
-            url:'service/'+sections[section].records_by_month_file,
-            type:'POST',
-            dataType: "json",
-            data: {
-                month: (date.getMonth()+1),
-                year: date.getFullYear()
-            },
-            cache:false
-        }).done(function(response){
-            console.log('res de month:', JSON.stringify(response));
+        if(sections[attr.section].records_by_month_file != null){
 
-            if(sections[section].active){
-                handle_data.current_records_search_data = response;
-            }
-            
-            drawRecordsTable({
-                section: section,
-                data: response,
-                file: 'templates/tables/'+section+'_table.php',
-                element_id: 'records-section'
+            setStaticLoader({
+                section_id: 'records-section',
+                class: 'static-loader'
             });
-        });
-    }	
+
+            $.ajax({
+                url:'service/'+sections[attr.section].records_by_month_file,
+                type:'POST',
+                dataType: "json",
+                data: {
+                    month: (date.getMonth()+1),
+                    year: date.getFullYear()
+                },
+                cache:false
+            }).done(function(response){
+                console.log('res de month:', JSON.stringify(response));
+
+                if(sections[attr.section].active){
+                    handle_data.current_records_search_data = response;
+                }
+                
+                drawRecordsTable({
+                    section: attr.section,
+                    data: response,
+                    file: 'templates/tables/'+attr.section+'_table.php',
+                    element_id: 'records-section'
+                });
+            }).fail(function(){
+
+                attr.initial_interation++;
+
+                console.log('attr +iteration', attr);
+
+                getRecordsByMonth(attr);
+            });
+        }
+    }
+    else{
+        Swal.fire('error', 'Ha ocurrido un error inesperado, favor de contactar a DPE', 'error');
+    }
+
 }
 
 function drawRecordsTable(attr){
@@ -1544,7 +1570,9 @@ function softLoadForm(section){
                 },
                 {
                     function: getRecordsByMonth,
-                    attr: section
+                    attr: {
+                        section: section
+                    }
                 },
                 {
                     function: loadCatalogsBySection,
