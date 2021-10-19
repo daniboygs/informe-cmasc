@@ -2,6 +2,7 @@ var sections = {
 	"agreements": {
 		"index": 1,
 		"form_file": "agreements_form.php",
+		"search_form_file": null,
 		"create_file": "create_agreements_section.php",
 		"update_file": "update_agreements_section.php",
 		"search_file": "search_agreements_section.php",
@@ -190,6 +191,7 @@ var sections = {
 	"recieved_folders": {
 		"index": 2,
 		"form_file": "recieved_folders_form.php",
+		"search_form_file": "search_recieved_folders_form.php",
 		"create_file": "create_recieved_folders_section.php",
 		"update_file": "update_recieved_folders_section.php",
 		"search_file": "search_recieved_folders_section.php",
@@ -281,6 +283,7 @@ var sections = {
 	"folders_to_investigation": {
 		"index": 3,
 		"form_file": "folders_to_investigation_form.php",
+		"search_form_file": null,
 		"create_file": "create_folders_to_investigation_section.php",
 		"update_file": "update_folders_to_investigation_section.php",
 		"search_file": "search_folders_to_investigation_section.php",
@@ -405,6 +408,7 @@ var sections = {
 	"people_served": {
 		"index": 4,
 		"form_file": "people_served_form.php",
+		"search_form_file": null,
 		"create_file": "create_people_served_section.php",
 		"update_file": "update_people_served_section.php",
 		"search_file": "search_people_served_section.php",
@@ -511,6 +515,7 @@ var sections = {
 	"processing_folders": {
 		"index": 5,
 		"form_file": "processing_folders_form.php",
+		"search_form_file": null,
 		"create_file": "create_processing_folders_section.php",
 		"update_file": "update_processing_folders_section.php",
 		"search_file": "search_processing_folders_section.php",
@@ -783,6 +788,7 @@ var sections = {
 	"folders_to_validation": {
 		"index": 6,
 		"form_file": "folders_to_validation_form.php",
+		"search_form_file": null,
 		"create_file": "create_folders_to_validation_section.php",
 		"update_file": "update_folders_to_validation_section.php",
 		"search_file": "search_folders_to_validation_section.php",
@@ -874,6 +880,7 @@ var sections = {
 	"entered_folders_super": {
 		"index": 9,
 		"form_file": "entered_folders_super_form.php",
+		"search_form_file": null,
 		"create_file": "create_entered_folders_section.php",
 		"update_file": "update_entered_folders_section.php",
 		"search_file": "search_entered_folders_section.php",
@@ -1140,6 +1147,7 @@ var sections = {
 	"entered_folders": {
 		"index": 8,
 		"form_file": "entered_folders_form.php",
+		"search_form_file": null,
 		"create_file": "create_entered_folders_section.php",
 		"update_file": "update_entered_folders_section.php",
 		"search_file": "search_entered_folders_section.php",
@@ -1357,6 +1365,7 @@ var sections = {
 	"inegi": {
 		"index": 9,
 		"form_file": "inegi_form.php",
+		"search_form_file": null,
 		"create_file": "create_inegi_section.php",
 		"update_file": "update_inegi_section.php",
 		"search_file": "search_inegi_section.php",
@@ -1373,6 +1382,7 @@ var sections = {
 	"rejected_folders": {
 		"index": 10,
 		"form_file": "rejected_folders_form.php",
+		"search_form_file": null,
 		"create_file": "create_rejected_folders_section.php",
 		"update_file": "update_rejected_folders_section.php",
 		"search_file": "search_rejected_folders_section.php",

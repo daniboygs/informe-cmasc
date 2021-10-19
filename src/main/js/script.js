@@ -92,7 +92,9 @@ function preloadValidation(attr){
                             },
                             {
                                 function: getRecordsByMonth,
-                                attr: attr.section
+                                attr: {
+                                    section: attr.section
+                                }
                             },
                             {
                                 function: loadCatalogsBySection,
@@ -141,7 +143,9 @@ function preloadValidation(attr){
                                     },
                                     {
                                         function: getRecordsByMonth,
-                                        attr: attr.section
+                                        attr: {
+                                            section: attr.section
+                                        }
                                     },
                                     {
                                         function: loadCatalogsBySection,
@@ -1059,44 +1063,66 @@ function drawRecordsTable(attr){
 }
 */
 
-function getRecordsByMonth(section){
+function getRecordsByMonth(attr){
 
-    console.log('by moneh?', section);
+    if(!attr.hasOwnProperty('initial_interation')){
+        attr = {
+            ...attr,
+            initial_interation: 1,
+            finish_interation: 10
+        }
+    }
 
-    let date = new Date();
-    //date.setHours(date.getHours()+6); 
+    if(attr.initial_interation < attr.finish_interation){
 
-    if(sections[section].records_by_month_file != null){
+        console.log('by moneh?', attr.section);
 
-        setStaticLoader({
-            section_id: 'records-section',
-            class: 'static-loader'
-        });
+        let date = new Date();
+        //date.setHours(date.getHours()+6); 
 
-        $.ajax({
-            url:'service/'+sections[section].records_by_month_file,
-            type:'POST',
-            dataType: "json",
-            data: {
-                month: (date.getMonth()+1),
-                year: date.getFullYear()
-            },
-            cache:false
-        }).done(function(response){
-            console.log('res de month:', JSON.stringify(response));
+        if(sections[attr.section].records_by_month_file != null){
 
-            if(sections[section].active){
-                handle_data.current_records_search_data = response;
-            }
-            
-            drawRecordsTable({
-                section: section,
-                data: response,
-                file: 'templates/tables/'+section+'_table.php',
-                element_id: 'records-section'
+            setStaticLoader({
+                section_id: 'records-section',
+                class: 'static-loader'
             });
-        });
-    }	
+
+            $.ajax({
+                url:'service/'+sections[attr.section].records_by_month_file,
+                type:'POST',
+                dataType: "json",
+                data: {
+                    month: (date.getMonth()+1),
+                    year: date.getFullYear()
+                },
+                cache:false
+            }).done(function(response){
+                console.log('res de month:', JSON.stringify(response));
+
+                if(sections[attr.section].active){
+                    handle_data.current_records_search_data = response;
+                }
+                
+                drawRecordsTable({
+                    section: attr.section,
+                    data: response,
+                    file: 'templates/tables/'+attr.section+'_table.php',
+                    element_id: 'records-section'
+                });
+            }).fail(function(){
+
+                attr.initial_interation++;
+
+                console.log('attr +iteration', attr);
+
+                getRecordsByMonth(attr);
+            });
+        }
+    }
+    else{
+        Swal.fire('error', 'Ha ocurrido un error inesperado, favor de contactar a DPE', 'error');
+    }
+
 }
 
 function drawRecordsTable(attr){
@@ -1391,6 +1417,25 @@ function searchSection(section){
                 validated = true;
             }
             break;
+        case 'recieved_folders':
+            if(document.getElementById('search-nuc') && document.getElementById('search-initial-date') && document.getElementById('search-finish-date')){
+                attr = {
+                    initial_date: document.getElementById('search-initial-date').value,
+                    finish_date: document.getElementById('search-finish-date').value,
+                    nuc: document.getElementById('search-nuc').value
+                }
+
+                if(document.getElementById('search-nuc').value != '' || (document.getElementById('search-initial-date').value != '' && document.getElementById('search-finish-date').value != '')){
+                    validated = true;
+
+                    //$('#month-records-label-section').html('');
+
+                }
+                else{
+                    Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
+                }
+            }
+            break;
         default:
             console.log('defa');
             if(document.getElementById('search-nuc') && document.getElementById('search-month')){
@@ -1477,4 +1522,74 @@ function searchSection(section){
     }
 
 	
+}
+
+
+
+function loadSearchForm(section){
+
+    $.ajax({
+        url:'forms/search/'+sections[section].search_form_file,
+        type:'POST',
+        contentType:false,
+        processData:false,
+        cache:false
+    }).done(function(response){
+
+        console.log('lo hiciste?', sections[section].search_form_file);
+        //$(".title").html(sections[attr.section].title);
+        $("#content").html(response);
+        /*activeSection(section);
+        loadDefaultValuesBySection(section);
+        getRecordsByMonth(section);
+        loadCatalogsBySection({
+            section: section,
+            template_file: {
+                select: 'templates/elements/select.php',
+                multiselect: 'templates/elements/multiselect.php'
+            },
+            service_location: 'service/catalogs/'
+        });*/
+
+        /*for(func in attr.success.functions){
+            attr.success.functions[func].function( attr.success.functions[func].attr);
+        }*/
+
+    });
+}
+
+function softLoadForm(section){
+    //$('#month-records-label-section').html('');
+    loadForm({
+        section: section,
+        success: {
+            functions: [
+                {
+                    function: loadDefaultValuesBySection,
+                    attr: section
+                },
+                {
+                    function: getRecordsByMonth,
+                    attr: {
+                        section: section
+                    }
+                },
+                {
+                    function: loadCatalogsBySection,
+                    attr: {
+                        section: section,
+                        template_file: {
+                            select: 'templates/elements/select.php',
+                            multiselect: 'templates/elements/multiselect.php'
+                        },
+                        service_location: 'service/catalogs/'
+                    }
+                },
+                {
+                    function: setMultiselectActionsBySection,
+                    attr: section
+                }
+            ] 
+        }
+    });
 }

@@ -1,4 +1,4 @@
-<form id="rejected-folders-form" action="#">	
+<form id="recieved-folders-form" action="#">	
 
 	<div class="form-row">
 
@@ -28,10 +28,11 @@
 
 	</div>
 
-	<div class="form-buttons">		
+	<div class="form-buttons">
+		<button type="button" class="btn btn-primary" style="height:38px; float: left;"  onclick="softLoadForm('recieved_folders')">Capturar <i class="fa fa-pencil" aria-hidden="true"></i></button>		
 
-		<button type="button" class="btn btn-outline-success" style="height:38px; width: 100px;"  onclick="searchSectionByRange('rejected_folders')">Buscar</button>
-
+		<button type="button" class="btn btn-outline-success" style="height:38px; width: 100px;"  onclick="searchSection('recieved_folders')">Buscar</button>
+	
 	</div>
 
 </form>

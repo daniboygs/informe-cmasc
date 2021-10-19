@@ -59,7 +59,9 @@ function saveMultiselectFieldsBySection(attr){
     }
 
     if(!has_multiselect){
-        getRecordsByMonth(attr.section);
+        getRecordsByMonth({
+            section: attr.section
+        });
     }
 }
 
@@ -94,7 +96,9 @@ function saveMultiselectField(attr){
             console.log('not chido', response);
         }
 
-        getRecordsByMonth(attr.section);
+        getRecordsByMonth({
+            section: attr.section
+        });
 
         setLoader({
             add: false
@@ -104,7 +108,9 @@ function saveMultiselectField(attr){
         
         Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de nofificar a DPE.', 'error');
 
-        getRecordsByMonth(attr.section);
+        getRecordsByMonth({
+            section: attr.section
+        });
 
         setLoader({
             add: false

@@ -48,6 +48,23 @@
 
 			<h1 class="title"></h1>
 
+			<!--<div>
+				<div class="btn-group btn-group-toggle" data-toggle="buttons" onchange="changeSelector()">
+
+					<label class="btn btn-outline-primary active">
+
+						<input type="radio" name="options" id="chart-option" style="width: 200px;" autocomplete="off"> Captura
+
+					</label>
+
+					<label class="btn btn-outline-primary">
+
+						<input type="radio" name="options" id="table-option" style="width: 200px;" autocomplete="off"> Busqueda
+
+					</label>
+				</div>
+			</div>-->
+
 			<div id="dashboard-alert-section">
 				<!--<div class="alert alert-warning" role="alert">
 					<strong>Atención!</strong>, Se ha precargado Información previamente capturada.

@@ -131,7 +131,9 @@ function updateRejectedFolder(rejected_folder_id){
                     modal_id: 'large-modal'
                 });
 
-                getRecordsByMonth('rejected_folders');
+                getRecordsByMonth({
+                    section: 'rejected_folders'
+                });
     
                 Swal.fire('Exito', 'Todo bien', 'warning');
     
@@ -163,7 +165,9 @@ function saveRejectedFolder(entered_folder_id){
                 modal_id: 'large-modal'
             });
 
-            getRecordsByMonth('rejected_folders');
+            getRecordsByMonth({
+                section: 'rejected_folders'
+            });
 
             Swal.fire('Exito', 'Todo bien', 'warning');
 
