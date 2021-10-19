@@ -1,22 +1,60 @@
-.inegi-sidenav div.element{
-    padding: 15px;
-    text-align: center;
-    color: white;
-    background-color: #7C8B9E;
+.subtitle-label-section{
+    margin-top: 15px;
+    width: 100%;
+    display: inline-block;
+    font-family: LabradorA;
+    font-size: 25pt;
+    color: #152F4A;
+}
+
+table tr th{
     cursor: pointer;
-    margin: 1px;
 }
 
-.inegi-sidenav div.element.active{
-    padding: 15px;
+table tr td{
+    cursor: auto;
+}
+
+.data-table{
+    background-color: white; 
+    width: 100%; 
+    overflow-x: auto;
+}
+
+.data-table tr th{
+    text-align: center; 
+    border: solid 1px #ccc; 
+    background-color: #152F4A; 
+    color: white; 
+    padding: 7px;
+}
+
+.data-table tr td{
     text-align: center;
-    color: white;
-    background-color: #152F4A;
-    margin: 1px;
+    border: solid 1px #ccc;
 }
 
-.inegi-sidenav div.element:hover{
-    padding: 15px;
+.data-table .large-columns{
+    background-color: white; 
+    width: 100%; 
+    display: block; 
+    overflow-x: auto; 
+    white-space: nowrap;
+}
+
+.data-table tr .captured{
+    background-color: #1ABB9C;
+    color: white;
+}
+
+.data-table tr .pending{
+    background-color: #F8EA53;
+    color: #666666;
+    cursor: pointer !important;
+}
+
+.data-table tr .pending:hover{
+    padding: 10px;
     text-align: center;
     color: gray;
     background-color: white;
@@ -24,80 +62,68 @@
     margin: 1px;
 }
 
-.inegi-sidenav div.element.active:hover{
-    padding: 15px !important;
-    text-align: center !important;
+.data-table tr .incompleted{
+    background-color: #F75151 !important;
     color: white !important;
-    background-color: #152F4A !important;
-    margin: 1px !important;
-    cursor: context-menu !important;
 }
 
-
-.inegi-sidenav div.completed{
-    border-right: 1rem solid #1ABB9C;
-    
-}
-
-.inegi-sidenav div.uncompleted{
-    border-right: 1rem solid #E44026;
-    
-}
-
-#inegi-form{
-    display: inline-block;
-    background-color: white;
-    padding: 7px;
-    width: 100%;
-}
-
-.inegi-sidenav{
-    width: 20%;
+#pending-agreements-table{
+    height: 300px;
+    overflow: scroll;
     display: block;
+}
+
+.primary-status{
+    background-color: #007bff; 
+    color: white;
+}
+
+.secondary-status{
+    background-color: #DCE3DF;
+    color: black;
+}
+
+.danger-status{
+    background-color: #dc3545; 
+    color: white;
+}
+
+.success-status{
+    background-color: #28a745; 
+    color: white;
+}
+
+.warning-status{
+    background-color: #ffc107; 
+    color: white;
+}
+
+#pending-agreements-table tbody .data-table-row td {
+    cursor: pointer !important;
+}
+
+#pending-agreements-table .data-table-row:hover{
+    cursor: pointer !important;
+    background-color: #7C8B9E !important;
+    color: white !important;
+}
+
+
+
+
+
+.period-label{
     float: left;
+    font-size: 24pt;
 }
 
-#inegi-capture-section, #inegi-pending-section{
-    width: 100%;
-}
-
-#inegi-capture-section{
-    display: none;
-}
-
-#inegi-form-section{
-    width: 80%;
-    float: right;
-    padding: 10px;
-    height: 100%;
-}
-
-#inegi-current-record-section{
-    margin-top: 15px;
+#capture-period-form .form-buttons{
     width: 100%;
     display: inline-block;
 }
 
-#inegi-current-record-label-section, #month-records-label-section{
-    margin-top: 15px;
-    width: 100%;
-    display: inline-block;
-    font-family: LabradorA;
-    font-size: 25pt;
-    color: #152F4A;
-}
 
-#inegi-current-record-label-section{
-    text-align: center;
-}
 
-#pending-records-label-section{
-    width: 100%;
-    display: inline-block;
-    font-family: LabradorA;
-    font-size: 25pt;
-    color: #152F4A;
-}
 
 table tr th{
     cursor: pointer;
@@ -162,7 +188,7 @@ table tr td{
 }
 
 #pending-agreements-table{
-    height: 500px;
+    height: 300px;
     overflow: scroll;
     display: block;
 }
@@ -201,6 +227,7 @@ table tr td{
     background-color: #7C8B9E !important;
     color: white !important;
 }
+
 
 .multiselect{
     width: 100%;
