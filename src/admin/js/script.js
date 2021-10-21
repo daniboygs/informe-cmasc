@@ -2130,68 +2130,101 @@ function createExcelReport(attr) {
 }
 
 function searchSectionByRange(section){
+    searchSectionByRangeDate({
+        section: section
+    });
+}
 
-    console.log('search?', section+'-nuc');
+function searchSectionByRangeDate(attr){
 
-    //let date = new Date();
-    
-    let attr = {};
-    let validated = false;
 
-    switch(section){
-        case null:
-            break;
-        default:
-            if(document.getElementById('search-initial-date') && document.getElementById('search-finish-date') && document.getElementById('search-nuc')){
-                attr = {
-                    nuc: document.getElementById('search-nuc').value,
-                    initial_date: document.getElementById('search-initial-date').value,
-                    finish_date: document.getElementById('search-finish-date').value
-                }
-
-                if(document.getElementById('search-nuc').value != '' || (document.getElementById('search-initial-date').value != '' && document.getElementById('search-finish-date').value != '')){
-                    validated = true;
-                }
-                else{
-                    Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
-                }
-            }
-            break;
+    if(!attr.hasOwnProperty('initial_interation')){
+        attr = {
+            ...attr,
+            initial_interation: 1,
+            finish_interation: 10
+        }
     }
 
-    if(validated){
+    if(attr.initial_interation < attr.finish_interation){
 
-        setStaticLoader({
-            section_id: 'records-section',
-            class: 'static-loader'
-        });
+
+        console.log('search?', attr.section+'-nuc');
+
+        //let date = new Date();
         
-        console.log(sections[section].search_by_range_file, attr);
-        $.ajax({
-            url:'service/'+sections[section].search_by_range_file,
-            type:'POST',
-            dataType: "json",
-            data: attr,
-            cache:false
-        }).done(function(response){
-            console.log(response);
-            test = response;
+        let post_data = {};
+        let validated = false;
 
-            if(sections[section].active){
-                handle_data.current_records_search_data = response;
-            }
+        switch(attr.section){
+            case null:
+                break;
+            default:
+                if(document.getElementById('search-initial-date') && document.getElementById('search-finish-date') && document.getElementById('search-nuc')){
+                    post_data = {
+                        nuc: document.getElementById('search-nuc').value,
+                        initial_date: document.getElementById('search-initial-date').value,
+                        finish_date: document.getElementById('search-finish-date').value
+                    }
 
-            drawRecordsTable({
-                section: section,
-                data: response,
-                file: 'templates/tables/'+section+'_table.php',
-                element_id: 'records-section'
+                    if(document.getElementById('search-nuc').value != '' || (document.getElementById('search-initial-date').value != '' && document.getElementById('search-finish-date').value != '')){
+                        validated = true;
+                    }
+                    else{
+                        Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
+                    }
+                }
+                break;
+        }
+
+        if(validated){
+
+            setStaticLoader({
+                section_id: 'records-section',
+                class: 'static-loader'
             });
-        });
+            
+            console.log(sections[attr.section].search_by_range_file, attr);
+            $.ajax({
+                url:'service/'+sections[attr.section].search_by_range_file,
+                type:'POST',
+                dataType: "json",
+                data: post_data,
+                cache:false
+            }).done(function(response){
+                console.log(response);
+                test = response;
+
+                if(sections[attr.section].active){
+                    handle_data.current_records_search_data = response;
+                }
+
+                drawRecordsTable({
+                    section: attr.section,
+                    data: response,
+                    file: 'templates/tables/'+attr.section+'_table.php',
+                    element_id: 'records-section'
+                });
+            }).fail(function(){
+
+                attr.initial_interation++;
+
+                console.log('attr +iteration', attr);
+
+                searchSectionByRangeDate(attr);
+            });
+        }
+        else{
+            //Swal.fire('Error', 'Ha ocurrido un error, vuelva a intentarlo', 'error');
+        }
+
     }
     else{
-        //Swal.fire('Error', 'Ha ocurrido un error, vuelva a intentarlo', 'error');
+        Swal.fire('error', 'Ha ocurrido un error inesperado, favor de contactar a DPE', 'error');
     }
+
+
+    
 
 	
 }
