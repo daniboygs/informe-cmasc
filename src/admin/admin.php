@@ -9,8 +9,8 @@
 		<meta http-equiv="pragma" content="no-cache" />
 		<!--<link rel="stylesheet" href="node_modules/normalize.css">-->
 		<link rel="shortcut icon" href="../../assets/img/fge.png"/>
-		<link rel="stylesheet" href="../../css/styles.css">
-		<link rel="stylesheet" href="css/styles.css">
+		<link rel="stylesheet" href="../../css/styles-211021153000.css">
+		<link rel="stylesheet" href="css/styles-211021153000.css">
 		<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="../../libs/font-awesome-4.7.0/css/font-awesome.min.css">
 		<!--<link rel="stylesheet" href="../../node_modules/datatables/media/css/jquery.dataTables.min.css">-->
@@ -22,11 +22,11 @@
 		<!--<script src="../../node_modules/datatables/media/js/jquery.dataTables.min.js"></script>-->
 		<!--<script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>-->
 		
-		<script src="../../js/script.js"></script>
-		<script src="json/sections-attr.js"></script>
-		<script src="json/data.js"></script>
-		<script src="js/multiselect.js"></script>
-		<script src="js/script.js"></script>
+		<script src="../../js/script-211021153000.js"></script>
+		<script src="json/sections-attr-211021153000.js"></script>
+		<script src="json/data-211021153000.js"></script>
+		<script src="js/multiselect-211021153000.js"></script>
+		<script src="js/script-211021153000.js"></script>
 
 		<title>CMASC</title>
 	</head>
