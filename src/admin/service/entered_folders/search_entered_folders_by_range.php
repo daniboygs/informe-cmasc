@@ -120,7 +120,7 @@ $sql_conditions = array();
 
 if($nuc != ''){
 	$sql_conditions += ['nuc' => (object) array(
-		'db_column' => 'cr.[NUC]',
+		'db_column' => '[NUC]',
 		'condition' => '=', 
 		'value' => "'$nuc'"
 	)];
