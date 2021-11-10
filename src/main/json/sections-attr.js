@@ -2,7 +2,7 @@ var sections = {
 	"agreements": {
 		"index": 1,
 		"form_file": "agreements_form.php",
-		"search_form_file": null,
+		"search_form_file": "search_agreements_form.php",
 		"create_file": "create_agreements_section.php",
 		"update_file": "update_agreements_section.php",
 		"search_file": "search_agreements_section.php",
@@ -283,7 +283,7 @@ var sections = {
 	"folders_to_investigation": {
 		"index": 3,
 		"form_file": "folders_to_investigation_form.php",
-		"search_form_file": null,
+		"search_form_file": "search_folders_to_investigation_form.php",
 		"create_file": "create_folders_to_investigation_section.php",
 		"update_file": "update_folders_to_investigation_section.php",
 		"search_file": "search_folders_to_investigation_section.php",
@@ -788,7 +788,7 @@ var sections = {
 	"folders_to_validation": {
 		"index": 6,
 		"form_file": "folders_to_validation_form.php",
-		"search_form_file": null,
+		"search_form_file": "search_folders_to_validation_form.php",
 		"create_file": "create_folders_to_validation_section.php",
 		"update_file": "update_folders_to_validation_section.php",
 		"search_file": "search_folders_to_validation_section.php",

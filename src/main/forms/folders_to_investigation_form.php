@@ -63,7 +63,7 @@
 	</div>
 
 	<div class="form-buttons">		
-				
+		<button type="button" class="btn btn-primary" style="height:38px; float: left;"  onclick="loadSearchForm('folders_to_investigation')">Busqueda <i class="fa fa-search" aria-hidden="true"></i></button>		
 		<button type="button" class="btn btn-outline-dark" style="height:38px; width: 100px;"  onclick="resetSection('folders_to_investigation')">Nuevo</button>	
 		<button type="button" class="btn btn-outline-primary" style="height:38px; width: 100px;"  onclick="validateSection('folders_to_investigation')">Guardar</button>	
  
