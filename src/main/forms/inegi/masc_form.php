@@ -110,7 +110,7 @@
 
 			<label style="font-weight:bold">Monto inmueble: *</label>
 
-			<input type="text" class="form-control" id="inegi-masc-amount-property" maxlength="50">	
+			<input type="text" class="form-control" id="inegi-masc-amount-property" maxlength="100">	
 
 		</div>
 
