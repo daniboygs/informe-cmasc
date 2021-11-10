@@ -10,11 +10,11 @@ $conn = $connections['cmasc']['conn'];
 $initial_date = $_POST['initial_date'];
 $finish_date = $_POST['finish_date'];
 
-$db_table = '[inegi].[General]';
+$db_table = '[inegi].[General] g INNER JOIN [inegi].[Delito] d ON g.GeneralID = d.GeneralID INNER JOIN cat.Delito cd ON d.DelitoID = cd.DelitoID';
 
 $data = (object) array(
 	'general_id' => (object) array(
-		'db_column' => "[GeneralID] AS 'id'",
+		'db_column' => "g.[GeneralID] AS 'id'",
 		'search' => true
 	),
 	/*'general_crime' => (object) array(
@@ -40,6 +40,10 @@ $data = (object) array(
 	'user' => (object) array(
 		'db_column' => '[UsuarioID]',
 		'search' => false
+	),
+	'crime_name' => (object) array(
+		'db_column' => "cd.Nombre AS 'Delito'",
+		'search' => true
 	)
 );
 
@@ -103,6 +107,7 @@ function getRecord($attr){
 				'NUC' => $row['NUC'],
 				'Fecha' => $general_date,
 				'Unidad' => $row['Unidad'],
+				'Delito' => $row['Delito'],
 				'Atendidos' => $row['Atendidos']
 			));
 			

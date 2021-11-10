@@ -7,7 +7,7 @@ $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[inegi].[Delito] d INNER JOIN [inegi].[General] g ON d.GeneralID = g.GeneralID INNER JOIN [cat].[Modalidad] m ON d.Modalidad = m.ModalidadID
-INNER JOIN [cat].[Instrumento] i ON d.Instrumento = i.InstrumentoID';
+INNER JOIN [cat].[Instrumento] i ON d.Instrumento = i.InstrumentoID INNER JOIN [cat].[Delito] cd ON d.DelitoID = cd.DelitoID ';
 
 $initial_date = $_POST['initial_date'];
 $finish_date = $_POST['finish_date'];
@@ -51,6 +51,14 @@ $data = (object) array(
 	),
 	'crime_alternative_justice' => (object) array(
 		'db_column' => "CASE [JusticiaAlternativa] WHEN 1 THEN 'Si' WHEN 2 then 'No' END AS 'JusticiaAlternativa'",
+		'search' => true
+	),
+	'crime_name' => (object) array(
+		'db_column' => "cd.Nombre AS 'Delito'",
+		'search' => true
+	),
+	'unity' => (object) array(
+		'db_column' => 'g.Unidad',
 		'search' => true
 	)
 );
@@ -114,6 +122,8 @@ function getRecord($attr){
 			array_push($return, array(
 				'NUC' => $row['NUC'],
 				'Fécha' => $date,
+				'Unidad' => $row['Unidad'],
+				'Delito' => $row['Delito'],
 				'Calificacion' => $row['Calificacion'],
 				'Concurso' => $row['Concurso'],
 				'Forma Accion' => $row['FormaAccion'],
