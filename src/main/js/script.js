@@ -1417,6 +1417,9 @@ function searchSection(section){
                 validated = true;
             }
             break;
+        case 'agreements':
+        case 'folders_to_investigation':
+        case 'folders_to_validation':
         case 'recieved_folders':
             if(document.getElementById('search-nuc') && document.getElementById('search-initial-date') && document.getElementById('search-finish-date')){
                 attr = {
