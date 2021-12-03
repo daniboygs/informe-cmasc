@@ -13,20 +13,22 @@
 		<link rel="stylesheet" href="css/styles.css">
 		<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="../../libs/font-awesome-4.7.0/css/font-awesome.min.css">
-		<!--<link rel="stylesheet" href="../../node_modules/datatables/media/css/jquery.dataTables.min.css">-->
+		<link rel="stylesheet" href="../../node_modules/datatables/media/css/jquery.dataTables.min.css">
 		
 		<script src="../../node_modules/es6/ES6.js"></script>
 		<script src="../../node_modules/jquery/dist/jquery.min.js" ></script>
 		<script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" ></script>
 		<script src="../../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 		<!--<script src="../../node_modules/datatables/media/js/jquery.dataTables.min.js"></script>-->
-		<!--<script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>-->
+		<script src="//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
+		<script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 		
 		<script src="../../js/script.js"></script>
 		<script src="json/sections-attr.js"></script>
 		<script src="json/data.js"></script>
 		<script src="js/multiselect.js"></script>
 		<script src="js/script.js"></script>
+		<script src="js/drag-scrolling.js"></script>
 
 		<title>CMASC</title>
 	</head>
