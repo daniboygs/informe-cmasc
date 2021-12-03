@@ -20,6 +20,8 @@
 
 </div>-->
 
+<div id="month-records-label-section">REGISTROS CAPTURADOS</div>
+
 <table class="data-table table table-striped">
     <tr>
         <th>#</th>

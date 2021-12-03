@@ -22,5 +22,8 @@ var handle_data = {
 	"inegi_excel": {
 		"count": 0,
 		"data": []
+	},
+	"inegi": {
+		"current_search": null
 	}
 }

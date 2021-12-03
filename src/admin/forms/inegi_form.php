@@ -32,6 +32,8 @@
 		
 		<button type="button" class="btn btn-outline-success" style="height:38px; width: 200px;"  onclick="getRecExcel()">Descargar EXCEL</button>
 
+		<button type="button" class="btn btn-outline-dark" style="height:38px;"  onclick="searchPendngInegi()">Buscar Pendientes de captura</button>
+
 		<button type="button" class="btn btn-outline-primary" style="height:38px; width: 200px;"  onclick="searchSectionByRange('inegi')">Buscar</button>
 
 	</div>

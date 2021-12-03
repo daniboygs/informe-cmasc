@@ -628,6 +628,10 @@ function getRecordsByMonth(attr){
         }
     }
 
+    if(attr.section == 'inegi'){
+        handle_data.inegi.current_search = 'month';
+    }
+
     if(attr.initial_interation < attr.finish_interation){
         console.log('by moneh?', attr.section);
 
@@ -680,13 +684,18 @@ function getRecordsByMonth(attr){
                     handle_data.current_records_search_data = response;
                 }
 
+                if(attr.section != 'inegi' || (attr.section == 'inegi' && handle_data.inegi.current_search == 'month')){
 
-                drawRecordsTable({
-                    section: attr.section,
-                    data: response,
-                    file: 'templates/tables/'+attr.section+'_table.php',
-                    element_id: 'records-section'
-                });
+                    drawRecordsTable({
+                        section: attr.section,
+                        data: response,
+                        file: 'templates/tables/'+attr.section+'_table.php',
+                        element_id: 'records-section'
+                    });
+                }
+
+
+                
             }).fail(function(){
 
                 attr.initial_interation++;
@@ -723,6 +732,29 @@ function drawRecordsTable(attr){
             if(sections[attr.section].active){
                 $('#'+attr.element_id).html(response);
             }
+
+            $('#pending-inegi-table').DataTable({
+                language: {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "_START_ - _END_ / _TOTAL_ Registros",
+                    "infoEmpty": "Sin registros",
+                    "infoFiltered": "(Filtrado de _MAX_ registros)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Muestra de _MENU_ registros",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                }
+            });
         });
     }
     else{
@@ -2130,6 +2162,11 @@ function createExcelReport(attr) {
 }
 
 function searchSectionByRange(section){
+
+    if(section == 'inegi'){
+        handle_data.inegi.current_search = 'range';
+    }
+
     searchSectionByRangeDate({
         section: section
     });
@@ -2199,12 +2236,16 @@ function searchSectionByRangeDate(attr){
                     handle_data.current_records_search_data = response;
                 }
 
-                drawRecordsTable({
-                    section: attr.section,
-                    data: response,
-                    file: 'templates/tables/'+attr.section+'_table.php',
-                    element_id: 'records-section'
-                });
+                if(attr.section != 'inegi' || (attr.section == 'inegi' && handle_data.inegi.current_search == 'range')){
+                    drawRecordsTable({
+                        section: attr.section,
+                        data: response,
+                        file: 'templates/tables/'+attr.section+'_table.php',
+                        element_id: 'records-section'
+                    });
+                }
+
+                
             }).fail(function(){
 
                 attr.initial_interation++;
@@ -2227,4 +2268,60 @@ function searchSectionByRangeDate(attr){
     
 
 	
+}
+
+
+function getInegiPendingAgreementsByMonth(attr){
+
+    let validated = false;
+    let post_data = {};
+
+    if(document.getElementById('search-initial-date') && document.getElementById('search-finish-date') && document.getElementById('search-nuc')){
+        post_data = {
+            nuc: document.getElementById('search-nuc').value,
+            initial_date: document.getElementById('search-initial-date').value,
+            finish_date: document.getElementById('search-finish-date').value
+        }
+
+        if(document.getElementById('search-nuc').value != '' || (document.getElementById('search-initial-date').value != '' && document.getElementById('search-finish-date').value != '')){
+            validated = true;
+        }
+        else{
+            Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
+        }
+    }
+
+    if(validated){
+
+        handle_data.inegi.current_search = 'pending';
+    
+        setStaticLoader({
+            section_id: attr.section_id,
+            class: 'static-loader'
+        });
+    
+        $.ajax({
+            url:'service/inegi/get_pending_inegi_by_month.php',
+            type:'POST',
+            dataType: "json",
+            data: post_data,
+            cache:false
+        }).done(function(response){
+    
+            if(handle_data.inegi.current_search == 'pending'){
+                drawRecordsTable({
+                    section: 'inegi',
+                    data: response,
+                    file: 'templates/tables/pending_agreements_table.php',
+                    element_id: attr.section_id
+                });
+            }
+        });
+    }
+}
+
+function searchPendngInegi(){
+    getInegiPendingAgreementsByMonth({
+        section_id: 'records-section'
+    });
 }
