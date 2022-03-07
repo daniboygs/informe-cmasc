@@ -55,6 +55,34 @@ SELECT
 	,u.ApellidoPaterno
 	,u.ApellidoMaterno
 FROM [AcuerdosCelebrados] acu INNER JOIN Usuario u ON acu.UsuarioID = u.UsuarioID WHERE acu.AcuerdoCelebradoID NOT IN (SELECT AcuerdoCelebradoID FROM inegi.General WHERE AcuerdoCelebradoID IS NOT NULL)
+UNION
+SELECT 
+	res.[CarpetaRecibidaID], 
+	NULL AS AcuerdoCelebradoID, 
+	res.NUC, 
+	res.Fecha, 
+	res.Unidad, 
+	res.UsuarioID,
+	'[dbo].[CarpetasRecibidas]' AS 'RecordTable',
+	'[CarpetaRecibidaID]' AS 'RecordFieldID',
+	res.[CarpetaRecibidaID] AS 'RecordID',
+	'[delitos].[CarpetasRecibidas]' AS 'CrimeTable',
+	'[DelitoCarpetaRecibidaID]' AS 'CrimeFieldID',
+	res.[CarpetaRecibidaID] AS 'CrimeID',
+	NULL AS Intervinientes,
+	NULL AS Cumplimiento ,
+	NULL AS TotalParcial ,
+	NULL AS Mecanismo ,
+	NULL AS MontoRecuperado ,
+	NULL AS MontoEspecie ,
+	u.Nombre ,
+	u.ApellidoPaterno ,
+	u.ApellidoMaterno 
+FROM [CarpetasRecibidas] res INNER JOIN Usuario u ON res.UsuarioID = u.UsuarioID INNER JOIN (SELECT [NUC], MAX(Fecha) AS 'FechaMAX'
+  FROM [EJERCICIOS].[dbo].[AcuerdosCelebrados] group by NUC) a on res.NUC = a.NUC
+WHERE res.CarpetaRecibidaID NOT IN 
+(SELECT CarpetaRecibidaID FROM inegi.General WHERE CarpetaRecibidaID IS NOT NULL) 
+AND res.Fecha > a.FechaMAX
 ) subq";
 
 if(isset( $_POST['nuc']))
