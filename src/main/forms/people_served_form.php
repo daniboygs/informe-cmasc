@@ -32,15 +32,15 @@
 
 		</div>
 
-		<div class="col-md-2 form-group">
+		<!--<div class="col-md-2 form-group">
 
 			<label style="font-weight:bold">Personas atendidas: *</label>
 
 			<input type="number" class="form-control" id="people-served-number" min="0">	
 
-		</div>
+		</div>-->
 
-		<div class="col-md-7 form-group">
+		<div class="col-md-9 form-group">
 
 			<label style="font-weight:bold">Unidad: *</label>
 
@@ -51,6 +51,49 @@
 		</div>
 
 	</div>
+
+	<hr>
+
+	<h3>Personas atendidas</h3>
+
+	<div class="form-row">
+
+		<div class="col-md-3 form-group">
+
+			<label style="font-weight:bold">Sexo: *</label>
+			
+			<select id="people-served-gener" name="tipo" style="height: 40px" class="form-control"  required="true">
+				<option value="" selected>Selecciona sexo</option>							
+				<option value="Masculino">Masculino</option>
+				<option value="Femenino">Femenino</option>
+			</select>	
+
+		</div>
+
+		<div class="col-md-2 form-group">
+
+			<label style="font-weight:bold">Edad: *</label>
+
+			<input type="number" class="form-control" id="people-served-age" min="0">
+
+		</div>
+		
+		<div class="col-md-1 form-group">
+
+			<label style="font-weight:bold; width: 100%; color: white;">+</label>
+
+			<button type="button" class="btn btn-outline-primary" style="height:38px;"  onclick="addServedPeopleBySection('people_served')"> + </button>	
+			
+		</div>
+
+	</div>
+
+	<div id="people-served-table-count"><h3></h3></div>
+	
+
+	<div id="people-served-table-section"></div>
+
+	<hr>
 
 	<div class="form-buttons">		
 				

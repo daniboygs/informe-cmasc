@@ -10,5 +10,8 @@ var handle_data = {
 	"rejected_folders_has_changed": false,
 	"rejected_folders_changed_folders": [],
 	"current_records_search_data": null,
-	"main_section": 'recieved_folders'
+	"main_section": 'recieved_folders',
+	"people_served": {
+		"people": {}
+	}
 }

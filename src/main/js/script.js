@@ -173,6 +173,7 @@ function preloadValidation(attr){
 }
 
 function loadForm(attr){
+    handle_data.people_served.people = {};
     console.log('load? attr',attr);
     console.log('load? sections', sections);
     console.log('load? sec', attr.section);
@@ -428,7 +429,56 @@ function validateSection(section){
 function spetialValidationBySection(attr){
     switch(attr.section){
         case 'agreements':
-            console.log('agg');
+
+            checkAgreementsAddedPeople({
+                function: checkActivePeriod,
+                attr: {
+                    element_id: 'agreement-date',
+                    section: 1,
+                    function: checkNuc,
+                    attr: {
+                        current_section: attr.section,
+                        element_id: 'agreement-nuc',
+                        function: checkExistantRecievedFolder,
+                        attr: {
+                            element_id: 'agreement-nuc',
+                            function: saveSection,
+                            attr: {
+                                section: attr.section,
+                                data: attr.data,
+                                success: {
+                                    functions: [
+                                        {
+                                            function: activeInegiForm,
+                                            attr: {
+                                                section: section
+                                            },
+                                            response: false
+                                        },
+                                        {
+                                            function: resetDashboardAlert,
+                                            attr: {
+                                                element_id: 'dashboard-alert-section'
+                                            },
+                                            response: false
+                                        },
+                                        {
+                                            function: savePeopleSectionAfterAgreement,
+                                            attr: {
+                                                element_id: 'agreement-nuc',
+                                                section: 'people_served',
+                                                data: attr.data
+                                            },
+                                            response: false
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            /*console.log('agg');
             checkActivePeriod({
                 element_id: 'agreement-date',
                 section: 1,
@@ -460,11 +510,11 @@ function spetialValidationBySection(attr){
                                         response: false
                                     }
                                 ]
-                            }    
+                            }
                         }
                     }
                 }
-            });
+            });*/
             break;
         case 'folders_to_investigation':
             checkActivePeriod({
@@ -507,7 +557,24 @@ function spetialValidationBySection(attr){
             });
             break;
         case 'people_served':
-            checkActivePeriod({
+            checkPeopleServedAddedPeople({
+                function: checkActivePeriod,
+                attr: {
+                    element_id: 'people-served-date',
+                    section: 1,
+                    function: checkNuc,
+                    current_section: attr.section,
+                    attr: {
+                        element_id: 'people-served-nuc',
+                        function: saveSection,
+                        attr: {
+                            section: attr.section,
+                            data: attr.data
+                        }
+                    }
+                }
+            });
+            /*checkActivePeriod({
                 element_id: 'people-served-date',
                 section: 1,
                 function: checkNuc,
@@ -520,7 +587,7 @@ function spetialValidationBySection(attr){
                         data: attr.data
                     }
                 }
-            });
+            });*/
             break;
         case 'recieved_folders':
             checkActivePeriod({
@@ -545,7 +612,7 @@ function spetialValidationBySection(attr){
         case 'entered_folders':
                 checkActivePeriod({
                     element_id: 'entered-folders-date',
-                    section: 1,
+                    section: 3,
                     function: checkNuc,
                     attr: {
                         current_section: attr.section,
@@ -605,15 +672,35 @@ function saveSection(attr){
             
             Swal.fire('Correcto', 'Datos guardados correctamente', 'success');
             
-            loadDefaultValuesBySection(attr.section);
+            //loadDefaultValuesBySection(attr.section);
             //getRecordsByMonth(attr.section);
 
             if(response.data.id != null){
+                
+            
+                if(attr.section == 'agreements'){
+                    savePeopleSectionAfterAgreement({
+                        data: {
+                            sigi_date: attr.data.sigi_date,
+                            people_served_date: attr.data.agreement_date,
+                            people_served_nuc: attr.data.agreement_nuc,
+                            people_served_number: attr.data.agreement_intervention,
+                            people_served_unity: attr.data.agreement_unity,
+                            served_people_array: attr.data.served_people_array
+                        },
+                        multiselect: handle_data.current_multiselect['agreement_crime']
+                    });
+
+                }
+
                 saveMultiselectFieldsBySection({
                     id: response.data.id,
                     section: attr.section 
                 });
+            
             }
+
+            loadDefaultValuesBySection(attr.section);
             
             console.log('chido chido', response);
             console.log('chido lo', response.state);
@@ -650,7 +737,18 @@ function resetSection(section){
         }
     }
 
+    spetialResetBySection(section);
+
     resetMultiselect();
+}
+
+function spetialResetBySection(section){
+    switch(section){
+        case 'people_served':
+            handle_data.people_served.people = {};
+            break;
+        default:
+    }
 }
 
 function validateNumber(evt) {
@@ -1594,5 +1692,370 @@ function softLoadForm(section){
                 }
             ] 
         }
+    });
+}
+
+function addServedPeopleBySection(section){
+    
+    served_people_attr = {
+        gener: {
+            element_id: 'people-served-gener',
+            type: 'text',
+            default: ""
+        },
+        age: {
+            element_id: 'people-served-age',
+            type: 'text',
+            default: ""
+        }
+    }
+
+    if(validateElements({
+        elements: served_people_attr
+    })){
+
+        let random_id = 0;
+
+        do{
+            random_id = getRandomInt(1000, 9999);
+        }while(handle_data.people_served.people.hasOwnProperty(random_id));
+
+        handle_data.people_served.people = {
+            ...handle_data.people_served.people,
+            [random_id]: {
+                age: document.getElementById(served_people_attr.age.element_id).value,
+                gener: document.getElementById(served_people_attr.gener.element_id).value,
+                id: random_id
+            }
+        }
+
+        resetElements({
+            elements: served_people_attr
+        });
+
+        drawTableByElements({
+            data: handle_data.people_served.people,
+            file: 'templates/tables/default_table.php',
+            placement_element_id: 'people-served-table-section',
+            section: section
+        });
+
+        drawPeopleCount();
+
+    }
+    else{
+        Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
+    }
+}
+
+function removeServedPeople(random_id){
+
+    delete handle_data.people_served.people[random_id];
+
+    drawTableByElements({
+        data: handle_data.people_served.people,
+        file: 'templates/tables/default_table.php',
+        placement_element_id: 'people-served-table-section',
+        section: 'people_served'
+    });
+
+    drawPeopleCount();
+}
+
+function drawPeopleCount(){
+    $('#people-served-table-count h3').html('Personas atendidas: '+Object.keys(handle_data.people_served.people).length);
+}
+
+function validateElements(attr){
+
+    let elements = attr.elements;
+    let validated = true;
+
+    for(element in elements){
+        if(document.getElementById(elements[element].element_id)){
+            switch(elements[element].type){
+                case 'number':
+                    if(document.getElementById(elements[element].element_id).value < 0){
+                        validated = false;
+                    }
+                    break;
+                case 'text':
+                    if(document.getElementById(elements[element].element_id).value == ""){
+                        validated = false;
+                    }
+                    break;
+                default:
+            }
+        }
+        else{
+            validated = false;
+        }
+    }
+
+    return validated;
+}
+
+function resetElements(attr){
+
+    let elements = attr.elements;
+    let validated = true;
+
+    for(element in elements){
+        if(document.getElementById(elements[element].element_id)){
+            switch(elements[element].type){
+                case 'number':
+                    document.getElementById(elements[element].element_id).value = elements[element].default
+                    break;
+                case 'text':
+                    document.getElementById(elements[element].element_id).value = elements[element].default
+                    break;
+                default:
+            }
+        }
+        else{
+            validated = false;
+        }
+    }
+
+    return validated;
+}
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function drawTableByElements(attr){
+
+    if(attr.data != null){
+
+        if(Object.keys(attr.data).length > 0){
+            $.ajax({
+                url: attr.file,
+                type: 'POST',
+                dataType: "html",
+                data: {
+                    data: JSON.stringify(attr.data)
+                },
+                cache: false
+            }).done(function(response){
+                
+                if(sections[attr.section].active){
+                    $('#'+attr.placement_element_id).html(response);
+                }
+            });
+        }
+        else{
+            loadDashboardAlert({
+                template_file: 'templates/elements/dashboard_alert.php',
+                element_id: attr.placement_element_id,
+                element_attr: {
+                    attr: {
+                        type: 'secondary',
+                        message: 'No hay registros!'
+                    }
+                } 
+            });
+        }
+    }
+    else{
+        loadDashboardAlert({
+            template_file: 'templates/elements/dashboard_alert.php',
+            element_id: attr.placement_element_id,
+            element_attr: {
+                attr: {
+                    type: 'secondary',
+                    message: 'No hay registros!'
+                }
+            } 
+        });
+    }
+}
+
+function checkPeopleServedAddedPeople(attr){
+
+    console.log('attr de added people: ', attr);
+
+    if(handle_data.people_served.people != null){
+
+        console.log('entre a chek aded: ', Object.keys(handle_data.people_served.people).length);
+
+        if(Object.keys(handle_data.people_served.people).length > 0){
+
+            
+            attr.attr.attr.attr.data = {
+                ...attr.attr.attr.attr.data,
+                people_served_number: Object.keys(handle_data.people_served.people).length,
+                served_people_array: JSON.stringify(handle_data.people_served.people)
+            }
+
+            console.log('entre a if mas de 0 que tengo: ', attr.attr);
+
+            attr.function(attr.attr);
+        }
+        else{
+            setLoader({
+                add: false
+            });
+
+            Swal.fire('Campos faltantes', 'Tiene que agregar por lo menos a una persona', 'warning');
+        }
+    }
+    else{
+        setLoader({
+            add: false
+        });
+
+        Swal.fire('Campos faltantes', 'Tiene que agregar por lo menos a una persona', 'warning');
+    }
+}
+
+function checkAgreementsAddedPeople(attr){
+
+    console.log('cheking ...');
+
+    console.log('attr de added people agreements: ', attr);
+
+    if(handle_data.people_served.people != null){
+
+        console.log('entre a chek aded: ', Object.keys(handle_data.people_served.people).length);
+
+        if(Object.keys(handle_data.people_served.people).length > 0){
+
+            
+            attr.attr.attr.attr.attr.data = {
+                ...attr.attr.attr.attr.attr.data,
+                agreement_intervention: Object.keys(handle_data.people_served.people).length,
+                served_people_array: JSON.stringify(handle_data.people_served.people)
+            }
+
+            console.log('entre a if mas de 0 que tengo: ', attr.attr);
+
+            attr.function(attr.attr);
+        }
+        else{
+            setLoader({
+                add: false
+            });
+
+            Swal.fire('Campos faltantes', 'Tiene que agregar por lo menos a una persona', 'warning');
+        }
+    }
+    else{
+        setLoader({
+            add: false
+        });
+
+        Swal.fire('Campos faltantes', 'Tiene que agregar por lo menos a una persona', 'warning');
+    }
+}
+
+function savePeopleSectionAfterAgreement(attr){
+
+    console.log('espero guarde people after agreements: ', attr);
+
+    $.ajax({
+		url: 'service/'+sections['people_served'].create_file,
+        type: 'POST',
+        dataType : 'json', 
+		data: {
+			...attr.data
+		},
+		cache: false
+	}).done(function(response){
+
+        console.log('si wasd');
+
+
+        if(response.state == 'success'){
+            
+            //Swal.fire('Correcto', 'Datos guardados correctamente', 'success');
+            
+            //loadDefaultValuesBySection(attr.section);
+            //getRecordsByMonth(attr.section);
+
+            if(response.data.id != null){
+                /*saveMultiselectFieldsBySection({
+                    id: response.data.id,
+                    section: 'people_served'
+                });*/
+
+                saveMultiselectPeopleCrimesAfterAgreement({
+                    section: 'people_served',
+                    service_file: 'crimes/create_people_served_crimes.php',
+                    post_data: {
+                        id: response.data.id,
+                        data: attr.multiselect
+                    }
+                });
+            }
+            
+            console.log('chido chido', response);
+            console.log('chido lo', response.state);
+        }
+        else{
+
+            //Swal.fire('Error', 'Ha ocurrido un error, vuelva a intentarlo', 'error');
+
+            console.log('not chido', response);
+            console.log('chido no lo', response.state);
+        }
+
+        setLoader({
+            add: false
+        });
+
+	}).fail(function (jqXHR, textStatus) {
+        //Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de nofificar a DPE.', 'error');
+
+        setLoader({
+            add: false
+        });
+    });
+    
+}
+
+function saveMultiselectPeopleCrimesAfterAgreement(attr){
+
+    console.log('save multiple: ', attr);
+
+    $.ajax({
+		url: 'service/'+attr.service_file,
+        type: 'POST',
+        dataType : 'json', 
+		data: attr.post_data,
+		cache: false
+	}).done(function(response){
+
+        console.log('si wasd');
+
+
+        if(response.state == 'success'){
+            
+            Swal.fire('Correcto', 'Datos guardados correctamente', 'success');
+
+            console.log('chido chido', response);
+
+            //resetSection(attr.section);
+
+        }
+        else{
+
+            Swal.fire('Error', 'Ha ocurrido un error, vuelva a intentarlo', 'error');
+
+            console.log('not chido', response);
+        }
+
+        setLoader({
+            add: false
+        });
+
+	}).fail(function (jqXHR, textStatus) {
+        
+        Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de nofificar a DPE.', 'error');
+
+
+        setLoader({
+            add: false
+        });
     });
 }

@@ -57,7 +57,7 @@ var sections = {
 					"search_file": null
 				}
 			},
-			{
+			/*{
 				"id": "agreement-intervention",
 				"name": "agreement_intervention",
 				"type": "number",
@@ -71,7 +71,7 @@ var sections = {
 				"catalog": null,
 				"required": true,
 				"service": null
-			},
+			},*/
 			{
 				"id": "agreement-nuc",
 				"name": "agreement_nuc",
@@ -474,7 +474,7 @@ var sections = {
 				"required": true,
 				"service": null
 			},
-			{
+			/*{
 				"id": "people-served-number",
 				"name": "people_served_number",
 				"type": "number",
@@ -488,7 +488,7 @@ var sections = {
 				"catalog": null,
 				"required": true,
 				"service": null
-			},
+			},*/
 			{
 				"id": "people-served-unity",
 				"name": "people_served_unity",
@@ -1427,5 +1427,42 @@ var sections = {
 		"active": false,
 		"data": [],
 		"loaded_data": false
+	}
+}
+
+var subsection = {
+	"people_served": {
+		"fields": [
+			{
+				"id": "rejected-folders-initial-date",
+				"name": "rejected_folders_initial_date",
+				"type": "date",
+				"placeholder": "Ingresa Fecha",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": "today",
+				"catalog": null,
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "rejected-folders-finish-date",
+				"name": "rejected_folders_finish_date",
+				"type": "date",
+				"placeholder": "Ingresa Fecha",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": "today",
+				"catalog": null,
+				"required": true,
+				"service": null
+			}
+		]
 	}
 }

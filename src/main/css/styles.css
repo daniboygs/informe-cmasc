@@ -286,3 +286,13 @@ table tr td{
     overflow-x: auto;
     white-space: nowrap;
 }
+
+#people-served-table-count{
+    width: 100%;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+#people-served-table-count h3{
+    float: right;
+}

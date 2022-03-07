@@ -4,7 +4,7 @@ include('../../../service/connection.php');
 $conn = $connections['sigi']['conn'];
 $db = $connections['sigi']['db'];
 
-if(isset( $_POST['nucs']))
+/*if(isset( $_POST['nucs']))
     $array_nucs = $_POST['nucs'];
 else
     $array_nucs = $_POST['nucs'];
@@ -13,7 +13,7 @@ else
 $array_nucs_string = json_encode($array_nucs);
 
 $banned = array('"', '[', ']');
-$in_sql_nucs = str_replace($banned, "", $array_nucs_string);
+$in_sql_nucs = str_replace($banned, "", $array_nucs_string);*/
 
 if($conn){
     $sql = "SELECT 
@@ -22,7 +22,12 @@ if($conn){
                 FROM  
                 dbo.caso 
                 left join dbo.Expediente ON Expediente.Caso_id = dbo.Caso.Caso_id		
-                where dbo.caso.cNumeroGeneralCaso IN ($in_sql_nucs)";
+                where dbo.caso.cNumeroGeneralCaso IN (
+'1001202047354',
+'1004202031944',
+'1003202041699',
+'1003202016859'
+                )";
 
     $params = array();
     $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );

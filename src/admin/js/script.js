@@ -110,6 +110,7 @@ function loadForm(section){
             $('#records-section').html('');
             getActivePeriod();
             getInegiActivePeriod();
+            getEnteredFoldersActivePeriod();
         }
         
 
@@ -416,7 +417,7 @@ function spetialValidationBySection(attr){
             });
             break;
         case 'entered_folders':
-                checkActivePeriod({
+                checkEnteredFoldersActivePeriod({
                     element_id: 'entered-folders-date',
                     section: 1,
                     function: checkNuc,
@@ -894,31 +895,52 @@ function searchSection(section){
 
 function deleteRecord(section, id){
 
-    Swal.fire({
-        title: 'Estas seguro?',
-        text: 'El registro sera eliminado de forma permanente!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Si',
-        cancelButtonText: 'No'
-    }).then((result) => {
-        if(result.isConfirmed){
-            $.ajax({
-                url:'service/delete_'+section+'.php',
-                type:'POST',
-                dataType: "json",
-                data: {
-                    id: id
-                },
-                cache:false
-            }).done(function(response){
-                Swal.fire('Correcto', 'Registro eliminado correctamente', 'success');
-                getRecordsByMonth({
-                    section: section
-                });
+    switch(section){
+        case 'agreements':
+            deleteRecordBySection({
+                section: section,
+                id: id,
+                url_service_file: 'service/delete_'+section+'.php',
+                on_service_success: {
+                    functions: [
+                        {
+                            function: deleteRecordBySection,
+                            attr: {
+                                section: section,
+                                id: id,
+                                url_service_file: 'service/inegi/delete_inegi_by_agreement_id.php',
+                                on_service_success: {
+                                    functions: [
+                                        {
+                                            function: getRecordsByMonth,
+                                            attr: section
+                                        }
+                                    ],
+                                    success_message: 'Registro eliminado correctamente'
+                                }
+                            }
+                        }
+                    ],
+                    success_message: null
+                }
             });
-        }
-    });
+            break;
+        default:
+            deleteRecordBySection({
+                section: section,
+                id: id,
+                url_service_file: 'service/delete_'+section+'.php',
+                on_service_success: {
+                    functions: [
+                        {
+                            function: getRecordsByMonth,
+                            attr: section
+                        }
+                    ],
+                    success_message: 'Registro eliminado correctamente'
+                }
+            });
+    }
 
     //let date = new Date();
 
@@ -942,6 +964,47 @@ function deleteRecord(section, id){
     }*/
 
 	
+}
+
+function deleteRecordBySection(attr){
+    Swal.fire({
+        title: 'Estas seguro?',
+        text: 'El registro sera eliminado de forma permanente!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if(result.isConfirmed){
+            $.ajax({
+                url: attr.url_service_file,
+                type: 'POST',
+                dataType: "json",
+                data: {
+                    id: attr.id
+                },
+                cache:false
+            }).done(function(response){
+
+                if(attr.on_service_success != undefined && attr.on_service_success != null){
+
+                    for(func in attr.success.functions){
+                        attr.on_service_success.functions[func].function(attr.on_service_success.functions[func].attr);
+                    }
+
+                    if(attr.success_message != null){
+                        Swal.fire('Correcto', attr.success_message, 'success');
+                    }
+                }
+
+
+                //Swal.fire('Correcto', attr.success_message, 'success');
+                /*getRecordsByMonth({
+                    section: attr.section
+                });*/
+            });
+        }
+    });
 }
 
 function tableToExcel(){
@@ -1015,6 +1078,22 @@ function getNucsDate(attr){
         attr.attr.nuc_dates = response.data
 
         attr.func(attr.attr);
+
+	});
+}
+
+function getStaticNucsDate(){
+
+    console.log('searching... ');
+
+	$.ajax({
+		url:'service/get_nucs_date.php',
+		type:'POST',
+        dataType: "json",
+        data: null,
+	}).done(function(response){
+        
+        console.log(response.data);
 
 	});
 }
@@ -1308,6 +1387,183 @@ function onChangeInegiDaily(){
         document.getElementById('capture-inegi-period-initial-date').disabled = false;
         document.getElementById('capture-inegi-period-finish-date').disabled = false;
     }
+}
+
+function getEnteredFoldersActivePeriod(){
+
+    console.log('active? o q?');
+
+	$.ajax({
+		url:'service/get_active_period.php',
+		type:'POST',
+        dataType: "json",
+        data: {
+            section: 3
+        },
+	}).done(function(response){
+        console.log('res de active',response);
+
+        let period = response;
+
+        let initial_date = new Date(period.initial_us_date);
+
+        initial_date.setHours(initial_date.getHours()+6);
+
+        document.getElementById('capture-entered-folders-period-initial-date').valueAsDate = initial_date;
+
+        let finish_date = new Date(period.finish_us_date);
+
+        finish_date.setHours(finish_date.getHours()+6);
+
+        document.getElementById('capture-entered-folders-period-finish-date').valueAsDate = finish_date;
+
+        document.getElementById('capture-entered-folders-period-daily').checked = period.daily;
+
+        if(period.daily){
+            $('#capture-entered-folders-period-label').html('Periodo de captura: Diaria');
+            document.getElementById('capture-entered-folders-period-initial-date').disabled = true;
+            document.getElementById('capture-entered-folders-period-finish-date').disabled = true;
+        }
+        else{
+            $('#capture-entered-folders-period-label').html('Periodo de captura: '+response.initial_date+' al '+response.finish_date);
+        }
+        
+	});
+}
+
+function activateEnteredFoldersPeriod(){
+    if(document.getElementById('capture-entered-folders-period-initial-date') && document.getElementById('capture-entered-folders-period-finish-date')){
+
+        console.log('exis per');
+        if((document.getElementById('capture-entered-folders-period-initial-date') != '' && document.getElementById('capture-entered-folders-period-finish-date') != '') || document.getElementById('capture-entered-folders-period-daily').checked){
+            console.log('apenas voy per');
+            $.ajax({  
+                type: "POST",  
+                url: "service/update_entered_folder_capture_period.php", 
+                dataType : 'json', 
+                data: {
+                    initial_date: document.getElementById('capture-entered-folders-period-initial-date').value,
+                    finish_date: document.getElementById('capture-entered-folders-period-finish-date').value,
+                    daily: document.getElementById('capture-entered-folders-period-daily').checked
+                },
+            }).done(function(response){
+
+                console.log('response? per');
+        
+                if(response.state != "fail"){
+
+                    Swal.fire('Correcto', 'Se ha habilitado un nuevo periodo de captura', 'success');
+
+                    getEnteredFoldersActivePeriod();
+                            
+                }
+                else{
+                    Swal.fire('Oops...', 'Ha fallado la conexión!', 'error');
+                }
+                
+            }); 
+        }
+        else{
+            Swal.fire('Campos incompletos', 'Debe llenar ambas fechas', 'warning');
+        }
+    }
+    else{
+    }
+}
+
+function onChangeEnteredFoldersDaily(){
+    if(document.getElementById('capture-entered-folders-period-daily').checked){
+        document.getElementById('capture-entered-folders-period-initial-date').disabled = true;
+        document.getElementById('capture-entered-folders-period-finish-date').disabled = true;
+    }
+    else{
+        document.getElementById('capture-entered-folders-period-initial-date').disabled = false;
+        document.getElementById('capture-entered-folders-period-finish-date').disabled = false;
+    }
+}
+
+function checkEnteredFoldersActivePeriod(attr){
+
+    if(document.getElementById(attr.element_id)){
+        console.log('active? o q?');
+
+        $.ajax({
+            url:'service/get_active_period.php',
+            type:'POST',
+            dataType: "json",
+            data: {
+                section: attr.section
+            },
+        }).done(function(response){
+            console.log('res de active',response);
+
+            let form_date = new Date(document.getElementById(attr.element_id).value);
+            console.log('f_datre', form_date);
+            form_date.setHours(form_date.getHours()+6);
+            console.log('f_datre_af', form_date);
+            let form_date_mx = form_date.toLocaleDateString("es-MX");
+    
+            let initial_date = new Date(response.initial_us_date);
+            console.log('i_date', initial_date);
+            //initial_date.setHours(initial_date.getHours()+6);
+            //initial_date = initial_date.toLocaleDateString("es-MX");
+    
+    
+            let finish_date = new Date(response.finish_us_date);
+            console.log('f_date', finish_date);
+            finish_date.setHours(finish_date.getHours()+23);
+            finish_date.setMinutes(finish_date.getMinutes(59));
+            //finish_date = finish_date.toLocaleDateString("es-MX");
+
+
+            if(response.daily){
+                console.log('daily');
+
+                let today = new Date();
+                today = today.toLocaleDateString("es-MX");
+
+                if(form_date_mx != today){
+                    console.log('daily noup: ', today);
+                    console.log('daily noup form da: ', form_date);
+
+                    /*setLoader({
+                        add: false
+                    });*/
+
+                    Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
+                }
+                else{
+                    console.log('daily yes');
+                    attr.function(attr.attr);
+                }
+
+            }
+            else{
+
+                console.log('form_date: ', new Date(form_date));
+                console.log('finish_date: ', new Date(finish_date));
+                console.log('initial_date: ', new Date(initial_date));
+                if(form_date <= finish_date && form_date >= initial_date){
+                    console.log('yes');
+    
+                    attr.function(attr.attr);
+    
+    
+                }
+                else{
+                    console.log('noup');
+                    /*setLoader({
+                        add: false
+                    });*/
+    
+                    Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
+                }
+            }
+    
+    
+        });
+    }
+    
 }
 
 function loadDashboardAlert(attr){
