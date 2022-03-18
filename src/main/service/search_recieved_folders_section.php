@@ -7,6 +7,7 @@ $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = "[dbo].[CarpetasRecibidas] cr INNER JOIN Usuario u ON cr.UsuarioID = u.UsuarioID INNER JOIN [cat].[Fiscalia] f ON  u.FiscaliaID = f.FiscaliaID 
+LEFT JOIN [cat].[Fiscalia] f ON cr.FiscaliaID = f.FiscaliaID LEFT JOIN [cat].[Unidad] uni ON cr.UnidadID = uni.UnidadID
 LEFT JOIN 
 (
 SELECT MAX([Fecha]) AS 'inves_max_date'
@@ -64,7 +65,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'recieved_folders_unity' => (object) array(
-		'db_column' => '[Unidad]',
+		'db_column' => 'uni.[Nombre] AS "Unidad"',
 		'search' => true
 	),
 	'user' => (object) array(
@@ -84,7 +85,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'fiscalia' => (object) array(
-		'db_column' => "f.[Nombre] AS 'Fiscalia'",
+		'db_column' => 'f.[Nombre] AS "Fiscalia"',
 		'search' => true
 	),
 	'recieved_folders_investigation_date' => (object) array(
@@ -229,7 +230,7 @@ function getRecord($attr){
 					'name' => 'Facilitador',
 					'value' => $row['Nombre'].' '.$row['ApellidoPaterno'].' '.$row['ApellidoMaterno']
 				),			
-				'fiscalia' => array(
+				'recieved_folders_fiscalia' => array(
 					'name' => 'Fiscalía',
 					'value' => $row['Fiscalia']
 				),

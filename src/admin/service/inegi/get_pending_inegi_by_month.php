@@ -126,7 +126,7 @@ function getRecord($attr){
 	//$conditions = formSearchConditions($attr->sql_conditions);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
-	$sql = "SELECT * FROM $attr->db_table $conditions ORDER BY subq.Fecha, subq.NUC DESC";
+	$sql = "SELECT * FROM $attr->db_table $conditions ORDER BY subq.Fecha, subq.NUC DESC"; //echo $sql;
 	
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 

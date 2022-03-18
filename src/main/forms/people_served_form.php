@@ -2,7 +2,7 @@
 
 	<div class="form-row">
 
-		<div class="col-md-3 form-group">
+		<div class="col-md-2 form-group">
 
 			<label style="font-weight:bold">Fecha: *</label>
 
@@ -10,21 +10,7 @@
 
 		</div>
 
-		<div class="col-md-9 form-group">
-
-			<label style="font-weight:bold">Delito: *</label>
-			
-			<div id="people-served-crime-section">
-				<div style="color: #EE6E5A;">Cargando datos... </div>
-			</div>
-
-		</div>
-
-	</div>
-
-	<div class="form-row">
-
-		<div class="col-md-3 form-group">
+		<div class="col-md-2 form-group">
 
 			<label style="font-weight:bold">NUC: *</label>
 
@@ -32,19 +18,11 @@
 
 		</div>
 
-		<!--<div class="col-md-2 form-group">
+		<div class="col-md-8 form-group">
 
-			<label style="font-weight:bold">Personas atendidas: *</label>
-
-			<input type="number" class="form-control" id="people-served-number" min="0">	
-
-		</div>-->
-
-		<div class="col-md-9 form-group">
-
-			<label style="font-weight:bold">Unidad: *</label>
-
-			<div id="people-served-unity-section">
+			<label style="font-weight:bold">Delito: *</label>
+			
+			<div id="people-served-crime-section">
 				<div style="color: #EE6E5A;">Cargando datos... </div>
 			</div>
 

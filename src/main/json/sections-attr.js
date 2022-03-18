@@ -150,7 +150,7 @@ var sections = {
 				"required": true,
 				"service": null
             },
-            {
+            /*{
 				"id": "agreement-unity",
 				"name": "agreement_unity",
 				"type": "select",
@@ -167,7 +167,7 @@ var sections = {
 				},
 				"required": true,
 				"service": null
-			},
+			},*/
 			{
 				"id": "agreement-amount-in-kind",
 				"name": "agreement_amount_in_kind",
@@ -256,7 +256,7 @@ var sections = {
 				"catalog": null,
 				"required": true,
 				"service": null
-			},
+			}/*,
             {
 				"id": "recieved-folders-unity",
 				"name": "recieved_folders_unity",
@@ -274,7 +274,7 @@ var sections = {
 				},
 				"required": true,
 				"service": null
-			}
+			}*/
 		],
 		"active": false,
 		"data": [],
@@ -364,7 +364,7 @@ var sections = {
 				"required": true,
 				"service": null
 			},*/
-            {
+            /*{
 				"id": "folders-to-investigation-unity",
 				"name": "folders_to_investigation_unity",
 				"type": "select",
@@ -381,7 +381,7 @@ var sections = {
 				},
 				"required": true,
 				"service": null
-			},
+			},*/
 			{
 				"id": "folders-to-investigation-channeling-reason",
 				"name": "folders_to_investigation_channeling_reason",
@@ -473,8 +473,8 @@ var sections = {
 				"catalog": null,
 				"required": true,
 				"service": null
-			},
-			/*{
+			}/*,
+			{
 				"id": "people-served-number",
 				"name": "people_served_number",
 				"type": "number",
@@ -488,7 +488,7 @@ var sections = {
 				"catalog": null,
 				"required": true,
 				"service": null
-			},*/
+			},
 			{
 				"id": "people-served-unity",
 				"name": "people_served_unity",
@@ -506,7 +506,7 @@ var sections = {
 				},
 				"required": true,
 				"service": null
-			}
+			}*/
 		],
 		"active": false,
 		"data": [],
@@ -853,7 +853,7 @@ var sections = {
 				"catalog": null,
 				"required": true,
 				"service": null
-			},
+			}/*,
 			{
 				"id": "folders-to-validation-unity",
 				"name": "folders_to_validation_unity",
@@ -871,7 +871,7 @@ var sections = {
 				},
 				"required": true,
 				"service": null
-			}
+			}*/
 		],
 		"active": false,
 		"data": [],
@@ -1305,7 +1305,10 @@ var sections = {
 					"length": null
 				},
 				"default": null,
-				"catalog": null,
+				"catalog": {
+					service_file: 'get_fiscalias.php',
+					data: null
+				},
 				"required": true,
 				"service": null
 			},

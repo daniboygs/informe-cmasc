@@ -6,7 +6,7 @@ include("common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[CarpetasEnviadasValidacion]';
+$db_table = '[dbo].[CarpetasEnviadasValidacion] c LEFT JOIN [cat].[Fiscalia] f ON c.FiscaliaID = f.FiscaliaID LEFT JOIN [cat].[Unidad] uni ON c.UnidadID = uni.UnidadID';
 
 $month = $_POST['month'];
 $year = $_POST['year'];
@@ -33,7 +33,11 @@ $data = (object) array(
 		'search' => true
 	),
 	'folders_to_validation_unity' => (object) array(
-		'db_column' => '[Unidad]',
+		'db_column' => 'uni.[Nombre] AS "Unidad"',
+		'search' => true
+	),
+	'folders_to_validation_fiscalia' => (object) array(
+		'db_column' => 'f.[Nombre] AS "Fiscalia"',
 		'search' => true
 	),
 	'user' => (object) array(
@@ -144,6 +148,10 @@ function getRecord($attr){
 				'folders_to_validation_unity' => array(
 					'name' => 'Unidad',
 					'value' => $row['Unidad']
+				),
+				'folders_to_validation_fiscalia' => array(
+					'name' => 'Fiscalia',
+					'value' => $row['Fiscalia']
 				)
 			));
 			

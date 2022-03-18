@@ -48,7 +48,6 @@
         else{
 ?>
             <th>Canalizador</th>
-            <th>Fiscalía</th>
             <th>Municipio</th>
             <th>Observaciones</th>
             <th>Fecha Carpetas</th>
@@ -94,12 +93,11 @@
         else{
 ?>
             <td><?php echo $element['entered_folders_channeler']['value']; ?></td>
-            <td><?php echo $element['entered_folders_fiscalia']['value']; ?></td>
             <td><?php echo $element['entered_folders_municipality']['value']; ?></td>
             <td><?php echo $element['entered_folders_observations']['value']; ?></td>
             <td><?php echo $element['entered_folders_folders_date']['value']; ?></td>
             <td><?php echo $element['entered_folders_facilitator']['value']; ?></td>
-            <td><?php echo $element['fiscalia']['value']; ?></td>
+            <td><?php echo $element['entered_folders_fiscalia']['value']; ?></td>
 <?php
         }
 ?>   

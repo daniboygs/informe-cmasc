@@ -13,8 +13,9 @@ $sigi_date = $_POST['sigi_date'];
 $recieved_folders_date = $_POST['recieved_folders_date'];
 //$recieved_folders_crime = $_POST['recieved_folders_crime'];
 $recieved_folders_nuc = $_POST['recieved_folders_nuc'];
-$recieved_folders_unity = $_POST['recieved_folders_unity'];
+//$recieved_folders_unity = $_POST['recieved_folders_unity'];
 
+$entered_folders_data = $_POST['entered_folders_data'];
 
 
 $data = (object) array(
@@ -43,10 +44,22 @@ $data = (object) array(
 		'db_column' => '[NUC]'
 	),
 	'recieved_folders_unity' => (object) array(
-		'type' => 'text',
-		'value' => $recieved_folders_unity,
+		'type' => 'number',
+		'value' => $entered_folders_data['unity'],
 		'null' => false,
-		'db_column' => '[Unidad]'
+		'db_column' => '[UnidadID]'
+	),
+	'entered_folder_id' => (object) array(
+		'type' => 'number',
+		'value' => $entered_folders_data['id'],
+		'null' => false,
+		'db_column' => '[CarpetaIngresadaID]'
+	),
+	'fiscalia' => (object) array(
+		'type' => 'number',
+		'value' => 'null',
+		'null' => true,
+		'db_column' => '[FiscaliaID]'
 	),
 	'user' => (object) array(
 		'type' => 'number',
@@ -70,6 +83,9 @@ else{
 
 	$data->user->value = $_SESSION['user_data']['id'];
 	$data->user->null = false;
+
+	$data->fiscalia->value = $_SESSION['user_data']['fiscalia'];
+	$data->fiscalia->null = false;
 	
 	echo json_encode(
 		createSection(

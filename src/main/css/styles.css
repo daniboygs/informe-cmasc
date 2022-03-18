@@ -99,10 +99,6 @@
     color: #152F4A;
 }
 
-#inegi-current-record-section table tbody tr td{
-    /*background-color: aquamarine;*/
-}
-
 table tr th{
     cursor: pointer;
 }
@@ -123,8 +119,8 @@ table tr td{
     background-color: #152F4A; 
     color: white; 
     padding: 7px;
-    font-family: LabradorA;
-    font-size: 20pt;
+    /*font-family: LabradorA;
+    font-size: 20pt;*/
 }
 
 .data-table tr td{

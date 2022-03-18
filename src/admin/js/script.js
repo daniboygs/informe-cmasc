@@ -904,20 +904,51 @@ function deleteRecord(section, id){
                 on_service_success: {
                     functions: [
                         {
-                            function: deleteRecordBySection,
+                            function: deleteRecordNoConfirmation,
                             attr: {
-                                section: section,
+                                section: null,
                                 id: id,
                                 url_service_file: 'service/inegi/delete_inegi_by_agreement_id.php',
                                 on_service_success: {
-                                    functions: [
-                                        {
-                                            function: getRecordsByMonth,
-                                            attr: section
-                                        }
-                                    ],
-                                    success_message: 'Registro eliminado correctamente'
+                                    functions: [],
+                                    success_message: 'Registros de acuerdo e INEGI eliminados correctamente'
                                 }
+                            }
+                        },
+                        {
+                            function: getRecordsByMonth,
+                            attr: {
+                                section: section
+                            }
+                        }
+                    ],
+                    success_message: null
+                }
+            });
+            break;
+        case 'recieved_folders':
+            deleteRecordBySection({
+                section: section,
+                id: id,
+                url_service_file: 'service/delete_'+section+'.php',
+                on_service_success: {
+                    functions: [
+                        {
+                            function: deleteRecordNoConfirmation,
+                            attr: {
+                                section: null,
+                                id: id,
+                                url_service_file: 'service/inegi/delete_inegi_by_recieved_folder_id.php',
+                                on_service_success: {
+                                    functions: [],
+                                    success_message: 'Registros de carpeta recibida e INEGI eliminados correctamente'
+                                }
+                            }
+                        },
+                        {
+                            function: getRecordsByMonth,
+                            attr: {
+                                section: section
                             }
                         }
                     ],
@@ -934,7 +965,9 @@ function deleteRecord(section, id){
                     functions: [
                         {
                             function: getRecordsByMonth,
-                            attr: section
+                            attr: {
+                                section: section
+                            }
                         }
                     ],
                     success_message: 'Registro eliminado correctamente'
@@ -988,22 +1021,49 @@ function deleteRecordBySection(attr){
 
                 if(attr.on_service_success != undefined && attr.on_service_success != null){
 
-                    for(func in attr.success.functions){
+                    for(func in attr.on_service_success.functions){
                         attr.on_service_success.functions[func].function(attr.on_service_success.functions[func].attr);
                     }
 
-                    if(attr.success_message != null){
+                    if(attr.on_service_success.success_message != null){
                         Swal.fire('Correcto', attr.success_message, 'success');
                     }
                 }
+                
+            }).fail(function(){
 
-
-                //Swal.fire('Correcto', attr.success_message, 'success');
-                /*getRecordsByMonth({
-                    section: attr.section
-                });*/
+                Swal.fire('Oops...', 'Ha ocurrido un error, no se ha podido eliminar el registro!', 'error');
+        
             });
         }
+    });
+}
+
+function deleteRecordNoConfirmation(attr){
+    $.ajax({
+        url: attr.url_service_file,
+        type: 'POST',
+        dataType: "json",
+        data: {
+            id: attr.id
+        },
+        cache:false
+    }).done(function(response){
+
+        if(attr.on_service_success != undefined && attr.on_service_success != null){
+
+            for(func in attr.on_service_success.functions){
+                attr.on_service_success.functions[func].function(attr.on_service_success.functions[func].attr);
+            }
+
+            if(attr.on_service_success.success_message != null){
+                Swal.fire('Correcto', attr.success_message, 'success');
+            }
+        }
+    }).fail(function(){
+
+        Swal.fire('Oops...', 'Ha ocurrido un error, no se ha podido eliminar el registro de inegi!', 'error');
+
     });
 }
 

@@ -13,6 +13,7 @@
         <th>Delito</th>
         <th>Motivo de canalización</th>
         <th>Unidad</th>
+        <th>Fiscalía</th>
         <!--<th>Acción</th>-->
     </tr>
 <?php
@@ -27,6 +28,7 @@
         <td class="align-left bold-text"><?php echo $element['folders_to_investigation_crime']['value']; ?></td>
         <td><?php echo $element['folders_to_investigation_channeling_reason']['value']; ?></td>
         <td><?php echo $element['folders_to_investigation_unity']['value']; ?></td>
+        <td><?php echo $element['folders_to_investigation_fiscalia']['value']; ?></td>
     </tr>
 <?php
             $i++;

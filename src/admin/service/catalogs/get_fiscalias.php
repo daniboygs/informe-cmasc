@@ -5,11 +5,11 @@ include("../../../../service/connection.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[cat].[Unidad]';
+$db_table = '[cat].[Fiscalia]';
 
 $elements = array();
 
-$sql = "SELECT [UnidadID] AS 'id'
+$sql = "SELECT [FiscaliaID] AS 'id'
 			,[Nombre]
 		FROM $db_table";
 

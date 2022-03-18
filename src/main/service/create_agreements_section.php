@@ -18,12 +18,12 @@ $intervention = $_POST['agreement_intervention'];
 $mechanism = $_POST['agreement_mechanism'];
 $nuc = $_POST['agreement_nuc'];
 $total = $_POST['agreement_total'];
-$unity = $_POST['agreement_unity'];
+//$unity = $_POST['agreement_unity'];
 $amount_in_kind = $_POST['agreement_amount_in_kind'];
 
 $served_people_array = $_POST['served_people_array'];
 
-
+$recieved_folders_data = $_POST['recieved_folders_data'];
 
 $data = (object) array(
 	'sigi_date' => (object) array(
@@ -81,16 +81,28 @@ $data = (object) array(
 		'db_column' => '[TotalParcial]'
 	),
 	'unity' => (object) array(
-		'type' => 'text',
-		'value' => $unity,
+		'type' => 'number',
+		'value' => $recieved_folders_data['unity'],
 		'null' => false,
-		'db_column' => '[Unidad]'
+		'db_column' => '[UnidadID]'
 	),
 	'amount_in_kind' => (object) array(
 		'type' => 'text',
 		'value' => $amount_in_kind,
 		'null' => false,
 		'db_column' => '[MontoEspecie]'
+	),
+	'recieved_folder_id' => (object) array(
+		'type' => 'number',
+		'value' => $recieved_folders_data['id'],
+		'null' => false,
+		'db_column' => '[CarpetaRecibidaID]'
+	),
+	'fiscalia' => (object) array(
+		'type' => 'number',
+		'value' => 'null',
+		'null' => true,
+		'db_column' => '[FiscaliaID]'
 	),
 	'user' => (object) array(
 		'type' => 'number',
@@ -115,6 +127,9 @@ else{
 	$data->user->value = $_SESSION['user_data']['id'];
 	$data->user->null = false;
 
+	$data->fiscalia->value = $_SESSION['user_data']['fiscalia'];
+	$data->fiscalia->null = false;
+
 	$response = createSection(
 		$data, 
 		$db_table,
@@ -130,13 +145,13 @@ else{
 
 			if($response['data']['id'] != '' && $response['data']['id'] != null){
 
-				$server_people_id = $response['data']['id'];
+				$served_people_id = $response['data']['id'];
 				
 				foreach(json_decode($served_people_array, true) as $element){
 
 					$sql = "INSERT INTO [personas_atendidas].Persona 
 					([Edad] ,[Sexo], [PersonasAtendidasID]) VALUES
-					(".$element['age'].", '".$element['gener']."', ".$server_people_id.")";
+					(".$element['age'].", '".$element['gener']."', ".$served_people_id.")";
 
 					if($conn){
 						$stmt = sqlsrv_query( $conn, $sql);

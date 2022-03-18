@@ -568,7 +568,10 @@ var sections = {
 					"length": null
 				},
 				"default": null,
-				"catalog": null,
+				"catalog": {
+					service_file: 'get_fiscalias.php',
+					data: null
+				},
 				"required": true,
 				"service": null
 			},

@@ -7,10 +7,10 @@ $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 
-$agreement_id = $_POST['id'];
+$recieved_folder_id = $_POST['id'];
 
 
-$sql = "SELECT TOP 1 GeneralID FROM [inegi].[General] WHERE AcuerdoCelebradoID = '$agreement_id'";
+$sql = "SELECT TOP 1 GeneralID FROM [inegi].[General] WHERE CarpetaRecibidaID = '$recieved_folder_id'";
 	
 $result = sqlsrv_query( $conn, $sql , $params, $options );
 

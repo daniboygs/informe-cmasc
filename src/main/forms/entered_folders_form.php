@@ -2,7 +2,7 @@
 
 	<div class="form-row">
 
-		<div class="col-md-3 form-group">
+		<div class="col-md-2 form-group">
 
 			<label style="font-weight:bold">Fecha de ingreso: *</label>
 
@@ -10,7 +10,15 @@
 
 		</div>
 
-		<div class="col-md-9 form-group">
+		<div class="col-md-2 form-group">
+
+			<label style="font-weight:bold">NUC: *</label>
+
+			<input type="text" class="form-control" id="entered-folders-nuc" maxlength="13" onkeypress="validateNumber(event);">			
+
+		</div>
+
+		<div class="col-md-8 form-group">
 
 			<label style="font-weight:bold">Delito: *</label>
 
@@ -24,14 +32,6 @@
 
 	<div class="form-row">
 
-		<div class="col-md-3 form-group">
-
-			<label style="font-weight:bold">NUC: *</label>
-
-			<input type="text" class="form-control" id="entered-folders-nuc" maxlength="13" onkeypress="validateNumber(event);">			
-
-		</div>
-
 		<div class="col-md-4 form-group">
 
 			<label style="font-weight:bold">Unidad: *</label>
@@ -42,7 +42,7 @@
 
 		</div>
 
-		<div class="col-md-5 form-group">
+		<div class="col-md-8 form-group">
 
 			<label style="font-weight:bold">MP Canalizador: *</label>
 
@@ -58,7 +58,7 @@
 
 			<label style="font-weight:bold">Fiscalía: *</label>
 
-			<select id="entered-folders-fiscalia" name="tipo" style="height: 40px" class="form-control"  required="true">									
+			<!--<select id="entered-folders-fiscalia" name="tipo" style="height: 40px" class="form-control"  required="true">									
 				<option value ="Apatzingán" selected>Apatzingán</option>
 				<option value ="La Piedad">La Piedad</option>
 				<option value ="Lázaro Cárdenas">Lázaro Cárdenas</option>
@@ -69,7 +69,11 @@
 				<option value ="Coalcomán">Coalcomán</option>
 				<option value ="Huetamo">Huetamo</option>
 				<option value ="Jiquilpan">Jiquilpan</option>
-			</select>	
+			</select>	-->
+
+			<div id="entered-folders-fiscalia-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
 
 		</div>
 

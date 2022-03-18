@@ -6,7 +6,8 @@ include("common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = "[EJERCICIOS].[dbo].[CarpetasRecibidas] cr LEFT JOIN 
+$db_table = "[EJERCICIOS].[dbo].[CarpetasRecibidas] cr LEFT JOIN [cat].[Fiscalia] f ON cr.FiscaliaID = f.FiscaliaID LEFT JOIN [cat].[Unidad] uni ON cr.UnidadID = uni.UnidadID
+LEFT JOIN 
 (
 SELECT MAX([Fecha]) AS 'inves_max_date'
 	,[NUC]
@@ -47,7 +48,11 @@ $data = (object) array(
 		'search' => true
 	),
 	'recieved_folders_unity' => (object) array(
-		'db_column' => 'cr.[Unidad]',
+		'db_column' => 'uni.[Nombre] AS "Unidad"',
+		'search' => true
+	),
+	'recieved_folders_fiscalia' => (object) array(
+		'db_column' => 'f.[Nombre] AS "Fiscalia"',
 		'search' => true
 	),
 	'user' => (object) array(
@@ -176,6 +181,10 @@ function getRecord($attr){
 				'recieved_folders_status' => array(
 					'name' => 'Estatus',
 					'value' => $row['Estatus']
+				),
+				'recieved_folders_fiscalia' => array(
+					'name' => 'Fiscalia',
+					'value' => $row['Fiscalia']
 				)
 			));
 			

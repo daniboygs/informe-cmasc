@@ -106,18 +106,9 @@
 
 			<label style="font-weight:bold">Fiscalía: *</label>
 
-			<select id="entered-folders-fiscalia" name="tipo" style="height: 40px" class="form-control"  required="true">									
-				<option value ="Apatzingán" selected>Apatzingán</option>
-				<option value ="La Piedad">La Piedad</option>
-				<option value ="Lázaro Cárdenas">Lázaro Cárdenas</option>
-				<option value ="Morelia">Morelia</option>
-				<option value ="Uruapan">Uruapan</option>
-				<option value ="Zamora">Zamora</option>
-				<option value ="Zitácuaro">Zitácuaro</option>
-				<option value ="Coalcomán">Coalcomán</option>
-				<option value ="Huetamo">Huetamo</option>
-				<option value ="Jiquilpan">Jiquilpan</option>
-			</select>	
+			<div id="entered-folders-fiscalia-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>	
 
 		</div>
 

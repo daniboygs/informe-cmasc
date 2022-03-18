@@ -7,10 +7,13 @@ $db = $connections['cmasc']['db'];
 $nuc = $_POST['nuc'];
 
 if($conn){
-    $sql = "SELECT
-                [NUC]
+    $sql = "SELECT TOP 1 
+                [AcuerdoCelebradoID] AS 'id',
+                [NUC], 
+                UnidadID AS 'Unidad'
             FROM $db.[dbo].[AcuerdosCelebrados]
-            WHERE NUC = '$nuc'";
+            WHERE NUC = '$nuc' 
+            ORDER BY AcuerdoCelebradoID DESC";
 
     $params = array();
     $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
@@ -31,8 +34,9 @@ if($conn){
         $return = array(
             'state' => 'success',
             'data' => array(
-                'id' => null,
-                'nuc' => $json['NUC']
+                'id' => $json['id'],
+                'nuc' => $json['NUC'],
+                'unity' => $json['Unidad']
             )
         );
         

@@ -115,10 +115,10 @@ $data = (object) array(
 		'db_column' => '[NUC]'
 	),
 	'entered_folders_unity' => (object) array(
-		'type' => 'text',
+		'type' => 'number',
 		'value' => $entered_folders_unity,
 		'null' => false,
-		'db_column' => '[Unidad]'
+		'db_column' => '[UnidadID]'
 	),
 	'entered_folders_mp_channeler' => (object) array(
 		'type' => 'text',
@@ -145,10 +145,10 @@ $data = (object) array(
 		'db_column' => '[Canalizador]'
 	),
 	'entered_folders_fiscalia' => (object) array(
-		'type' => 'text',
+		'type' => 'number',
 		'value' => $entered_folders_fiscalia,
 		'null' => true,
-		'db_column' => '[Fiscalia]'
+		'db_column' => '[FiscaliaID]'
 	),
 	'entered_folders_municipality' => (object) array(
 		'type' => 'number',

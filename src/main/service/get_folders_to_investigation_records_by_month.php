@@ -7,7 +7,7 @@ $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[CarpetasEnviadasInvestigacion] c LEFT JOIN [cat].[MotivoCanalizacionInvestigacion] m
-ON c.MotivoCanalizacionInvestID = m.MotivoCanalizacionID';
+ON c.MotivoCanalizacionInvestID = m.MotivoCanalizacionID LEFT JOIN [cat].[Fiscalia] f ON c.FiscaliaID = f.FiscaliaID LEFT JOIN [cat].[Unidad] uni ON c.UnidadID = uni.UnidadID';
 
 $month = $_POST['month'];
 $year = $_POST['year'];
@@ -34,7 +34,11 @@ $data = (object) array(
 		'search' => true
 	),
 	'folders_to_investigation_unity' => (object) array(
-		'db_column' => '[Unidad]',
+		'db_column' => 'uni.[Nombre] AS "Unidad"',
+		'search' => true
+	),
+	'folders_to_investigation_fiscalia' => (object) array(
+		'db_column' => 'f.[Nombre] AS "Fiscalia"',
 		'search' => true
 	),
 	/*'folders_to_investigation_channeling_reason' => (object) array(
@@ -158,6 +162,10 @@ function getRecord($attr){
 					'name' => 'MotivoCancelacion',
 					'value' => $row['MotivoCancelacion']
 				),*/
+				'folders_to_investigation_fiscalia' => array(
+					'name' => 'Fiscalia',
+					'value' => $row['Fiscalia']
+				),
 				'folders_to_investigation_channeling_reason' => array(
 					'name' => 'MotivoCanalizacion',
 					'value' => $row['MotivoCanalizacion']

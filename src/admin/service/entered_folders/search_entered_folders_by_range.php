@@ -6,8 +6,8 @@ include("../common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[CarpetasIngresadas] c INNER JOIN [cat].[Municipio] cm on c.Municipio = cm.MunicipioID 
-LEFT JOIN dbo.Usuario u on c.Facilitador = u.UsuarioID INNER JOIN [cat].[Fiscalia] f ON  u.FiscaliaID = f.FiscaliaID 
+$db_table = '[dbo].[CarpetasIngresadas] c INNER JOIN [cat].[Municipio] cm on c.Municipio = cm.MunicipioID INNER JOIN [cat].[Fiscalia] f ON c.FiscaliaID = f.FiscaliaID INNER JOIN [cat].[Unidad] uni ON c.UnidadID = uni.UnidadID  
+LEFT JOIN dbo.Usuario u on c.Facilitador = u.UsuarioID
 LEFT JOIN cat.MotivoRechazo mr ON mr.MotivoID = c.MotivoRechazo';
 
 if(isset( $_POST['nuc']))
@@ -51,7 +51,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'entered_folders_unity' => (object) array(
-		'db_column' => '[Unidad]',
+		'db_column' => 'uni.[Nombre] AS "Unidad"',
 		'search' => true
 	),
 	'entered_folders_mp_channeler' => (object) array(

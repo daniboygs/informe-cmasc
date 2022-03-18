@@ -563,6 +563,29 @@ function spetialValidationBySection(attr){
                     element_id: 'people-served-date',
                     section: 1,
                     function: checkNuc,
+                    attr: {
+                        current_section: attr.section,
+                        element_id: 'people-served-nuc',
+                        function: checkExistantEnteredFolder,
+                        attr: {
+                            element_id: 'people-served-nuc',
+                            function: saveSection,
+                            attr: {
+                                section: attr.section,
+                                data: attr.data
+                            }
+                        }
+                    }
+                }
+            });
+
+
+            /*checkPeopleServedAddedPeople({
+                function: checkActivePeriod,
+                attr: {
+                    element_id: 'people-served-date',
+                    section: 1,
+                    function: checkNuc,
                     current_section: attr.section,
                     attr: {
                         element_id: 'people-served-nuc',
@@ -573,7 +596,11 @@ function spetialValidationBySection(attr){
                         }
                     }
                 }
-            });
+            });*/
+
+
+
+
             /*checkActivePeriod({
                 element_id: 'people-served-date',
                 section: 1,
@@ -686,7 +713,9 @@ function saveSection(attr){
                             people_served_nuc: attr.data.agreement_nuc,
                             people_served_number: attr.data.agreement_intervention,
                             people_served_unity: attr.data.agreement_unity,
-                            served_people_array: attr.data.served_people_array
+                            served_people_array: attr.data.served_people_array,
+                            recieved_folders_data: attr.data.recieved_folders_data,
+                            agreement_id: response.data.id
                         },
                         multiselect: handle_data.current_multiselect['agreement_crime']
                     });
@@ -845,6 +874,12 @@ function checkExistantRecievedFolder(attr){
                 if(response.state != "fail"){
 
                     if(response.data != null){
+
+                        attr.attr.data = {
+                            ...attr.attr.data,
+                            recieved_folders_data: response.data
+                        }
+
                         attr.function(attr.attr);
                     }
                     else{
@@ -902,6 +937,12 @@ function checkExistantEnteredFolder(attr){
                 if(response.state != "fail"){
 
                     if(response.data != null){
+                        
+                        attr.attr.data = {
+                            ...attr.attr.data,
+                            entered_folders_data: response.data
+                        }
+
                         attr.function(attr.attr);
                     }
                     else{
@@ -957,6 +998,12 @@ function checkExistantAgreement(attr){
                 if(response.state != "fail"){
 
                     if(response.data != null){
+
+                        attr.attr.data = {
+                            ...attr.attr.data,
+                            agreement_data: response.data
+                        }
+
                         attr.function(attr.attr);
                     }
                     else{
@@ -1237,6 +1284,31 @@ function drawRecordsTable(attr){
             console.log('sec inegi', attr.section);
             if(sections[attr.section].active){
                 $('#'+attr.element_id).html(response);
+
+                /*if(attr.section == 'agreements')
+
+                $('#agreement-table').DataTable({
+                    language: {
+                        "decimal": "",
+                        "emptyTable": "No hay información",
+                        "info": "_START_ - _END_ / _TOTAL_ Registros",
+                        "infoEmpty": "Sin registros",
+                        "infoFiltered": "(Filtrado de _MAX_ registros)",
+                        "infoPostFix": "",
+                        "thousands": ",",
+                        "lengthMenu": "Muestra de _MENU_ registros",
+                        "loadingRecords": "Cargando...",
+                        "processing": "Procesando...",
+                        "search": "Buscar:",
+                        "zeroRecords": "Sin resultados encontrados",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Ultimo",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        }
+                    }
+                });*/
             }
         });
     }
@@ -1882,8 +1954,8 @@ function checkPeopleServedAddedPeople(attr){
         if(Object.keys(handle_data.people_served.people).length > 0){
 
             
-            attr.attr.attr.attr.data = {
-                ...attr.attr.attr.attr.data,
+            attr.attr.attr.attr.attr.data = {
+                ...attr.attr.attr.attr.attr.data,
                 people_served_number: Object.keys(handle_data.people_served.people).length,
                 served_people_array: JSON.stringify(handle_data.people_served.people)
             }
@@ -1919,7 +1991,7 @@ function checkAgreementsAddedPeople(attr){
 
         console.log('entre a chek aded: ', Object.keys(handle_data.people_served.people).length);
 
-        if(Object.keys(handle_data.people_served.people).length > 0){
+        if(Object.keys(handle_data.people_served.people).length > 1){
 
             
             attr.attr.attr.attr.attr.data = {
@@ -1937,7 +2009,7 @@ function checkAgreementsAddedPeople(attr){
                 add: false
             });
 
-            Swal.fire('Campos faltantes', 'Tiene que agregar por lo menos a una persona', 'warning');
+            Swal.fire('Campos faltantes', 'Tiene que agregar por lo menos a 2 personas', 'warning');
         }
     }
     else{
@@ -1945,7 +2017,7 @@ function checkAgreementsAddedPeople(attr){
             add: false
         });
 
-        Swal.fire('Campos faltantes', 'Tiene que agregar por lo menos a una persona', 'warning');
+        Swal.fire('Campos faltantes', 'Tiene que agregar por lo menos a 2 personas', 'warning');
     }
 }
 

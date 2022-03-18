@@ -2,7 +2,7 @@
 
 	<div class="form-row">
 
-		<div class="col-md-3 form-group">
+		<div class="col-md-2 form-group">
 
 			<label style="font-weight:bold">Fecha: *</label>
 
@@ -10,21 +10,7 @@
 
 		</div>
 
-		<div class="col-md-9 form-group">
-
-			<label style="font-weight:bold">Delito: *</label>
-
-			<div id="folders-to-validation-crime-section">
-				<div style="color: #EE6E5A;">Cargando datos... </div>
-			</div>
-
-		</div>
-
-	</div>
-
-	<div class="form-row">
-
-		<div class="col-md-4 form-group">
+		<div class="col-md-2 form-group">
 
 			<label style="font-weight:bold">NUC: *</label>
 
@@ -34,9 +20,9 @@
 
 		<div class="col-md-8 form-group">
 
-			<label style="font-weight:bold">Unidad: *</label>
+			<label style="font-weight:bold">Delito: *</label>
 
-			<div id="folders-to-validation-unity-section">
+			<div id="folders-to-validation-crime-section">
 				<div style="color: #EE6E5A;">Cargando datos... </div>
 			</div>
 
