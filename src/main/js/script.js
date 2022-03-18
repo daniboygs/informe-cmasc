@@ -1590,6 +1590,25 @@ function searchSection(section){
         case 'agreements':
         case 'folders_to_investigation':
         case 'folders_to_validation':
+        case 'entered_folders':
+            if(document.getElementById('search-nuc') && document.getElementById('search-initial-date') && document.getElementById('search-finish-date')){
+                attr = {
+                    initial_date: document.getElementById('search-initial-date').value,
+                    finish_date: document.getElementById('search-finish-date').value,
+                    nuc: document.getElementById('search-nuc').value
+                }
+
+                if(document.getElementById('search-nuc').value != '' || (document.getElementById('search-initial-date').value != '' && document.getElementById('search-finish-date').value != '')){
+                    validated = true;
+
+                    //$('#month-records-label-section').html('');
+
+                }
+                else{
+                    Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
+                }
+            }
+            break;
         case 'recieved_folders':
             if(document.getElementById('search-nuc') && document.getElementById('search-initial-date') && document.getElementById('search-finish-date')){
                 attr = {

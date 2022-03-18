@@ -1147,7 +1147,7 @@ var sections = {
 	"entered_folders": {
 		"index": 8,
 		"form_file": "entered_folders_form.php",
-		"search_form_file": null,
+		"search_form_file": "search_entered_folders_form.php",
 		"create_file": "create_entered_folders_section.php",
 		"update_file": "update_entered_folders_section.php",
 		"search_file": "search_entered_folders_section.php",
