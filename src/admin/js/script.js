@@ -681,8 +681,26 @@ function getRecordsByMonth(attr){
                     });
                 }*/
 
+                
+
                 if(sections[attr.section].active){
                     handle_data.current_records_search_data = response;
+
+                    /*
+                    //handle_data.excel_data[attr.section] = depureEnteredData(response);
+
+                    //console.log('depure entered: ', depureEnteredData(response));
+
+                    console.log('depure entered response before: ', response);
+
+                    let response_data = response;
+
+                    handle_data.excel_data[attr.section] = depureEnteredData(response_data);
+
+                    console.log('depure entered response after: ', response);
+
+                    console.log('depure entered excel: ', handle_data.excel_data[attr.section]);
+                    */
                 }
 
                 if(attr.section != 'inegi' || (attr.section == 'inegi' && handle_data.inegi.current_search == 'month')){
@@ -1148,6 +1166,22 @@ function getStaticNucsDate(){
 
 	$.ajax({
 		url:'service/get_nucs_date.php',
+		type:'POST',
+        dataType: "json",
+        data: null,
+	}).done(function(response){
+        
+        console.log(response.data);
+
+	});
+}
+
+function getLastNucs(){
+
+    console.log('searching last nucs... ');
+
+	$.ajax({
+		url:'service/get_last_nucs.php',
 		type:'POST',
         dataType: "json",
         data: null,
@@ -2640,4 +2674,38 @@ function searchPendngInegi(){
     getInegiPendingAgreementsByMonth({
         section_id: 'records-section'
     });
+}
+
+function downloadExcelSection(section){
+
+    let d = new Date();
+
+    createExcelReport({
+        data: handle_data.excel_data[section],
+        url_service_file: 'templates/excel/'+section+'.php',
+        file_name: section+'-'+d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()
+    });
+}
+
+
+function depureEnteredData(depured_data){
+
+    let temp = depured_data;
+
+    console.log(depured_data);
+
+    for(element in depured_data){
+
+        for(e in depured_data[element]){
+
+            if(e == 'entered_folders_crime'){
+                temp[element][e] = depured_data[element][e].value.listed_values;
+            }
+            else{
+                temp[element][e] = depured_data[element][e].value;
+            }
+        }
+    }
+
+    return temp;
 }

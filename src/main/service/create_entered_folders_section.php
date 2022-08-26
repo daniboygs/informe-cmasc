@@ -184,8 +184,8 @@ else{
 	$data->user->value = $_SESSION['user_data']['id'];
 	$data->user->null = false;
 
-	$data->fiscalia->value = $_SESSION['user_data']['fiscalia'];
-	$data->fiscalia->null = false;
+	/*$data->fiscalia->value = $_SESSION['user_data']['fiscalia'];
+	$data->fiscalia->null = false;*/
 	
 	echo json_encode(
 		createSection(

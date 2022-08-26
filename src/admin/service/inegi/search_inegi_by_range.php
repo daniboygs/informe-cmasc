@@ -46,7 +46,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'general_unity' => (object) array(
-		'db_column' => '[Unidad]',
+		'db_column' => 'uni.[Nombre] AS "Unidad"',
 		'search' => true
 	),
 	'general_attended' => (object) array(
@@ -155,7 +155,7 @@ function getRecord($attr){
 	$conditions = formSearchConditions($attr->sql_conditions);
 
 	if($attr->initial_date != '' && $attr->finish_date != ''){
-		$attr->db_table = "[inegi].[General] g
+		$attr->db_table = "[inegi].[General] g LEFT JOIN [cat].[Fiscalia] f ON g.FiscaliaID = f.FiscaliaID LEFT JOIN [cat].[Unidad] uni ON g.UnidadID = uni.UnidadID
 			LEFT JOIN (
 				select distinct 
 					sg.GeneralID 
@@ -198,7 +198,7 @@ function getRecord($attr){
 			";
 	}
 	else{
-		$attr->db_table = '[inegi].[General] g
+		$attr->db_table = '[inegi].[General] g LEFT JOIN [cat].[Fiscalia] f ON g.FiscaliaID = f.FiscaliaID LEFT JOIN [cat].[Unidad] uni ON g.UnidadID = uni.UnidadID
 			LEFT JOIN (
 				select distinct 
 					sg.GeneralID 

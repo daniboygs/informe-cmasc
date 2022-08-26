@@ -21,13 +21,16 @@
 
 <div class="form-buttons" style="float: left !important; margin-bottom: 20px;">		
 
-    <button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="tableToExcel()">Descargar EXCEL</button>
+    <!--<button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="tableToExcel()">Descargar EXCEL</button>-->
+
+    <button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="downloadExcelSection('entered_folders')">Descargar EXCEL</button>
 
 </div>
 
 <br>
 
 <table class="data-table table table-striped overflow-table">
+<thead>
     <tr>
         <th>#</th>
         <th>NUC</th>
@@ -66,7 +69,9 @@
 <?php
     }
 ?>
+</thead>
     </tr>
+    <tbody>
 <?php
     if($data != 'null'){
 
@@ -74,6 +79,7 @@
         foreach(json_decode($data, true) as $element){
 ?> 
     <tr>
+    
         <td><?php echo $i; ?></td>
         <td class="bold-text"><?php echo $element['entered_folders_nuc']['value']; ?></td>
         <td class="bold-text"><?php echo $element['sigi_initial_date']['value']; ?></td>
@@ -109,10 +115,16 @@
 <?php
         }
 ?>
+
     </tr>
+    
 <?php
             $i++;
         }
+
+        ?>
+        </tbody>
+        <?php
     }
     else{
 ?> 
