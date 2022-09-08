@@ -2345,6 +2345,8 @@ function onchangeFileNumber(){
 
         document.getElementById('entered-folders-region').selectedIndex = 0;
 
+        document.getElementById('entered-folders-judicialized-before-cmasc').value = '1';
+
         document.getElementById('criminal-cause').style.display = '';
 
     }
@@ -2356,6 +2358,8 @@ function onchangeFileNumber(){
         document.getElementById('entered-folders-judge-name').value = 'null';
 
         document.getElementById('entered-folders-region').value = '1';
+
+        document.getElementById('entered-folders-judicialized-before-cmasc').value = '1';
         
     }
 

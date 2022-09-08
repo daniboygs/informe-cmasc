@@ -257,17 +257,29 @@ else{
 		if($cp_data->entered_folder_id->value == 'null')
 			$cp_data->entered_folder_id->value = $create_entered_section_response['data']['id'];
 
-		echo json_encode(
-			createSection(
-				$cp_data, 
-				$cp_db_table,
-				$conn, 
-				$params, 
-				$options
-			), 
-			JSON_FORCE_OBJECT
+		$criminal_cause_section_response = createSection(
+			$cp_data, 
+			$cp_db_table,
+			$conn, 
+			$params, 
+			$options
 		);
 
+		if($criminal_cause_section_response['state'] == 'success'){
+			echo json_encode(
+				$create_entered_section_response, 
+				JSON_FORCE_OBJECT
+			);
+		}
+		else{
+			echo json_encode(
+				array(
+					'state' => 'fail',
+					'data' => null
+				), 
+				JSON_FORCE_OBJECT
+			);
+		}
 	}
 	else{
 		echo json_encode(
