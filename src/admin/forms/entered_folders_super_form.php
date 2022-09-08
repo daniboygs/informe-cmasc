@@ -147,7 +147,7 @@
 
 	<div class="form-row">
 
-		<div class="col-md-4 form-group">
+		<div class="col-md-3 form-group">
 
 			<label style="font-weight:bold">Fecha carpetas: </label>
 
@@ -155,11 +155,31 @@
 
 		</div>
 
-		<div class="col-md-4 form-group">
+		<div class="col-md-3 form-group">
 
 			<label style="font-weight:bold">Facilitador: </label>
 
 			<div id="entered-folders-facilitator-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
+
+		</div>
+
+		<div class="col-md-3 form-group">
+
+			<label style="font-weight:bold">Lugar de adscripción: *</label>
+
+			<div id="entered-folders-ascription-place-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
+
+		</div>
+
+		<div class="col-md-3 form-group">
+
+			<label style="font-weight:bold">Tipo de expediente: *</label>
+
+			<div id="entered-folders-type-file-section">
 				<div style="color: #EE6E5A;">Cargando datos... </div>
 			</div>
 
@@ -172,6 +192,55 @@
 			<input type="date" class="form-control" id="entered-folders-book-date">	
 
 		</div>-->
+
+	</div>
+
+	<div class="form-row" id="criminal-cause" style="display: none;">
+
+		<div class="col-md-2 form-group">
+
+			<label style="font-weight:bold">Número de causa o cuadernillo: *</label>
+
+			<input type="text" class="form-control" id="entered-folders-cause-number" maxlength="50">
+
+		</div>
+
+		<div class="col-md-3 form-group">
+
+			<label style="font-weight:bold">Nombre del juez: *</label>
+
+			<input type="text" class="form-control" id="entered-folders-judge-name" maxlength="50">
+
+		</div>
+
+		<div class="col-md-3 form-group">
+
+			<label style="font-weight:bold">Región del organo jurisdiccional: *</label>
+
+			<div id="entered-folders-region-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
+
+		</div>
+
+		<div class="col-md-2 form-group">
+
+			<label style="font-weight:bold">Fecha de emisión: *</label>
+
+			<input type="date" class="form-control" id="entered-folders-emission-date">	
+
+		</div>
+
+		<div class="col-md-2 form-group">
+
+			<label style="font-weight:bold">Judicializada antes del CMASC: *</label>
+
+			<select id="entered-folders-judicialized-before-cmasc" name="tipo" style="height: 40px" class="form-control"  required="true">									
+				<option value ="1" selected>Si</option>
+				<option value ="0">No</option>
+			</select>
+
+		</div>
 
 	</div>
 

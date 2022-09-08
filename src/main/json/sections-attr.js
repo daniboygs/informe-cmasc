@@ -1341,7 +1341,122 @@ var sections = {
 				"catalog": null,
 				"required": true,
 				"service": null
-			}/*,
+			},
+			{//Causa penal
+				"id": "entered-folders-ascription-place",
+				"name": "entered_folders_ascription_place",
+				"type": "select",
+				"placeholder": "Selecciona",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": {
+					service_file: 'get_fiscalias.php',
+					data: null
+				},
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-type-file",
+				"name": "entered_folders_type_file",
+				"type": "select",
+				"placeholder": "Selecciona",
+				"event_listener": 'onclick="onchangeFileNumber()"',
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": {
+					service_file: 'get_file_types.php',
+					data: null
+				},
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-cause-number",
+				"name": "entered_folders_cause_number",
+				"type": "text",
+				"placeholder": "Ingresa Número",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-judge-name",
+				"name": "entered_folders_judge_name",
+				"type": "text",
+				"placeholder": "Ingresa Nombre",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-region",
+				"name": "entered_folders_region",
+				"type": "select",
+				"placeholder": "Selecciona",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": {
+					service_file: 'get_fiscalias.php',
+					data: null
+				},
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-emission-date",
+				"name": "entered_folders_emission_date",
+				"type": "date",
+				"placeholder": "Ingresa Fecha",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": "today",
+				"catalog": null,
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-judicialized-before-cmasc",
+				"name": "entered_folders_judicialized_before_cmasc",
+				"type": "select",
+				"placeholder": "Selecciona",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true,
+				"service": null
+			}
+			/*,
 			{
 				"id": "entered-folders-book-date",
 				"name": "entered_folders_book_date",

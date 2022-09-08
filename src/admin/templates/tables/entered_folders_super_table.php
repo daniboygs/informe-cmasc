@@ -41,6 +41,13 @@
         <th>Municipio</th>
         <th>Observaciones</th>
         <th>Fecha Carpetas</th>
+        <th>Lugar de adscripción</th>
+        <th>Tipo de expediente</th>
+        <th>Número de causa o cuadernillo</th>
+        <th>Nombre del juez</th>
+        <th>Región del organo jurisdiccional</th>
+        <th>Fecha de emisión</th>
+        <th>Judicializada antes de CMASC</th>
         <th>Facilitador</th>
         <th>Fiscalía</th>
         <!--<th>Fecha Libro</th>-->
@@ -74,8 +81,16 @@
         <td><?php echo $element['entered_folders_municipality']['value']; ?></td>
         <td><?php echo $element['entered_folders_observations']['value']; ?></td>
         <td><?php echo $element['entered_folders_folders_date']['value']; ?></td>
+        <td><?php echo $element['entered_folders_ascription_place']['value']; ?></td>
+        <td><?php echo $element['entered_folders_type_file']['value']; ?></td>
+        <td><?php echo $element['entered_folders_cause_number']['value']; ?></td>
+        <td><?php echo $element['entered_folders_judge_name']['value']; ?></td>
+        <td><?php echo $element['entered_folders_region']['value']; ?></td>
+        <td><?php echo $element['entered_folders_emission_date']['value']; ?></td>
+        <td><?php echo $element['entered_folders_judicialized_before_cmasc']['value']; ?></td>
         <td><?php echo $element['entered_folders_facilitator']['value']; ?></td>
         <td><?php echo $element['fiscalia']['value']; ?></td>
+
 <?php
         if($crud_permissions){
 ?>
