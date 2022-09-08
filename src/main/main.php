@@ -9,8 +9,8 @@
 		<meta http-equiv="pragma" content="no-cache" />
 		<!--<link rel="stylesheet" href="node_modules/normalize.css">-->
 		<link rel="shortcut icon" href="../../assets/img/fge.png"/>
-		<link rel="stylesheet" href="../../css/styles.css">
-		<link rel="stylesheet" href="css/styles.css">
+		<link rel="stylesheet" href="../../css/styles-220908130000.css">
+		<link rel="stylesheet" href="css/styles-220908130000.css">
 		<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="../../libs/font-awesome-4.7.0/css/font-awesome.min.css">
 		
@@ -19,14 +19,14 @@
 		<script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" ></script>
 		<script src="../../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 		
-		<script src="../../js/script.js"></script>
-		<script src="json/sections-attr.js"></script>
-		<script src="json/data.js"></script>
-		<script src="json/inegi.js"></script>
-		<script src="js/inegi.js"></script>
-		<script src="js/multiselect.js"></script>
-		<script src="js/script.js"></script>
-		<script src="js/rejected-folders.js"></script>
+		<script src="../../js/script-220908130000.js"></script>
+		<script src="json/sections-attr-220908130000.js"></script>
+		<script src="json/data-220908130000.js"></script>
+		<script src="json/inegi-220908130000.js"></script>
+		<script src="js/inegi-220908130000.js"></script>
+		<script src="js/multiselect-220908130000.js"></script>
+		<script src="js/script-220908130000.js"></script>
+		<script src="js/rejected-folders-220908130000.js"></script>
 
 		<title>CMASC</title>
 	</head>
