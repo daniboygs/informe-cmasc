@@ -58,7 +58,10 @@ else
 
 //$entered_folders_book_date = $_POST['entered_folders_book_date'];
 
+$cp_db_table = '[dbo].[CausaPenal]';
 
+$entered_folders_ascription_place = $_POST['entered_folders_ascription_place'];
+$entered_folders_type_file = $_POST['entered_folders_type_file'];
 
 
 $data = (object) array(
@@ -149,8 +152,20 @@ $data = (object) array(
 	'entered_folders_facilitator' => (object) array(
 		'type' => 'number',
 		'value' => $entered_folders_facilitator,
-		'null' => true,
+		'null' => false,
 		'db_column' => '[Facilitador]'
+	),
+	'entered_folders_ascription_place' => (object) array(
+		'type' => 'number',
+		'value' => $entered_folders_ascription_place,
+		'null' => false,
+		'db_column' => '[LugarAdscripsionFiscaliaID]'
+	),
+	'entered_folders_type_file' => (object) array(
+		'type' => 'number',
+		'value' => $entered_folders_type_file,
+		'null' => true,
+		'db_column' => '[TipoExpedienteID]'
 	),
 	/*'entered_folders_book_date' => (object) array(
 		'type' => 'date',
@@ -166,6 +181,51 @@ $data = (object) array(
 	)
 );
 
+$entered_folders_cause_number = $_POST['entered_folders_cause_number'];
+$entered_folders_judge_name = $_POST['entered_folders_judge_name'];
+$entered_folders_region = $_POST['entered_folders_region'];
+$entered_folders_emission_date = $_POST['entered_folders_emission_date'];
+$entered_folders_judicialized_before_cmasc = $_POST['entered_folders_judicialized_before_cmasc'];
+
+
+$cp_data = (object) array(
+	'entered_folders_cause_number' => (object) array(
+		'type' => 'text',
+		'value' => $entered_folders_cause_number,
+		'null' => false,
+		'db_column' => '[NumeroCausaCuadernillo]'
+	),
+	'entered_folders_judge_name' => (object) array(
+		'type' => 'text',
+		'value' => $entered_folders_judge_name,
+		'null' => false,
+		'db_column' => '[NombreJuez]'
+	),
+	'entered_folders_region' => (object) array(
+		'type' => 'number',
+		'value' => $entered_folders_region,
+		'null' => false,
+		'db_column' => '[RegionFiscaliaID]'
+	),
+	'entered_folders_emission_date' => (object) array(
+		'type' => 'date',
+		'value' => $entered_folders_emission_date,
+		'null' => false,
+		'db_column' => '[FechaEmision]'
+	),
+	'entered_folders_judicialized_before_cmasc' => (object) array(
+		'type' => 'number',
+		'value' => $entered_folders_judicialized_before_cmasc,
+		'null' => true,
+		'db_column' => '[JudicializadaAntesCMASC]'
+	),
+	'entered_folder_id' => (object) array(
+		'type' => 'number',
+		'value' => 'null',
+		'null' => false,
+		'db_column' => '[CarpetaIngresadaID]'
+	)
+);
 
 if(!isset($_SESSION['user_data'])){
 	echo json_encode(
@@ -194,9 +254,30 @@ else{
 			$conn, 
 			$params, 
 			$options
-		), 
-		JSON_FORCE_OBJECT
-	);
+		);
+
+		if($criminal_cause_section_response['state'] == 'success'){
+			echo json_encode(
+				$create_entered_section_response, 
+				JSON_FORCE_OBJECT
+			);
+		}
+		else{
+			echo json_encode(
+				array(
+					'state' => 'fail',
+					'data' => null
+				), 
+				JSON_FORCE_OBJECT
+			);
+		}
+	}
+	else{
+		echo json_encode(
+			$create_entered_section_response, 
+			JSON_FORCE_OBJECT
+		);
+	}
 }
 ?>
 

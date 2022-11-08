@@ -2709,3 +2709,61 @@ function depureEnteredData(depured_data){
 
     return temp;
 }
+
+function onchangeFileNumber(){
+
+    let fn = document.getElementById('entered-folders-type-file').value;
+
+    if(document.getElementById('entered-folders-emission-date').value == ''){
+        setDateField({
+            set_date: 'today',
+            element_id: 'entered-folders-emission-date'
+        });
+    }
+
+    if(fn == 1 || fn == 2){
+
+        document.getElementById('entered-folders-cause-number').value = '';
+
+        document.getElementById('entered-folders-judge-name').value = '';
+
+        document.getElementById('entered-folders-region').selectedIndex = 0;
+
+        document.getElementById('entered-folders-judicialized-before-cmasc').value = '1';
+
+        document.getElementById('criminal-cause').style.display = '';
+
+    }
+    else{
+        document.getElementById('criminal-cause').style.display = 'none';
+
+        document.getElementById('entered-folders-cause-number').value = 'null';
+
+        document.getElementById('entered-folders-judge-name').value = 'null';
+
+        document.getElementById('entered-folders-region').value = '1';
+
+        document.getElementById('entered-folders-judicialized-before-cmasc').value = '1';
+        
+    }
+
+}
+
+function setDateField(attr){
+
+    switch(attr.set_date){
+
+        case 'today':
+
+            let today = new Date();
+
+            var date_input = document.getElementById(attr.element_id);
+
+            today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+            date_input.valueAsDate = today;
+
+            break;
+        default:
+    }
+}

@@ -6,15 +6,19 @@ include("common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[CarpetasIngresadas] c INNER JOIN [cat].[Municipio] m on c.Municipio = m.MunicipioID INNER JOIN [cat].[Fiscalia] f ON c.FiscaliaID = f.FiscaliaID INNER JOIN [cat].[Unidad] uni ON c.UnidadID = uni.UnidadID
-LEFT JOIN dbo.Usuario u on c.Facilitador = u.UsuarioID LEFT JOIN cat.MotivoRechazo mr ON mr.MotivoID = c.MotivoRechazo';
+$db_table = '[dbo].[CarpetasIngresadas] c INNER JOIN [cat].[Municipio] m on c.Municipio = m.MunicipioID 
+LEFT JOIN dbo.Usuario u on c.Facilitador = u.UsuarioID LEFT JOIN cat.MotivoRechazo mr ON mr.MotivoID = c.MotivoRechazo
+LEFT JOIN dbo.CausaPenal cp on cp.CarpetaIngresadaID = c.CarpetaIngresadaID
+LEFT JOIN [cat].[Fiscalia] cpf ON cp.RegionFiscaliaID = cpf.FiscaliaID
+LEFT JOIN [cat].[Fiscalia] cf ON c.LugarAdscripsionFiscaliaID = cf.FiscaliaID
+LEFT JOIN [cat].TipoExpediente te ON c.TipoExpedienteID = te.TipoExpedienteID';
 
 $month = $_POST['month'];
 $year = $_POST['year'];
 
 $data = (object) array(
 	'entered_folders_id' => (object) array(
-		'db_column' => "[CarpetaIngresadaID] AS 'id'",
+		'db_column' => "c.[CarpetaIngresadaID] AS 'id'",
 		'search' => true
 	),
 	/*'entered_folders_crime' => (object) array(
@@ -75,6 +79,34 @@ $data = (object) array(
 	),
 	'entered_folders_facilitator' => (object) array(
 		'db_column' => '[Facilitador]',
+		'search' => true
+	),
+	'entered_folders_ascription_place' => (object) array(
+		'db_column' => "cf.Nombre AS 'LugarAdscripcion'",
+		'search' => true
+	),
+	'entered_folders_type_file' => (object) array(
+		'db_column' => "te.Nombre AS 'TipoExpediente'",
+		'search' => true
+	),
+	'entered_folders_cause_number' => (object) array(
+		'db_column' => '[NumeroCausaCuadernillo]',
+		'search' => true
+	),
+	'entered_folders_judge_name' => (object) array(
+		'db_column' => '[NombreJuez]',
+		'search' => true
+	),
+	'entered_folders_region' => (object) array(
+		'db_column' => "cpf.Nombre AS 'Region'",
+		'search' => true
+	),
+	'entered_folders_emission_date' => (object) array(
+		'db_column' => '[FechaEmision]',
+		'search' => true
+	),
+	'entered_folders_judicialized_before_cmasc' => (object) array(
+		'db_column' => "CASE [JudicializadaAntesCMASC] WHEN 1 THEN 'Si' WHEN 0 THEN 'No' ELSE '' END AS 'JudicializadaAntesCMASC'",
 		'search' => true
 	),
 	/*'entered_folders_book_date' => (object) array(
@@ -177,6 +209,11 @@ function getRecord($attr){
 			if($sigi_initial_date != null)
 				$sigi_initial_date = $sigi_initial_date->format('d/m/Y');
 
+			$entered_folders_emission_date = $row['FechaEmision'];
+
+			if($entered_folders_emission_date != null)
+				$entered_folders_emission_date = $entered_folders_emission_date->format('d/m/Y');
+
 			/*$entered_folders_book_date = $row['FechaLibro'];
 
 			if($entered_folders_book_date != null)
@@ -251,6 +288,34 @@ function getRecord($attr){
 				'entered_folders_folders_date' => array(
 					'name' => 'Fecha Carpetas',
 					'value' => $entered_folders_folders_date
+				),
+				'entered_folders_ascription_place' => array(
+					'name' => 'Lugar de adscripción',
+					'value' => $row['LugarAdscripcion']
+				),
+				'entered_folders_type_file' => array(
+					'name' => 'Tipo de Expediente',
+					'value' => $row['TipoExpediente']
+				),
+				'entered_folders_cause_number' => array(
+					'name' => 'Número de Causa Cuadernillo',
+					'value' => $row['NumeroCausaCuadernillo']
+				),
+				'entered_folders_judge_name' => array(
+					'name' => 'Nombre de Juez',
+					'value' => $row['NombreJuez']
+				),
+				'entered_folders_region' => array(
+					'name' => 'Región',
+					'value' => $row['Region']
+				),
+				'entered_folders_emission_date' => array(
+					'name' => 'Fecha de Emisión',
+					'value' => $entered_folders_emission_date
+				),
+				'entered_folders_judicialized_before_cmasc' => array(
+					'name' => 'Judicializada antes de CMASC',
+					'value' => $row['JudicializadaAntesCMASC']
 				),
 				'entered_folders_facilitator' => array(
 					'name' => 'Facilitador',
