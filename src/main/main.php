@@ -23,14 +23,14 @@
 		<script src="//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
 		<script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 		
-		<script src="../../js/script-220908130000.js"></script>
+		<script src="../../js/script.js"></script>
 		<script src="json/sections-attr-220913162500.js"></script>
-		<script src="json/data-220908130000.js"></script>
-		<script src="json/inegi-220908130000.js"></script>
-		<script src="js/inegi-220908130000.js"></script>
-		<script src="js/multiselect-220908130000.js"></script>
-		<script src="js/script-220908130000.js"></script>
-		<script src="js/rejected-folders-220908130000.js"></script>
+		<script src="json/data.js"></script>
+		<script src="json/inegi.js"></script>
+		<script src="js/inegi.js"></script>
+		<script src="js/multiselect.js"></script>
+		<script src="js/script.js"></script>
+		<script src="js/rejected-folders.js"></script>
 
 		<title>CMASC</title>
 	</head>
