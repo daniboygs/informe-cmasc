@@ -244,13 +244,22 @@ else{
 	$data->user->value = $_SESSION['user_data']['id'];
 	$data->user->null = false;
 
-	/*$data->fiscalia->value = $_SESSION['user_data']['fiscalia'];
-	$data->fiscalia->null = false;*/
-	
-	echo json_encode(
-		createSection(
-			$data, 
-			$db_table,
+	$create_entered_section_response = createSection(
+		$data, 
+		$db_table,
+		$conn, 
+		$params, 
+		$options
+	);
+
+	if($create_entered_section_response['state'] == 'success' && $entered_folders_type_file != 3){
+
+		if($cp_data->entered_folder_id->value == 'null')
+			$cp_data->entered_folder_id->value = $create_entered_section_response['data']['id'];
+
+		$criminal_cause_section_response = createSection(
+			$cp_data, 
+			$cp_db_table,
 			$conn, 
 			$params, 
 			$options

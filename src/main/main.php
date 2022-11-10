@@ -24,7 +24,7 @@
 		<script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 		
 		<script src="../../js/script.js"></script>
-		<script src="json/sections-attr-220913162500.js"></script>
+		<script src="json/sections-attr.js"></script>
 		<script src="json/data.js"></script>
 		<script src="json/inegi.js"></script>
 		<script src="js/inegi.js"></script>
