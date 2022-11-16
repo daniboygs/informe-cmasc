@@ -80,7 +80,7 @@ var inegi = {
                 {
                     "id": "inegi-general-unity",
                     "name": "general_unity",
-                    "type": "text",
+                    "type": "select",
                     "placeholder": "Selecciona Unidad",
                     "event_listener": null,
                     "conditions": {

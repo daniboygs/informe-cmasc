@@ -13,5 +13,9 @@ var handle_data = {
 	"main_section": 'recieved_folders',
 	"people_served": {
 		"people": {}
-	}
+	},
+	"current_sigi_date": null,
+	"current_recieved_folders_data": null,
+	"current_folders_data": null,
+	"current_agreement_data": null
 }

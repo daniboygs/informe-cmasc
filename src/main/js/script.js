@@ -437,7 +437,7 @@ function spetialValidationBySection(attr){
                     section: 1,
                     function: checkNuc,
                     attr: {
-                        current_section: attr.section,
+                        section: attr.section,
                         element_id: 'agreement-nuc',
                         function: checkExistantRecievedFolder,
                         attr: {
@@ -484,7 +484,7 @@ function spetialValidationBySection(attr){
                 section: 1,
                 function: checkNuc,
                 attr: {
-                    current_section: attr.section,
+                    section: attr.section,
                     element_id: 'agreement-nuc',
                     function: checkExistantRecievedFolder,
                     attr: {
@@ -522,15 +522,22 @@ function spetialValidationBySection(attr){
                 section: 1,
                 function: checkNuc,
                 attr: {
-                    current_section: attr.section,
+                    section: attr.section,
                     element_id: 'folders-to-investigation-nuc',
                     function: checkExistantRecievedFolder,
                     attr: {
                         element_id: 'folders-to-investigation-nuc',
-                        function: saveSection,
+                        function: checkRepeatedNucDate,
                         attr: {
                             section: attr.section,
-                            data: attr.data
+                            element_date_id: 'folders-to-investigation-date',
+                            element_nuc_id: 'folders-to-investigation-nuc',
+                            service_file: 'check_repeated_folders_to_investigation_nuc_date.php',
+                            function: saveSection,
+                            attr: {
+                                section: attr.section,
+                                data: attr.data
+                            }
                         }
                     }
                 }
@@ -542,15 +549,22 @@ function spetialValidationBySection(attr){
                 section: 1,
                 function: checkNuc,
                 attr: {
-                    current_section: attr.section,
+                    section: attr.section,
                     element_id: 'folders-to-validation-nuc',
                     function: checkExistantAgreement,
                     attr: {
                         element_id: 'folders-to-validation-nuc',
-                        function: saveSection,
+                        function: checkRepeatedNucDate,
                         attr: {
                             section: attr.section,
-                            data: attr.data
+                            element_date_id: 'folders-to-validation-date',
+                            element_nuc_id: 'folders-to-validation-nuc',
+                            service_file: 'check_repeated_folders_to_validation_nuc_date.php',
+                            function: saveSection,
+                            attr: {
+                                section: attr.section,
+                                data: attr.data
+                            }
                         }
                     }
                 }
@@ -564,7 +578,7 @@ function spetialValidationBySection(attr){
                     section: 1,
                     function: checkNuc,
                     attr: {
-                        current_section: attr.section,
+                        section: attr.section,
                         element_id: 'people-served-nuc',
                         function: checkExistantEnteredFolder,
                         attr: {
@@ -586,7 +600,7 @@ function spetialValidationBySection(attr){
                     element_id: 'people-served-date',
                     section: 1,
                     function: checkNuc,
-                    current_section: attr.section,
+                    section: attr.section,
                     attr: {
                         element_id: 'people-served-nuc',
                         function: saveSection,
@@ -605,7 +619,7 @@ function spetialValidationBySection(attr){
                 element_id: 'people-served-date',
                 section: 1,
                 function: checkNuc,
-                current_section: attr.section,
+                section: attr.section,
                 attr: {
                     element_id: 'people-served-nuc',
                     function: saveSection,
@@ -622,15 +636,22 @@ function spetialValidationBySection(attr){
                 section: 1,
                 function: checkNuc,
                 attr: {
-                    current_section: attr.section,
+                    section: attr.section,
                     element_id: 'recieved-folders-nuc',
                     function: checkExistantEnteredFolder,
                     attr: {
                         element_id: 'recieved-folders-nuc',
-                        function: saveSection,
+                        function: checkRepeatedNucDate,
                         attr: {
                             section: attr.section,
-                            data: attr.data
+                            element_date_id: 'recieved-folders-date',
+                            element_nuc_id: 'recieved-folders-nuc',
+                            service_file: 'check_repeated_recieved_folder_nuc_date.php',
+                            function: saveSection,
+                            attr: {
+                                section: attr.section,
+                                data: attr.data
+                            }
                         }
                     }
                 }
@@ -642,12 +663,19 @@ function spetialValidationBySection(attr){
                     section: 3,
                     function: checkNuc,
                     attr: {
-                        current_section: attr.section,
+                        section: attr.section,
                         element_id: 'entered-folders-nuc',
-                        function: saveSection,
+                        function: checkRepeatedNucDate,
                         attr: {
                             section: attr.section,
-                            data: attr.data
+                            element_date_id: 'entered-folders-date',
+                            element_nuc_id: 'entered-folders-nuc',
+                            service_file: 'check_repeated_entered_folder_nuc_date.php',
+                            function: saveSection,
+                            attr: {
+                                section: attr.section,
+                                data: attr.data
+                            }
                         }
                     }
                 });
@@ -658,12 +686,19 @@ function spetialValidationBySection(attr){
                     section: 1,
                     function: checkNuc,
                     attr: {
-                        current_section: attr.section,
+                        section: attr.section,
                         element_id: 'entered-folders-nuc',
-                        function: saveSection,
+                        function: checkRepeatedNucDate,
                         attr: {
                             section: attr.section,
-                            data: attr.data
+                            element_date_id: 'entered-folders-date',
+                            element_nuc_id: 'entered-folders-nuc',
+                            service_file: 'check_repeated_entered_folder_nuc_date.php',
+                            function: saveSection,
+                            attr: {
+                                section: attr.section,
+                                data: attr.data
+                            }
                         }
                     }
                 });
@@ -682,12 +717,23 @@ function saveSection(attr){
 
     console.log('espero guarde: ', attr);
 
+    /*if(handle_data.sigi_dates.hasOwnProperty(attr.data.nuc)){
+        attr.data = {
+            ...attr.data,
+            sigi_date: handle_data.sigi_dates[attr.data.nuc]
+        }
+    }*/
+
     $.ajax({
 		url: 'service/'+sections[attr.section].create_file,
         type: 'POST',
         dataType : 'json', 
 		data: {
-			...attr.data
+			...attr.data,
+            recieved_folders_data: handle_data.current_recieved_folders_data,
+            entered_folders_data: handle_data.current_folders_data,
+            agreement_data: handle_data.current_agreement_data,
+            sigi_date: handle_data.current_sigi_date
 		},
 		cache: false
 	}).done(function(response){
@@ -706,7 +752,7 @@ function saveSection(attr){
                 
             
                 if(attr.section == 'agreements'){
-                    savePeopleSectionAfterAgreement({
+                    /*savePeopleSectionAfterAgreement({
                         data: {
                             sigi_date: attr.data.sigi_date,
                             people_served_date: attr.data.agreement_date,
@@ -718,8 +764,51 @@ function saveSection(attr){
                             agreement_id: response.data.id
                         },
                         multiselect: handle_data.current_multiselect['agreement_crime']
+                    });*/
+
+                    savePeopleSectionAfterAgreement({
+                        data: {
+                            sigi_date: attr.data.sigi_date,
+                            people_served_date: attr.data.agreement_date,
+                            people_served_nuc: attr.data.agreement_nuc,
+                            people_served_number: attr.data.agreement_intervention,
+                            people_served_unity: attr.data.agreement_unity,
+                            served_people_array: attr.data.served_people_array,
+                            recieved_folders_data: handle_data.current_recieved_folders_data,
+                            agreement_id: response.data.id
+                        },
+                        multiselect: handle_data.current_multiselect['agreement_crime']
                     });
 
+                    $('#people-served-table-section').html('');
+                    $('#people-served-table-count').html('');
+
+                    /*drawTableByElements({
+                        data: handle_data.people_served.people,
+                        file: 'templates/tables/default_table.php',
+                        placement_element_id: 'people-served-table-section',
+                        section: 'people_served'
+                    });
+                
+                    drawPeopleCount();*/
+
+                }
+                if(attr.section == 'people_served'){
+
+                    console.log('entre a served');
+
+
+                    $('#people-served-table-section').html('');
+                    $('#people-served-table-count').html('');
+
+                    /*drawTableByElements({
+                        data: handle_data.people_served.people,
+                        file: 'templates/tables/default_table.php',
+                        placement_element_id: 'people-served-table-section',
+                        section: 'people_served'
+                    });
+                
+                    drawPeopleCount();*/
                 }
 
                 saveMultiselectFieldsBySection({
@@ -875,10 +964,12 @@ function checkExistantRecievedFolder(attr){
 
                     if(response.data != null){
 
-                        attr.attr.data = {
+                        /*attr.attr.data = {
                             ...attr.attr.data,
                             recieved_folders_data: response.data
-                        }
+                        }*/
+
+                        handle_data.current_recieved_folders_data = response.data
 
                         attr.function(attr.attr);
                     }
@@ -938,10 +1029,12 @@ function checkExistantEnteredFolder(attr){
 
                     if(response.data != null){
                         
-                        attr.attr.data = {
+                        /*attr.attr.data = {
                             ...attr.attr.data,
                             entered_folders_data: response.data
-                        }
+                        }*/
+
+                        handle_data.current_folders_data = response.data
 
                         attr.function(attr.attr);
                     }
@@ -999,10 +1092,12 @@ function checkExistantAgreement(attr){
 
                     if(response.data != null){
 
-                        attr.attr.data = {
+                        /*attr.attr.data = {
                             ...attr.attr.data,
                             agreement_data: response.data
-                        }
+                        }*/
+
+                        handle_data.current_agreement_data = response.data;
 
                         attr.function(attr.attr);
                     }
@@ -1071,7 +1166,51 @@ function checkNuc(attr){
         
                     if(response.data != null){
 
-                        let some_sec = ['entered_folders', 'people_served'];
+                        handle_data.current_sigi_date = response.data.date.date;
+
+                        /*handle_data.sigi_dates = {
+                            ...handle_data.sigi_dates,
+                            [document.getElementById(attr.element_id).value]: response.data.date.date
+                        }*/
+
+                        /*let some_sec = ['entered_folders', 'people_served'];
+
+                        console.log('attr de check nuc: ', attr);
+
+                        console.log('attr.attr de check nuc: ', attr.attr);
+
+                        console.log('section de check nuc: ', attr.section);
+
+                        if(attr.section == 'people_served' || section == 'entered_folders' || attr.section == 'entered_folders_super'){
+
+                            console.log('served entered: ', attr);
+
+                            attr.attr.data = {
+                                ...attr.attr.data,
+                                sigi_date: response.data.date.date
+                            }
+                        }
+                        else if(attr.section == 'folders_to_investigation' || attr.section == 'folders_to_validation'){
+
+                            console.log('inves valida: ', attr);
+
+                            attr.attr.attr.attr.data = {
+                                ...attr.attr.attr.attr.data,
+                                sigi_date: response.data.date.date
+                            }
+                        }
+                        else{
+                            console.log('else: ', attr);
+                            if(attr.element_id != 'inegi-general-nuc'){
+                                console.log('inegi?: ', attr);
+                                attr.attr.attr.data = {
+                                    ...attr.attr.attr.data,
+                                    sigi_date: response.data.date.date
+                                }
+                            }
+                        }*/
+
+                        /*let some_sec = ['entered_folders', 'people_served'];
 
                         console.log('attr de check nuc: ', attr);
 
@@ -1093,7 +1232,7 @@ function checkNuc(attr){
                                 }
                             }
                             
-                        }
+                        }*/
 
                         
 
@@ -1850,6 +1989,17 @@ function removeServedPeople(random_id){
         section: 'people_served'
     });
 
+    /*setTimeout(
+        function(){
+            drawTableByElements({
+                data: handle_data.people_served.people,
+                file: 'templates/tables/default_table.php',
+                placement_element_id: 'people-served-table-section',
+                section: 'people_served'
+            });
+        }, 500
+    );*/
+
     drawPeopleCount();
 }
 
@@ -1917,9 +2067,15 @@ function getRandomInt(min, max) {
 
 function drawTableByElements(attr){
 
+    console.log('entre a draw');
+
     if(attr.data != null){
 
+        console.log('data dif de null');
+
         if(Object.keys(attr.data).length > 0){
+
+            console.log('key mas de 0');
             $.ajax({
                 url: attr.file,
                 type: 'POST',
@@ -1931,11 +2087,19 @@ function drawTableByElements(attr){
             }).done(function(response){
                 
                 if(sections[attr.section].active){
+
+                    console.log('draw active section ');
+                    $('#'+attr.placement_element_id).html(response);
+                }
+                else{
+                    console.log('draw no active section ');
                     $('#'+attr.placement_element_id).html(response);
                 }
             });
         }
         else{
+
+            console.log('load dashboard');
             loadDashboardAlert({
                 template_file: 'templates/elements/dashboard_alert.php',
                 element_id: attr.placement_element_id,
@@ -2206,5 +2370,62 @@ function setDateField(attr){
 
             break;
         default:
+    }
+}
+
+function checkRepeatedNucDate(attr){
+
+    if(document.getElementById(attr.element_date_id) && document.getElementById(attr.element_nuc_id)){
+
+        if(document.getElementById(attr.element_date_id).value != '' && document.getElementById(attr.element_nuc_id).value != ''){
+            
+            $.ajax({  
+                type: "POST",  
+                url: "service/"+attr.service_file, 
+                dataType : 'json', 
+                data: {
+                    nuc: document.getElementById(attr.element_nuc_id).value,
+                    date: document.getElementById(attr.element_date_id).value
+                },
+            }).done(function(response){
+
+                if(response.state != "fail"){
+
+                    if(response.state != 'founded'){
+
+                        attr.function(attr.attr);
+                    }
+                    else{
+                        setLoader({
+                            add: false
+                        });
+
+                        Swal.fire('NUC existente registrado con misma fecha!', 'Verifique la fecha correcta del NUC que quiere capturar para continuar', 'warning');
+                    }
+                }
+                else{
+                    setLoader({
+                        add: false
+                    });
+
+                    Swal.fire('Oops...', 'Ha fallado la conexión!', 'error');
+                }
+                
+            }); 
+        }
+        else{
+            setLoader({
+                add: false
+            });
+
+            Swal.fire('NUC no valido', 'El NUC debe contar con 13 dígitos', 'warning');
+        }
+    }
+    else{
+        setLoader({
+            add: false
+        });
+
+        Swal.fire('Oops...', 'Ha ocurrido un error, intentelo de nuevo!', 'error');
     }
 }

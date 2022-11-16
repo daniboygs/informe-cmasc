@@ -88,7 +88,7 @@
         <td><?php echo $element['entered_folders_judicialized_before_cmasc']['value']; ?></td>
         <td><?php echo $element['entered_folders_facilitator']['value']; ?></td>
         <td><?php echo $element['entered_folders_fiscalia']['value']; ?></td>
-        <td><?php echo $element['fiscalia']['value']; ?></td>
+        <!--<td><?php //echo $element['fiscalia']['value']; ?></td>-->
 
 <?php
         if($crud_permissions){
