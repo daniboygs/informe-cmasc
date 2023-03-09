@@ -419,7 +419,7 @@ function spetialValidationBySection(attr){
         case 'entered_folders':
                 checkEnteredFoldersActivePeriod({
                     element_id: 'entered-folders-date',
-                    section: 1,
+                    section: 3,
                     function: checkNuc,
                     attr: {
                         element_id: 'entered-folders-nuc',
@@ -434,7 +434,7 @@ function spetialValidationBySection(attr){
         case 'entered_folders_super':
                 checkActivePeriod({
                     element_id: 'entered-folders-date',
-                    section: 1,
+                    section: 3,
                     function: checkNuc,
                     attr: {
                         element_id: 'entered-folders-nuc',
@@ -2543,6 +2543,8 @@ function searchSectionByRangeDate(attr){
         let post_data = {};
         let validated = false;
 
+        console.log('attr antes de switch: ', attr);
+
         switch(attr.section){
             case null:
                 break;
@@ -2561,17 +2563,36 @@ function searchSectionByRangeDate(attr){
                         Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
                     }
                 }
+                else if(attr.section == 'processing_folders' && document.getElementById('search-initial-date') && document.getElementById('search-finish-date')){
+                    post_data = {
+                        initial_date: document.getElementById('search-initial-date').value,
+                        finish_date: document.getElementById('search-finish-date').value
+                    }
+
+                    if((document.getElementById('search-initial-date').value != '' && document.getElementById('search-finish-date').value != '')){
+                        validated = true;
+                    }
+                    else{
+                        Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
+                    }
+                }
                 break;
         }
 
+        console.log('attr despues de switch: ', attr);
+
         if(validated){
+
+            console.log('attr despues de validated: ', attr);
+
+            console.log('search by date validated');
 
             setStaticLoader({
                 section_id: 'records-section',
                 class: 'static-loader'
             });
             
-            console.log(sections[attr.section].search_by_range_file, attr);
+            console.log('sections[attr.section].search_by_range_file', attr);
             $.ajax({
                 url:'service/'+sections[attr.section].search_by_range_file,
                 type:'POST',
@@ -2677,6 +2698,10 @@ function searchPendngInegi(){
 }
 
 function downloadExcelSection(section){
+
+    console.log('excel', section);
+
+    //checar despues
 
     let d = new Date();
 
