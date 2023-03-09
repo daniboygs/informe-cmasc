@@ -55,17 +55,29 @@ $data = (object) array(
 		'null' => false,
 		'db_column' => '[Delito]'
 	),*/
-	'general_unity' => (object) array(
+	/*'general_unity' => (object) array(
 		'type' => 'text',
 		'value' => $general_unity,
 		'null' => false,
 		'db_column' => '[Unidad]'
+	),*/
+	'general_unity_id' => (object) array(
+		'type' => 'number',
+		'value' => $general_unity,
+		'null' => false,
+		'db_column' => '[UnidadID]'
 	),
 	'general_attended' => (object) array(
 		'type' => 'number',
 		'value' => $general_attended,
 		'null' => false,
 		'db_column' => '[Atendidos]'
+	),
+	'fiscalia' => (object) array(
+		'type' => 'number',
+		'value' => 'null',
+		'null' => true,
+		'db_column' => '[FiscaliaID]'
 	),
 	'user' => (object) array(
 		'type' => 'number',
@@ -100,6 +112,9 @@ else{
 
 	$data->user->value = $_SESSION['user_data']['id'];
 	$data->user->null = false;
+
+	$data->fiscalia->value = $_SESSION['user_data']['fiscalia'];
+	$data->fiscalia->null = false;
 	
 	echo json_encode(
 		createSection(

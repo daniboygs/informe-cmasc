@@ -2,7 +2,7 @@
 
 	<div class="form-row">
 
-		<div class="col-md-3 form-group">
+		<div class="col-md-2 form-group">
 
 			<label style="font-weight:bold">Fecha: *</label>
 
@@ -10,7 +10,15 @@
 
 		</div>
 
-		<div class="col-md-9 form-group">
+		<div class="col-md-2 form-group">
+
+			<label style="font-weight:bold">NUC: *</label>
+
+			<input type="text" class="form-control" id="folders-to-investigation-nuc" maxlength="13" onkeypress="validateNumber(event);">			
+
+		</div>
+
+		<div class="col-md-8 form-group">
 
 			<label style="font-weight:bold">Delito: *</label>
 
@@ -24,33 +32,7 @@
 
 	<div class="form-row">
 
-		<div class="col-md-4 form-group">
-
-			<label style="font-weight:bold">NUC: *</label>
-
-			<input type="text" class="form-control" id="folders-to-investigation-nuc" maxlength="13" onkeypress="validateNumber(event);">			
-
-		</div>
-
-		<div class="col-md-8 form-group">
-
-			<label style="font-weight:bold">Unidad: *</label>
-
-			<div id="folders-to-investigation-unity-section">
-				<div style="color: #EE6E5A;">Cargando datos... </div>
-			</div>
-
-		</div>
-
-		<!--<div class="col-md-12 form-group">
-
-			<label style="font-weight:bold">Motivo de canalización: *</label>
-
-			<input type="text" class="form-control" id="folders-to-investigation-channeling-reason" maxlength="50">
-
-		</div>-->
-
-		<div class="col-md-12 form-group">
+		<div class="col-md-6 form-group">
 
 			<label style="font-weight:bold">Motivo de canalización: *</label>
 

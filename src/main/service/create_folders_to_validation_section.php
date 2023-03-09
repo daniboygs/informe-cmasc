@@ -13,9 +13,9 @@ $sigi_date = $_POST['sigi_date'];
 $folders_to_validation_date = $_POST['folders_to_validation_date'];
 //$folders_to_validation_crime = $_POST['folders_to_validation_crime'];
 $folders_to_validation_nuc = $_POST['folders_to_validation_nuc'];
-$folders_to_validation_unity = $_POST['folders_to_validation_unity'];
+//$folders_to_validation_unity = $_POST['folders_to_validation_unity'];
 
-
+$agreement_data = $_POST['agreement_data'];
 
 $data = (object) array(
 	'sigi_date' => (object) array(
@@ -43,10 +43,22 @@ $data = (object) array(
 		'db_column' => '[NUC]'
 	),
 	'folders_to_validation_unity' => (object) array(
-		'type' => 'text',
-		'value' => $folders_to_validation_unity,
+		'type' => 'number',
+		'value' => $agreement_data['unity'],
 		'null' => false,
-		'db_column' => '[Unidad]'
+		'db_column' => '[UnidadID]'
+	),
+	'agreement_id' => (object) array(
+		'type' => 'number',
+		'value' => $agreement_data['id'],
+		'null' => false,
+		'db_column' => '[AcuerdoCelebradoID]'
+	),
+	'fiscalia' => (object) array(
+		'type' => 'number',
+		'value' => 'null',
+		'null' => true,
+		'db_column' => '[FiscaliaID]'
 	),
 	'user' => (object) array(
 		'type' => 'number',
@@ -70,6 +82,9 @@ else{
 
 	$data->user->value = $_SESSION['user_data']['id'];
 	$data->user->null = false;
+
+	$data->fiscalia->value = $_SESSION['user_data']['fiscalia'];
+	$data->fiscalia->null = false;
 	
 	echo json_encode(
 		createSection(

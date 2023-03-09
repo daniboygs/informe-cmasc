@@ -25,5 +25,9 @@ var handle_data = {
 	},
 	"inegi": {
 		"current_search": null
+	},
+	"excel_data": {
+		"entered_folders": null,
+		"recieved_folders": null
 	}
 }

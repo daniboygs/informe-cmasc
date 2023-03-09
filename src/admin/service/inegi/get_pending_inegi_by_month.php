@@ -106,7 +106,7 @@ $sql_conditions = array();
 
 if($nuc != ''){
 	$sql_conditions += ['nuc' => (object) array(
-		'db_column' => 'cr.[NUC]',
+		'db_column' => 'subq.[NUC]',
 		'condition' => '=', 
 		'value' => "'$nuc'"
 	)];
@@ -154,8 +154,8 @@ function getRecord($attr){
 	//$conditions = formSearchConditions($attr->sql_conditions);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
-	$sql = "SELECT * FROM $attr->db_table $conditions ORDER BY subq.Fecha, subq.NUC DESC";
-	
+	$sql = "SELECT * FROM $attr->db_table $conditions ORDER BY subq.Fecha, subq.NUC DESC"; //echo $sql;
+
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 
 	$row_count = sqlsrv_num_rows( $result );

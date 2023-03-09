@@ -28,7 +28,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'general_unity' => (object) array(
-		'db_column' => '[Unidad]',
+		'db_column' => "uni.[Nombre] AS 'Unidad'",
 		'search' => true
 	),
 	'general_attended' => (object) array(
@@ -152,6 +152,9 @@ function getRecord($attr){
 	where sg.[UsuarioID] = '.$attr->sql_conditions->user->value.' GROUP BY sg.GeneralID) di
 
 	ON g.GeneralID = di.GeneralID
+
+	LEFT JOIN 
+	cat.Unidad uni ON uni.UnidadID = g.UnidadID
 	';
 
 	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY Fecha";

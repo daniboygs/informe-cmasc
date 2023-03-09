@@ -13,6 +13,7 @@
         <th>Delito</th>
         <th>Personas atendidas</th>
         <th>Unidad</th>
+        <th>Fiscalía</th>
         <!--<th>Acción</th>-->
     </tr>
 <?php
@@ -27,6 +28,7 @@
         <td class="align-left bold-text"><?php echo $element['people_served_crime']['value']; ?></td>
         <td><?php echo $element['people_served_number']['value']; ?></td>
         <td><?php echo $element['people_served_unity']['value']; ?></td>
+        <td><?php echo $element['people_served_fiscalia']['value']; ?></td>
     </tr>
 <?php
             $i++;

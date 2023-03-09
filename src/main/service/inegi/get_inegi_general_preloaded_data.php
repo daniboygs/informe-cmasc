@@ -17,7 +17,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'unity' => (object) array(
-		'db_column' => "[Unidad]",
+		'db_column' => "[UnidadID]",
 		'search' => true
 	)
 );
@@ -98,7 +98,7 @@ function getRecord($attr){
 				),
 				'general_unity' => array(
 					'name' => 'Unidad',
-					'value' => $row['Unidad']
+					'value' => $row['UnidadID']
 				)
 			));
 			

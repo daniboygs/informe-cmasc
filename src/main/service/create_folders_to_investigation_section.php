@@ -14,9 +14,9 @@ $folders_to_investigation_date = $_POST['folders_to_investigation_date'];
 //$folders_to_investigation_crime = $_POST['folders_to_investigation_crime'];
 $folders_to_investigation_nuc = $_POST['folders_to_investigation_nuc'];
 $folders_to_investigation_channeling_reason = $_POST['folders_to_investigation_channeling_reason'];
-$folders_to_investigation_unity = $_POST['folders_to_investigation_unity'];
+//$folders_to_investigation_unity = $_POST['folders_to_investigation_unity'];
 
-
+$recieved_folders_data = $_POST['recieved_folders_data'];
 
 $data = (object) array(
 	'sigi_date' => (object) array(
@@ -56,10 +56,22 @@ $data = (object) array(
 		'db_column' => '[MotivoCanalizacionInvestID]'
 	),
 	'folders_to_investigation_unity' => (object) array(
-		'type' => 'text',
-		'value' => $folders_to_investigation_unity,
+		'type' => 'number',
+		'value' => $recieved_folders_data['unity'],
 		'null' => false,
-		'db_column' => '[Unidad]'
+		'db_column' => '[UnidadID]'
+	),
+	'recieved_folder_id' => (object) array(
+		'type' => 'number',
+		'value' => $recieved_folders_data['id'],
+		'null' => false,
+		'db_column' => '[CarpetaRecibidaID]'
+	),
+	'fiscalia' => (object) array(
+		'type' => 'number',
+		'value' => 'null',
+		'null' => true,
+		'db_column' => '[FiscaliaID]'
 	),
 	'user' => (object) array(
 		'type' => 'number',
@@ -83,6 +95,9 @@ else{
 
 	$data->user->value = $_SESSION['user_data']['id'];
 	$data->user->null = false;
+
+	$data->fiscalia->value = $_SESSION['user_data']['fiscalia'];
+	$data->fiscalia->null = false;
 	
 	echo json_encode(
 		createSection(

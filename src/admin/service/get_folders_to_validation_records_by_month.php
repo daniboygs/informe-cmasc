@@ -6,7 +6,7 @@ include("common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[CarpetasEnviadasValidacion] a INNER JOIN Usuario u ON a.UsuarioID = u.UsuarioID INNER JOIN [cat].[Fiscalia] f ON  u.FiscaliaID = f.FiscaliaID';
+$db_table = '[dbo].[CarpetasEnviadasValidacion] a INNER JOIN Usuario u ON a.UsuarioID = u.UsuarioID LEFT JOIN [cat].[Fiscalia] f ON a.FiscaliaID = f.FiscaliaID LEFT JOIN [cat].[Unidad] uni ON a.UnidadID = uni.UnidadID';
 
 $month = $_POST['month'];
 $year = $_POST['year'];
@@ -33,7 +33,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'folders_to_validation_unity' => (object) array(
-		'db_column' => '[Unidad]',
+		'db_column' => 'uni.[Nombre] AS "Unidad"',
 		'search' => true
 	),
 	'user' => (object) array(

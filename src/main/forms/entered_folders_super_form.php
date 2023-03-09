@@ -96,16 +96,16 @@
 			<label style="font-weight:bold">Fiscalía: *</label>
 
 			<select id="entered-folders-fiscalia" name="tipo" style="height: 40px" class="form-control"  required="true">									
-				<option value ="Apatzingán" selected>Apatzingán</option>
-				<option value ="La Piedad">La Piedad</option>
-				<option value ="Lázaro Cárdenas">Lázaro Cárdenas</option>
-				<option value ="Morelia">Morelia</option>
-				<option value ="Uruapan">Uruapan</option>
-				<option value ="Zamora">Zamora</option>
-				<option value ="Zitácuaro">Zitácuaro</option>
-				<option value ="Coalcomán">Coalcomán</option>
-				<option value ="Huetamo">Huetamo</option>
-				<option value ="Jiquilpan">Jiquilpan</option>
+				<option value ="1" selected>Apatzingán</option>
+				<option value ="2">La Piedad</option>
+				<option value ="3">Lázaro Cárdenas</option>
+				<option value ="4">Morelia</option>
+				<option value ="5">Uruapan</option>
+				<option value ="6">Zamora</option>
+				<option value ="7">Zitácuaro</option>
+				<option value ="8">Coalcomán</option>
+				<option value ="9">Huetamo</option>
+				<option value ="10">Jiquilpan</option>
 			</select>	
 
 		</div>
@@ -147,7 +147,7 @@
 
 	<div class="form-row">
 
-		<div class="col-md-4 form-group">
+		<div class="col-md-3 form-group">
 
 			<label style="font-weight:bold">Fecha carpetas: </label>
 
@@ -155,7 +155,7 @@
 
 		</div>
 
-		<div class="col-md-4 form-group">
+		<div class="col-md-3 form-group">
 
 			<label style="font-weight:bold">Facilitador: </label>
 
@@ -165,13 +165,74 @@
 
 		</div>
 
-		<!--<div class="col-md-4 form-group">
+		<div class="col-md-3 form-group">
 
-			<label style="font-weight:bold">Fecha de libro: *</label>
+			<label style="font-weight:bold">Lugar de adscripción: *</label>
 
-			<input type="date" class="form-control" id="entered-folders-book-date">	
+			<div id="entered-folders-ascription-place-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
 
-		</div>-->
+		</div>
+
+		<div class="col-md-3 form-group">
+
+			<label style="font-weight:bold">Tipo de expediente: *</label>
+
+			<div id="entered-folders-type-file-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="form-row" id="criminal-cause" style="display: none;">
+
+		<div class="col-md-2 form-group">
+
+			<label style="font-weight:bold">Número de causa o cuadernillo: *</label>
+
+			<input type="text" class="form-control" id="entered-folders-cause-number" maxlength="50">
+
+		</div>
+
+		<div class="col-md-3 form-group">
+
+			<label style="font-weight:bold">Nombre del juez: *</label>
+
+			<input type="text" class="form-control" id="entered-folders-judge-name" maxlength="50">
+
+		</div>
+
+		<div class="col-md-3 form-group">
+
+			<label style="font-weight:bold">Región del organo jurisdiccional: *</label>
+
+			<div id="entered-folders-region-section">
+				<div style="color: #EE6E5A;">Cargando datos... </div>
+			</div>
+
+		</div>
+
+		<div class="col-md-2 form-group">
+
+			<label style="font-weight:bold">Fecha de emisión: *</label>
+
+			<input type="date" class="form-control" id="entered-folders-emission-date">	
+
+		</div>
+
+		<div class="col-md-2 form-group">
+
+			<label style="font-weight:bold">Judicializada antes del CMASC: *</label>
+
+			<select id="entered-folders-judicialized-before-cmasc" name="tipo" style="height: 40px" class="form-control"  required="true">									
+				<option value ="1" selected>Si</option>
+				<option value ="0">No</option>
+			</select>
+
+		</div>
 
 	</div>
 

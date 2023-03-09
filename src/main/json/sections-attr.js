@@ -57,7 +57,7 @@ var sections = {
 					"search_file": null
 				}
 			},
-			{
+			/*{
 				"id": "agreement-intervention",
 				"name": "agreement_intervention",
 				"type": "number",
@@ -71,7 +71,7 @@ var sections = {
 				"catalog": null,
 				"required": true,
 				"service": null
-			},
+			},*/
 			{
 				"id": "agreement-nuc",
 				"name": "agreement_nuc",
@@ -150,7 +150,7 @@ var sections = {
 				"required": true,
 				"service": null
             },
-            {
+            /*{
 				"id": "agreement-unity",
 				"name": "agreement_unity",
 				"type": "select",
@@ -167,7 +167,7 @@ var sections = {
 				},
 				"required": true,
 				"service": null
-			},
+			},*/
 			{
 				"id": "agreement-amount-in-kind",
 				"name": "agreement_amount_in_kind",
@@ -256,7 +256,7 @@ var sections = {
 				"catalog": null,
 				"required": true,
 				"service": null
-			},
+			}/*,
             {
 				"id": "recieved-folders-unity",
 				"name": "recieved_folders_unity",
@@ -274,7 +274,7 @@ var sections = {
 				},
 				"required": true,
 				"service": null
-			}
+			}*/
 		],
 		"active": false,
 		"data": [],
@@ -364,7 +364,7 @@ var sections = {
 				"required": true,
 				"service": null
 			},*/
-            {
+            /*{
 				"id": "folders-to-investigation-unity",
 				"name": "folders_to_investigation_unity",
 				"type": "select",
@@ -381,7 +381,7 @@ var sections = {
 				},
 				"required": true,
 				"service": null
-			},
+			},*/
 			{
 				"id": "folders-to-investigation-channeling-reason",
 				"name": "folders_to_investigation_channeling_reason",
@@ -473,7 +473,7 @@ var sections = {
 				"catalog": null,
 				"required": true,
 				"service": null
-			},
+			}/*,
 			{
 				"id": "people-served-number",
 				"name": "people_served_number",
@@ -506,7 +506,7 @@ var sections = {
 				},
 				"required": true,
 				"service": null
-			}
+			}*/
 		],
 		"active": false,
 		"data": [],
@@ -853,7 +853,7 @@ var sections = {
 				"catalog": null,
 				"required": true,
 				"service": null
-			},
+			}/*,
 			{
 				"id": "folders-to-validation-unity",
 				"name": "folders_to_validation_unity",
@@ -871,7 +871,7 @@ var sections = {
 				},
 				"required": true,
 				"service": null
-			}
+			}*/
 		],
 		"active": false,
 		"data": [],
@@ -1054,7 +1054,10 @@ var sections = {
 					"length": null
 				},
 				"default": null,
-				"catalog": null,
+				"catalog": {
+					service_file: 'get_fiscalias.php',
+					data: null
+				},
 				"required": true,
 				"service": null
 			},
@@ -1121,6 +1124,120 @@ var sections = {
 					service_file: 'get_facilitators.php',
 					data: null
 				},
+				"required": true,
+				"service": null
+			},
+			{//Causa penal
+				"id": "entered-folders-ascription-place",
+				"name": "entered_folders_ascription_place",
+				"type": "select",
+				"placeholder": "Selecciona",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": {
+					service_file: 'get_fiscalias.php',
+					data: null
+				},
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-type-file",
+				"name": "entered_folders_type_file",
+				"type": "select",
+				"placeholder": "Selecciona",
+				"event_listener": 'onclick="onchangeFileNumber()"',
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": {
+					service_file: 'get_file_types.php',
+					data: null
+				},
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-cause-number",
+				"name": "entered_folders_cause_number",
+				"type": "text",
+				"placeholder": "Ingresa Número",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-judge-name",
+				"name": "entered_folders_judge_name",
+				"type": "text",
+				"placeholder": "Ingresa Nombre",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-region",
+				"name": "entered_folders_region",
+				"type": "select",
+				"placeholder": "Selecciona",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": {
+					service_file: 'get_fiscalias.php',
+					data: null
+				},
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-emission-date",
+				"name": "entered_folders_emission_date",
+				"type": "date",
+				"placeholder": "Ingresa Fecha",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": "today",
+				"catalog": null,
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-judicialized-before-cmasc",
+				"name": "entered_folders_judicialized_before_cmasc",
+				"type": "select",
+				"placeholder": "Selecciona",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
 				"required": true,
 				"service": null
 			}/*,
@@ -1305,7 +1422,10 @@ var sections = {
 					"length": null
 				},
 				"default": null,
-				"catalog": null,
+				"catalog": {
+					service_file: 'get_fiscalias.php',
+					data: null
+				},
 				"required": true,
 				"service": null
 			},
@@ -1341,7 +1461,122 @@ var sections = {
 				"catalog": null,
 				"required": true,
 				"service": null
-			}/*,
+			},
+			{//Causa penal
+				"id": "entered-folders-ascription-place",
+				"name": "entered_folders_ascription_place",
+				"type": "select",
+				"placeholder": "Selecciona",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": {
+					service_file: 'get_fiscalias.php',
+					data: null
+				},
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-type-file",
+				"name": "entered_folders_type_file",
+				"type": "select",
+				"placeholder": "Selecciona",
+				"event_listener": 'onclick="onchangeFileNumber()"',
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": {
+					service_file: 'get_file_types.php',
+					data: null
+				},
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-cause-number",
+				"name": "entered_folders_cause_number",
+				"type": "text",
+				"placeholder": "Ingresa Número",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-judge-name",
+				"name": "entered_folders_judge_name",
+				"type": "text",
+				"placeholder": "Ingresa Nombre",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-region",
+				"name": "entered_folders_region",
+				"type": "select",
+				"placeholder": "Selecciona",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": {
+					service_file: 'get_fiscalias.php',
+					data: null
+				},
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-emission-date",
+				"name": "entered_folders_emission_date",
+				"type": "date",
+				"placeholder": "Ingresa Fecha",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": "today",
+				"catalog": null,
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "entered-folders-judicialized-before-cmasc",
+				"name": "entered_folders_judicialized_before_cmasc",
+				"type": "select",
+				"placeholder": "Selecciona",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": null,
+				"catalog": null,
+				"required": true,
+				"service": null
+			}
+			/*,
 			{
 				"id": "entered-folders-book-date",
 				"name": "entered_folders_book_date",
@@ -1427,5 +1662,42 @@ var sections = {
 		"active": false,
 		"data": [],
 		"loaded_data": false
+	}
+}
+
+var subsection = {
+	"people_served": {
+		"fields": [
+			{
+				"id": "rejected-folders-initial-date",
+				"name": "rejected_folders_initial_date",
+				"type": "date",
+				"placeholder": "Ingresa Fecha",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": "today",
+				"catalog": null,
+				"required": true,
+				"service": null
+			},
+			{
+				"id": "rejected-folders-finish-date",
+				"name": "rejected_folders_finish_date",
+				"type": "date",
+				"placeholder": "Ingresa Fecha",
+				"event_listener": null,
+				"conditions": {
+					"unlock": null,
+					"length": null
+				},
+				"default": "today",
+				"catalog": null,
+				"required": true,
+				"service": null
+			}
+		]
 	}
 }

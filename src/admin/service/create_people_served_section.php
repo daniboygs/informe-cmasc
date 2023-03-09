@@ -18,6 +18,8 @@ $people_served_unity = $_POST['people_served_unity'];
 
 
 
+
+
 $data = (object) array(
 	'sigi_date' => (object) array(
 		'type' => 'date',
@@ -89,5 +91,24 @@ else{
 		JSON_FORCE_OBJECT
 	);
 }
+
+
+function insertMultipleValues(){
+
+	if(isset( $_POST['data'])){
+
+		$data = $_POST['data'];
+
+		foreach(json_decode($data, true) as $element){
+		}
+
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+
 ?>
 

@@ -5,14 +5,16 @@ include("../../../../service/connection.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[Usuario]';
+$db_table = '[dbo].[Usuario] u inner join cat.Fiscalia f on u.FiscaliaID = f.FiscaliaID';
 
 $elements = array();
+$facilitator_name = '';
 
 $sql = "SELECT [UsuarioID] AS 'id'
-			,[Nombre]
+			,u.[Nombre]
 			,[ApellidoPaterno]
       		,[ApellidoMaterno]
+			,f.Nombre as 'Fiscalia'
 		FROM $db_table 
 		WHERE [Tipo] != 1 ORDER BY [Nombre], [ApellidoPaterno], [ApellidoMaterno]";
 
@@ -24,9 +26,16 @@ if($row_count > 0){
 
 	while( $row = sqlsrv_fetch_array( $result) ) {
 
+		if($row['id'] == 21 || $row['id'] == 54){
+			$facilitator_name = $row['Nombre'].' '.$row['ApellidoPaterno'].' '.$row['ApellidoMaterno'].' ('.$row['Fiscalia'].')';
+		}
+		else{
+			$facilitator_name = $row['Nombre'].' '.$row['ApellidoPaterno'].' '.$row['ApellidoMaterno'];
+		}
+
 		array_push($elements, array(
 			'id' => $row['id'],
-			'name' => $row['Nombre'].' '.$row['ApellidoPaterno'].' '.$row['ApellidoMaterno']
+			'name' => $facilitator_name
 		));
 		
 	}

@@ -110,6 +110,7 @@ function loadForm(section){
             $('#records-section').html('');
             getActivePeriod();
             getInegiActivePeriod();
+            getEnteredFoldersActivePeriod();
         }
         
 
@@ -416,9 +417,9 @@ function spetialValidationBySection(attr){
             });
             break;
         case 'entered_folders':
-                checkActivePeriod({
+                checkEnteredFoldersActivePeriod({
                     element_id: 'entered-folders-date',
-                    section: 1,
+                    section: 3,
                     function: checkNuc,
                     attr: {
                         element_id: 'entered-folders-nuc',
@@ -433,7 +434,7 @@ function spetialValidationBySection(attr){
         case 'entered_folders_super':
                 checkActivePeriod({
                     element_id: 'entered-folders-date',
-                    section: 1,
+                    section: 3,
                     function: checkNuc,
                     attr: {
                         element_id: 'entered-folders-nuc',
@@ -680,8 +681,26 @@ function getRecordsByMonth(attr){
                     });
                 }*/
 
+                
+
                 if(sections[attr.section].active){
                     handle_data.current_records_search_data = response;
+
+                    /*
+                    //handle_data.excel_data[attr.section] = depureEnteredData(response);
+
+                    //console.log('depure entered: ', depureEnteredData(response));
+
+                    console.log('depure entered response before: ', response);
+
+                    let response_data = response;
+
+                    handle_data.excel_data[attr.section] = depureEnteredData(response_data);
+
+                    console.log('depure entered response after: ', response);
+
+                    console.log('depure entered excel: ', handle_data.excel_data[attr.section]);
+                    */
                 }
 
                 if(attr.section != 'inegi' || (attr.section == 'inegi' && handle_data.inegi.current_search == 'month')){
@@ -894,31 +913,85 @@ function searchSection(section){
 
 function deleteRecord(section, id){
 
-    Swal.fire({
-        title: 'Estas seguro?',
-        text: 'El registro sera eliminado de forma permanente!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Si',
-        cancelButtonText: 'No'
-    }).then((result) => {
-        if(result.isConfirmed){
-            $.ajax({
-                url:'service/delete_'+section+'.php',
-                type:'POST',
-                dataType: "json",
-                data: {
-                    id: id
-                },
-                cache:false
-            }).done(function(response){
-                Swal.fire('Correcto', 'Registro eliminado correctamente', 'success');
-                getRecordsByMonth({
-                    section: section
-                });
+    switch(section){
+        case 'agreements':
+            deleteRecordBySection({
+                section: section,
+                id: id,
+                url_service_file: 'service/delete_'+section+'.php',
+                on_service_success: {
+                    functions: [
+                        {
+                            function: deleteRecordNoConfirmation,
+                            attr: {
+                                section: null,
+                                id: id,
+                                url_service_file: 'service/inegi/delete_inegi_by_agreement_id.php',
+                                on_service_success: {
+                                    functions: [],
+                                    success_message: 'Registros de acuerdo e INEGI eliminados correctamente'
+                                }
+                            }
+                        },
+                        {
+                            function: getRecordsByMonth,
+                            attr: {
+                                section: section
+                            }
+                        }
+                    ],
+                    success_message: null
+                }
             });
-        }
-    });
+            break;
+        case 'recieved_folders':
+            deleteRecordBySection({
+                section: section,
+                id: id,
+                url_service_file: 'service/delete_'+section+'.php',
+                on_service_success: {
+                    functions: [
+                        {
+                            function: deleteRecordNoConfirmation,
+                            attr: {
+                                section: null,
+                                id: id,
+                                url_service_file: 'service/inegi/delete_inegi_by_recieved_folder_id.php',
+                                on_service_success: {
+                                    functions: [],
+                                    success_message: 'Registros de carpeta recibida e INEGI eliminados correctamente'
+                                }
+                            }
+                        },
+                        {
+                            function: getRecordsByMonth,
+                            attr: {
+                                section: section
+                            }
+                        }
+                    ],
+                    success_message: null
+                }
+            });
+            break;
+        default:
+            deleteRecordBySection({
+                section: section,
+                id: id,
+                url_service_file: 'service/delete_'+section+'.php',
+                on_service_success: {
+                    functions: [
+                        {
+                            function: getRecordsByMonth,
+                            attr: {
+                                section: section
+                            }
+                        }
+                    ],
+                    success_message: 'Registro eliminado correctamente'
+                }
+            });
+    }
 
     //let date = new Date();
 
@@ -942,6 +1015,74 @@ function deleteRecord(section, id){
     }*/
 
 	
+}
+
+function deleteRecordBySection(attr){
+    Swal.fire({
+        title: 'Estas seguro?',
+        text: 'El registro sera eliminado de forma permanente!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if(result.isConfirmed){
+            $.ajax({
+                url: attr.url_service_file,
+                type: 'POST',
+                dataType: "json",
+                data: {
+                    id: attr.id
+                },
+                cache:false
+            }).done(function(response){
+
+                if(attr.on_service_success != undefined && attr.on_service_success != null){
+
+                    for(func in attr.on_service_success.functions){
+                        attr.on_service_success.functions[func].function(attr.on_service_success.functions[func].attr);
+                    }
+
+                    if(attr.on_service_success.success_message != null){
+                        Swal.fire('Correcto', attr.success_message, 'success');
+                    }
+                }
+                
+            }).fail(function(){
+
+                Swal.fire('Oops...', 'Ha ocurrido un error, no se ha podido eliminar el registro!', 'error');
+        
+            });
+        }
+    });
+}
+
+function deleteRecordNoConfirmation(attr){
+    $.ajax({
+        url: attr.url_service_file,
+        type: 'POST',
+        dataType: "json",
+        data: {
+            id: attr.id
+        },
+        cache:false
+    }).done(function(response){
+
+        if(attr.on_service_success != undefined && attr.on_service_success != null){
+
+            for(func in attr.on_service_success.functions){
+                attr.on_service_success.functions[func].function(attr.on_service_success.functions[func].attr);
+            }
+
+            if(attr.on_service_success.success_message != null){
+                Swal.fire('Correcto', attr.success_message, 'success');
+            }
+        }
+    }).fail(function(){
+
+        Swal.fire('Oops...', 'Ha ocurrido un error, no se ha podido eliminar el registro de inegi!', 'error');
+
+    });
 }
 
 function tableToExcel(){
@@ -1015,6 +1156,38 @@ function getNucsDate(attr){
         attr.attr.nuc_dates = response.data
 
         attr.func(attr.attr);
+
+	});
+}
+
+function getStaticNucsDate(){
+
+    console.log('searching... ');
+
+	$.ajax({
+		url:'service/get_nucs_date.php',
+		type:'POST',
+        dataType: "json",
+        data: null,
+	}).done(function(response){
+        
+        console.log(response.data);
+
+	});
+}
+
+function getLastNucs(){
+
+    console.log('searching last nucs... ');
+
+	$.ajax({
+		url:'service/get_last_nucs.php',
+		type:'POST',
+        dataType: "json",
+        data: null,
+	}).done(function(response){
+        
+        console.log(response.data);
 
 	});
 }
@@ -1308,6 +1481,183 @@ function onChangeInegiDaily(){
         document.getElementById('capture-inegi-period-initial-date').disabled = false;
         document.getElementById('capture-inegi-period-finish-date').disabled = false;
     }
+}
+
+function getEnteredFoldersActivePeriod(){
+
+    console.log('active? o q?');
+
+	$.ajax({
+		url:'service/get_active_period.php',
+		type:'POST',
+        dataType: "json",
+        data: {
+            section: 3
+        },
+	}).done(function(response){
+        console.log('res de active',response);
+
+        let period = response;
+
+        let initial_date = new Date(period.initial_us_date);
+
+        initial_date.setHours(initial_date.getHours()+6);
+
+        document.getElementById('capture-entered-folders-period-initial-date').valueAsDate = initial_date;
+
+        let finish_date = new Date(period.finish_us_date);
+
+        finish_date.setHours(finish_date.getHours()+6);
+
+        document.getElementById('capture-entered-folders-period-finish-date').valueAsDate = finish_date;
+
+        document.getElementById('capture-entered-folders-period-daily').checked = period.daily;
+
+        if(period.daily){
+            $('#capture-entered-folders-period-label').html('Periodo de captura: Diaria');
+            document.getElementById('capture-entered-folders-period-initial-date').disabled = true;
+            document.getElementById('capture-entered-folders-period-finish-date').disabled = true;
+        }
+        else{
+            $('#capture-entered-folders-period-label').html('Periodo de captura: '+response.initial_date+' al '+response.finish_date);
+        }
+        
+	});
+}
+
+function activateEnteredFoldersPeriod(){
+    if(document.getElementById('capture-entered-folders-period-initial-date') && document.getElementById('capture-entered-folders-period-finish-date')){
+
+        console.log('exis per');
+        if((document.getElementById('capture-entered-folders-period-initial-date') != '' && document.getElementById('capture-entered-folders-period-finish-date') != '') || document.getElementById('capture-entered-folders-period-daily').checked){
+            console.log('apenas voy per');
+            $.ajax({  
+                type: "POST",  
+                url: "service/update_entered_folder_capture_period.php", 
+                dataType : 'json', 
+                data: {
+                    initial_date: document.getElementById('capture-entered-folders-period-initial-date').value,
+                    finish_date: document.getElementById('capture-entered-folders-period-finish-date').value,
+                    daily: document.getElementById('capture-entered-folders-period-daily').checked
+                },
+            }).done(function(response){
+
+                console.log('response? per');
+        
+                if(response.state != "fail"){
+
+                    Swal.fire('Correcto', 'Se ha habilitado un nuevo periodo de captura', 'success');
+
+                    getEnteredFoldersActivePeriod();
+                            
+                }
+                else{
+                    Swal.fire('Oops...', 'Ha fallado la conexión!', 'error');
+                }
+                
+            }); 
+        }
+        else{
+            Swal.fire('Campos incompletos', 'Debe llenar ambas fechas', 'warning');
+        }
+    }
+    else{
+    }
+}
+
+function onChangeEnteredFoldersDaily(){
+    if(document.getElementById('capture-entered-folders-period-daily').checked){
+        document.getElementById('capture-entered-folders-period-initial-date').disabled = true;
+        document.getElementById('capture-entered-folders-period-finish-date').disabled = true;
+    }
+    else{
+        document.getElementById('capture-entered-folders-period-initial-date').disabled = false;
+        document.getElementById('capture-entered-folders-period-finish-date').disabled = false;
+    }
+}
+
+function checkEnteredFoldersActivePeriod(attr){
+
+    if(document.getElementById(attr.element_id)){
+        console.log('active? o q?');
+
+        $.ajax({
+            url:'service/get_active_period.php',
+            type:'POST',
+            dataType: "json",
+            data: {
+                section: attr.section
+            },
+        }).done(function(response){
+            console.log('res de active',response);
+
+            let form_date = new Date(document.getElementById(attr.element_id).value);
+            console.log('f_datre', form_date);
+            form_date.setHours(form_date.getHours()+6);
+            console.log('f_datre_af', form_date);
+            let form_date_mx = form_date.toLocaleDateString("es-MX");
+    
+            let initial_date = new Date(response.initial_us_date);
+            console.log('i_date', initial_date);
+            //initial_date.setHours(initial_date.getHours()+6);
+            //initial_date = initial_date.toLocaleDateString("es-MX");
+    
+    
+            let finish_date = new Date(response.finish_us_date);
+            console.log('f_date', finish_date);
+            finish_date.setHours(finish_date.getHours()+23);
+            finish_date.setMinutes(finish_date.getMinutes(59));
+            //finish_date = finish_date.toLocaleDateString("es-MX");
+
+
+            if(response.daily){
+                console.log('daily');
+
+                let today = new Date();
+                today = today.toLocaleDateString("es-MX");
+
+                if(form_date_mx != today){
+                    console.log('daily noup: ', today);
+                    console.log('daily noup form da: ', form_date);
+
+                    /*setLoader({
+                        add: false
+                    });*/
+
+                    Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
+                }
+                else{
+                    console.log('daily yes');
+                    attr.function(attr.attr);
+                }
+
+            }
+            else{
+
+                console.log('form_date: ', new Date(form_date));
+                console.log('finish_date: ', new Date(finish_date));
+                console.log('initial_date: ', new Date(initial_date));
+                if(form_date <= finish_date && form_date >= initial_date){
+                    console.log('yes');
+    
+                    attr.function(attr.attr);
+    
+    
+                }
+                else{
+                    console.log('noup');
+                    /*setLoader({
+                        add: false
+                    });*/
+    
+                    Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
+                }
+            }
+    
+    
+        });
+    }
+    
 }
 
 function loadDashboardAlert(attr){
@@ -2193,6 +2543,8 @@ function searchSectionByRangeDate(attr){
         let post_data = {};
         let validated = false;
 
+        console.log('attr antes de switch: ', attr);
+
         switch(attr.section){
             case null:
                 break;
@@ -2211,17 +2563,36 @@ function searchSectionByRangeDate(attr){
                         Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
                     }
                 }
+                else if(attr.section == 'processing_folders' && document.getElementById('search-initial-date') && document.getElementById('search-finish-date')){
+                    post_data = {
+                        initial_date: document.getElementById('search-initial-date').value,
+                        finish_date: document.getElementById('search-finish-date').value
+                    }
+
+                    if((document.getElementById('search-initial-date').value != '' && document.getElementById('search-finish-date').value != '')){
+                        validated = true;
+                    }
+                    else{
+                        Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
+                    }
+                }
                 break;
         }
 
+        console.log('attr despues de switch: ', attr);
+
         if(validated){
+
+            console.log('attr despues de validated: ', attr);
+
+            console.log('search by date validated');
 
             setStaticLoader({
                 section_id: 'records-section',
                 class: 'static-loader'
             });
             
-            console.log(sections[attr.section].search_by_range_file, attr);
+            console.log('sections[attr.section].search_by_range_file', attr);
             $.ajax({
                 url:'service/'+sections[attr.section].search_by_range_file,
                 type:'POST',
@@ -2324,4 +2695,100 @@ function searchPendngInegi(){
     getInegiPendingAgreementsByMonth({
         section_id: 'records-section'
     });
+}
+
+function downloadExcelSection(section){
+
+    console.log('excel', section);
+
+    //checar despues
+
+    let d = new Date();
+
+    createExcelReport({
+        data: handle_data.excel_data[section],
+        url_service_file: 'templates/excel/'+section+'.php',
+        file_name: section+'-'+d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()
+    });
+}
+
+
+function depureEnteredData(depured_data){
+
+    let temp = depured_data;
+
+    console.log(depured_data);
+
+    for(element in depured_data){
+
+        for(e in depured_data[element]){
+
+            if(e == 'entered_folders_crime'){
+                temp[element][e] = depured_data[element][e].value.listed_values;
+            }
+            else{
+                temp[element][e] = depured_data[element][e].value;
+            }
+        }
+    }
+
+    return temp;
+}
+
+function onchangeFileNumber(){
+
+    let fn = document.getElementById('entered-folders-type-file').value;
+
+    if(document.getElementById('entered-folders-emission-date').value == ''){
+        setDateField({
+            set_date: 'today',
+            element_id: 'entered-folders-emission-date'
+        });
+    }
+
+    if(fn == 1 || fn == 2){
+
+        document.getElementById('entered-folders-cause-number').value = '';
+
+        document.getElementById('entered-folders-judge-name').value = '';
+
+        document.getElementById('entered-folders-region').selectedIndex = 0;
+
+        document.getElementById('entered-folders-judicialized-before-cmasc').value = '1';
+
+        document.getElementById('criminal-cause').style.display = '';
+
+    }
+    else{
+        document.getElementById('criminal-cause').style.display = 'none';
+
+        document.getElementById('entered-folders-cause-number').value = 'null';
+
+        document.getElementById('entered-folders-judge-name').value = 'null';
+
+        document.getElementById('entered-folders-region').value = '1';
+
+        document.getElementById('entered-folders-judicialized-before-cmasc').value = '1';
+        
+    }
+
+}
+
+function setDateField(attr){
+
+    switch(attr.set_date){
+
+        case 'today':
+
+            let today = new Date();
+
+            var date_input = document.getElementById(attr.element_id);
+
+            today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+            date_input.valueAsDate = today;
+
+            break;
+        default:
+    }
 }

@@ -12,6 +12,7 @@
         <th>Fecha</th>
         <th>Delito</th>
         <th>Unidad</th>
+        <th>Fiscalía</th>
         <th>Estatus</th>
         <!--<th>Acción</th>-->
     </tr>
@@ -35,6 +36,7 @@
         <td><?php echo $element['recieved_folders_date']['value']; ?></td>
         <td class="align-left bold-text"><?php echo $element['recieved_folders_crime']['value']; ?></td>
         <td><?php echo $element['recieved_folders_unity']['value']; ?></td>
+        <td><?php echo $element['recieved_folders_fiscalia']['value']; ?></td>
         <td style="<?php echo $current_status_style; ?>"><?php echo $element['recieved_folders_status']['value']; ?></td>
     </tr>
 <?php

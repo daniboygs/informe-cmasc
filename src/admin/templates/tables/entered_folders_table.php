@@ -23,11 +23,14 @@
 
     <button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="tableToExcel()">Descargar EXCEL</button>
 
+    <!--<button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="downloadExcelSection('entered_folders')">Descargar EXCEL</button>-->
+
 </div>
 
 <br>
 
 <table class="data-table table table-striped overflow-table">
+<thead>
     <tr>
         <th>#</th>
         <th>NUC</th>
@@ -48,10 +51,16 @@
         else{
 ?>
             <th>Canalizador</th>
-            <th>Fiscalía</th>
             <th>Municipio</th>
             <th>Observaciones</th>
             <th>Fecha Carpetas</th>
+            <th>Lugar de adscripción</th>
+            <th>Tipo de expediente</th>
+            <th>Número de causa o cuadernillo</th>
+            <th>Nombre del juez</th>
+            <th>Región del organo jurisdiccional</th>
+            <th>Fecha de emisión</th>
+            <th>Judicializada antes de CMASC</th>
             <th>Facilitador</th>
             <th>Fiscalía</th>
 <?php
@@ -67,7 +76,9 @@
 <?php
     }
 ?>
+</thead>
     </tr>
+    <tbody>
 <?php
     if($data != 'null'){
 
@@ -75,6 +86,7 @@
         foreach(json_decode($data, true) as $element){
 ?> 
     <tr>
+    
         <td><?php echo $i; ?></td>
         <td class="bold-text"><?php echo $element['entered_folders_nuc']['value']; ?></td>
         <td class="bold-text"><?php echo $element['sigi_initial_date']['value']; ?></td>
@@ -94,12 +106,18 @@
         else{
 ?>
             <td><?php echo $element['entered_folders_channeler']['value']; ?></td>
-            <td><?php echo $element['entered_folders_fiscalia']['value']; ?></td>
             <td><?php echo $element['entered_folders_municipality']['value']; ?></td>
             <td><?php echo $element['entered_folders_observations']['value']; ?></td>
             <td><?php echo $element['entered_folders_folders_date']['value']; ?></td>
+            <td><?php echo $element['entered_folders_ascription_place']['value']; ?></td>
+            <td><?php echo $element['entered_folders_type_file']['value']; ?></td>
+            <td><?php echo $element['entered_folders_cause_number']['value']; ?></td>
+            <td><?php echo $element['entered_folders_judge_name']['value']; ?></td>
+            <td><?php echo $element['entered_folders_region']['value']; ?></td>
+            <td><?php echo $element['entered_folders_emission_date']['value']; ?></td>
+            <td><?php echo $element['entered_folders_judicialized_before_cmasc']['value']; ?></td>
             <td><?php echo $element['entered_folders_facilitator']['value']; ?></td>
-            <td><?php echo $element['fiscalia']['value']; ?></td>
+            <td><?php echo $element['entered_folders_fiscalia']['value']; ?></td>
 <?php
         }
 ?>   
@@ -111,10 +129,16 @@
 <?php
         }
 ?>
+
     </tr>
+    
 <?php
             $i++;
         }
+
+        ?>
+        </tbody>
+        <?php
     }
     else{
 ?> 

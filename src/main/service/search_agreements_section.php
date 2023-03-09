@@ -6,7 +6,7 @@ include("common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[AcuerdosCelebrados]';
+$db_table = '[dbo].[AcuerdosCelebrados] c LEFT JOIN [cat].[Fiscalia] f ON c.FiscaliaID = f.FiscaliaID LEFT JOIN [cat].[Unidad] uni ON c.UnidadID = uni.UnidadID';
 
 if(isset( $_POST['nuc']))
 	$nuc = $_POST['nuc'];
@@ -65,7 +65,11 @@ $data = (object) array(
 		'search' => true
 	),
 	'agreement_unity' => (object) array(
-		'db_column' => '[Unidad]',
+		'db_column' => 'uni.[Nombre] AS "Unidad"',
+		'search' => true
+	),
+	'agreement_fiscalia' => (object) array(
+		'db_column' => 'f.[Nombre] AS "Fiscalia"',
 		'search' => true
 	),
 	'agreement_amount_in_kind' => (object) array(
@@ -215,6 +219,10 @@ function getRecord($attr){
 				'agreement_unity' => array(
 					'name' => 'Unidad',
 					'value' => $row['Unidad']
+				),
+				'agreement_fiscalia' => array(
+					'name' => 'Fiscalia',
+					'value' => $row['Fiscalia']
 				),
 				'agreement_amount_in_kind' => array(
 					'name' => 'MontoEspecie',

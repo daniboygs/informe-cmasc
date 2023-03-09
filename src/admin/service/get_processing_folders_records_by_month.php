@@ -139,7 +139,9 @@ else{
 				'db_table' => $db_table,
 				'conn' => $conn,
 				'params' => $params,
-				'options' => $options
+				'options' => $options,
+				'month' => $month,
+				'year' => $year
 			)
 		), 
 		JSON_FORCE_OBJECT
@@ -151,7 +153,7 @@ function getRecord($attr){
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
-	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY FechaInicio";
+	$sql = "SELECT $columns FROM $attr->db_table WHERE MONTH(FechaInicio) = $attr->month AND YEAR(FechaInicio) = $attr->year  ORDER BY FechaInicio";
 
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 

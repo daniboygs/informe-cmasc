@@ -9,7 +9,7 @@ $db_table = '[cat].[Unidad]';
 
 $elements = array();
 
-$sql = "SELECT [Nombre] AS 'id'
+$sql = "SELECT [UnidadID] AS 'id'
 			,[Nombre]
 		FROM $db_table";
 

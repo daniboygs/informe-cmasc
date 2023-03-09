@@ -6,7 +6,8 @@ include("../common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = "[dbo].[CarpetasRecibidas] cr INNER JOIN Usuario u ON cr.UsuarioID = u.UsuarioID INNER JOIN [cat].[Fiscalia] f ON  u.FiscaliaID = f.FiscaliaID 
+$db_table = "[dbo].[CarpetasRecibidas] cr INNER JOIN Usuario u ON cr.UsuarioID = u.UsuarioID
+LEFT JOIN [cat].[Fiscalia] f ON cr.FiscaliaID = f.FiscaliaID LEFT JOIN [cat].[Unidad] uni ON cr.UnidadID = uni.UnidadID
 LEFT JOIN 
 (
 SELECT MAX([Fecha]) AS 'inves_max_date'
@@ -60,7 +61,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'recieved_folders_unity' => (object) array(
-		'db_column' => '[Unidad]',
+		'db_column' => 'uni.[Nombre] AS "Unidad"',
 		'search' => true
 	),
 	'user' => (object) array(
@@ -99,7 +100,9 @@ $data = (object) array(
 	)*/
 	'recieved_folders_status' => (object) array(
 		'db_column' => "CASE WHEN ci.inves_max_date IS NOT NULL AND ci.inves_max_date >= cr.Fecha AND (cv.val_max_date IS NULL OR (cv.val_max_date IS NOT NULL AND cv.val_max_date < ci.inves_max_date)) THEN 'Investigación' 
-		WHEN cv.val_max_date IS NOT NULL AND cv.val_max_date >= cr.Fecha AND (ci.inves_max_date IS NULL OR (ci.inves_max_date IS NOT NULL AND ci.inves_max_date < cv.val_max_date)) THEN 'Validación' 
+		WHEN cv.val_max_date IS NOT NULL AND cv.val_max_date >= cr.Fecha AND (ci.inves_max_date IS NULL OR (ci.inves_max_date IS NOT NULL AND ci.inves_max_date < cv.val_max_date)) THEN 'Validación'
+		WHEN ci.inves_max_date IS NOT NULL AND ci.inves_max_date >= cr.Fecha AND (cv.val_max_date IS NULL OR (cv.val_max_date IS NOT NULL AND cv.val_max_date = ci.inves_max_date)) THEN 'Investigación'
+		WHEN cv.val_max_date IS NOT NULL AND cv.val_max_date >= cr.Fecha AND (ci.inves_max_date IS NULL OR (ci.inves_max_date IS NOT NULL AND ci.inves_max_date = cv.val_max_date)) THEN 'Investigación'  
 		ELSE 'Tramite' END AS 'Estatus'",
 		'search' => true
 	)

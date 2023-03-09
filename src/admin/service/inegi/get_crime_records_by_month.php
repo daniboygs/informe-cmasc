@@ -7,7 +7,8 @@ $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[inegi].[Delito] d INNER JOIN [inegi].[General] g ON d.GeneralID = g.GeneralID INNER JOIN [cat].[Modalidad] m ON d.Modalidad = m.ModalidadID
-INNER JOIN [cat].[Instrumento] i ON d.Instrumento = i.InstrumentoID INNER JOIN [cat].[Delito] cd ON d.DelitoID = cd.DelitoID ';
+INNER JOIN [cat].[Instrumento] i ON d.Instrumento = i.InstrumentoID INNER JOIN [cat].[Delito] cd ON d.DelitoID = cd.DelitoID INNER JOIN cat.Unidad uni on uni.UnidadID = g.UnidadID
+LEFT JOIN cat.Fiscalia f ON f.FiscaliaID = g.FiscaliaID';
 
 $initial_date = $_POST['initial_date'];
 $finish_date = $_POST['finish_date'];
@@ -58,7 +59,11 @@ $data = (object) array(
 		'search' => true
 	),
 	'unity' => (object) array(
-		'db_column' => 'g.Unidad',
+		'db_column' => "uni.Nombre AS 'Unidad'",
+		'search' => true
+	),
+	'crime_fiscalia' => (object) array(
+		'db_column' => "f.Nombre AS 'Fiscalia'",
 		'search' => true
 	)
 );
@@ -131,7 +136,8 @@ function getRecord($attr){
 				'Violencia' => $row['Violencia'],
 				'Modalidad' => $row['Modalidad'],
 				'Instrumento' => $row['Instrumento'],
-				'Justicia Alternativa' => $row['JusticiaAlternativa']
+				'Justicia Alternativa' => $row['JusticiaAlternativa'],
+				'Fiscalía' => $row['Fiscalia']
 			));
 		}
 	
