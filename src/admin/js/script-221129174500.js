@@ -2563,7 +2563,7 @@ function searchSectionByRangeDate(attr){
                         Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
                     }
                 }
-                else if(attr.section = 'processing_folders' && document.getElementById('search-initial-date') && document.getElementById('search-finish-date')){
+                else if(attr.section == 'processing_folders' && document.getElementById('search-initial-date') && document.getElementById('search-finish-date')){
                     post_data = {
                         initial_date: document.getElementById('search-initial-date').value,
                         finish_date: document.getElementById('search-finish-date').value

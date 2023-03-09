@@ -683,7 +683,7 @@ function spetialValidationBySection(attr){
         case 'entered_folders_super':
                 checkActivePeriod({
                     element_id: 'entered-folders-date',
-                    section: 1,
+                    section: 3,
                     function: checkNuc,
                     attr: {
                         section: attr.section,
@@ -768,7 +768,7 @@ function saveSection(attr){
 
                     savePeopleSectionAfterAgreement({
                         data: {
-                            sigi_date: attr.data.sigi_date,
+                            sigi_date: handle_data.current_sigi_date,
                             people_served_date: attr.data.agreement_date,
                             people_served_nuc: attr.data.agreement_nuc,
                             people_served_number: attr.data.agreement_intervention,

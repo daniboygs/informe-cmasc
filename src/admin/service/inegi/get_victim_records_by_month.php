@@ -8,7 +8,7 @@ $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[inegi].[Victima] v INNER JOIN [inegi].[General] g ON v.GeneralID = g.GeneralID INNER JOIN [cat].[Escolaridad] e ON v.Escolaridad = e.EscolaridadID
 INNER JOIN [cat].[Ocupacion] o ON v.Ocupacion = o.OcupacionID INNER JOIN [inegi].[Delito] d ON g.GeneralID = d.GeneralID 
-INNER JOIN cat.Delito cd ON d.DelitoID = cd.DelitoID';
+INNER JOIN cat.Delito cd ON d.DelitoID = cd.DelitoID INNER JOIN cat.Unidad uni on uni.UnidadID = g.UnidadID LEFT JOIN cat.Fiscalia f ON f.FiscaliaID = g.FiscaliaID';
 
 $initial_date = $_POST['initial_date'];
 $finish_date = $_POST['finish_date'];
@@ -51,7 +51,11 @@ $data = (object) array(
 		'search' => true
 	),
 	'unity' => (object) array(
-		'db_column' => 'g.Unidad',
+		'db_column' => "uni.Nombre AS 'Unidad'",
+		'search' => true
+	),
+	'victim_fiscalia' => (object) array(
+		'db_column' => "f.Nombre AS 'Fiscalia'",
 		'search' => true
 	)
 );
@@ -122,7 +126,8 @@ function getRecord($attr){
 				'Escolaridad' => $row['Escolaridad'],
 				'Ocupación' => $row['Ocupacion'],
 				'Solicitante' => $row['Solicitante'],
-				'Tipo' => $row['Tipo']
+				'Tipo' => $row['Tipo'],
+				'Fiscalía' => $row['Fiscalia']
 			));
 		}
 	

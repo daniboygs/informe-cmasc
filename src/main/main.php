@@ -29,7 +29,7 @@
 		<script src="json/inegi-221116150000.js"></script>
 		<script src="js/inegi-221116150000.js"></script>
 		<script src="js/multiselect-221116150000.js"></script>
-		<script src="js/script-221116150000.js"></script>
+		<script src="js/script-230126170000.js"></script>
 		<script src="js/rejected-folders-221116150000.js"></script>
 
 		<title>CMASC</title>

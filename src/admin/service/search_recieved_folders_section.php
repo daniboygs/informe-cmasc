@@ -6,7 +6,7 @@ include("common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = "[dbo].[CarpetasRecibidas] cr INNER JOIN Usuario u ON cr.UsuarioID = u.UsuarioID INNER JOIN [cat].[Fiscalia] f ON  u.FiscaliaID = f.FiscaliaID 
+$db_table = "[dbo].[CarpetasRecibidas] cr INNER JOIN Usuario u ON cr.UsuarioID = u.UsuarioID INNER JOIN [cat].[Fiscalia] f ON  cr.FiscaliaID = f.FiscaliaID 
 LEFT JOIN [cat].[Fiscalia] f ON cr.FiscaliaID = f.FiscaliaID LEFT JOIN [cat].[Unidad] uni ON cr.UnidadID = uni.UnidadID
 LEFT JOIN 
 (

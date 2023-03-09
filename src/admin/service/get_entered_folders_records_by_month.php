@@ -7,7 +7,7 @@ $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[CarpetasIngresadas] c INNER JOIN [cat].[Municipio] m on c.Municipio = m.MunicipioID 
-LEFT JOIN dbo.Usuario u on c.Facilitador = u.UsuarioID LEFT JOIN [cat].[Fiscalia] f ON  u.FiscaliaID = f.FiscaliaID 
+LEFT JOIN dbo.Usuario u on c.Facilitador = u.UsuarioID LEFT JOIN [cat].[Fiscalia] f ON  c.FiscaliaID = f.FiscaliaID 
 LEFT JOIN cat.Unidad uni ON c.UnidadID = uni.UnidadID
 LEFT JOIN cat.MotivoRechazo mr ON mr.MotivoID = c.MotivoRechazo
 LEFT JOIN dbo.CausaPenal cp on cp.CarpetaIngresadaID = c.CarpetaIngresadaID
