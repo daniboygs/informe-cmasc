@@ -10,7 +10,8 @@ $conn = $connections['cmasc']['conn'];
 $initial_date = $_POST['initial_date'];
 $finish_date = $_POST['finish_date'];
 
-$db_table = '[inegi].[General] g INNER JOIN [inegi].[Delito] d ON g.GeneralID = d.GeneralID INNER JOIN cat.Delito cd ON d.DelitoID = cd.DelitoID';
+$db_table = '[inegi].[General] g INNER JOIN [inegi].[Delito] d ON g.GeneralID = d.GeneralID INNER JOIN cat.Delito cd ON d.DelitoID = cd.DelitoID INNER JOIN cat.Unidad uni on uni.UnidadID = g.UnidadID
+LEFT JOIN cat.Fiscalia f ON f.FiscaliaID = g.FiscaliaID';
 
 $data = (object) array(
 	'general_id' => (object) array(
@@ -30,7 +31,11 @@ $data = (object) array(
 		'search' => true
 	),
 	'general_unity' => (object) array(
-		'db_column' => '[Unidad]',
+		'db_column' => "uni.Nombre AS 'Unidad'",
+		'search' => true
+	),
+	'general_fiscalia' => (object) array(
+		'db_column' => "f.Nombre AS 'Fiscalia'",
 		'search' => true
 	),
 	'general_attended' => (object) array(
@@ -108,7 +113,8 @@ function getRecord($attr){
 				'Fecha' => $general_date,
 				'Unidad' => $row['Unidad'],
 				'Delito' => $row['Delito'],
-				'Atendidos' => $row['Atendidos']
+				'Atendidos' => $row['Atendidos'],
+				'Fiscalía' => $row['Fiscalia']
 			));
 			
 		}

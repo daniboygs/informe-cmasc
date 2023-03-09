@@ -8,7 +8,7 @@ $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[inegi].[MASC] m INNER JOIN [inegi].[General] g ON m.GeneralID = g.GeneralID INNER JOIN [cat].[TipoReparacion] tr ON m.TipoReparacion = tr.TipoReparacionID
 INNER JOIN [cat].[TipoConclusion] tc ON m.TipoConclusion = tc.TipoConclusionID INNER JOIN [cat].[Turnado] t ON m.Turnado = t.TurnadoID INNER JOIN [inegi].[Delito] d ON g.GeneralID = d.GeneralID 
-INNER JOIN cat.Delito cd ON d.DelitoID = cd.DelitoID';
+INNER JOIN cat.Delito cd ON d.DelitoID = cd.DelitoID INNER JOIN cat.Unidad uni on uni.UnidadID = g.UnidadID LEFT JOIN cat.Fiscalia f ON f.FiscaliaID = g.FiscaliaID';
 
 $initial_date = $_POST['initial_date'];
 $finish_date = $_POST['finish_date'];
@@ -63,7 +63,11 @@ $data = (object) array(
 		'search' => true
 	),
 	'unity' => (object) array(
-		'db_column' => 'g.Unidad',
+		'db_column' => "uni.Nombre AS 'Unidad'",
+		'search' => true
+	),
+	'masc_fiscalia' => (object) array(
+		'db_column' => "f.Nombre AS 'Fiscalia'",
 		'search' => true
 	)
 );
@@ -137,7 +141,8 @@ function getRecord($attr){
 				'Tipo Conclusión' => $row['TipoConclusion'],
 				'Monto Recuperado' => $row['MontoRecuperado'],
 				'Monto Inmueble' => $row['MontoInmueble'],
-				'Turnado a' => $row['Turnado']
+				'Turnado a' => $row['Turnado'],
+				'Fiscalía' => $row['Fiscalia']
 			));
 		}
 	

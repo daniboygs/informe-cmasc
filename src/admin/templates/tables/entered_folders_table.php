@@ -21,9 +21,9 @@
 
 <div class="form-buttons" style="float: left !important; margin-bottom: 20px;">		
 
-    <!--<button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="tableToExcel()">Descargar EXCEL</button>-->
+    <button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="tableToExcel()">Descargar EXCEL</button>
 
-    <button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="downloadExcelSection('entered_folders')">Descargar EXCEL</button>
+    <!--<button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="downloadExcelSection('entered_folders')">Descargar EXCEL</button>-->
 
 </div>
 

@@ -7,12 +7,12 @@ $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[CarpetasIngresadas] c INNER JOIN [cat].[Municipio] m on c.Municipio = m.MunicipioID 
+LEFT JOIN [cat].[Fiscalia] f ON c.FiscaliaID = f.FiscaliaID LEFT JOIN cat.Unidad uni ON c.UnidadID = uni.UnidadID
 LEFT JOIN dbo.Usuario u on c.Facilitador = u.UsuarioID LEFT JOIN cat.MotivoRechazo mr ON mr.MotivoID = c.MotivoRechazo
 LEFT JOIN dbo.CausaPenal cp on cp.CarpetaIngresadaID = c.CarpetaIngresadaID
 LEFT JOIN [cat].[Fiscalia] cpf ON cp.RegionFiscaliaID = cpf.FiscaliaID
 LEFT JOIN [cat].[Fiscalia] cf ON c.LugarAdscripsionFiscaliaID = cf.FiscaliaID
 LEFT JOIN [cat].TipoExpediente te ON c.TipoExpedienteID = te.TipoExpedienteID';
-
 
 
 /*$nuc = $_POST['nuc'];
@@ -216,7 +216,7 @@ function getRecord($attr){
 	$conditions = formSearchConditions($attr->sql_conditions);
 
 	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY FechaIngreso, Nombre";
-
+	
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 
 	$row_count = sqlsrv_num_rows( $result );

@@ -1,15 +1,25 @@
 <?php
 session_start();
-include("../../../service/connection.php");
-include("common.php");
+include("../../../../service/connection.php");
+include("../common.php");
 
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[CarpetasTramite] a INNER JOIN Usuario u ON a.UsuarioID = u.UsuarioID INNER JOIN [cat].[Fiscalia] f ON  u.FiscaliaID = f.FiscaliaID';
 
-$month = $_POST['month'];
-$year = $_POST['year'];
+/*$processing_folders_initial_date = $_POST['processing_folders_initial_date'];
+$processing_folders_finish_date = $_POST['processing_folders_finish_date'];*/
+
+if(isset( $_POST['initial_date']))
+	$processing_folders_initial_date = $_POST['initial_date'];
+else
+	$processing_folders_initial_date = '';
+
+if(isset( $_POST['finish_date']))
+	$processing_folders_finish_date = $_POST['finish_date'];
+else
+	$processing_folders_finish_date = '';
 
 $data = (object) array(
 	'processing_folders_id' => (object) array(
@@ -85,7 +95,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'user' => (object) array(
-		'db_column' => '[UsuarioID]',
+		'db_column' => 'a.[UsuarioID]',
 		'search' => false
 	),
 	'user_name' => (object) array(
@@ -107,6 +117,16 @@ $data = (object) array(
 );
 
 $sql_conditions = (object) array(
+	'processing_folders_initial_date' => (object) array(
+		'db_column' => '[FechaInicio]',
+		'condition' => '=', 
+		'value' => $processing_folders_initial_date
+	),
+	'processing_folders_finish_date' => (object) array(
+		'db_column' => '[FechaFin]',
+		'condition' => '=', 
+		'value' => $processing_folders_finish_date
+	)
 	/*'month' => (object) array(
 		'db_column' => 'MONTH(Fecha)',
 		'condition' => '=', 
@@ -139,9 +159,7 @@ else{
 				'db_table' => $db_table,
 				'conn' => $conn,
 				'params' => $params,
-				'options' => $options,
-				'month' => $month,
-				'year' => $year
+				'options' => $options
 			)
 		), 
 		JSON_FORCE_OBJECT
@@ -153,7 +171,10 @@ function getRecord($attr){
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
-	$sql = "SELECT $columns FROM $attr->db_table WHERE MONTH(FechaInicio) = $attr->month AND YEAR(FechaInicio) = $attr->year  ORDER BY FechaInicio";
+	$processing_folders_initial_date = $attr->sql_conditions->processing_folders_initial_date->value;
+	$processing_folders_finish_date = $attr->sql_conditions->processing_folders_finish_date->value;
+
+	$sql = "SELECT $columns FROM $attr->db_table WHERE ([FechaInicio] >= '$processing_folders_initial_date' AND [FechaInicio] <= '$processing_folders_finish_date') AND ([FechaFin] >= '$processing_folders_initial_date' AND [FechaFin] <= '$processing_folders_finish_date') ORDER BY FechaInicio";
 
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 
@@ -179,7 +200,6 @@ function getRecord($attr){
 
 			if($processing_folders_finish_date != null)
 				$processing_folders_finish_date = $processing_folders_finish_date->format('d/m/Y');
-
 	
 			array_push($return, array(
 				'processing_folders_id' => array(
@@ -254,13 +274,13 @@ function getRecord($attr){
 					'name' => 'Medio Ambiente',
 					'value' => $row['MedioAmbiente']
 				),
-				'processing_folders_user' => array(
-					'name' => 'Facilitador',
-					'value' => $row['Nombre'].' '.$row['ApellidoPaterno'].' '.$row['ApellidoMaterno']
-				),
 				'fiscalia' => array(
 					'name' => 'Fiscalía',
 					'value' => $row['Fiscalia']
+				),
+				'processing_folders_user' => array(
+					'name' => 'Facilitador',
+					'value' => $row['Nombre'].' '.$row['ApellidoPaterno'].' '.$row['ApellidoMaterno']
 				)
 			));
 			

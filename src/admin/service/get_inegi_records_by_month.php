@@ -176,7 +176,7 @@ function getRecord($attr){
 	ON g.GeneralID = di.GeneralID
 
 	INNER JOIN Usuario u ON g.UsuarioID = u.UsuarioID
-	INNER JOIN cat.Fiscalia f ON f.FiscaliaID = u.FiscaliaID
+	LEFT JOIN cat.Fiscalia f ON f.FiscaliaID = g.FiscaliaID
 
 	LEFT JOIN 
 	cat.Unidad uni ON uni.UnidadID = g.UnidadID
