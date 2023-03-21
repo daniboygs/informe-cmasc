@@ -9,7 +9,7 @@
 		<meta http-equiv="pragma" content="no-cache" />
 		<!--<link rel="stylesheet" href="node_modules/normalize.css">-->
 		<link rel="shortcut icon" href="../../assets/img/fge.png"/>
-		<link rel="stylesheet" href="../../css/styles.css">
+		<link rel="stylesheet" href="../../css/styles_230321160000.css">
 		<link rel="stylesheet" href="css/styles.css">
 		<link rel="stylesheet" href="css/own-dt.css">
 		<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
@@ -23,14 +23,14 @@
 		<script src="//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
 		<script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 		
-		<script src="../../js/script.js"></script>
-		<script src="json/sections-attr.js"></script>
-		<script src="json/data.js"></script>
-		<script src="json/inegi.js"></script>
-		<script src="js/inegi.js"></script>
-		<script src="js/multiselect.js"></script>
-		<script src="js/script.js"></script>
-		<script src="js/rejected-folders.js"></script>
+		<script src="../../js/script_230321160000.js"></script>
+		<script src="json/sections-attr_230321160000.js"></script>
+		<script src="json/data_230321160000.js"></script>
+		<script src="json/inegi_230321160000.js"></script>
+		<script src="js/inegi_230321160000.js"></script>
+		<script src="js/multiselect_230321160000.js"></script>
+		<script src="js/script_230321160000.js"></script>
+		<script src="js/rejected-folders_230321160000.js"></script>
 
 		<title>CMASC</title>
 	</head>
