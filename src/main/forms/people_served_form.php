@@ -38,6 +38,30 @@
 
 		<div class="col-md-3 form-group">
 
+			<label style="font-weight:bold">Nombre: *</label>
+
+			<input type="text" class="form-control" id="people-served-name" maxlength="75">			
+
+		</div>
+
+		<div class="col-md-3 form-group">
+
+			<label style="font-weight:bold">Apellido Paterno: *</label>
+
+			<input type="text" class="form-control" id="people-served-ap" maxlength="75">			
+
+		</div>
+
+		<div class="col-md-3 form-group">
+
+			<label style="font-weight:bold">Apellido Materno: *</label>
+
+			<input type="text" class="form-control" id="people-served-am" maxlength="75">			
+
+		</div>
+
+		<div class="col-md-3 form-group">
+
 			<label style="font-weight:bold">Sexo: *</label>
 			
 			<select id="people-served-gener" name="tipo" style="height: 40px" class="form-control"  required="true">
@@ -48,11 +72,28 @@
 
 		</div>
 
-		<div class="col-md-2 form-group">
+	</div>
+
+	<div class="form-row">
+
+		<div class="col-md-3 form-group">
 
 			<label style="font-weight:bold">Edad: *</label>
 
-			<input type="number" class="form-control" id="people-served-age" min="0">
+			<input type="number" class="form-control" id="people-served-age" min="0" max="200">
+			<!--<input type="text" class="form-control" id="people-served-age" maxlength="3" onkeypress="validateNumber(event);">-->
+
+		</div>
+
+		<div class="col-md-3 form-group">
+
+			<label style="font-weight:bold">Calidad: *</label>
+			
+			<select id="people-served-type" name="tipo" style="height: 40px" class="form-control"  required="true">
+				<option value="" selected>Selecciona calidad</option>							
+				<option value="Solicitante">Solicitante</option>
+				<option value="Requerido">Requerido</option>
+			</select>	
 
 		</div>
 		
