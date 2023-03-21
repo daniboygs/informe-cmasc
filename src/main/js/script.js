@@ -1941,6 +1941,26 @@ function addServedPeopleBySection(section){
             element_id: 'people-served-age',
             type: 'text',
             default: ""
+        },
+        name: {
+            element_id: 'people-served-name',
+            type: 'text',
+            default: ""
+        },
+        ap: {
+            element_id: 'people-served-ap',
+            type: 'text',
+            default: ""
+        },
+        am: {
+            element_id: 'people-served-am',
+            type: 'text',
+            default: ""
+        },
+        type: {
+            element_id: 'people-served-type',
+            type: 'text',
+            default: ""
         }
     }
 
@@ -1959,6 +1979,10 @@ function addServedPeopleBySection(section){
             [random_id]: {
                 age: document.getElementById(served_people_attr.age.element_id).value,
                 gener: document.getElementById(served_people_attr.gener.element_id).value,
+                name: document.getElementById(served_people_attr.name.element_id).value,
+                ap: document.getElementById(served_people_attr.ap.element_id).value,
+                am: document.getElementById(served_people_attr.am.element_id).value,
+                type: document.getElementById(served_people_attr.type.element_id).value,
                 id: random_id
             }
         }
@@ -1976,6 +2000,8 @@ function addServedPeopleBySection(section){
 
         drawPeopleCount();
 
+        //checkPeopleType();
+
     }
     else{
         Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
@@ -1983,6 +2009,19 @@ function addServedPeopleBySection(section){
 }
 
 function removeServedPeople(random_id){
+
+    if(handle_data.people_served.people[random_id].type == 'Requerido'){
+        addOptionToSelect({
+            select_element_id: 'people-served-type',
+            select_add_value: 'Requerido'
+        });
+    }
+    else if(handle_data.people_served.people[random_id].type == 'Solicitante'){
+        addOptionToSelect({
+            select_element_id: 'people-served-type',
+            select_add_value: 'Solicitante'
+        });
+    }
 
     delete handle_data.people_served.people[random_id];
 
@@ -2009,6 +2048,53 @@ function removeServedPeople(random_id){
 
 function drawPeopleCount(){
     $('#people-served-table-count h3').html('Personas atendidas: '+Object.keys(handle_data.people_served.people).length);
+}
+
+function checkPeopleType(){
+
+
+    for(element in handle_data.people_served.people){
+
+        if(handle_data.people_served.people[element].type == 'Requerido'){
+
+            removeElementFromSelect({
+                select_element_id: 'people-served-type',
+                select_remove_value: 'Requerido'
+            });
+        }
+        else if(handle_data.people_served.people[element].type == 'Solicitante'){
+
+            removeElementFromSelect({
+                select_element_id: 'people-served-type',
+                select_remove_value: 'Solicitante'
+            });
+        }
+    }
+}
+
+function removeElementFromSelect(attr){
+
+    let selectobject = document.getElementById(attr.select_element_id);
+
+    for (let i=0; i < selectobject.length; i++){
+        if (selectobject.options[i].value == attr.select_remove_value){
+            selectobject.remove(i);
+        } 
+    }
+}
+
+function addOptionToSelect(attr){
+
+    if(document.getElementById(attr.select_element_id)){
+
+        let selectobject = document.getElementById(attr.select_element_id);
+
+        let opt = document.createElement('option');
+    
+        opt.value = attr.select_add_value;
+        opt.innerHTML = attr.select_add_value;
+        selectobject.appendChild(opt);
+    }
 }
 
 function validateElements(attr){

@@ -134,13 +134,18 @@ else{
 
 			if($response['data']['id'] != '' && $response['data']['id'] != null){
 
-				$server_people_id = $response['data']['id'];
+				$served_people_id = $response['data']['id'];
 				
 				foreach(json_decode($served_people_array, true) as $element){
 
-					$sql = "INSERT INTO [personas_atendidas].Persona 
+					/*$sql = "INSERT INTO [personas_atendidas].Persona 
 					([Edad] ,[Sexo], [PersonasAtendidasID]) VALUES
-					(".$element['age'].", '".$element['gener']."', ".$server_people_id.")";
+					(".$element['age'].", '".$element['gener']."', ".$served_people_id.")";*/
+
+					$sql = "INSERT INTO [personas_atendidas].Persona 
+					([Nombre], [ApellidoPaterno], [ApellidoMaterno], [Edad], [Sexo], [Calidad], [PersonasAtendidasID]) VALUES
+					('".$element['name']."', '".$element['ap']."', '".$element['am']."', ".$element['age'].", '".$element['gener']."', '".$element['type']."', ".$served_people_id.")";
+
 
 					if($conn){
 						$stmt = sqlsrv_query( $conn, $sql);

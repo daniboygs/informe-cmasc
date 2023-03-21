@@ -150,8 +150,8 @@ else{
 				foreach(json_decode($served_people_array, true) as $element){
 
 					$sql = "INSERT INTO [personas_atendidas].Persona 
-					([Edad] ,[Sexo], [PersonasAtendidasID]) VALUES
-					(".$element['age'].", '".$element['gener']."', ".$served_people_id.")";
+					([Nombre], [ApellidoPaterno], [ApellidoMaterno], [Edad], [Sexo], [Calidad], [PersonasAtendidasID]) VALUES
+					('".$element['name']."', '".$element['ap']."', '".$element['am']."', ".$element['age'].", '".$element['gener']."', '".$element['type']."', ".$served_people_id.")";
 
 					if($conn){
 						$stmt = sqlsrv_query( $conn, $sql);
