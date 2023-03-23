@@ -2010,7 +2010,7 @@ function addServedPeopleBySection(section){
 
 function removeServedPeople(random_id){
 
-    if(handle_data.people_served.people[random_id].type == 'Requerido'){
+    /*if(handle_data.people_served.people[random_id].type == 'Requerido'){
         addOptionToSelect({
             select_element_id: 'people-served-type',
             select_add_value: 'Requerido'
@@ -2021,7 +2021,7 @@ function removeServedPeople(random_id){
             select_element_id: 'people-served-type',
             select_add_value: 'Solicitante'
         });
-    }
+    }*/
 
     delete handle_data.people_served.people[random_id];
 
@@ -2266,16 +2266,45 @@ function checkAgreementsAddedPeople(attr){
 
         if(Object.keys(handle_data.people_served.people).length > 1){
 
-            
-            attr.attr.attr.attr.attr.data = {
-                ...attr.attr.attr.attr.attr.data,
-                agreement_intervention: Object.keys(handle_data.people_served.people).length,
-                served_people_array: JSON.stringify(handle_data.people_served.people)
+            let sol = false;
+            let req = false;
+
+            for(element in handle_data.people_served.people){
+
+                if(handle_data.people_served.people[element].type == 'Requerido'){
+        
+                    req = true;
+                }
+                else if(handle_data.people_served.people[element].type == 'Solicitante'){
+        
+                    sol = true;
+                }
             }
 
-            console.log('entre a if mas de 0 que tengo: ', attr.attr);
+            if(sol && req){
 
-            attr.function(attr.attr);
+                attr.attr.attr.attr.attr.data = {
+                    ...attr.attr.attr.attr.attr.data,
+                    agreement_intervention: Object.keys(handle_data.people_served.people).length,
+                    served_people_array: JSON.stringify(handle_data.people_served.people)
+                }
+
+                attr.function(attr.attr);
+            }
+            else if(!sol){
+                setLoader({
+                    add: false
+                });
+
+                Swal.fire('Campos faltantes', 'Debe haber por lo menos una persona en calidad de solicitante', 'warning');
+            }
+            else if(!req){
+                setLoader({
+                    add: false
+                });
+
+                Swal.fire('Campos faltantes', 'Debe haber por lo menos una persona en calidad de requerido', 'warning');
+            }
         }
         else{
             setLoader({
