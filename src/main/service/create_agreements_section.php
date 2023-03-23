@@ -145,7 +145,7 @@ else{
 
 			if($response['data']['id'] != '' && $response['data']['id'] != null){
 
-				$served_people_id = $response['data']['id'];
+				/*$served_people_id = $response['data']['id'];
 				
 				foreach(json_decode($served_people_array, true) as $element){
 
@@ -165,7 +165,7 @@ else{
 							'data' => null
 						);
 					}
-				}
+				}*/
 			}
 		}
 	}
