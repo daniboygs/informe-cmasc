@@ -155,6 +155,19 @@ function getRecord($attr){
 						)
 					)
 				),
+				'people_served_people' => array(
+					'name' => 'Delito',
+					'value' => getListedPeopleRecordsByCondition(
+						(object) array(
+							'columns' => 'Nombre, ApellidoPaterno, ApellidoMaterno, Edad, Sexo, Calidad',
+							'condition' => "[PersonasAtendidasID] = '".$row['id']."' ORDER BY Calidad DESC",
+							'db_table' => '[personas_atendidas].[Persona]',
+							'conn' => $attr->conn,
+							'params' => $attr->params,
+							'options' => $attr->options
+						)
+					)
+				),
 				'people_served_nuc' => array(
 					'name' => 'NUC',
 					'value' => $row['NUC']

@@ -62,7 +62,8 @@
         <td class="bold-text"><?php echo $element['sigi_initial_date']['value']; ?></td>
         <td><?php echo $element['people_served_date']['value']; ?></td>
         <td class="align-left bold-text"><?php echo $element['people_served_crime']['value']['listed_values']; ?></td>
-        <td><?php echo $element['people_served_number']['value']; ?></td>
+        <!--<td><?php //echo $element['people_served_number']['value']; ?></td>-->
+        <td class="align-left bold-text"><?php echo $element['people_served_people']['value']['listed_values']; ?></td>
         <td><?php echo $element['people_served_unity']['value']; ?></td>
 <?php
         if(!$dpe_permissions){
