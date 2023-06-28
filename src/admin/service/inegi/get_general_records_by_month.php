@@ -10,24 +10,53 @@ $conn = $connections['cmasc']['conn'];
 $initial_date = $_POST['initial_date'];
 $finish_date = $_POST['finish_date'];
 
-$db_table = '[inegi].[General] g INNER JOIN [inegi].[Delito] d ON g.GeneralID = d.GeneralID INNER JOIN cat.Delito cd ON d.DelitoID = cd.DelitoID INNER JOIN cat.Unidad uni on uni.UnidadID = g.UnidadID
-LEFT JOIN cat.Fiscalia f ON f.FiscaliaID = g.FiscaliaID';
+$db_table = '(
+	SELECT g.[GeneralID]
+		  ,g.[NUC]
+		  ,g.[FechaInicioSigi]
+		  ,g.[Fecha]
+		  ,g.[Atendidos]
+		  ,acu.[CarpetaRecibidaID] 
+		  ,g.[UnidadID]
+		  ,g.[FiscaliaID]
+		  ,g.[UsuarioID] FROM [inegi].[General] g INNER JOIN AcuerdosCelebrados acu ON acu.AcuerdoCelebradoID = g.AcuerdoCelebradoID
+	UNION
+	SELECT [GeneralID]
+		  ,[NUC]
+		  ,[FechaInicioSigi]
+		  ,[Fecha]
+		  ,[Atendidos]
+		  ,[CarpetaRecibidaID] 
+		  ,[UnidadID]
+		  ,[FiscaliaID]
+		  ,[UsuarioID] FROM [inegi].[General] WHERE CarpetaRecibidaID is not null
+	) subq 
+	INNER JOIN [inegi].[Delito] d ON subq.GeneralID = d.GeneralID 
+	INNER JOIN cat.Delito cd ON d.DelitoID = cd.DelitoID 
+	INNER JOIN cat.Unidad uni ON uni.UnidadID = subq.UnidadID 
+	LEFT JOIN cat.Fiscalia f ON f.FiscaliaID = subq.FiscaliaID 
+	INNER JOIN CarpetasRecibidas cr ON cr.CarpetaRecibidaID = subq.CarpetaRecibidaID
+	INNER JOIN CarpetasIngresadas ci ON ci.CarpetaIngresadaID = cr.CarpetaIngresadaID';
 
 $data = (object) array(
 	'general_id' => (object) array(
-		'db_column' => "g.[GeneralID] AS 'id'",
+		'db_column' => "subq.[GeneralID]",
 		'search' => true
 	),
 	/*'general_crime' => (object) array(
 		'db_column' => '[Delito]',
 		'search' => true
 	),*/
+	'entered_date' => (object) array(
+		'db_column' => 'ci.FechaIngreso',
+		'search' => true
+	),
 	'general_date' => (object) array(
-		'db_column' => '[Fecha]',
+		'db_column' => 'subq.[Fecha]',
 		'search' => true
 	),
 	'general_nuc' => (object) array(
-		'db_column' => '[NUC]',
+		'db_column' => 'subq.[NUC]',
 		'search' => true
 	),
 	'general_unity' => (object) array(
@@ -54,7 +83,7 @@ $data = (object) array(
 
 $sql_conditions = (object) array(
 	'range' => (object) array(
-		'db_column' => 'Fecha',
+		'db_column' => 'subq.Fecha',
 		'condition' => 'between', 
 		'value' => "'$initial_date' AND '$finish_date'"
 	)
@@ -91,7 +120,7 @@ function getRecord($attr){
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
-	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY Fecha";
+	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY subq.Fecha";
 	
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 
@@ -107,10 +136,17 @@ function getRecord($attr){
 
 			if($general_date != null)
 				$general_date = $general_date->format('d/m/Y');
+
+			$entered_date = $row['FechaIngreso'];
+
+			if($entered_date != null)
+				$entered_date = $entered_date->format('d/m/Y');
 	
 			array_push($return, array(
+				'ID' => $row['GeneralID'],
 				'NUC' => $row['NUC'],
-				'Fecha' => $general_date,
+				'FechaIngreso' => $entered_date,
+				'FechaCapturaInegi' => $general_date,
 				'Unidad' => $row['Unidad'],
 				'Delito' => $row['Delito'],
 				'Atendidos' => $row['Atendidos'],

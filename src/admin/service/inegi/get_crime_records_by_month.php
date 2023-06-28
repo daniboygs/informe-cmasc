@@ -6,16 +6,46 @@ include("../common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[inegi].[Delito] d INNER JOIN [inegi].[General] g ON d.GeneralID = g.GeneralID INNER JOIN [cat].[Modalidad] m ON d.Modalidad = m.ModalidadID
+$db_table = '[inegi].[Delito] d INNER JOIN (
+	SELECT g.[GeneralID]
+		  ,g.[NUC]
+		  ,g.[FechaInicioSigi]
+		  ,g.[Fecha]
+		  ,g.[Atendidos]
+		  ,acu.[CarpetaRecibidaID] 
+		  ,g.[UnidadID]
+		  ,g.[FiscaliaID]
+		  ,g.[UsuarioID] FROM [inegi].[General] g INNER JOIN AcuerdosCelebrados acu ON acu.AcuerdoCelebradoID = g.AcuerdoCelebradoID
+	UNION
+	SELECT [GeneralID]
+		  ,[NUC]
+		  ,[FechaInicioSigi]
+		  ,[Fecha]
+		  ,[Atendidos]
+		  ,[CarpetaRecibidaID] 
+		  ,[UnidadID]
+		  ,[FiscaliaID]
+		  ,[UsuarioID] FROM [inegi].[General] WHERE CarpetaRecibidaID is not null
+	) g ON d.GeneralID = g.GeneralID INNER JOIN [cat].[Modalidad] m ON d.Modalidad = m.ModalidadID
 INNER JOIN [cat].[Instrumento] i ON d.Instrumento = i.InstrumentoID INNER JOIN [cat].[Delito] cd ON d.DelitoID = cd.DelitoID INNER JOIN cat.Unidad uni on uni.UnidadID = g.UnidadID
-LEFT JOIN cat.Fiscalia f ON f.FiscaliaID = g.FiscaliaID';
+LEFT JOIN cat.Fiscalia f ON f.FiscaliaID = g.FiscaliaID
+INNER JOIN CarpetasRecibidas cr ON cr.CarpetaRecibidaID = g.CarpetaRecibidaID
+INNER JOIN CarpetasIngresadas ci ON ci.CarpetaIngresadaID = cr.CarpetaIngresadaID';
 
 $initial_date = $_POST['initial_date'];
 $finish_date = $_POST['finish_date'];
 
 $data = (object) array(
+	'general_id' => (object) array(
+		'db_column' => 'g.[GeneralID]',
+		'search' => true
+	),
 	'nuc' => (object) array(
 		'db_column' => 'g.[NUC]',
+		'search' => true
+	),
+	'entered_date' => (object) array(
+		'db_column' => 'ci.FechaIngreso',
 		'search' => true
 	),
 	'date' => (object) array(
@@ -123,10 +153,17 @@ function getRecord($attr){
 
 			if($date != null)
 				$date = $date->format('d/m/Y');
+
+			$entered_date = $row['FechaIngreso'];
+
+			if($entered_date != null)
+				$entered_date = $entered_date->format('d/m/Y');
 	
 			array_push($return, array(
+				'ID' => $row['GeneralID'],
 				'NUC' => $row['NUC'],
-				'Fécha' => $date,
+				'FechaIngreso' => $entered_date,
+				'FechaCapturaInegi' => $date,
 				'Unidad' => $row['Unidad'],
 				'Delito' => $row['Delito'],
 				'Calificacion' => $row['Calificacion'],
