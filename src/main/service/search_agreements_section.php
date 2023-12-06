@@ -6,7 +6,9 @@ include("common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[AcuerdosCelebrados] c LEFT JOIN [cat].[Fiscalia] f ON c.FiscaliaID = f.FiscaliaID LEFT JOIN [cat].[Unidad] uni ON c.UnidadID = uni.UnidadID';
+$db_table = '[dbo].[AcuerdosCelebrados] a LEFT JOIN [cat].[Fiscalia] f ON a.FiscaliaID = f.FiscaliaID LEFT JOIN [cat].[Unidad] uni ON a.UnidadID = uni.UnidadID
+LEFT JOIN [dbo].[CarpetasRecibidas] cr ON cr.CarpetaRecibidaID = a.CarpetaRecibidaID
+LEFT JOIN [dbo].[CarpetasIngresadas] ci ON ci.CarpetaIngresadaID = cr.CarpetaIngresadaID';
 
 if(isset( $_POST['nuc']))
 	$nuc = $_POST['nuc'];
@@ -29,7 +31,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'sigi_initial_date' => (object) array(
-		'db_column' => '[FechaInicioSigi]',
+		'db_column' => 'a.[FechaInicioSigi]',
 		'search' => true
 	),
 	'agreement_amount' => (object) array(
@@ -45,7 +47,7 @@ $data = (object) array(
 		'search' => true
 	),*/
 	'agreement_date' => (object) array(
-		'db_column' => '[Fecha]',
+		'db_column' => 'a.[Fecha]',
 		'search' => true
 	),
 	'agreement_intervention' => (object) array(
@@ -57,7 +59,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'agreement_nuc' => (object) array(
-		'db_column' => '[NUC]',
+		'db_column' => 'a.[NUC]',
 		'search' => true
 	),
 	'agreement_total' => (object) array(
@@ -93,7 +95,7 @@ if($nuc != ''){
 }
 if($initial_date != '' && $finish_date != ''){
 	$sql_conditions += ['range' => (object) array(
-		'db_column' => 'Fecha',
+		'db_column' => 'a.Fecha',
 		'condition' => 'between', 
 		'value' => "'$initial_date' AND '$finish_date'"
 	)];
@@ -123,10 +125,16 @@ if(!isset($_SESSION['user_data']) || count($sql_conditions) <= 0){
 }
 else{
 	$sql_conditions += ['user' => (object) array(
+		'db_column' => "(a.[UsuarioID] = ".$_SESSION['user_data']['id']." OR ci.UsuarioDelegadoID = ".$_SESSION['user_data']['id'].")",
+		'condition' => '', 
+		'value' => ''
+	)];
+
+	/*$sql_conditions += ['user' => (object) array(
 		'db_column' => '[UsuarioID]',
 		'condition' => '=', 
 		'value' => $_SESSION['user_data']['id']
-	)];
+	)];*/
 
 	echo json_encode(
 		getRecord(
@@ -148,7 +156,7 @@ function getRecord($attr){
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
-	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY Fecha";
+	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY a.Fecha";
 
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 

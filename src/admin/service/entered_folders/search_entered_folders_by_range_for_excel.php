@@ -179,18 +179,21 @@ if(!isset($_SESSION['user_data']) || count($sql_conditions) <= 0){
 	);
 }
 else{
-	
+
 	echo json_encode(
-		getRecord(
-			(object) array(
-				'data' => $data,
-				'sql_conditions' => $sql_conditions,
-				'db_table' => $db_table,
-				'conn' => $conn,
-				'params' => $params,
-				'options' => $options
+		array(
+			'state' => 'success',
+			'data' => getRecord(
+				(object) array(
+					'data' => $data,
+					'sql_conditions' => $sql_conditions,
+					'db_table' => $db_table,
+					'conn' => $conn,
+					'params' => $params,
+					'options' => $options
+				)
 			)
-		), 
+		),
 		JSON_FORCE_OBJECT
 	);
 }
@@ -214,20 +217,16 @@ function getRecord($attr){
 		while($row = sqlsrv_fetch_array( $result)){
 	
 			array_push($return, array(
-				'entered_folders_id' => array(
-					'name' => 'ID',
-					'value' => $row['id']
-				),
-				'entered_folders_rejection_reason' => array(
-					'name' => 'MotivoRechazo',
-					'value' => $row['MotivoRechazo']
+				'entered_folders_nuc' => array(
+					'name' => 'NUC',
+					'value' => $row['NUC']
 				),
 				'sigi_initial_date' => array(
-					'name' => 'FechaSigi',
+					'name' => 'Fecha Inicio',
 					'value' => formatRowDate($row['FechaInicioSigi'])
 				),
 				'entered_folders_date' => array(
-					'name' => 'Fecha',
+					'name' => 'Fecha Ingreso',
 					'value' => formatRowDate($row['FechaIngreso'])
 				),
 				'entered_folders_crime' => array(
@@ -241,11 +240,7 @@ function getRecord($attr){
 							'params' => $attr->params,
 							'options' => $attr->options
 						)
-					)
-				),
-				'entered_folders_nuc' => array(
-					'name' => 'NUC',
-					'value' => $row['NUC']
+					)->listed_values
 				),
 				'entered_folders_unity' => array(
 					'name' => 'Unidad',
@@ -256,20 +251,20 @@ function getRecord($attr){
 					'value' => $row['MPCanalizador']
 				),
 				'entered_folders_priority' => array(
-					'name' => 'Prioridad',
+					'name' => 'Con detenido',
 					'value' => $row['Prioridad']
 				),
 				'entered_folders_recieved_folder' => array(
 					'name' => 'Carpeta Recibida',
 					'value' => $row['CarpetaRecibida']
 				),
+				'entered_folders_rejection_reason' => array(
+					'name' => 'MotivoRechazo',
+					'value' => $row['MotivoRechazo']
+				),
 				'entered_folders_channeler' => array(
 					'name' => 'Canalizador',
 					'value' => $row['Canalizador']
-				),
-				'entered_folders_fiscalia' => array(
-					'name' => 'Fiscalía',
-					'value' => $row['Fiscalia']
 				),
 				'entered_folders_municipality' => array(
 					'name' => 'Municipio',
@@ -283,10 +278,6 @@ function getRecord($attr){
 					'name' => 'Fecha Carpetas',
 					'value' => formatRowDate($row['FechaCarpetas'])
 				),
-				'entered_folders_facilitator' => array(
-					'name' => 'Facilitador',
-					'value' => $row['Nombre'].' '.$row['ApellidoPaterno'].' '.$row['ApellidoMaterno']
-				),
 				'entered_folders_ascription_place' => array(
 					'name' => 'Lugar de adscripción',
 					'value' => $row['LugarAdscripcion']
@@ -296,15 +287,15 @@ function getRecord($attr){
 					'value' => $row['TipoExpediente']
 				),
 				'entered_folders_cause_number' => array(
-					'name' => 'Número de Causa Cuadernillo',
+					'name' => 'Número de Causa o Cuadernillo',
 					'value' => $row['NumeroCausaCuadernillo']
 				),
 				'entered_folders_judge_name' => array(
-					'name' => 'Nombre de Juez',
+					'name' => 'Nombre del Juez',
 					'value' => $row['NombreJuez']
 				),
 				'entered_folders_region' => array(
-					'name' => 'Región',
+					'name' => 'Región del organo jurisdiccional',
 					'value' => $row['Region']
 				),
 				'entered_folders_emission_date' => array(
@@ -315,7 +306,11 @@ function getRecord($attr){
 					'name' => 'Judicializada antes de CMASC',
 					'value' => $row['JudicializadaAntesCMASC']
 				),
-				'fiscalia' => array(
+				'entered_folders_facilitator' => array(
+					'name' => 'Facilitador',
+					'value' => $row['Nombre'].' '.$row['ApellidoPaterno'].' '.$row['ApellidoMaterno']
+				),
+				'entered_folders_fiscalia' => array(
 					'name' => 'Fiscalía',
 					'value' => $row['Fiscalia']
 				)

@@ -26,6 +26,7 @@
 		<script src="../../js/script.js"></script>
 		<script src="json/sections-attr.js"></script>
 		<script src="json/data.js"></script>
+		<script src="js/common-script.js"></script>
 		<script src="js/multiselect.js"></script>
 		<script src="js/script.js"></script>
 		<script src="js/drag-scrolling.js"></script>

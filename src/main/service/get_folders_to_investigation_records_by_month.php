@@ -6,8 +6,10 @@ include("common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[CarpetasEnviadasInvestigacion] c LEFT JOIN [cat].[MotivoCanalizacionInvestigacion] m
-ON c.MotivoCanalizacionInvestID = m.MotivoCanalizacionID LEFT JOIN [cat].[Fiscalia] f ON c.FiscaliaID = f.FiscaliaID LEFT JOIN [cat].[Unidad] uni ON c.UnidadID = uni.UnidadID';
+$db_table = '[dbo].[CarpetasEnviadasInvestigacion] c_inv LEFT JOIN [cat].[MotivoCanalizacionInvestigacion] m
+ON c_inv.MotivoCanalizacionInvestID = m.MotivoCanalizacionID LEFT JOIN [cat].[Fiscalia] f ON c_inv.FiscaliaID = f.FiscaliaID LEFT JOIN [cat].[Unidad] uni ON c_inv.UnidadID = uni.UnidadID
+LEFT JOIN [dbo].[CarpetasRecibidas] cr ON cr.CarpetaRecibidaID = c_inv.CarpetaRecibidaID
+LEFT JOIN [dbo].[CarpetasIngresadas] ci ON ci.CarpetaIngresadaID = cr.CarpetaIngresadaID';
 
 $month = $_POST['month'];
 $year = $_POST['year'];
@@ -22,15 +24,15 @@ $data = (object) array(
 		'search' => true
 	),*/
 	'sigi_initial_date' => (object) array(
-		'db_column' => '[FechaInicioSigi]',
+		'db_column' => 'c_inv.[FechaInicioSigi]',
 		'search' => true
 	),
 	'folders_to_investigation_date' => (object) array(
-		'db_column' => '[Fecha]',
+		'db_column' => 'c_inv.[Fecha]',
 		'search' => true
 	),
 	'folders_to_investigation_nuc' => (object) array(
-		'db_column' => '[NUC]',
+		'db_column' => 'c_inv.[NUC]',
 		'search' => true
 	),
 	'folders_to_investigation_unity' => (object) array(
@@ -50,24 +52,24 @@ $data = (object) array(
 		'search' => true
 	),
 	'user' => (object) array(
-		'db_column' => '[UsuarioID]',
+		'db_column' => 'c_inv.[UsuarioID]',
 		'search' => false
 	)
 );
 
 $sql_conditions = (object) array(
 	'user' => (object) array(
-		'db_column' => '[UsuarioID]',
-		'condition' => '=', 
+		'db_column' => '',
+		'condition' => '', 
 		'value' => ''
 	),
 	'month' => (object) array(
-		'db_column' => 'MONTH(Fecha)',
+		'db_column' => 'MONTH(c_inv.Fecha)',
 		'condition' => '=', 
 		'value' => $month
 	),
 	'year' => (object) array(
-		'db_column' => 'YEAR(Fecha)',
+		'db_column' => 'YEAR(c_inv.Fecha)',
 		'condition' => '=', 
 		'value' => $year
 	)
@@ -84,8 +86,9 @@ if(!isset($_SESSION['user_data'])){
 }
 else{
 
-	$sql_conditions->user->value = $_SESSION['user_data']['id'];
-	
+	//$sql_conditions->user->value = $_SESSION['user_data']['id'];
+	$sql_conditions->user->db_column = "(c_inv.[UsuarioID] = ".$_SESSION['user_data']['id']." OR ci.UsuarioDelegadoID = ".$_SESSION['user_data']['id'].")";
+
 	echo json_encode(
 		getRecord(
 			(object) array(
@@ -106,7 +109,7 @@ function getRecord($attr){
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
-	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY Fecha";
+	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY c_inv.Fecha";
 
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 

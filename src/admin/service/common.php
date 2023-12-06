@@ -339,4 +339,33 @@ function getListedPeopleRecordsByCondition($attr){
 
 }
 
+function checkExpectedRequest($attr){
+
+    $validated = true;
+
+    foreach($attr->expected_request as $expected_field => $value){
+        if(!isset($_POST[$attr->expected_request[$expected_field]])){
+            $validated = false;
+        }
+    }
+
+    return (object) array(
+        'validated' => $validated
+    );
+}
+
+function convierteFecha($fecha){
+	$array_fecha=  explode('-', $fecha,3) ;
+	$fechaConvertida=$array_fecha[2].'-'.$array_fecha[1].'-'.$array_fecha[0];
+	return $fechaConvertida;
+}
+
+function formatRowDate($row_date){
+
+	if($row_date != null)
+		$row_date = $row_date->format('d/m/Y');
+
+	return $row_date;	
+}
+
 ?>
