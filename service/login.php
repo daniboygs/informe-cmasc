@@ -1,14 +1,14 @@
 <?php
 session_start();
 include('connection.php');
+include("validate_injection_string.php");
 $conn = $connections['cmasc']['conn'];
 $db = $connections['cmasc']['db'];
 
 $data = json_decode($_POST['auth'], true );
 
-$user = $data['username'];
-$pass = $data['password'];
-
+$user = cleanTextInjec($data['username']);
+$pass = hash('sha256', cleanTextInjec($data['password']));
 
 if($conn){
     $sql = "SELECT TOP (1)
