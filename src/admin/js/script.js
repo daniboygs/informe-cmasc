@@ -2792,3 +2792,224 @@ function setDateField(attr){
         default:
     }
 }
+
+function downloadExcel(){
+
+    let d = new Date();
+
+    let form_elements = [
+        {
+            id: 'search-nuc',
+            type: 'number',
+            json_key: 'nuc'
+        },
+        {
+            id: 'search-initial-date',
+            type: 'date',
+            json_key: 'initial_date'
+        },
+        {
+            id: 'search-finish-date',
+            type: 'date',
+            json_key: 'finish_date'
+        }
+    ];
+
+    if(validateElementsByIdContent({
+        elements: form_elements
+    })){
+
+        getGenericDataFromService({
+            url_service_file: 'service/entered_folders/search_entered_folders_by_range_for_excel.php',
+            post_data: formJsonPostDataByID({
+                elements: form_elements
+            }),
+            success: {
+                functions: [
+                    {
+                        function: generateExcelByTemplate,
+                        attr: {
+                            template_file: 'templates/tables/default_excel_table.php',
+                            post_data: null,
+                            file_name: 'carpetas-ingresadas-'+d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+'-'+d.getHours()+'-'+d.getMinutes()+'-'+d.getSeconds()
+                        },
+                        response_data: {
+                            attr_key: 'post_data',
+                            response_key: 'data'
+                        }
+                    }
+                ]
+            }
+        });
+    }
+    else{
+        console.log('not valid');
+    }
+}
+
+function getGenericDataFromService(attr){
+
+    console.log('attr de generic service: ', attr);
+
+    $.ajax({
+        url: attr.url_service_file,
+        type: 'POST',
+        dataType: "JSON",
+        data: attr.post_data,
+        cache: false
+    }).done(function(response){ 
+
+        if(attr.success != undefined && attr.success != null){
+
+            for(func in attr.success.functions){
+
+                if(attr.success.functions[func].attr != null && attr.success.functions[func].response_data != null){
+
+                    attr.success.functions[func].attr = {
+                        ...attr.success.functions[func].attr,
+                        [attr.success.functions[func].response_data.attr_key]: response[attr.success.functions[func].response_data.response_key]
+                    }
+
+                }
+
+                attr.success.functions[func].function(attr.success.functions[func].attr);
+            }
+        }
+    });
+}
+
+function delegateFolder(entered_folder_id){
+
+    console.log('edit entered_folder_id: ', entered_folder_id);
+
+    if(entered_folder_id != null && entered_folder_id != undefined && entered_folder_id != ''){
+
+        /*let array_catalogs = getNoLocArrayCatalogs();
+
+        let array_fields = getNoLocArrayFields(); //checar
+
+        let handle_data_temp_name = generateTempName();*/
+
+        getGenericDataFromService({
+            url_service_file: 'service/entered_folders/get_delegated_user_by_folder_id.php',
+            post_data: {
+                entered_folder_id: entered_folder_id
+            },
+            success: {
+                functions: [
+                    {
+                        function: setModal,
+                        attr: {
+                            file_location: 'templates/modals/edit_delegated_folder_modal.php',
+                            element_modal_section_id: 'delegated-default-modal-section',
+                            post_data: null,
+                            success: {
+                                functions: [
+                                    {
+                                        function: showModal,
+                                        attr: {
+                                            show: true,
+                                            modal_id: 'large-modal'
+                                        }
+                                    }/*,
+                                    {
+                                        function: loadCatalogsByArray,
+                                        attr: {
+                                            array_catalogs: array_catalogs
+                                        }
+                                    },
+                                    {
+                                        function: setObtainedDataByArrayFields,
+                                        attr: {
+                                            array_fields: array_fields,
+                                            handle_data_temp_name: handle_data_temp_name
+                                        }
+                                    }*/
+                                ]
+                            },
+                        },
+                        response_data: {
+                            attr_key: 'post_data',
+                            response_key: 'data'
+                        }
+                    }
+                ]
+            }
+        });
+    }
+}
+
+function loadCatalogsByArray(attr){
+
+    console.log('load_catalogs: ',attr);
+                                            
+    for(field in attr.array_catalogs){
+
+        if(handle_data.catalogs.hasOwnProperty(attr.array_catalogs[field].handle_data_catalog_array_field_key)){
+
+            if(handle_data.catalogs[attr.array_catalogs[field].handle_data_catalog_array_field_key] != null && handle_data.catalogs[attr.array_catalogs[field].handle_data_catalog_array_field_key] != undefined){
+                
+                attr.array_catalogs[field].element_attr.elements = handle_data.catalogs[attr.array_catalogs[field].handle_data_catalog_array_field_key];
+
+                changeCatalogRequestStatus({
+                    array_catalogs: [
+                        attr.array_catalogs[field]
+                    ],
+                    status: 'loaded'
+                });
+
+                if(!attr.array_catalogs[field].element_attr.element_dependant){
+
+                    loadSelect({
+                        template_file: attr.array_catalogs[field].template_file,
+                        element_attr: attr.array_catalogs[field].element_attr,
+                        select_type: attr.array_catalogs[field].select_type,
+                        section_id: attr.array_catalogs[field].section_id,
+                        on_modal_inside: attr.array_catalogs[field].on_modal_inside,
+                        modal_id: attr.array_catalogs[field].modal_id,
+                        handle_data_element_select_key: attr.array_catalogs[field].handle_data_catalog_array_field_key
+                    });
+                }
+            }
+            else{
+
+                changeCatalogRequestStatus({
+                    array_catalogs: [
+                        attr.array_catalogs[field]
+                    ],
+                    status: 'loading'
+                });
+
+                getCatalog({
+                    service_file: attr.array_catalogs[field].service_file,
+                    on_service_success: {
+                        handle_data_catalog_array_field_key: attr.array_catalogs[field].handle_data_catalog_array_field_key,
+                        functions: [
+                            {
+                                function: loadCatalogsByArray,
+                                attr: {
+                                    array_catalogs: [
+                                        attr.array_catalogs[field]
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                });
+            }
+        }
+        else{
+
+            handle_data.catalogs = {
+                ...handle_data.catalogs,
+                [attr.array_catalogs[field].handle_data_catalog_array_field_key]: null
+            }
+
+            loadCatalogsByArray({
+                array_catalogs: [
+                    attr.array_catalogs[field]
+                ]
+            });
+        }
+    }
+}

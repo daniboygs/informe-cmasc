@@ -277,4 +277,95 @@ function formSearchByMultipleValues($data){
 	return $values;
 }
 
+function getListedPeopleRecordsByCondition($attr){
+
+	$sql = "SELECT $attr->columns FROM $attr->db_table WHERE $attr->condition";
+
+    $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
+
+	$row_count = sqlsrv_num_rows( $result );
+	
+	$people = array();
+
+	if($row_count > 0){
+
+		while( $row = sqlsrv_fetch_array( $result) ) {
+
+			array_push($people, (object) array(
+				'name' => $row['Nombre'].' '.$row['ApellidoPaterno'].' '.$row['ApellidoMaterno'],
+				'age' => $row['Edad'],
+				'gener' => $row['Sexo'],
+				'type' => $row['Calidad']
+			));
+
+			//$people = $people.'*'.$row['Nombre'].', ';
+			
+		}
+
+		$listed_values = "";
+		$counted_values = "";
+		
+		foreach ($people as $element) {
+			$listed_values.="<li>$element->name "."$element->age años, "."Sexo $element->gener "."($element->type)</li>";
+		}
+
+		/*$i = 1;
+		foreach ($people as $element) {
+			if($i < count($people)){
+				$counted_values.="$i.- $element, ";
+			}
+			else{
+				$counted_values.="$i.- $element.";
+			}
+			$i++;
+			
+		}*/
+
+		//$values = "<ul>$values</ul>";
+	
+	}
+	else{
+		$listed_values = null;
+		$counted_values = null;
+	}
+
+	$return = (object) array(
+		'listed_values' => $listed_values,
+		'counted_values' => $counted_values
+	);
+
+	return $return;
+
+
+}
+
+function checkExpectedRequest($attr){
+
+    $validated = true;
+
+    foreach($attr->expected_request as $expected_field => $value){
+        if(!isset($_POST[$attr->expected_request[$expected_field]])){
+            $validated = false;
+        }
+    }
+
+    return (object) array(
+        'validated' => $validated
+    );
+}
+
+function convierteFecha($fecha){
+	$array_fecha=  explode('-', $fecha,3) ;
+	$fechaConvertida=$array_fecha[2].'-'.$array_fecha[1].'-'.$array_fecha[0];
+	return $fechaConvertida;
+}
+
+function formatRowDate($row_date){
+
+	if($row_date != null)
+		$row_date = $row_date->format('d/m/Y');
+
+	return $row_date;	
+}
+
 ?>

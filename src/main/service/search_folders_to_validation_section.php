@@ -6,7 +6,10 @@ include("common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[CarpetasEnviadasValidacion] c LEFT JOIN [cat].[Fiscalia] f ON c.FiscaliaID = f.FiscaliaID LEFT JOIN [cat].[Unidad] uni ON c.UnidadID = uni.UnidadID';
+$db_table = '[dbo].[CarpetasEnviadasValidacion] cv LEFT JOIN [cat].[Fiscalia] f ON cv.FiscaliaID = f.FiscaliaID LEFT JOIN [cat].[Unidad] uni ON cv.UnidadID = uni.UnidadID
+LEFT JOIN [dbo].[AcuerdosCelebrados] a ON a.AcuerdoCelebradoID = cv.AcuerdoCelebradoID
+LEFT JOIN [dbo].[CarpetasRecibidas] cr ON cr.CarpetaRecibidaID = a.CarpetaRecibidaID
+LEFT JOIN [dbo].[CarpetasIngresadas] ci ON ci.CarpetaIngresadaID = cr.CarpetaIngresadaID';
 
 if(isset( $_POST['nuc']))
 	$nuc = $_POST['nuc'];
@@ -33,15 +36,15 @@ $data = (object) array(
 		'search' => true
 	),*/
 	'sigi_initial_date' => (object) array(
-		'db_column' => '[FechaInicioSigi]',
+		'db_column' => 'cv.[FechaInicioSigi]',
 		'search' => true
 	),
 	'folders_to_validation_date' => (object) array(
-		'db_column' => '[Fecha]',
+		'db_column' => 'cv.[Fecha]',
 		'search' => true
 	),
 	'folders_to_validation_nuc' => (object) array(
-		'db_column' => '[NUC]',
+		'db_column' => 'cv.[NUC]',
 		'search' => true
 	),
 	'folders_to_validation_unity' => (object) array(
@@ -53,7 +56,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'user' => (object) array(
-		'db_column' => '[UsuarioID]',
+		'db_column' => 'cv.[UsuarioID]',
 		'search' => false
 	)
 );
@@ -62,14 +65,14 @@ $sql_conditions = array();
 
 if($nuc != ''){
 	$sql_conditions += ['nuc' => (object) array(
-		'db_column' => '[NUC]',
+		'db_column' => 'cv.[NUC]',
 		'condition' => '=', 
 		'value' => "'$nuc'"
 	)];
 }
 if($initial_date != '' && $finish_date != ''){
 	$sql_conditions += ['range' => (object) array(
-		'db_column' => 'Fecha',
+		'db_column' => 'cv.Fecha',
 		'condition' => 'between', 
 		'value' => "'$initial_date' AND '$finish_date'"
 	)];
@@ -99,10 +102,16 @@ if(!isset($_SESSION['user_data']) || count($sql_conditions) <= 0){
 }
 else{
 	$sql_conditions += ['user' => (object) array(
+		'db_column' => "(cv.[UsuarioID] = ".$_SESSION['user_data']['id']." OR ci.UsuarioDelegadoID = ".$_SESSION['user_data']['id'].")",
+		'condition' => '', 
+		'value' => ''
+	)];
+
+	/*$sql_conditions += ['user' => (object) array(
 		'db_column' => '[UsuarioID]',
 		'condition' => '=', 
 		'value' => $_SESSION['user_data']['id']
-	)];
+	)];*/
 
 	echo json_encode(
 		getRecord(

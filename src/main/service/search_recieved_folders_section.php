@@ -22,7 +22,8 @@ SELECT MAX([Fecha]) AS 'val_max_date'
 	,[NUC]
 FROM [EJERCICIOS].[dbo].[CarpetasEnviadasValidacion]
 GROUP BY NUC
-) cv on cr.NUC = cv.NUC";
+) cv on cr.NUC = cv.NUC
+LEFT JOIN [EJERCICIOS].[dbo].[CarpetasIngresadas] cing ON cing.CarpetaIngresadaID = cr.CarpetaIngresadaID";
 
 /*$nuc = $_POST['nuc'];
 $month = $_POST['month'];
@@ -49,11 +50,11 @@ $data = (object) array(
 		'search' => true
 	),
 	'sigi_initial_date' => (object) array(
-		'db_column' => '[FechaInicioSigi]',
+		'db_column' => 'cr.[FechaInicioSigi]',
 		'search' => true
 	),
 	'recieved_folders_crime' => (object) array(
-		'db_column' => '[Delito]',
+		'db_column' => 'cr.[Delito]',
 		'search' => true
 	),
 	'recieved_folders_date' => (object) array(
@@ -147,10 +148,18 @@ if(!isset($_SESSION['user_data']) || count($sql_conditions) <= 0){
 }
 else{
 	$sql_conditions += ['user' => (object) array(
+		'db_column' => "(cr.[UsuarioID] = ".$_SESSION['user_data']['id']." OR cing.UsuarioDelegadoID = ".$_SESSION['user_data']['id'].")",
+		'condition' => '', 
+		'value' => ''
+	)];
+
+	/*
+	$sql_conditions += ['user' => (object) array(
 		'db_column' => 'cr.[UsuarioID]',
 		'condition' => '=', 
 		'value' => $_SESSION['user_data']['id']
 	)];
+	*/
 
 	echo json_encode(
 		getRecord(
@@ -173,7 +182,7 @@ function getRecord($attr){
 	$conditions = formSearchConditions($attr->sql_conditions);
 
 	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY Fecha, Nombre";
-
+	
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 
 	$row_count = sqlsrv_num_rows( $result );

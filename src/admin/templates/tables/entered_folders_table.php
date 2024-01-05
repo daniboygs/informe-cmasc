@@ -125,7 +125,11 @@
 <?php
         if($crud_permissions){
 ?>
-            <td><button class="btn btn-outline-danger" onclick="deleteRecord('entered_folders', <?php echo $element['entered_folders_id']['value']; ?>)">Eliminar</button></td>
+            <td>
+                <!--<button class="btn btn-outline-danger" onclick="deleteRecord('entered_folders', <?php //echo $element['entered_folders_id']['value']; ?>)"><i class="fa fa-folder-open-o" aria-hidden="true"></i> Delegar Carpeta</button>-->
+                <!--<button class="btn btn-outline-primary" onclick="delegateFolder(<?php //echo $element['entered_folders_id']['value']; ?>)">Delegar</button>-->
+                <button class="btn btn-outline-danger" onclick="deleteRecord('entered_folders', <?php echo $element['entered_folders_id']['value']; ?>)">Eliminar</button>
+            </td>
 <?php
         }
 ?>

@@ -21,7 +21,8 @@ SELECT MAX([Fecha]) AS 'val_max_date'
 	,[NUC]
 FROM [EJERCICIOS].[dbo].[CarpetasEnviadasValidacion]
 GROUP BY NUC
-) cv on cr.NUC = cv.NUC";
+) cv on cr.NUC = cv.NUC
+LEFT JOIN [EJERCICIOS].[dbo].[CarpetasIngresadas] cing ON cing.CarpetaIngresadaID = cr.CarpetaIngresadaID";
 
 $month = $_POST['month'];
 $year = $_POST['year'];
@@ -79,8 +80,8 @@ $data = (object) array(
 
 $sql_conditions = (object) array(
 	'user' => (object) array(
-		'db_column' => '[UsuarioID]',
-		'condition' => '=', 
+		'db_column' => '',
+		'condition' => '', 
 		'value' => ''
 	),
 	'month' => (object) array(
@@ -106,7 +107,9 @@ if(!isset($_SESSION['user_data'])){
 }
 else{
 
-	$sql_conditions->user->value = $_SESSION['user_data']['id'];
+	//$sql_conditions->user->value = $_SESSION['user_data']['id'];
+
+	$sql_conditions->user->db_column = "(cr.[UsuarioID] = ".$_SESSION['user_data']['id']." OR cing.UsuarioDelegadoID = ".$_SESSION['user_data']['id'].")";
 	
 	echo json_encode(
 		getRecord(

@@ -7,7 +7,8 @@ $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[EJERCICIOS].[dbo].[CarpetasIngresadas] ci LEFT JOIN [EJERCICIOS].[dbo].[CarpetasRechazadas] cr
-ON ci.CarpetaIngresadaID = cr.CarpetaIngresadaID INNER JOIN cat.MotivoRechazo mr ON ci.MotivoRechazo = mr.MotivoID';
+ON ci.CarpetaIngresadaID = cr.CarpetaIngresadaID INNER JOIN cat.MotivoRechazo mr ON ci.MotivoRechazo = mr.MotivoID
+LEFT JOIN [cat].[Unidad] uni ON uni.UnidadID = ci.UnidadID';
 
 $entered_folder_id = $_POST['entered_folder_id'];
 
@@ -33,7 +34,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'entered_folders_unity' => (object) array(
-		'db_column' => 'ci.[Unidad]',
+		'db_column' => "uni.Nombre AS 'Unidad'",
 		'search' => true
 	),
 	'entered_folders_mp_channeler' => (object) array(

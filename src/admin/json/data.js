@@ -29,5 +29,6 @@ var handle_data = {
 	"excel_data": {
 		"entered_folders": null,
 		"recieved_folders": null
-	}
+	},
+	"catalogs": {}
 }
