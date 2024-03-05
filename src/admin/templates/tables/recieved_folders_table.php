@@ -22,18 +22,24 @@
 <div class="form-buttons" style="float: left !important; margin-bottom: 20px;">		
 
 <button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="tableToExcel()">Descargar EXCEL</button>
+<button type="button" class="btn btn-outline-danget" style="height:38px;"  onclick="formHTMLTableToExcel({section: 'recieved_folders'})">Descargar EXCEL TEST</button>
 
 </div>
 
 <table class="data-table table table-striped">
-    <tr>
-        <th>#</th>
-        <th>NUC</th>
-        <th>Fecha Inicio</th>
-        <th>Fecha</th>
-        <th>Delito</th>
-        <th>Unidad</th>
-        <th>Estatus</th>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>NUC</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha</th>
+            <th>Delito</th>
+            <th>Unidad</th>
+            <th>Acuerdo</th>
+            <th>Fecha Acuerdo</th>
+            <th>Fecha Validación</th>
+            <th>Fecha Investigación</th>
+            <th>Estatus</th>
 <?php
         if(!$dpe_permissions){
 ?>
@@ -41,19 +47,22 @@
 <?php
         }
 ?>
-        <th>Fiscalía</th>
+            <th>Fiscalía</th>
 <?php
-    if($crud_permissions){
+        if($crud_permissions){
 ?>
-        <th>Acción</th>
+            <th>Acción</th>
 <?php
-    }
+        }
 ?>
-    </tr>
+        </tr>
+    </thead>
+    <tbody>
 <?php
     if($data != 'null'){
         
         $i=1;
+
         foreach(json_decode($data, true) as $element){
 
             if($element['recieved_folders_status']['value'] == 'Tramite'){
@@ -70,6 +79,10 @@
         <td><?php echo $element['recieved_folders_date']['value']; ?></td>
         <td class="align-left bold-text"><?php echo $element['recieved_folders_crime']['value']['listed_values']; ?></td>
         <td><?php echo $element['recieved_folders_unity']['value']; ?></td>
+        <td><?php echo $element['agreement']['value']; ?></td>
+        <td><?php echo $element['agreement_date']['value']; ?></td>
+        <td><?php echo $element['investigation_date']['value']; ?></td>
+        <td><?php echo $element['validation_date']['value']; ?></td>
         <td style="<?php echo $current_status_style; ?>"><?php echo $element['recieved_folders_status']['value']; ?></td>
 <?php
         if(!$dpe_permissions){
@@ -102,4 +115,5 @@
 
     }
 ?>
+    </tbody>
 </table>

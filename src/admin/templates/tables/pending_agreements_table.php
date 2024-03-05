@@ -8,31 +8,27 @@
 <div id="month-records-label-section">PENDIENTES DE CAPTURA</div>
 
 <table class="data-table table table-striped" id="pending-inegi-table">
-<thead>
-    <tr>
-        <th>#</th>
-        <th>NUC</th>
-        <th>Fecha</th>
-        <th>Delito</th>
-        <th>Unidad</th>
-        <th>Intervinientes</th>
-        <th>Cumplimiento</th>
-        <th>Total o Parcial</th>
-        <th>Mecanismo</th>
-        <th>Monto en pesos</th>
-        <th>Monto en especie</th>
-        <th>Facilitador</th>
-        <th>Etatus Acuerdo</th>
-    </tr>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>NUC</th>
+            <th>Fecha</th>
+            <th>Delito</th>
+            <th>Unidad</th>
+            <th>Intervinientes</th>
+            <th>Cumplimiento</th>
+            <th>Total o Parcial</th>
+            <th>Mecanismo</th>
+            <th>Monto en pesos</th>
+            <th>Monto en especie</th>
+            <th>Facilitador</th>
+            <th>Etatus Acuerdo</th>
+        </tr>
     </thead>
-    
-    
+    <tbody>
 <?php
     if($data != 'null'){
-
-        ?>
-<tbody>
-        <?php
+        
         $i=1;
         
         foreach(json_decode($data, true) as $element){
@@ -52,28 +48,25 @@
             }
 ?> 
 
-    <tr class="data-table-row">
-        <td><?php echo $i; ?></td>
-        <td class="bold-text"><?php echo $element['agreement_nuc']['value']; ?></td>
-        <td><?php echo $element['date']['value']; ?></td>
-        <td class="align-left bold-text"><?php echo $element['agreement_crime']['value']['listed_values']; ?></td>
-        <td><?php echo $element['agreement_unity']['value']; ?></td>
-        <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_intervention']['value']; ?></td>
-        <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_compliance']['value']; ?></td>
-        <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_total']['value']; ?></td>
-        <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_mechanism']['value']; ?></td>
-        <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_amount']['value']; ?></td>
-        <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_amount_in_kind']['value']; ?></td>
-        <td class="<?php echo $agreement_class; ?>"><?php echo $element['user_name']['value'].' '.$element['user_last_name']['value'].' '.$element['user_mothers_last_name']['value']; ?></td>
-        <td class="<?php echo $agreement_status_class; ?>"><?php echo $agreement_status; ?></td>
-    </tr>
+        <tr class="data-table-row">
+            <td><?php echo $i; ?></td>
+            <td class="bold-text"><?php echo $element['agreement_nuc']['value']; ?></td>
+            <td><?php echo $element['date']['value']; ?></td>
+            <td class="align-left bold-text"><?php echo $element['agreement_crime']['value']['listed_values']; ?></td>
+            <td><?php echo $element['agreement_unity']['value']; ?></td>
+            <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_intervention']['value']; ?></td>
+            <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_compliance']['value']; ?></td>
+            <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_total']['value']; ?></td>
+            <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_mechanism']['value']; ?></td>
+            <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_amount']['value']; ?></td>
+            <td class="<?php echo $agreement_class; ?>"><?php echo $element['agreement_amount_in_kind']['value']; ?></td>
+            <td class="<?php echo $agreement_class; ?>"><?php echo $element['user_name']['value'].' '.$element['user_last_name']['value'].' '.$element['user_mothers_last_name']['value']; ?></td>
+            <td class="<?php echo $agreement_status_class; ?>"><?php echo $agreement_status; ?></td>
+        </tr>
         
 <?php
             $i++;
         }
-        ?>
-</tbody>
-        <?php
     }
     else{
 ?> 
@@ -83,7 +76,7 @@
         </td>
     </tr>
 <?php
-
     }
 ?>
+    </tbody>
 </table>

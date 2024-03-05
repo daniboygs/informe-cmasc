@@ -752,28 +752,8 @@ function drawRecordsTable(attr){
                 $('#'+attr.element_id).html(response);
             }
 
-            $('#pending-inegi-table').DataTable({
-                language: {
-                    "decimal": "",
-                    "emptyTable": "No hay información",
-                    "info": "_START_ - _END_ / _TOTAL_ Registros",
-                    "infoEmpty": "Sin registros",
-                    "infoFiltered": "(Filtrado de _MAX_ registros)",
-                    "infoPostFix": "",
-                    "thousands": ",",
-                    "lengthMenu": "Muestra de _MENU_ registros",
-                    "loadingRecords": "Cargando...",
-                    "processing": "Procesando...",
-                    "search": "Buscar:",
-                    "zeroRecords": "Sin resultados encontrados",
-                    "paginate": {
-                        "first": "Primero",
-                        "last": "Ultimo",
-                        "next": "Siguiente",
-                        "previous": "Anterior"
-                    }
-                }
-            });
+            //$('#pending-inegi-table').DataTable(defaultDataTableConfig);
+            //$('.data-table').DataTable(defaultDataTableConfig());
         });
     }
     else{
@@ -3011,5 +2991,64 @@ function loadCatalogsByArray(attr){
                 ]
             });
         }
+    }
+}
+
+function defaultDataTableConfig(){
+    return {
+        language: {
+            "decimal": "",
+            "emptyTable": "No hay información",
+            "info": "_START_ - _END_ / _TOTAL_ Registros",
+            "infoEmpty": "Sin registros",
+            "infoFiltered": "(Filtrado de _MAX_ registros)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Muestra de _MENU_ registros",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "zeroRecords": "Sin resultados encontrados",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        }
+    }
+}
+
+function formHTMLTableToExcel(attr){
+
+    drawRecordsTable({
+        section: attr.section,
+        data: response,
+        file: getHTMLTableTemplate({
+            section: attr.section
+        }),
+        element_id: 'records-section'
+    });
+
+    if(handle_data.current_records_search_data != null){
+        $.ajax({
+            url: getHTMLTableTemplate({
+                section: attr.section
+            }),
+            type: 'POST',
+            dataType: "html",
+            data: {
+                data: JSON.stringify(handle_data.current_records_search_data)
+            },
+            cache: false
+        }).done(function(response){
+
+            downloadExcel({
+                table: response
+            });
+        });
+    }
+    else{
+        console.log('error');
     }
 }

@@ -30,6 +30,7 @@
 		<script src="js/multiselect.js"></script>
 		<script src="js/script.js"></script>
 		<script src="js/drag-scrolling.js"></script>
+		<script src="js/array-data.js"></script>
 
 		<title>CMASC</title>
 	</head>
