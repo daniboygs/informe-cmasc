@@ -2,7 +2,7 @@
 
 	<div class="form-row">
 
-		<div class="col-md-4 form-group">
+		<div class="col-md-3 form-group">
 
 			<label style="font-weight:bold">NUC: *</label>
 
@@ -10,7 +10,7 @@
 
 		</div>
 
-		<div class="col-md-4 form-group">
+		<div class="col-md-3 form-group">
 
 			<label style="font-weight:bold">Fecha de inicio: *</label>
 
@@ -18,11 +18,27 @@
 
 		</div>
 
-		<div class="col-md-4 form-group">
+		<div class="col-md-3 form-group">
 
 			<label style="font-weight:bold">Fecha de fin: *</label>
 
 			<input type="date" class="form-control" id="search-finish-date">	
+
+		</div>
+
+		<div class="col-md-3 form-group">
+
+			<label style="font-weight:bold">Rubro de busqueda: *</label>
+
+			<select id="inegi-search-op" name="tipo" style="height: 40px" class="form-control"  required="true" onchange="hideRejectionReason();">									
+				<option value ="1" selected>Registros capturados</option>
+				<option value ="2">Datos generales</option>
+				<option value ="3">Datos generales del acuerdo</option>
+				<option value ="4">Víctima</option>
+				<option value ="5">Imputado</option>
+				<option value ="6">Delito</option>
+				<option value ="7">Pendientes de captura</option>
+			</select>	
 
 		</div>
 

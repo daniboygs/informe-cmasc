@@ -753,7 +753,7 @@ function drawRecordsTable(attr){
             }
 
             //$('#pending-inegi-table').DataTable(defaultDataTableConfig);
-            //$('.data-table').DataTable(defaultDataTableConfig());
+            $('.data-table').DataTable(defaultDataTableConfig());
         });
     }
     else{
@@ -2493,17 +2493,18 @@ function createExcelReport(attr) {
 
 function searchSectionByRange(section){
 
-    if(section == 'inegi'){
+    /*if(section == 'inegi'){
         handle_data.inegi.current_search = 'range';
-    }
+    }*/
 
-    searchSectionByRangeDate({
-        section: section
-    });
+    if(section != 'inegi'){
+        searchSectionByRangeDate({
+            section: section
+        });
+    }
 }
 
 function searchSectionByRangeDate(attr){
-
 
     if(!attr.hasOwnProperty('initial_interation')){
         attr = {
@@ -2514,7 +2515,6 @@ function searchSectionByRangeDate(attr){
     }
 
     if(attr.initial_interation < attr.finish_interation){
-
 
         console.log('search?', attr.section+'-nuc');
 
@@ -2587,16 +2587,15 @@ function searchSectionByRangeDate(attr){
                     handle_data.current_records_search_data = response;
                 }
 
-                if(attr.section != 'inegi' || (attr.section == 'inegi' && handle_data.inegi.current_search == 'range')){
+                //if(attr.section != 'inegi' || (attr.section == 'inegi' && handle_data.inegi.current_search == 'range')){
                     drawRecordsTable({
                         section: attr.section,
                         data: response,
                         file: 'templates/tables/'+attr.section+'_table.php',
                         element_id: 'records-section'
                     });
-                }
+                //}
 
-                
             }).fail(function(){
 
                 attr.initial_interation++;
@@ -2676,22 +2675,6 @@ function searchPendngInegi(){
         section_id: 'records-section'
     });
 }
-
-function downloadExcelSection(section){
-
-    console.log('excel', section);
-
-    //checar despues
-
-    let d = new Date();
-
-    createExcelReport({
-        data: handle_data.excel_data[section],
-        url_service_file: 'templates/excel/'+section+'.php',
-        file_name: section+'-'+d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()
-    });
-}
-
 
 function depureEnteredData(depured_data){
 
@@ -2773,7 +2756,7 @@ function setDateField(attr){
     }
 }
 
-function downloadExcel(){
+/*function downloadExcel(){
 
     let d = new Date();
 
@@ -2825,7 +2808,7 @@ function downloadExcel(){
     else{
         console.log('not valid');
     }
-}
+}*/
 
 function getGenericDataFromService(attr){
 
@@ -3021,20 +3004,15 @@ function defaultDataTableConfig(){
 
 function formHTMLTableToExcel(attr){
 
-    drawRecordsTable({
-        section: attr.section,
-        data: response,
-        file: getHTMLTableTemplate({
-            section: attr.section
-        }),
-        element_id: 'records-section'
+    console.log('voy a descargar: ',handle_data.current_records_search_data);
+
+    let url_excel_template = getHTMLTableTemplate({
+        section: attr.section
     });
 
-    if(handle_data.current_records_search_data != null){
+    if(handle_data.current_records_search_data != null && url_excel_template != null){
         $.ajax({
-            url: getHTMLTableTemplate({
-                section: attr.section
-            }),
+            url: url_excel_template,
             type: 'POST',
             dataType: "html",
             data: {
@@ -3050,5 +3028,155 @@ function formHTMLTableToExcel(attr){
     }
     else{
         console.log('error');
+    }
+}
+
+function downloadExcelSection(section){
+
+    console.log('excel', section);
+
+    //checar despues
+
+    let d = new Date();
+
+    createExcelReport({
+        data: handle_data.excel_data[section],
+        url_service_file: 'templates/excel/'+section+'.php',
+        file_name: section+'-'+d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()
+    });
+}
+
+function downloadInegi(){
+    
+}
+
+function getRecordCrimesBeforeGeneral(attr){
+
+    let form_elements = [
+        {
+            id: 'search-nuc',
+            type: 'number',
+            json_key: 'nuc'
+        },
+        {
+            id: 'search-initial-date',
+            type: 'date',
+            json_key: 'initial_date'
+        },
+        {
+            id: 'search-finish-date',
+            type: 'date',
+            json_key: 'finish_date'
+        },
+        {
+            id: 'inegi-search-op',
+            type: 'number',
+            json_key: 'inegi_search_op'
+        }
+    ];
+
+    if(validateElementsByIdContent({
+        elements: form_elements
+    })){
+
+        let nuc = document.getElementById('search-nuc').value;
+        let initial_date = document.getElementById('search-initial-date').value;
+        let finish_date = document.getElementById('search-finish-date').value;
+        let inegi_search_op = document.getElementById('inegi-search-op').value;
+
+        if(inegi_search_op != '' && (nuc != '' || (initial_date != '' && finish_date != ''))){
+            
+            $.ajax({
+                url:'service/inegi/get_crimes_by_general_record.php',
+                type:'POST',
+                dataType: "json",
+                data: {
+                    nuc: nuc,
+                    initial_date: initial_date,
+                    finish_date: finish_date
+                },
+                cache:false
+            }).done(function(response){
+        
+                inegi_getRecords({
+                    post_data: {
+                        nuc: nuc,
+                        initial_date: initial_date,
+                        finish_date: finish_date,
+                        unities_by_users: JSON.stringify(response.data.crimes_by_general_record)
+                    },
+                    inegi_search_op: inegi_search_op
+                });
+                console.log('crimes by general: ',response.data.crimes_by_general_record);
+                
+            }).fail(function(){
+        
+                console.log('OOPS!, something went wrong');
+        
+            });
+        }
+        else{
+            Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
+        }
+    }
+}
+
+function inegi_getRecords(attr){
+
+    if(!attr.hasOwnProperty('initial_interation')){
+        attr = {
+            ...attr,
+            initial_interation: 1,
+            finish_interation: 10
+        }
+    }
+
+    let inegi_service_url = getInegiSearchService({
+        search_op: attr.inegi_search_op
+    });
+
+    if(attr.initial_interation < attr.finish_interation && inegi_service_url != null){
+
+        setStaticLoader({
+            section_id: 'records-section',
+            class: 'static-loader'
+        });
+
+        $.ajax({
+            url: inegi_service_url,
+            type: 'POST',
+            dataType: "json",
+            data: {
+                month: (date.getMonth()+1),
+                year: date.getFullYear()
+            },
+            cache:false
+        }).done(function(response){
+            console.log(response);
+            test = response;
+            console.log(attr.section+'_table.php');
+
+            if(sections[attr.section].active){
+                handle_data.current_records_search_data = response;
+            }
+
+            if(attr.section != 'inegi' || (attr.section == 'inegi' && handle_data.inegi.current_search == 'month')){
+
+                drawRecordsTable({
+                    section: attr.section,
+                    data: response,
+                    file: 'templates/tables/'+attr.section+'_table.php',
+                    element_id: 'records-section'
+                });
+            }
+
+        }).fail(function(){
+
+            attr.initial_interation++;
+            inegi_getRecords(attr);
+        });
+    }
+    else{
+        Swal.fire('error', 'Ha ocurrido un error inesperado, favor de contactar a DPE', 'error');
     }
 }

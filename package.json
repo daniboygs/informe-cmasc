@@ -18,6 +18,7 @@
   "homepage": "https://github.com/daniboygs/informe-cmasc#readme",
   "dependencies": {
     "bootstrap": "^4.6.0",
+    "datatables": "^1.10.18",
     "es6": "0.0.7",
     "jquery": "^3.5.1",
     "normalize.css": "^8.0.1",

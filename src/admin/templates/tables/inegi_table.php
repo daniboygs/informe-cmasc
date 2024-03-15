@@ -1,28 +1,16 @@
 <?php
     session_start();
-    $crud_permissions = false;
-
-    if(isset($_SESSION['user_data']['type'])){
-        if($_SESSION['user_data']['type'] == 1){
-            $crud_permissions = true;
-        }
-    }
-
-    if(isset( $_POST['data']))
-        $data = $_POST['data'];
-    else
-        $data = 'null';
+    $crud_permissions = isset($_SESSION['user_data']['type']) ? ($_SESSION['user_data']['type'] == 1 ? true : false) : false;
+    $data = isset( $_POST['data']) ? $_POST['data'] : 'null';
 ?>
 
-<!--<div class="form-buttons" style="float: left !important; margin-bottom: 20px;">		
-
-<button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="getRecExcel()">Descargar EXCEL</button>
-
-</div>-->
+<div class="form-buttons" style="float: left !important; margin-bottom: 20px;">		
+    <button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="downloadInegi()">DESCARGAR &nbsp <i class="fa fa-file-excel-o" aria-hidden="true"></i></button>
+</div>
 
 <div id="month-records-label-section">REGISTROS CAPTURADOS</div>
 
-<table class="data-table table table-striped">
+<table class="data-table table table-striped overflow-table">
     <thead>
         <tr>
             <th>#</th>
@@ -145,42 +133,41 @@
 
             
 ?> 
-    <tr>
-        <td><?php echo $i; ?></td>
-        <td class="bold-text"><?php echo $element['general_nuc']['value']; ?></td>
-        <td><?php echo $element['general_date']['value']; ?></td>
-        <td class="align-left bold-text"><?php echo $element['general_crime']['value']['listed_values']; ?></td>
-        <td><?php echo $element['general_attended']['value']; ?></td>
-        <td><?php echo $element['general_unity']['value']; ?></td>
-        <td class="<?php echo $victim_status; ?>"><?php echo $victim_status_label; ?></td>
-        <td class="<?php echo $imputed_status; ?>"><?php echo $imputed_status_label; ?></td>
-        <td class="<?php echo $crime_status; ?>"><?php echo $crime_status_label; ?></td>
-        <td class="<?php echo $masc_status; ?>"><?php echo $masc_status_label; ?></td>
-        <td class="<?php echo $inegi_status; ?>"><?php echo $inegi_status_label; ?></td>
-        <td class="<?php echo $agreement_status_class; ?>"><?php echo $agreement_status; ?></td>
-        <td><?php echo $element['user']['value']; ?></td>
-        <td><?php echo $element['fiscalia']['value']; ?></td>
+        <tr>
+            <td><?php echo $i; ?></td>
+            <td class="bold-text"><?php echo $element['general_nuc']['value']; ?></td>
+            <td><?php echo $element['general_date']['value']; ?></td>
+            <td class="align-left bold-text"><?php echo $element['general_crime']['value']['listed_values']; ?></td>
+            <td><?php echo $element['general_attended']['value']; ?></td>
+            <td><?php echo $element['general_unity']['value']; ?></td>
+            <td class="<?php echo $victim_status; ?>"><?php echo $victim_status_label; ?></td>
+            <td class="<?php echo $imputed_status; ?>"><?php echo $imputed_status_label; ?></td>
+            <td class="<?php echo $crime_status; ?>"><?php echo $crime_status_label; ?></td>
+            <td class="<?php echo $masc_status; ?>"><?php echo $masc_status_label; ?></td>
+            <td class="<?php echo $inegi_status; ?>"><?php echo $inegi_status_label; ?></td>
+            <td class="<?php echo $agreement_status_class; ?>"><?php echo $agreement_status; ?></td>
+            <td><?php echo $element['user']['value']; ?></td>
+            <td><?php echo $element['fiscalia']['value']; ?></td>
 <?php
-        if($crud_permissions){
+            if($crud_permissions){
 ?>
             <td><button class="btn btn-outline-danger" onclick="deleteRecord('inegi', <?php echo $element['general_id']['value']; ?>)">Eliminar</button></td>
 <?php
-        }
+            }
 ?>
-    </tr>
+        </tr>
 <?php
             $i++;
         }
     }
     else{
 ?> 
-    <tr>
-        <td colspan="12" style="text-align: center; padding: 7px;">
-            No hay registros
-        </td>
-    </tr>
+        <tr>
+            <td colspan="12" style="text-align: center; padding: 7px;">
+                No hay registros
+            </td>
+        </tr>
 <?php
-
     }
 ?>
     </tbody>
