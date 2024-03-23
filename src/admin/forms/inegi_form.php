@@ -31,13 +31,13 @@
 			<label style="font-weight:bold">Rubro de busqueda: *</label>
 
 			<select id="inegi-search-op" name="tipo" style="height: 40px" class="form-control"  required="true" onchange="hideRejectionReason();">									
-				<option value ="1" selected>Registros capturados</option>
-				<option value ="2">Datos generales</option>
-				<option value ="3">Datos generales del acuerdo</option>
-				<option value ="4">Víctima</option>
-				<option value ="5">Imputado</option>
-				<option value ="6">Delito</option>
-				<option value ="7">Pendientes de captura</option>
+				<option value ="captured_records" selected>Registros capturados</option>
+				<option value ="general">Datos generales</option>
+				<option value ="general_agreements">Datos generales del acuerdo</option>
+				<option value ="victims">Víctima</option>
+				<option value ="imputeds">Imputado</option>
+				<option value ="crimes">Delito</option>
+				<option value ="pending_capture">Pendientes de captura</option>
 			</select>	
 
 		</div>
@@ -50,7 +50,9 @@
 
 		<button type="button" class="btn btn-outline-dark" style="height:38px;"  onclick="searchPendngInegi()">Buscar Pendientes de captura</button>
 
-		<button type="button" class="btn btn-outline-primary" style="height:38px; width: 200px;"  onclick="searchSectionByRange('inegi')">Buscar</button>
+		<button type="button" class="btn btn-outline-primary" style="height:38px; width: 200px;"  onclick="searchSectionByRange('inegi')">Buscar antes</button>
+
+		<button type="button" class="btn btn-outline-primary" style="height:38px; width: 200px;"  onclick="getRecordCrimesBeforeGeneral(null)">Buscar</button>
 
 	</div>
 

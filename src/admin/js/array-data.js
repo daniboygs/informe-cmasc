@@ -19,7 +19,7 @@ function getHTMLTableTemplate(attr){
 
 function getInegiSearchService(attr){
 
-    let search_service_location = 'service/inegi';
+    let search_service_location = 'service/inegi/';
 
     let urls = {
         captured_records: search_service_location+'get_captured_records.php',
@@ -29,6 +29,23 @@ function getInegiSearchService(attr){
         imputeds: search_service_location+'get_imputeds.php',
         crimes: search_service_location+'get_crimes.php',
         pending_capture: search_service_location+'get_pending_capture.php',
+    }
+
+    return urls[attr.search_op] != undefined ? urls[attr.search_op] : null;
+}
+
+function getInegiTableTemplateService(attr){
+
+    let template_service_location = 'templates/tables/inegi/';
+    
+    let urls = {
+        captured_records: template_service_location+'captured_records_table.php',
+        general: template_service_location+'general_table.php',
+        general_agreements: template_service_location+'general_agreements_table.php',
+        victims: template_service_location+'victims_table.php',
+        imputeds: template_service_location+'imputeds_table.php',
+        crimes: template_service_location+'crimes_table.php',
+        pending_capture: template_service_location+'pending_capture_table.php',
     }
 
     return urls[attr.search_op] != undefined ? urls[attr.search_op] : null;

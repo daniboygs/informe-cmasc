@@ -707,7 +707,9 @@ function getRecordsByMonth(attr){
 
                     drawRecordsTable({
                         section: attr.section,
-                        data: response,
+                        post_data: {
+                            data: response
+                        },
                         file: 'templates/tables/'+attr.section+'_table.php',
                         element_id: 'records-section'
                     });
@@ -736,15 +738,20 @@ function drawRecordsTable(attr){
 
     console.log('pintando...: ', attr);
 
-    if(attr.data != null){
+    if(attr.post_data.data != null){
+
+        attr.post_data.data = JSON.stringify(attr.post_data.data);
+
+
         $.ajax({
             url: attr.file,
             type: 'POST',
             dataType: "html",
-            data: {
+            data: attr.post_data,
+            /*data: {
                 data: JSON.stringify(attr.data),
                 nuc_dates: JSON.stringify(attr.nuc_dates)
-            },
+            },*/
             cache: false
         }).done(function(response){
 
@@ -2590,7 +2597,9 @@ function searchSectionByRangeDate(attr){
                 //if(attr.section != 'inegi' || (attr.section == 'inegi' && handle_data.inegi.current_search == 'range')){
                     drawRecordsTable({
                         section: attr.section,
-                        data: response,
+                        post_data: {
+                            data: response
+                        },
                         file: 'templates/tables/'+attr.section+'_table.php',
                         element_id: 'records-section'
                     });
@@ -2661,7 +2670,9 @@ function getInegiPendingAgreementsByMonth(attr){
             if(handle_data.inegi.current_search == 'pending'){
                 drawRecordsTable({
                     section: 'inegi',
-                    data: response,
+                    post_data: {
+                        data: response
+                    },
                     file: 'templates/tables/pending_agreements_table.php',
                     element_id: attr.section_id
                 });
@@ -3070,7 +3081,7 @@ function getRecordCrimesBeforeGeneral(attr){
         },
         {
             id: 'inegi-search-op',
-            type: 'number',
+            type: 'text',
             json_key: 'inegi_search_op'
         }
     ];
@@ -3103,7 +3114,7 @@ function getRecordCrimesBeforeGeneral(attr){
                         nuc: nuc,
                         initial_date: initial_date,
                         finish_date: finish_date,
-                        unities_by_users: JSON.stringify(response.data.crimes_by_general_record)
+                        crimes_by_general_id: JSON.stringify(response.data.crimes_by_general_record)
                     },
                     inegi_search_op: inegi_search_op
                 });
@@ -3122,6 +3133,8 @@ function getRecordCrimesBeforeGeneral(attr){
 }
 
 function inegi_getRecords(attr){
+
+    console.log('inegi_getrec: ', attr);
 
     if(!attr.hasOwnProperty('initial_interation')){
         attr = {
@@ -3146,21 +3159,33 @@ function inegi_getRecords(attr){
             url: inegi_service_url,
             type: 'POST',
             dataType: "json",
-            data: {
-                month: (date.getMonth()+1),
-                year: date.getFullYear()
-            },
-            cache:false
+            data: attr.post_data,
+            cache: false
         }).done(function(response){
-            console.log(response);
+            /*console.log(response);
             test = response;
             console.log(attr.section+'_table.php');
 
             if(sections[attr.section].active){
                 handle_data.current_records_search_data = response;
-            }
+            }*/
 
-            if(attr.section != 'inegi' || (attr.section == 'inegi' && handle_data.inegi.current_search == 'month')){
+            let inegi_table_template_service_url = getInegiTableTemplateService({
+                search_op: attr.inegi_search_op
+            });
+
+            drawRecordsTable({
+                section: 'inegi',
+                post_data: {
+                    data: response,
+                    initial_date: attr.post_data.initial_date,
+                    finish_date: attr.post_data.finish_date
+                },
+                file: inegi_table_template_service_url,
+                element_id: 'records-section'
+            });
+
+            /*if(attr.section != 'inegi' || (attr.section == 'inegi' && handle_data.inegi.current_search == 'month')){
 
                 drawRecordsTable({
                     section: attr.section,
@@ -3168,7 +3193,7 @@ function inegi_getRecords(attr){
                     file: 'templates/tables/'+attr.section+'_table.php',
                     element_id: 'records-section'
                 });
-            }
+            }*/
 
         }).fail(function(){
 
