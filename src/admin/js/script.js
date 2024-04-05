@@ -3095,12 +3095,16 @@ function getRecordCrimesBeforeGeneral(attr){
         let finish_date = document.getElementById('search-finish-date').value;
         let inegi_search_op = document.getElementById('inegi-search-op').value;
 
-        if(inegi_search_op != '' && (nuc != '' || (initial_date != '' && finish_date != ''))){
+        let inegi_before_service_url = getInegiCrimesBeforeService({
+            search_op: inegi_search_op
+        });
+
+        if((inegi_search_op != '' && (nuc != '' || (initial_date != '' && finish_date != ''))) && inegi_before_service_url != null){
             
             $.ajax({
-                url:'service/inegi/get_crimes_by_general_record.php',
-                type:'POST',
-                dataType: "json",
+                url: inegi_before_service_url,
+                type: 'POST',
+                dataType: 'json',
                 data: {
                     nuc: nuc,
                     initial_date: initial_date,
@@ -3118,7 +3122,7 @@ function getRecordCrimesBeforeGeneral(attr){
                     },
                     inegi_search_op: inegi_search_op
                 });
-                console.log('crimes by general: ',response.data.crimes_by_general_record);
+                console.log('crimes by general: ', response.data.crimes_by_general_record);
                 
             }).fail(function(){
         
@@ -3173,6 +3177,8 @@ function inegi_getRecords(attr){
             let inegi_table_template_service_url = getInegiTableTemplateService({
                 search_op: attr.inegi_search_op
             });
+
+            handle_data.current_records_search_data = response;
 
             drawRecordsTable({
                 section: 'inegi',

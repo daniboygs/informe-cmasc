@@ -37,7 +37,7 @@
 				<option value ="victims">Víctima</option>
 				<option value ="imputeds">Imputado</option>
 				<option value ="crimes">Delito</option>
-				<option value ="pending_capture">Pendientes de captura</option>
+				<option value ="pending">Pendientes de captura</option>
 			</select>	
 
 		</div>
@@ -46,13 +46,12 @@
 
 	<div class="form-buttons">
 		
+	<!--
 		<button type="button" class="btn btn-outline-success" style="height:38px; width: 200px;"  onclick="getRecExcel()">Descargar EXCEL</button>
-
 		<button type="button" class="btn btn-outline-dark" style="height:38px;"  onclick="searchPendngInegi()">Buscar Pendientes de captura</button>
-
 		<button type="button" class="btn btn-outline-primary" style="height:38px; width: 200px;"  onclick="searchSectionByRange('inegi')">Buscar antes</button>
-
-		<button type="button" class="btn btn-outline-primary" style="height:38px; width: 200px;"  onclick="getRecordCrimesBeforeGeneral(null)">Buscar</button>
+	-->
+		<button type="button" class="btn btn-outline-primary" style="height: 38px; width: 100px;"  onclick="getRecordCrimesBeforeGeneral(null)">Buscar</button>
 
 	</div>
 

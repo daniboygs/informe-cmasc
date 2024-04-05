@@ -12,7 +12,7 @@ $initial_date = isset($_POST['initial_date']) ? $_POST['initial_date'] : '';
 $finish_date = isset($_POST['finish_date']) ? $_POST['finish_date'] : '';
 $crimes_by_general_id = $_POST['crimes_by_general_id'];
 
-$db_table = '(
+$db_table = '[inegi].[MASC] m INNER JOIN (
 	SELECT g.[GeneralID]
 		  ,g.[NUC]
 		  ,g.[FechaInicioSigi]
@@ -32,32 +32,71 @@ $db_table = '(
 		  ,[UnidadID]
 		  ,[FiscaliaID]
 		  ,[UsuarioID] FROM [inegi].[General] WHERE CarpetaRecibidaID is not null
-	) subq
-	INNER JOIN cat.Unidad uni ON uni.UnidadID = subq.UnidadID 
-	LEFT JOIN cat.Fiscalia f ON f.FiscaliaID = subq.FiscaliaID 
-	INNER JOIN CarpetasRecibidas cr ON cr.CarpetaRecibidaID = subq.CarpetaRecibidaID
-	INNER JOIN CarpetasIngresadas ci ON ci.CarpetaIngresadaID = cr.CarpetaIngresadaID
-	INNER JOIN dbo.Usuario u ON u.UsuarioID = subq.UsuarioID';
+	) g ON m.GeneralID = g.GeneralID 
+INNER JOIN [cat].[TipoReparacion] tr ON m.TipoReparacion = tr.TipoReparacionID
+INNER JOIN [cat].[TipoConclusion] tc ON m.TipoConclusion = tc.TipoConclusionID
+INNER JOIN [cat].[Turnado] t ON m.Turnado = t.TurnadoID
+INNER JOIN cat.Unidad uni on uni.UnidadID = g.UnidadID
+LEFT JOIN cat.Fiscalia f ON f.FiscaliaID = g.FiscaliaID
+INNER JOIN CarpetasRecibidas cr ON cr.CarpetaRecibidaID = g.CarpetaRecibidaID
+INNER JOIN CarpetasIngresadas ci ON ci.CarpetaIngresadaID = cr.CarpetaIngresadaID
+INNER JOIN dbo.Usuario u ON u.UsuarioID = g.UsuarioID';
 
 $data = (object) array(
 	'general_id' => (object) array(
-		'db_column' => "subq.[GeneralID]",
+		'db_column' => "g.[GeneralID]",
+		'search' => true
+	),
+	'masc_id' => (object) array(
+		'db_column' => 'm.[MASCID]',
+		'search' => true
+	),
+	'nuc' => (object) array(
+		'db_column' => 'g.[NUC]',
 		'search' => true
 	),
 	'entered_date' => (object) array(
 		'db_column' => 'ci.FechaIngreso',
 		'search' => true
 	),
-	'general_date' => (object) array(
-		'db_column' => 'subq.[Fecha]',
+	'date' => (object) array(
+		'db_column' => 'g.[Fecha]',
 		'search' => true
 	),
-	'general_nuc' => (object) array(
-		'db_column' => 'subq.[NUC]',
+	'masc_mechanism' => (object) array(
+		'db_column' => '[Mecanismo]',
 		'search' => true
 	),
-	'general_attended' => (object) array(
-		'db_column' => '[Atendidos]',
+	'masc_result' => (object) array(
+		'db_column' => '[Resultado]',
+		'search' => true
+	),
+	'masc_compliance' => (object) array(
+		'db_column' => '[Cumplimiento]',
+		'search' => true
+	),
+	'masc_total' => (object) array(
+		'db_column' => "CASE [Total] WHEN 1 THEN 'Total' ELSE 'Parcial' END AS 'Total'",
+		'search' => true
+	),
+	'masc_repair' => (object) array(
+		'db_column' => "tr.[Nombre] AS 'TipoReparacion'",
+		'search' => true
+	),
+	'masc_conclusion' => (object) array(
+		'db_column' => "tc.[Nombre] AS 'TipoConclusion'",
+		'search' => true
+	),
+	'masc_recovered_amount' => (object) array(
+		'db_column' => '[MontoRecuperado]',
+		'search' => true
+	),
+	'masc_amount_property' => (object) array(
+		'db_column' => '[MontoInmueble]',
+		'search' => true
+	),
+	'masc_turned_to' => (object) array(
+		'db_column' => "t.[Nombre] AS 'Turnado'",
 		'search' => true
 	),
 	'unity' => (object) array(
@@ -84,7 +123,7 @@ $data = (object) array(
 
 $sql_conditions = (object) array(
 	'range' => (object) array(
-		'db_column' => 'subq.Fecha',
+		'db_column' => 'g.Fecha',
 		'condition' => 'between', 
 		'value' => "'$initial_date' AND '$finish_date'"
 	)
@@ -134,7 +173,7 @@ function getRecord($attr){
 
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
-	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY subq.Fecha";
+	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY g.Fecha";
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options);
 	$row_count = sqlsrv_num_rows($result);
 	$return = array();
@@ -169,9 +208,41 @@ function getRecord($attr){
 						)
 					)->listed_values
 				),
-				'general_attended' => array(
-					'name' => 'Atendidos',
-					'value' => $row['Atendidos']
+				'masc_mechanism' => array(
+					'name' => 'Mecanismo',
+					'value' => $row['Mecanismo']
+				),
+				'masc_result' => array(
+					'name' => 'Resultado',
+					'value' => $row['Resultado']
+				),
+				'masc_compliance' => array(
+					'name' => 'Cumplimiento',
+					'value' => $row['Cumplimiento']
+				),
+				'masc_total' => array(
+					'name' => 'Total',
+					'value' => $row['Total']
+				),
+				'masc_repair' => array(
+					'name' => 'TipoReparacion',
+					'value' => $row['TipoReparacion']
+				),
+				'masc_conclusion' => array(
+					'name' => 'TipoConclusion',
+					'value' => $row['TipoConclusion']
+				),
+				'masc_amount_recovered' => array(
+					'name' => 'MontoRecuperado',
+					'value' => $row['MontoRecuperado']
+				),
+				'masc_amount_property' => array(
+					'name' => 'MontoInmueble',
+					'value' => $row['MontoInmueble']
+				),
+				'masc_turned_to' => array(
+					'name' => 'Turnado',
+					'value' => $row['Turnado']
 				),
 				'unity' => array(
 					'name' => 'Unidad',

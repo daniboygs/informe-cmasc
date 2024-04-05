@@ -12,7 +12,7 @@ $initial_date = isset($_POST['initial_date']) ? $_POST['initial_date'] : '';
 $finish_date = isset($_POST['finish_date']) ? $_POST['finish_date'] : '';
 $crimes_by_general_id = $_POST['crimes_by_general_id'];
 
-$db_table = '(
+$db_table = '[inegi].[Delito] d INNER JOIN (
 	SELECT g.[GeneralID]
 		  ,g.[NUC]
 		  ,g.[FechaInicioSigi]
@@ -32,32 +32,64 @@ $db_table = '(
 		  ,[UnidadID]
 		  ,[FiscaliaID]
 		  ,[UsuarioID] FROM [inegi].[General] WHERE CarpetaRecibidaID is not null
-	) subq
-	INNER JOIN cat.Unidad uni ON uni.UnidadID = subq.UnidadID 
-	LEFT JOIN cat.Fiscalia f ON f.FiscaliaID = subq.FiscaliaID 
-	INNER JOIN CarpetasRecibidas cr ON cr.CarpetaRecibidaID = subq.CarpetaRecibidaID
-	INNER JOIN CarpetasIngresadas ci ON ci.CarpetaIngresadaID = cr.CarpetaIngresadaID
-	INNER JOIN dbo.Usuario u ON u.UsuarioID = subq.UsuarioID';
+	) g ON d.GeneralID = g.GeneralID INNER JOIN [cat].[Modalidad] m ON d.Modalidad = m.ModalidadID
+INNER JOIN [cat].[Instrumento] i ON d.Instrumento = i.InstrumentoID INNER JOIN [cat].[Delito] cd ON d.DelitoID = cd.DelitoID INNER JOIN cat.Unidad uni on uni.UnidadID = g.UnidadID
+LEFT JOIN cat.Fiscalia f ON f.FiscaliaID = g.FiscaliaID
+INNER JOIN CarpetasRecibidas cr ON cr.CarpetaRecibidaID = g.CarpetaRecibidaID
+INNER JOIN CarpetasIngresadas ci ON ci.CarpetaIngresadaID = cr.CarpetaIngresadaID
+INNER JOIN dbo.Usuario u ON u.UsuarioID = g.UsuarioID';
 
 $data = (object) array(
 	'general_id' => (object) array(
-		'db_column' => "subq.[GeneralID]",
+		'db_column' => "g.[GeneralID]",
+		'search' => true
+	),
+	'nuc' => (object) array(
+		'db_column' => 'g.[NUC]',
 		'search' => true
 	),
 	'entered_date' => (object) array(
 		'db_column' => 'ci.FechaIngreso',
 		'search' => true
 	),
-	'general_date' => (object) array(
-		'db_column' => 'subq.[Fecha]',
+	'date' => (object) array(
+		'db_column' => 'g.[Fecha]',
 		'search' => true
 	),
-	'general_nuc' => (object) array(
-		'db_column' => 'subq.[NUC]',
+	'crime_rate' => (object) array(
+		'db_column' => '[Calificacion]',
 		'search' => true
 	),
-	'general_attended' => (object) array(
-		'db_column' => '[Atendidos]',
+	'crime_contest' => (object) array(
+		'db_column' => '[Concurso]',
+		'search' => true
+	),
+	'crime_action' => (object) array(
+		'db_column' => '[FormaAccion]',
+		'search' => true
+	),
+	'crime_commission' => (object) array(
+		'db_column' => '[Comision]',
+		'search' => true
+	),
+	'crime_violence' => (object) array(
+		'db_column' => '[Violencia]',
+		'search' => true
+	),
+	'crime_modality' => (object) array(
+		'db_column' => "m.[Nombre] AS 'Modalidad'",
+		'search' => true
+	),
+	'crime_instrument' => (object) array(
+		'db_column' => "i.[Nombre] AS 'Instrumento'",
+		'search' => true
+	),
+	'crime_alternative_justice' => (object) array(
+		'db_column' => "CASE [JusticiaAlternativa] WHEN 1 THEN 'Si' WHEN 2 then 'No' END AS 'JusticiaAlternativa'",
+		'search' => true
+	),
+	'crime_name' => (object) array(
+		'db_column' => "cd.Nombre AS 'Delito'",
 		'search' => true
 	),
 	'unity' => (object) array(
@@ -84,7 +116,7 @@ $data = (object) array(
 
 $sql_conditions = (object) array(
 	'range' => (object) array(
-		'db_column' => 'subq.Fecha',
+		'db_column' => 'g.Fecha',
 		'condition' => 'between', 
 		'value' => "'$initial_date' AND '$finish_date'"
 	)
@@ -134,7 +166,7 @@ function getRecord($attr){
 
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
-	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY subq.Fecha";
+	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY g.Fecha";
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options);
 	$row_count = sqlsrv_num_rows($result);
 	$return = array();
@@ -160,18 +192,41 @@ function getRecord($attr){
 					'name' => 'FechaCapturaInegi',
 					'value' => formatRowDate($row['Fecha'])
 				),
-				'general_crime' => array(
+				'crime_name' => array(
 					'name' => 'Delito',
-					'value' => getHTMLListCrimesByGeneralId(
-						(object) array(
-							'general_id' => $row['GeneralID'],
-							'crimes' => $attr->crimes_by_general_id
-						)
-					)->listed_values
+					'value' => $row['Delito']
 				),
-				'general_attended' => array(
-					'name' => 'Atendidos',
-					'value' => $row['Atendidos']
+				'crime_rate' => array(
+					'name' => 'Calificacion',
+					'value' => $row['Calificacion']
+				),
+				'crime_contest' => array(
+					'name' => 'Concurso',
+					'value' => $row['Concurso']
+				),
+				'crime_action' => array(
+					'name' => 'FormaAccion',
+					'value' => $row['FormaAccion']
+				),
+				'crime_commission' => array(
+					'name' => 'Comision',
+					'value' => $row['Comision']
+				),
+				'crime_violence' => array(
+					'name' => 'Violencia',
+					'value' => $row['Violencia']
+				),
+				'crime_modality' => array(
+					'name' => 'Modalidad',
+					'value' => $row['Modalidad']
+				),
+				'crime_instrument' => array(
+					'name' => 'Instrumento',
+					'value' => $row['Instrumento']
+				),
+				'crime_alternative_justice' => array(
+					'name' => 'JusticiaAlternativa',
+					'value' => $row['JusticiaAlternativa']
 				),
 				'unity' => array(
 					'name' => 'Unidad',

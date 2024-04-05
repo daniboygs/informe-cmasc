@@ -6,7 +6,11 @@ include("../common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[inegi].[Imputado] i INNER JOIN (
+
+$initial_date = $_POST['initial_date'];
+$finish_date = $_POST['finish_date'];
+
+$db_table = '(
 	SELECT g.[GeneralID]
 		  ,g.[NUC]
 		  ,g.[FechaInicioSigi]
@@ -26,73 +30,60 @@ $db_table = '[inegi].[Imputado] i INNER JOIN (
 		  ,[UnidadID]
 		  ,[FiscaliaID]
 		  ,[UsuarioID] FROM [inegi].[General] WHERE CarpetaRecibidaID is not null
-	) g ON i.GeneralID = g.GeneralID INNER JOIN [cat].[Escolaridad] e ON i.Escolaridad = e.EscolaridadID
-INNER JOIN [cat].[Ocupacion] o ON i.Ocupacion = o.OcupacionID INNER JOIN [inegi].[Delito] d ON g.GeneralID = d.GeneralID 
-INNER JOIN cat.Delito cd ON d.DelitoID = cd.DelitoID INNER JOIN cat.Unidad uni on uni.UnidadID = g.UnidadID LEFT JOIN cat.Fiscalia f ON f.FiscaliaID = g.FiscaliaID
-INNER JOIN CarpetasRecibidas cr ON cr.CarpetaRecibidaID = g.CarpetaRecibidaID
-INNER JOIN CarpetasIngresadas ci ON ci.CarpetaIngresadaID = cr.CarpetaIngresadaID';
-
-$initial_date = $_POST['initial_date'];
-$finish_date = $_POST['finish_date'];
+	) subq 
+	INNER JOIN [inegi].[Delito] d ON subq.GeneralID = d.GeneralID 
+	INNER JOIN cat.Delito cd ON d.DelitoID = cd.DelitoID 
+	INNER JOIN cat.Unidad uni ON uni.UnidadID = subq.UnidadID 
+	LEFT JOIN cat.Fiscalia f ON f.FiscaliaID = subq.FiscaliaID 
+	INNER JOIN CarpetasRecibidas cr ON cr.CarpetaRecibidaID = subq.CarpetaRecibidaID
+	INNER JOIN CarpetasIngresadas ci ON ci.CarpetaIngresadaID = cr.CarpetaIngresadaID';
 
 $data = (object) array(
 	'general_id' => (object) array(
-		'db_column' => "g.[GeneralID]",
+		'db_column' => "subq.[GeneralID]",
 		'search' => true
 	),
-	'nuc' => (object) array(
-		'db_column' => 'g.[NUC]',
+	/*'general_crime' => (object) array(
+		'db_column' => '[Delito]',
 		'search' => true
-	),
+	),*/
 	'entered_date' => (object) array(
 		'db_column' => 'ci.FechaIngreso',
 		'search' => true
 	),
-	'date' => (object) array(
-		'db_column' => 'g.[Fecha]',
+	'general_date' => (object) array(
+		'db_column' => 'subq.[Fecha]',
 		'search' => true
 	),
-	'imputed_gener' => (object) array(
-		'db_column' => '[Sexo]',
+	'general_nuc' => (object) array(
+		'db_column' => 'subq.[NUC]',
 		'search' => true
 	),
-	'imputed_age' => (object) array(
-		'db_column' => '[Edad]',
-		'search' => true
-	),
-	'imputed_scholarship' => (object) array(
-		'db_column' => "e.[Nombre] AS 'Escolaridad'",
-		'search' => true
-	),
-	'imputed_ocupation' => (object) array(
-		'db_column' => "o.[Nombre] AS 'Ocupacion'",
-		'search' => true
-	),
-	'imputed_applicant' => (object) array(
-		'db_column' => '[Solicitante]',
-		'search' => true
-	),
-	'imputed_type' => (object) array(
-		'db_column' => '[Tipo]',
-		'search' => true
-	),
-	'crime_name' => (object) array(
-		'db_column' => "cd.Nombre AS 'Delito'",
-		'search' => true
-	),
-	'unity' => (object) array(
+	'general_unity' => (object) array(
 		'db_column' => "uni.Nombre AS 'Unidad'",
 		'search' => true
 	),
-	'imputed_fiscalia' => (object) array(
+	'general_fiscalia' => (object) array(
 		'db_column' => "f.Nombre AS 'Fiscalia'",
+		'search' => true
+	),
+	'general_attended' => (object) array(
+		'db_column' => '[Atendidos]',
+		'search' => true
+	),
+	'user' => (object) array(
+		'db_column' => '[UsuarioID]',
+		'search' => false
+	),
+	'crime_name' => (object) array(
+		'db_column' => "cd.Nombre AS 'Delito'",
 		'search' => true
 	)
 );
 
 $sql_conditions = (object) array(
 	'range' => (object) array(
-		'db_column' => 'g.Fecha',
+		'db_column' => 'subq.Fecha',
 		'condition' => 'between', 
 		'value' => "'$initial_date' AND '$finish_date'"
 	)
@@ -108,7 +99,6 @@ if(!isset($_SESSION['user_data'])){
 	);
 }
 else{
-	
 	echo json_encode(
 		getRecord(
 			(object) array(
@@ -129,8 +119,8 @@ function getRecord($attr){
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
-	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY g.Fecha, g.NUC";
-
+	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY subq.Fecha";
+	
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 
 	$row_count = sqlsrv_num_rows( $result );
@@ -141,10 +131,10 @@ function getRecord($attr){
 
 		while( $row = sqlsrv_fetch_array( $result) ) {
 
-			$date = $row['Fecha'];
+			$general_date = $row['Fecha'];
 
-			if($date != null)
-				$date = $date->format('d/m/Y');
+			if($general_date != null)
+				$general_date = $general_date->format('d/m/Y');
 
 			$entered_date = $row['FechaIngreso'];
 
@@ -155,17 +145,13 @@ function getRecord($attr){
 				'ID' => $row['GeneralID'],
 				'NUC' => $row['NUC'],
 				'FechaIngreso' => $entered_date,
-				'FechaCapturaInegi' => $date,
+				'FechaCapturaInegi' => $general_date,
 				'Unidad' => $row['Unidad'],
 				'Delito' => $row['Delito'],
-				'Sexo' => $row['Sexo'],
-				'Edad' => $row['Edad'],
-				'Escolaridad' => $row['Escolaridad'],
-				'Ocupación' => $row['Ocupacion'],
-				'Solicitante' => $row['Solicitante'],
-				'Tipo' => $row['Tipo'],
+				'Atendidos' => $row['Atendidos'],
 				'Fiscalía' => $row['Fiscalia']
 			));
+			
 		}
 	
 	}
@@ -178,4 +164,3 @@ function getRecord($attr){
 
 }
 ?>
-

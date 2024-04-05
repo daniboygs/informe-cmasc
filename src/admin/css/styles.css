@@ -319,6 +319,10 @@ table tr td{
     color: #152F4A;
 }
 
+#month-records-label-section a{
+    color: darkgray !important;
+}
+
 .small-sort-arrow{
     font-size: 8pt !important;
 }

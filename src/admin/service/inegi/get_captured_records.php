@@ -7,8 +7,9 @@ $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 
-$initial_date = $_POST['initial_date'];
-$finish_date = $_POST['finish_date'];
+$nuc = isset($_POST['nuc']) ? $_POST['nuc'] : '';
+$initial_date = isset($_POST['initial_date']) ? $_POST['initial_date'] : '';
+$finish_date = isset($_POST['finish_date']) ? $_POST['finish_date'] : '';
 $crimes_by_general_id = $_POST['crimes_by_general_id'];
 
 $db_table = "[inegi].[General] g
@@ -141,6 +142,20 @@ $sql_conditions = (object) array(
 		'value' => "'$initial_date' AND '$finish_date'"
 	)
 );
+if($nuc != ''){
+	$sql_conditions += ['nuc' => (object) array(
+		'db_column' => 'subq.[NUC]',
+		'condition' => '=', 
+		'value' => "'$nuc'"
+	)];
+}
+if($initial_date != '' && $finish_date != ''){
+	$sql_conditions += ['range' => (object) array(
+		'db_column' => 'Fecha',
+		'condition' => 'between', 
+		'value' => "'$initial_date' AND '$finish_date'"
+	)];
+}
 
 if(!isset($_SESSION['user_data'])){
 	echo json_encode(
@@ -252,9 +267,7 @@ function getRecord($attr){
 					'value' => $row['Fiscalia']
 				)
 			));
-			
 		}
-	
 	}
 	else{
 		$return = null;

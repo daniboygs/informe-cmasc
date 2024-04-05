@@ -1,19 +1,7 @@
 <?php
-    session_start();
-    $crud_permissions = isset($_SESSION['user_data']['type']) ? ($_SESSION['user_data']['type'] == 1 ? true : false) : false;
     $data = isset( $_POST['data']) ? $_POST['data'] : 'null';
-    $initial_date = isset( $_POST['initial_date']) ? str_replace('-', '/', date('d-m-Y', strtotime($_POST['initial_date']))) : null;
-    $finish_date = isset( $_POST['finish_date']) ? str_replace('-', '/', date('d-m-Y', strtotime($_POST['finish_date']))) : null;
-    $composite_date = ($initial_date != null && $finish_date != null) ? '('.$initial_date.' - '.$finish_date.')' : '';
 ?>
-
-<div class="form-buttons" style="float: left !important; margin-bottom: 20px;">		
-    <button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="formHTMLTableToExcel({section: 'inegi_crimes'})">DESCARGAR &nbsp <i class="fa fa-file-excel-o" aria-hidden="true"></i></button>
-</div>
-
-<div id="month-records-label-section" style="display: inline-flex;">CARACTERISTICAS DEL DELITO &nbsp<a><?php echo $composite_date ?></a></div>
-
-<table class="data-table table table-striped overflow-table">
+<table class="table">
     <thead>
         <tr>
             <th>#</th>
