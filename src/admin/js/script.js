@@ -2498,6 +2498,76 @@ function createExcelReport(attr) {
 
 }
 
+function getRecordCrimesBeforeSection(attr){
+
+    let form_elements = [
+        {
+            id: 'search-nuc',
+            type: 'number',
+            json_key: 'nuc'
+        },
+        {
+            id: 'search-initial-date',
+            type: 'date',
+            json_key: 'initial_date'
+        },
+        {
+            id: 'search-finish-date',
+            type: 'date',
+            json_key: 'finish_date'
+        }
+    ];
+
+    if(validateElementsByIdContent({
+        elements: form_elements
+    })){
+
+        let nuc = document.getElementById('search-nuc').value;
+        let initial_date = document.getElementById('search-initial-date').value;
+        let finish_date = document.getElementById('search-finish-date').value;
+
+        let section_before_service_url = getSectionsCrimesBeforeService({
+            section: attr.section
+        });
+
+        if((inegi_search_op != '' && (nuc != '' || (initial_date != '' && finish_date != ''))) && section_before_service_url != null){
+            
+            $.ajax({
+                url: section_before_service_url,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    nuc: nuc,
+                    initial_date: initial_date,
+                    finish_date: finish_date
+                },
+                cache:false
+            }).done(function(response){
+
+                console.log('crimes by general: ', response.data.crimes_by_general_record);
+
+                searchSectionByRangeDate({
+                    post_data: {
+                        nuc: nuc,
+                        initial_date: initial_date,
+                        finish_date: finish_date,
+                        crimes_by_general_id: JSON.stringify(response.data.crimes_by_general_record)
+                    },
+                    section: section
+                });
+
+            }).fail(function(){
+        
+                console.log('OOPS!, something went wrong');
+        
+            });
+        }
+        else{
+            Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
+        }
+    }
+}
+
 function searchSectionByRange(section){
 
     /*if(section == 'inegi'){
@@ -3174,22 +3244,35 @@ function inegi_getRecords(attr){
                 handle_data.current_records_search_data = response;
             }*/
 
-            let inegi_table_template_service_url = getInegiTableTemplateService({
-                search_op: attr.inegi_search_op
-            });
+            if(response.state == 'success'){
 
-            handle_data.current_records_search_data = response;
+                let inegi_table_template_service_url = getInegiTableTemplateService({
+                    search_op: attr.inegi_search_op
+                });
+    
+                handle_data.current_records_search_data = response.data;
+    
+                drawRecordsTable({
+                    section: 'inegi',
+                    post_data: {
+                        data: response.data,
+                        initial_date: attr.post_data.initial_date,
+                        finish_date: attr.post_data.finish_date,
+                        nuc: attr.post_data.nuc
+                    },
+                    file: inegi_table_template_service_url,
+                    element_id: 'records-section'
+                });
+            }
+            else{
 
-            drawRecordsTable({
-                section: 'inegi',
-                post_data: {
-                    data: response,
-                    initial_date: attr.post_data.initial_date,
-                    finish_date: attr.post_data.finish_date
-                },
-                file: inegi_table_template_service_url,
-                element_id: 'records-section'
-            });
+                attr.initial_interation++;
+                inegi_getRecords(attr);
+            }
+
+
+
+            
 
             /*if(attr.section != 'inegi' || (attr.section == 'inegi' && handle_data.inegi.current_search == 'month')){
 

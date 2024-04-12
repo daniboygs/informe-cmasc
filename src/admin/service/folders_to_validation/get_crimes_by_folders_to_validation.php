@@ -13,16 +13,16 @@ $finish_date = isset($_POST['finish_date']) ? $_POST['finish_date'] : null;
 $return = array();
 
 $sql_conditions = ($initial_date != null && $finish_date != null) 
-? ($nuc != null ? "Fecha between '$initial_date' AND '$finish_date' AND NUC = '$nuc'" : "Fecha between '$initial_date' AND '$finish_date'")
+? ($nuc != null ? "FechaIngreso between '$initial_date' AND '$finish_date' AND NUC = '$nuc'" : "FechaIngreso between '$initial_date' AND '$finish_date'")
 : ($nuc != null ? "NUC = '$nuc'" : null);
 
 if($sql_conditions != null){
 
-	$sql = "SELECT g.[GeneralID]
-			,cd.Nombre AS 'Delito'
-			FROM [EJERCICIOS].[inegi].[General] g INNER JOIN [delitos].[INEGI] d ON d.GeneralID = g.GeneralID 
+	$sql = "SELECT ci.[CarpetaIngresadaID], 
+			cd.Nombre AS 'Delito'
+			FROM [EJERCICIOS].[dbo].[CarpetasIngresadas] ci INNER JOIN [delitos].[CarpetasIngresadas] d ON d.CarpetaIngresadaID = ci.CarpetaIngresadaID 
 			INNER JOIN [cat].[Delito] cd ON cd.DelitoID = d.DelitoID
-			WHERE $sql_conditions ORDER BY Fecha";
+			WHERE $sql_conditions ORDER BY FechaIngreso";
 
 	$result = sqlsrv_query($conn, $sql, $params, $options);
 	$row_count = sqlsrv_num_rows($result);

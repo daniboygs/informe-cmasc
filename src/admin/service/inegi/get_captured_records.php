@@ -7,10 +7,12 @@ $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 
-$nuc = isset($_POST['nuc']) ? $_POST['nuc'] : '';
-$initial_date = isset($_POST['initial_date']) ? $_POST['initial_date'] : '';
-$finish_date = isset($_POST['finish_date']) ? $_POST['finish_date'] : '';
-$crimes_by_general_id = $_POST['crimes_by_general_id'];
+$nuc = isset($_POST['nuc']) ? $_POST['nuc'] : null;
+$initial_date = isset($_POST['initial_date']) ? $_POST['initial_date'] : null;
+$finish_date = isset($_POST['finish_date']) ? $_POST['finish_date'] : null;
+$crimes_by_general_id = isset($_POST['crimes_by_general_id']) ? $_POST['crimes_by_general_id'] : null;
+$sql_conditions = array();
+$return = array();
 
 $db_table = "[inegi].[General] g
 
@@ -135,30 +137,24 @@ $data = (object) array(
 	)
 );
 
-$sql_conditions = (object) array(
-	'range' => (object) array(
-		'db_column' => 'Fecha',
-		'condition' => 'between', 
-		'value' => "'$initial_date' AND '$finish_date'"
-	)
-);
-if($nuc != ''){
+if($nuc != null){
 	$sql_conditions += ['nuc' => (object) array(
-		'db_column' => 'subq.[NUC]',
+		'db_column' => 'g.[NUC]',
 		'condition' => '=', 
 		'value' => "'$nuc'"
 	)];
 }
-if($initial_date != '' && $finish_date != ''){
+
+if($initial_date != null && $finish_date != null){
 	$sql_conditions += ['range' => (object) array(
-		'db_column' => 'Fecha',
+		'db_column' => 'g.Fecha',
 		'condition' => 'between', 
 		'value' => "'$initial_date' AND '$finish_date'"
 	)];
 }
 
-if(!isset($_SESSION['user_data'])){
-	echo json_encode(
+if(!isset($_SESSION['user_data']) && count($sql_conditions) == 0 && $crimes_by_general_id == null){
+	$return = json_encode(
 		array(
 			'state' => 'fail',
 			'data' => null
@@ -167,21 +163,26 @@ if(!isset($_SESSION['user_data'])){
 	);
 }
 else{
-	echo json_encode(
-		getRecord(
-			(object) array(
-				'data' => $data,
-				'sql_conditions' => $sql_conditions,
-				'db_table' => $db_table,
-				'conn' => $conn,
-				'params' => $params,
-				'options' => $options,
-				'crimes_by_general_id' => $crimes_by_general_id
+	$return = json_encode(
+		array(
+			'state' => 'success',
+			'data' => getRecord(
+				(object) array(
+					'data' => $data,
+					'sql_conditions' => $sql_conditions,
+					'db_table' => $db_table,
+					'conn' => $conn,
+					'params' => $params,
+					'options' => $options,
+					'crimes_by_general_id' => $crimes_by_general_id
+				)
 			)
-		), 
+		),
 		JSON_FORCE_OBJECT
 	);
 }
+
+echo $return;
 
 function getRecord($attr){
 

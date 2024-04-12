@@ -68,8 +68,25 @@ function getInegiCrimesBeforeService(attr){
         victims: search_service_location+'get_crimes_by_general.php',
         imputeds: search_service_location+'get_crimes_by_general.php',
         crimes: search_service_location+'get_crimes_by_general.php',
-        pending: search_service_location+'get_crimes_by_general.php',
+        pending: search_service_location+'get_crimes_by_general.php'
     }
 
     return urls[attr.search_op] != undefined ? urls[attr.search_op] : null;
+}
+
+function getSectionsCrimesBeforeService(attr){
+
+    let search_service_location = 'service/';
+
+    let urls = {
+        entered_folders: search_service_location+'entered_folders/get_crimes_by_entered_folders.php',
+        entered_folders_super: search_service_location+'entered_folders_super/get_crimes_by_entered_folders_super.php',
+        recieved_folders: search_service_location+'recieved_folders/get_crimes_by_recieved_folders.php',
+        agreements: search_service_location+'agreements/get_crimes_by_agreements.php',
+        folders_to_investigation: search_service_location+'folders_to_investigation/get_crimes_by_folders_to_investigation.php',
+        folders_to_validation: search_service_location+'folders_to_validation/get_crimes_by_folders_to_validation.php',
+        people_served: search_service_location+'people_served/get_crimes_by_people_served.php'
+    }
+
+    return urls[attr.section] != undefined ? urls[attr.section] : null;
 }
