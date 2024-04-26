@@ -30,7 +30,7 @@
 
 	<div class="form-buttons">		
 
-		<button type="button" class="btn btn-outline-success" style="height:38px; width: 100px;"  onclick="searchSectionByRange('people_served')">Buscar</button>
+		<button type="button" class="btn btn-outline-success" style="height:38px; width: 100px;" onclick="getRecordsBySection({section: 'people_served'})">Buscar</button>
 	
 	</div>
 

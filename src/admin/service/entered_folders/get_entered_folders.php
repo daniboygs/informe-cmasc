@@ -10,18 +10,9 @@ $conn = $connections['cmasc']['conn'];
 $nuc = isset($_POST['nuc']) ? $_POST['nuc'] : null;
 $initial_date = isset($_POST['initial_date']) ? $_POST['initial_date'] : null;
 $finish_date = isset($_POST['finish_date']) ? $_POST['finish_date'] : null;
-$return = array();
-
-$nuc = isset($_POST['nuc']) ? $_POST['nuc'] : null;
-$initial_date = isset($_POST['initial_date']) ? $_POST['initial_date'] : null;
-$finish_date = isset($_POST['finish_date']) ? $_POST['finish_date'] : null;
-$crimes_by_general_id = isset($_POST['crimes_by_general_id']) ? $_POST['crimes_by_general_id'] : null;
+$crimes_by_record_id = isset($_POST['crimes_by_record_id']) ? $_POST['crimes_by_record_id'] : null;
 $sql_conditions = array();
 $return = array();
-
-$sql_conditions = ($initial_date != null && $finish_date != null) 
-? ($nuc != null ? "FechaIngreso between '$initial_date' AND '$finish_date' AND NUC = '$nuc'" : "FechaIngreso between '$initial_date' AND '$finish_date'")
-: ($nuc != null ? "NUC = '$nuc'" : null);
 
 $db_table = '[dbo].[CarpetasIngresadas] c INNER JOIN [cat].[Municipio] cm on c.Municipio = cm.MunicipioID 
 				LEFT JOIN dbo.Usuario u on c.Facilitador = u.UsuarioID INNER JOIN [cat].[Fiscalia] f ON  c.FiscaliaID = f.FiscaliaID 
@@ -32,7 +23,22 @@ $db_table = '[dbo].[CarpetasIngresadas] c INNER JOIN [cat].[Municipio] cm on c.M
 				LEFT JOIN [cat].[Fiscalia] cf ON c.LugarAdscripsionFiscaliaID = cf.FiscaliaID
 				LEFT JOIN [cat].TipoExpediente te ON c.TipoExpedienteID = te.TipoExpedienteID';
 
-if($sql_conditions != null){
+if($nuc != null){
+	$sql_conditions += ['nuc' => (object) array(
+		'db_column' => '[NUC]',
+		'condition' => '=', 
+		'value' => "'$nuc'"
+	)];
+}
+if($initial_date != null && $finish_date != null){
+	$sql_conditions += ['range' => (object) array(
+		'db_column' => 'FechaIngreso',
+		'condition' => 'between', 
+		'value' => "'$initial_date' AND '$finish_date'"
+	)];
+}
+
+if(isset($_SESSION['user_data']) && count($sql_conditions) > 0 && $crimes_by_record_id != null){
 
 	$data = (object) array(
 		'entered_folders_id' => (object) array(
@@ -148,50 +154,21 @@ if($sql_conditions != null){
 			'search' => true
 		)
 	);
-	
-	$sql_conditions = array();
-	
-	if($nuc != ''){
-		$sql_conditions += ['nuc' => (object) array(
-			'db_column' => '[NUC]',
-			'condition' => '=', 
-			'value' => "'$nuc'"
-		)];
-	}
-	
-	if($initial_date != '' && $finish_date != ''){
-		$sql_conditions += ['range' => (object) array(
-			'db_column' => 'FechaIngreso',
-			'condition' => 'between', 
-			'value' => "'$initial_date' AND '$finish_date'"
-		)];
-	}
-	
-	if(!isset($_SESSION['user_data']) || count($sql_conditions) <= 0){
-		echo json_encode(
-			array(
-				'state' => 'fail',
-				'data' => null
-			),
-			JSON_FORCE_OBJECT
-		);
-	}
-	else{
-		
-		echo json_encode(
-			getRecord(
-				(object) array(
-					'data' => $data,
-					'sql_conditions' => $sql_conditions,
-					'db_table' => $db_table,
-					'conn' => $conn,
-					'params' => $params,
-					'options' => $options
-				)
-			), 
-			JSON_FORCE_OBJECT
-		);
-	}
+
+	$return = json_encode(
+		getRecord(
+			(object) array(
+				'data' => $data,
+				'sql_conditions' => $sql_conditions,
+				'db_table' => $db_table,
+				'crimes_by_record_id' => $crimes_by_record_id,
+				'conn' => $conn,
+				'params' => $params,
+				'options' => $options
+			)
+		), 
+		JSON_FORCE_OBJECT
+	);
 }
 else{
 	$return = json_encode(
@@ -213,12 +190,13 @@ function getRecord($attr){
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 	$row_count = sqlsrv_num_rows( $result );
 	$return = array();
+	$return_data = array();
 
 	if($row_count > 0){
 
 		while($row = sqlsrv_fetch_array( $result)){
 	
-			array_push($return, array(
+			array_push($return_data, array(
 				'entered_folders_id' => array(
 					'name' => 'ID',
 					'value' => $row['id']
@@ -237,10 +215,10 @@ function getRecord($attr){
 				),
 				'entered_folders_crime' => array(
 					'name' => 'Delito',
-					'value' => getHTMLListCrimesByGeneralId(
+					'value' => getHTMLListCrimesByRecordId(
 						(object) array(
-							'general_id' => $row['GeneralID'],
-							'crimes' => $attr->crimes_by_general_id
+							'record_id' => $row['id'],
+							'crimes' => $attr->crimes_by_record_id
 						)
 					)->listed_values
 				),
@@ -322,21 +300,29 @@ function getRecord($attr){
 				)
 			));
 		}
+
+		$return = array(
+			'state' => 'success',
+			'data' => $return_data
+		);
 	}
 	else{
-		$return = null;
+		$return = array(
+			'state' => 'success',
+			'data' => null
+		);
 	}
 
 	return $return;
 }
 
-function getHTMLListCrimesByGeneralId($attr){
+function getHTMLListCrimesByRecordId($attr){
 
     $listed_values = '';
 
-    if(isset(json_decode($attr->crimes, true)[$attr->general_id])){
+    if(isset(json_decode($attr->crimes, true)[$attr->record_id])){
 
-        foreach(json_decode($attr->crimes, true)[$attr->general_id] as $element){
+        foreach(json_decode($attr->crimes, true)[$attr->record_id] as $element){
 
             $listed_values.='<li>'.$element['crime_name'].'</li>';
     

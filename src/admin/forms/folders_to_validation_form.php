@@ -39,7 +39,7 @@
 	<div class="form-buttons">		
 
 		<!--<button type="button" class="btn btn-outline-success" style="height:38px; width: 100px;"  onclick="searchSection('folders_to_validation')">Buscar</button>-->
-		<button type="button" class="btn btn-outline-success" style="height:38px; width: 100px;"  onclick="searchSectionByRange('folders_to_validation')">Buscar</button>
+		<button type="button" class="btn btn-outline-success" style="height:38px; width: 100px;" onclick="getRecordsBySection({section: 'folders_to_validation'})">Buscar</button>
 
 	</div>
 

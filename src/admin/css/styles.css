@@ -310,19 +310,6 @@ table tr td{
     white-space: nowrap;
 }
 
-#month-records-label-section{
-    margin-top: 15px;
-    width: 100%;
-    display: inline-block;
-    font-family: LabradorA;
-    font-size: 25pt;
-    color: #152F4A;
-}
-
-#month-records-label-section a{
-    color: darkgray !important;
-}
-
 .small-sort-arrow{
     font-size: 8pt !important;
 }
@@ -372,4 +359,19 @@ table.data-table{
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+
+.table-records-header-text{
+    margin-top: 15px;
+    width: 100%;
+    /*display: inline-block;*/
+    font-family: LabradorA;
+    font-size: 25pt;
+    color: #152F4A;
+    display: inline-flex;
+}
+
+.table-records-header-text a{
+    color: darkgray !important;
 }

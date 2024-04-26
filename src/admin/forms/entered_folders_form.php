@@ -30,10 +30,11 @@
 
 	<div class="form-buttons">
 
-		<button type="button" class="btn btn-outline-success" style="height:38px; width: 100px;"  onclick="downloadExcel()">EXCEL</button>
+		<button type="button" class="btn btn-outline-success" style="height:38px; width: 100px;" onclick="downloadExcel()">EXCEL</button>
 
-		<button type="button" class="btn btn-outline-primary" style="height:38px; width: 100px;"  onclick="searchSectionByRange('entered_folders')">Buscar</button>
+		<button type="button" class="btn btn-outline-primary" style="height:38px; width: 100px;" onclick="getRecordsBySection({section: 'entered_folders'})">Buscar</button>
 
+		<!--<button type="button" class="btn btn-outline-success" style="height:38px; width: 100px;"  onclick="searchSectionByRange('entered_folders')">Buscar</button>-->
 	</div>
 
 	<div id="delegated-default-modal-section"></div>

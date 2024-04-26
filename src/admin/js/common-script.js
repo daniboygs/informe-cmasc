@@ -82,3 +82,18 @@ function downloadExcel(attr){
     var ctx = {worksheet: name || 'Worksheet', table: attr.table}
     window.location.href = uri + base64(format(template, ctx));
 }
+
+function formJsonFromFormElements(attr){
+    
+    let json_data = {};
+
+    for(element in attr.elements){
+
+        json_data = {
+           ...json_data,
+            [attr.elements[element].json_key]: document.getElementById(attr.elements[element].id).value
+        }
+    }
+
+    return json_data;
+}

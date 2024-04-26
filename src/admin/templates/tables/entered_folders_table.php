@@ -2,7 +2,7 @@
     session_start();
     $crud_permissions = isset($_SESSION['user_data']['type']) ? ($_SESSION['user_data']['type'] == 1 ? true : false) : false;
     $dpe_permissions = isset($_SESSION['user_data']['type']) ? ($_SESSION['user_data']['type'] == 5 ? true : false) : false;
-    $data = isset( $_POST['data']) ? $_POST['data'] : 'null';
+    $data = isset( $_POST['data']) ? $_POST['data'] : null;
     $nuc = isset($_POST['nuc']) ? $_POST['nuc'] : null;
     $initial_date = isset($_POST['initial_date']) ? $_POST['initial_date'] : null;
     $finish_date = isset($_POST['finish_date']) ? $_POST['finish_date'] : null;
@@ -20,7 +20,7 @@
     <!--<button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="tableToExcel()">Descargar EXCEL</button>-->
 </div>
 
-<div id="month-records-label-section" style="display: inline-flex;">CARPETAS INGRESADAS &nbsp<a><?php echo $composite_date ?></a></div>
+<div class="table-records-header-text">CARPETAS INGRESADAS &nbsp<a><?php echo $composite_date ?></a></div>
 
 <table class="data-table table table-striped overflow-table">
     <thead>
@@ -68,7 +68,7 @@
     </thead>
     <tbody>
 <?php
-    if($data != 'null'){
+    if($data != null){
 
         $i=1;
 
@@ -79,7 +79,7 @@
             <td class="bold-text"><?php echo $element['entered_folders_nuc']['value']; ?></td>
             <td class="bold-text"><?php echo $element['sigi_initial_date']['value']; ?></td>
             <td><?php echo $element['entered_folders_date']['value']; ?></td>
-            <td class="align-left bold-text"><?php echo $element['entered_folders_crime']['value']['listed_values']; ?></td>
+            <td class="align-left bold-text"><?php echo $element['entered_folders_crime']['value']; ?></td>
             <td><?php echo $element['entered_folders_unity']['value']; ?></td>
             <td><?php echo $element['entered_folders_mp_channeler']['value']; ?></td>
             <td><?php echo $element['entered_folders_priority']['value']; ?></td>

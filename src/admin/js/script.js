@@ -710,7 +710,7 @@ function getRecordsByMonth(attr){
                         post_data: {
                             data: response
                         },
-                        file: 'templates/tables/'+attr.section+'_table.php',
+                        service_url: 'templates/tables/'+attr.section+'_table.php',
                         element_id: 'records-section'
                     });
                 }
@@ -728,7 +728,7 @@ function getRecordsByMonth(attr){
         }
     }
     else{
-        Swal.fire('error', 'Ha ocurrido un error inesperado, favor de contactar a DPE', 'error');
+        Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
     }
 
     
@@ -738,43 +738,50 @@ function drawRecordsTable(attr){
 
     console.log('pintando...: ', attr);
 
-    if(attr.post_data.data != null){
+    if(attr.service_url != null){
+            
+        if(attr.post_data.data != null){
 
-        attr.post_data.data = JSON.stringify(attr.post_data.data);
-
-
-        $.ajax({
-            url: attr.file,
-            type: 'POST',
-            dataType: "html",
-            data: attr.post_data,
-            /*data: {
-                data: JSON.stringify(attr.data),
-                nuc_dates: JSON.stringify(attr.nuc_dates)
-            },*/
-            cache: false
-        }).done(function(response){
-
-            if(sections[attr.section].active){
-                $('#'+attr.element_id).html(response);
-            }
-
-            //$('#pending-inegi-table').DataTable(defaultDataTableConfig);
-            $('.data-table').DataTable(defaultDataTableConfig());
-        });
+            attr.post_data.data = JSON.stringify(attr.post_data.data);
+    
+            $.ajax({
+                url: attr.service_url,
+                type: 'POST',
+                dataType: 'html',
+                data: attr.post_data,
+                /*data: {
+                    data: JSON.stringify(attr.data),
+                    nuc_dates: JSON.stringify(attr.nuc_dates)
+                },*/
+                cache: false
+            }).done(function(response){
+    
+                if(sections[attr.section].active){
+                    $('#'+attr.element_id).html(response);
+                }
+    
+                //$('#pending-inegi-table').DataTable(defaultDataTableConfig);
+                $('.data-table').DataTable(defaultDataTableConfig());
+            });
+        }
+        else{
+            loadDashboardAlert({
+                template_file: 'templates/elements/dashboard_alert.php',
+                element_id: attr.element_id,
+                element_attr: {
+                    attr: {
+                        type: 'secondary',
+                        message: 'No hay registros!'
+                    }
+                } 
+            });
+        }
     }
     else{
-        loadDashboardAlert({
-            template_file: 'templates/elements/dashboard_alert.php',
-            element_id: attr.element_id,
-            element_attr: {
-                attr: {
-                    type: 'secondary',
-                    message: 'No hay registros!'
-                }
-            } 
-        });
+        Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
     }
+
+    
 
 
 	/*console.log('draw_t', attr.file);
@@ -886,7 +893,7 @@ function searchSection(section){
             drawRecordsTable({
                 section: section,
                 data: response,
-                file: 'templates/tables/'+section+'_table.php',
+                service_url: 'templates/tables/'+section+'_table.php',
                 element_id: 'records-section'
             });
         });
@@ -2498,68 +2505,81 @@ function createExcelReport(attr) {
 
 }
 
-function getRecordCrimesBeforeSection(attr){
+function getRecordsBySection(attr){
 
-    let form_elements = [
-        {
-            id: 'search-nuc',
-            type: 'number',
-            json_key: 'nuc'
-        },
-        {
-            id: 'search-initial-date',
-            type: 'date',
-            json_key: 'initial_date'
-        },
-        {
-            id: 'search-finish-date',
-            type: 'date',
-            json_key: 'finish_date'
+    if(attr.hasOwnProperty('section')){
+
+        switch(attr.section){
+            case 'inegi':
+                getRecordCrimesBeforeGeneral({
+                    section: attr.section
+                });
+                break;
+            case 'people_served':
+                getRecordPeopleBeforeSection({
+                    section: attr.section
+                });
+                break;
+            default:
+                getRecordCrimesBeforeSection({
+                    section: attr.section
+                });
+                break;
         }
-    ];
+    }
+}
+
+function getRecordPeopleBeforeSection(attr){
+
+    let search_form_elements = attr.search_form_elements != undefined ? attr.search_form_elements : getSearchFormElements();
 
     if(validateElementsByIdContent({
-        elements: form_elements
+        elements: search_form_elements
     })){
 
-        let nuc = document.getElementById('search-nuc').value;
-        let initial_date = document.getElementById('search-initial-date').value;
-        let finish_date = document.getElementById('search-finish-date').value;
-
-        let section_before_service_url = getSectionsCrimesBeforeService({
+        let json_form_elements = attr.json_form_elements != undefined ? attr.json_form_elements : formJsonFromFormElements({
+            elements: search_form_elements
+        });
+        
+        let people_service_url = getSectionPeopleService({
             section: attr.section
         });
 
-        if((inegi_search_op != '' && (nuc != '' || (initial_date != '' && finish_date != ''))) && section_before_service_url != null){
+        if(((json_form_elements['nuc'] != '' || (json_form_elements['initial_date'] != '' && json_form_elements['finish_date'] != ''))) && people_service_url != null){
+
+            setStaticLoader({
+                section_id: 'records-section',
+                class: 'static-loader'
+            });
             
             $.ajax({
-                url: section_before_service_url,
+                url: people_service_url,
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    nuc: nuc,
-                    initial_date: initial_date,
-                    finish_date: finish_date
+                    ...json_form_elements
                 },
-                cache:false
+                cache: false
             }).done(function(response){
 
-                console.log('crimes by general: ', response.data.crimes_by_general_record);
+                if(sections[attr.section].active){
 
-                searchSectionByRangeDate({
-                    post_data: {
-                        nuc: nuc,
-                        initial_date: initial_date,
-                        finish_date: finish_date,
-                        crimes_by_general_id: JSON.stringify(response.data.crimes_by_general_record)
-                    },
-                    section: section
-                });
+                    if(response.state == 'success'){
 
+                        getRecordCrimesBeforeSection({
+                            search_form_elements: search_form_elements,
+                            json_form_elements: json_form_elements,
+                            people_by_record: response.data.people_by_record,
+                            section: attr.section
+                        });
+                    }
+                    else{
+                        Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
+                    }
+
+                }
             }).fail(function(){
-        
-                console.log('OOPS!, something went wrong');
-        
+                Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
             });
         }
         else{
@@ -2568,20 +2588,81 @@ function getRecordCrimesBeforeSection(attr){
     }
 }
 
-function searchSectionByRange(section){
+function getRecordCrimesBeforeSection(attr){
 
-    /*if(section == 'inegi'){
-        handle_data.inegi.current_search = 'range';
-    }*/
+    let search_form_elements = attr.search_form_elements != undefined ? attr.search_form_elements : getSearchFormElements();
 
-    if(section != 'inegi'){
-        searchSectionByRangeDate({
-            section: section
+    if(validateElementsByIdContent({
+        elements: search_form_elements
+    })){
+
+        let json_form_elements = attr.json_form_elements != undefined ? attr.json_form_elements : formJsonFromFormElements({
+            elements: search_form_elements
         });
+
+        console.log('json_form_elements: ',json_form_elements);
+
+        let section_crimes_service_url = getSectionCrimesService({
+            section: attr.section
+        });
+
+        if(((json_form_elements['nuc'] != '' || (json_form_elements['initial_date'] != '' && json_form_elements['finish_date'] != ''))) && section_crimes_service_url != null){
+
+            setStaticLoader({
+                section_id: 'records-section',
+                class: 'static-loader'
+            });
+            
+            $.ajax({
+                url: section_crimes_service_url,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    ...json_form_elements
+                },
+                cache: false
+            }).done(function(response){
+
+                console.log('crimes by seeeeec: ', response.data.crimes_by_record);
+
+                if(sections[attr.section].active){
+
+                    if(response.state == 'success'){
+
+                        let get_records_post_data = {
+                            ...json_form_elements,
+                            crimes_by_record_id: JSON.stringify(response.data.crimes_by_record)
+                        }
+
+                        if(attr.people_by_record != undefined){
+
+                            get_records_post_data = {
+                                ...get_records_post_data,
+                                people_by_record_id: JSON.stringify(attr.people_by_record)
+                            }
+                        }
+
+                        getSectionRecords({
+                            post_data: get_records_post_data,
+                            section: attr.section
+                        });
+                    }
+                    else{
+                        Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
+                    }
+
+                }
+            }).fail(function(){
+                Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
+            });
+        }
+        else{
+            Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
+        }
     }
 }
 
-function searchSectionByRangeDate(attr){
+function getSectionRecords(attr){
 
     if(!attr.hasOwnProperty('initial_interation')){
         attr = {
@@ -2596,109 +2677,67 @@ function searchSectionByRangeDate(attr){
         console.log('search?', attr.section+'-nuc');
 
         //let date = new Date();
+
+        console.log('attr despues de validated: ', attr);
+
+        console.log('search by date validated');        
         
-        let post_data = {};
-        let validated = false;
+        console.log('sections[attr.section].search_by_range_file', attr);
 
-        console.log('attr antes de switch: ', attr);
+        let section_service_url = getSectionService({
+            section: attr.section
+        });
 
-        switch(attr.section){
-            case null:
-                break;
-            default:
-                if(document.getElementById('search-initial-date') && document.getElementById('search-finish-date') && document.getElementById('search-nuc')){
-                    post_data = {
-                        nuc: document.getElementById('search-nuc').value,
-                        initial_date: document.getElementById('search-initial-date').value,
-                        finish_date: document.getElementById('search-finish-date').value
-                    }
+        if(section_service_url != null){
 
-                    if(document.getElementById('search-nuc').value != '' || (document.getElementById('search-initial-date').value != '' && document.getElementById('search-finish-date').value != '')){
-                        validated = true;
-                    }
-                    else{
-                        Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
-                    }
-                }
-                else if(attr.section == 'processing_folders' && document.getElementById('search-initial-date') && document.getElementById('search-finish-date')){
-                    post_data = {
-                        initial_date: document.getElementById('search-initial-date').value,
-                        finish_date: document.getElementById('search-finish-date').value
-                    }
-
-                    if((document.getElementById('search-initial-date').value != '' && document.getElementById('search-finish-date').value != '')){
-                        validated = true;
-                    }
-                    else{
-                        Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
-                    }
-                }
-                break;
-        }
-
-        console.log('attr despues de switch: ', attr);
-
-        if(validated){
-
-            console.log('attr despues de validated: ', attr);
-
-            console.log('search by date validated');
-
-            setStaticLoader({
-                section_id: 'records-section',
-                class: 'static-loader'
-            });
-            
-            console.log('sections[attr.section].search_by_range_file', attr);
             $.ajax({
-                url:'service/'+sections[attr.section].search_by_range_file,
-                type:'POST',
-                dataType: "json",
-                data: post_data,
-                cache:false
+                url: section_service_url,
+                type: 'POST',
+                dataType: 'json',
+                data: attr.post_data,
+                cache: false
             }).done(function(response){
+
                 console.log(response);
-                test = response;
 
                 if(sections[attr.section].active){
-                    handle_data.current_records_search_data = response;
+
+                    if(response.state == 'success'){
+
+                        handle_data.current_records_search_data = response.data;
+    
+                        drawRecordsTable({
+                            section: attr.section,
+                            post_data: {
+                                data: response.data,
+                                initial_date: attr.post_data.initial_date,
+                                finish_date: attr.post_data.finish_date,
+                                nuc: attr.post_data.nuc
+                            },
+                            service_url: getSectionTableTemplateService({
+                                section: attr.section
+                            }),
+                            element_id: 'records-section'
+                        });
+                    }
+                    else{
+                        Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
+                    }
                 }
-
-                //if(attr.section != 'inegi' || (attr.section == 'inegi' && handle_data.inegi.current_search == 'range')){
-                    drawRecordsTable({
-                        section: attr.section,
-                        post_data: {
-                            data: response
-                        },
-                        file: 'templates/tables/'+attr.section+'_table.php',
-                        element_id: 'records-section'
-                    });
-                //}
-
             }).fail(function(){
-
+    
                 attr.initial_interation++;
-
+    
                 console.log('attr +iteration', attr);
-
-                searchSectionByRangeDate(attr);
+    
+                getSectionRecords(attr);
             });
-        }
-        else{
-            //Swal.fire('Error', 'Ha ocurrido un error, vuelva a intentarlo', 'error');
-        }
-
+        }  
     }
     else{
-        Swal.fire('error', 'Ha ocurrido un error inesperado, favor de contactar a DPE', 'error');
-    }
-
-
-    
-
-	
+        Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
+    }	
 }
-
 
 function getInegiPendingAgreementsByMonth(attr){
 
@@ -2743,7 +2782,7 @@ function getInegiPendingAgreementsByMonth(attr){
                     post_data: {
                         data: response
                     },
-                    file: 'templates/tables/pending_agreements_table.php',
+                    service_url: 'templates/tables/pending_agreements_table.php',
                     element_id: attr.section_id
                 });
             }
@@ -3260,7 +3299,7 @@ function inegi_getRecords(attr){
                         finish_date: attr.post_data.finish_date,
                         nuc: attr.post_data.nuc
                     },
-                    file: inegi_table_template_service_url,
+                    service_url: inegi_table_template_service_url,
                     element_id: 'records-section'
                 });
             }
@@ -3291,6 +3330,6 @@ function inegi_getRecords(attr){
         });
     }
     else{
-        Swal.fire('error', 'Ha ocurrido un error inesperado, favor de contactar a DPE', 'error');
+        Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
     }
 }

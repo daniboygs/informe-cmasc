@@ -2,7 +2,7 @@
     session_start();
     $crud_permissions = isset($_SESSION['user_data']['type']) ? ($_SESSION['user_data']['type'] == 1 ? true : false) : false;
     $dpe_permissions = isset($_SESSION['user_data']['type']) ? ($_SESSION['user_data']['type'] == 5 ? true : false) : false;
-    $data = isset( $_POST['data']) ? $_POST['data'] : 'null';
+    $data = isset( $_POST['data']) ? $_POST['data'] : null;
 ?>
 
 <div class="form-buttons" style="float: left !important; margin-bottom: 20px;">		
@@ -38,7 +38,7 @@
     </thead>
     <tbody>
 <?php
-    if($data != 'null'){
+    if($data != null){
 
         $i=1;
 
@@ -49,7 +49,7 @@
             <td class="bold-text"><?php echo $element['folders_to_investigation_nuc']['value']; ?></td>
             <td class="bold-text"><?php echo $element['sigi_initial_date']['value']; ?></td>
             <td><?php echo $element['folders_to_investigation_date']['value']; ?></td>
-            <td class="align-left bold-text"><?php echo $element['folders_to_investigation_crime']['value']['listed_values']; ?></td>
+            <td class="align-left bold-text"><?php echo $element['folders_to_investigation_crime']['value']; ?></td>
             <td><?php echo $element['folders_to_investigation_channeling_reason']['value']; ?></td>
             <td><?php echo $element['folders_to_investigation_unity']['value']; ?></td>
 <?php

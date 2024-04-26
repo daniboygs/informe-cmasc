@@ -18,11 +18,11 @@ $sql_conditions = ($initial_date != null && $finish_date != null)
 
 if($sql_conditions != null){
 
-	$sql = "SELECT ci.[CarpetaIngresadaID], 
+	$sql = "SELECT a.[CarpetaEnviadaInvestigacionID] AS 'id',
 			cd.Nombre AS 'Delito'
-			FROM [EJERCICIOS].[dbo].[CarpetasIngresadas] ci INNER JOIN [delitos].[CarpetasIngresadas] d ON d.CarpetaIngresadaID = ci.CarpetaIngresadaID 
+			FROM [EJERCICIOS].[dbo].[CarpetasEnviadasInvestigacion] a INNER JOIN [delitos].[CarpetasEnviadasInvestigacion] d ON d.CarpetaEnviadaInvestigacionID = a.CarpetaEnviadaInvestigacionID
 			INNER JOIN [cat].[Delito] cd ON cd.DelitoID = d.DelitoID
-			WHERE $sql_conditions ORDER BY FechaIngreso";
+			WHERE Fecha between '2024-03-01' AND '2024-04-24' ORDER BY Fecha";
 
 	$result = sqlsrv_query($conn, $sql, $params, $options);
 	$row_count = sqlsrv_num_rows($result);
@@ -32,15 +32,15 @@ if($sql_conditions != null){
 
 		while($row = sqlsrv_fetch_array($result)){
 
-			if(isset($crimes_by_general[$row['GeneralID']])){
+			if(isset($crimes_by_general[$row['id']])){
 
-				array_push($crimes_by_general[$row['GeneralID']], array(
+				array_push($crimes_by_general[$row['id']], array(
 					'crime_name' => $row['Delito']
 				));
 			}
 			else{
 
-				$crimes_by_general += [$row['GeneralID'] => array(
+				$crimes_by_general += [$row['id'] => array(
 					array('crime_name' => $row['Delito'])
 				)];
 			}
@@ -54,7 +54,7 @@ if($sql_conditions != null){
 		array(
 			'state' => 'success',
 			'data' => array(
-				'crimes_by_general_record' => $crimes_by_general
+				'crimes_by_record' => $crimes_by_general
 			)
 		),
 		JSON_FORCE_OBJECT

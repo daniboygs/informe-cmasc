@@ -56,7 +56,7 @@
             <td class="bold-text"><?php echo $element['agreement_nuc']['value']; ?></td>
             <td class="bold-text"><?php echo $element['sigi_initial_date']['value']; ?></td>
             <td><?php echo $element['agreement_date']['value']; ?></td>
-            <td class="align-left bold-text"><?php echo $element['agreement_crime']['value']['listed_values']; ?></td>
+            <td class="align-left bold-text"><?php echo $element['agreement_crime']['value']; ?></td>
             <td><?php echo $element['agreement_intervention']['value']; ?></td>
             <td><?php echo $element['agreement_compliance']['value']; ?></td>
             <td><?php echo $element['agreement_total']['value']; ?></td>

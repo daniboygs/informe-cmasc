@@ -18,9 +18,9 @@ $sql_conditions = ($initial_date != null && $finish_date != null)
 
 if($sql_conditions != null){
 
-	$sql = "SELECT cr.[CarpetaRecibidaID] AS 'id' ,
+	$sql = "SELECT a.[AcuerdoCelebradoID] AS 'id',
 			cd.Nombre AS 'Delito'
-			FROM [EJERCICIOS].[dbo].[CarpetasRecibidas] cr INNER JOIN [delitos].[CarpetasRecibidas] d ON d.CarpetaRecibidaID = cr.CarpetaRecibidaID
+			FROM [EJERCICIOS].[dbo].[AcuerdosCelebrados] a INNER JOIN [delitos].[AcuerdosCelebrados] d ON d.AcuerdoCelebradoID = a.AcuerdoCelebradoID
 			INNER JOIN [cat].[Delito] cd ON cd.DelitoID = d.DelitoID
 			WHERE $sql_conditions ORDER BY Fecha";
 

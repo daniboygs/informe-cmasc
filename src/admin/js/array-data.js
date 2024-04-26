@@ -74,7 +74,7 @@ function getInegiCrimesBeforeService(attr){
     return urls[attr.search_op] != undefined ? urls[attr.search_op] : null;
 }
 
-function getSectionsCrimesBeforeService(attr){
+function getSectionCrimesService(attr){
 
     let search_service_location = 'service/';
 
@@ -89,4 +89,72 @@ function getSectionsCrimesBeforeService(attr){
     }
 
     return urls[attr.section] != undefined ? urls[attr.section] : null;
+}
+
+function getSectionService(attr){
+
+    let search_service_location = 'service/';
+
+    let urls = {
+        entered_folders: search_service_location+'entered_folders/get_entered_folders.php',
+        entered_folders_super: search_service_location+'entered_folders_super/get_entered_folders_super.php',
+        recieved_folders: search_service_location+'recieved_folders/get_recieved_folders.php',
+        agreements: search_service_location+'agreements/get_agreements.php',
+        folders_to_investigation: search_service_location+'folders_to_investigation/get_folders_to_investigation.php',
+        folders_to_validation: search_service_location+'folders_to_validation/get_folders_to_validation.php',
+        people_served: search_service_location+'people_served/get_people_served.php'
+    }
+
+    return urls[attr.section] != undefined ? urls[attr.section] : null;
+}
+
+function getSectionTableTemplateService(attr){
+
+    let search_service_location = 'templates/tables/';
+
+    let urls = {
+        entered_folders: search_service_location+'entered_folders_table.php',
+        entered_folders_super: search_service_location+'entered_folders_super_table.php',
+        recieved_folders: search_service_location+'recieved_folders_table.php',
+        agreements: search_service_location+'agreements_table.php',
+        folders_to_investigation: search_service_location+'folders_to_investigation_table.php',
+        folders_to_validation: search_service_location+'folders_to_validation_table.php',
+        people_served: search_service_location+'people_served_table.php'
+    }
+
+    return urls[attr.section] != undefined ? urls[attr.section] : null;
+}
+
+function getSectionPeopleService(attr){
+
+    let search_service_location = 'service/';
+
+    let urls = {
+        people_served: search_service_location+'people_served/get_people_by_people_served.php'
+    }
+
+    return urls[attr.section] != undefined ? urls[attr.section] : null;
+}
+
+function getSearchFormElements(){
+
+    let form_elements = [
+        {
+            id: 'search-nuc',
+            type: 'number',
+            json_key: 'nuc'
+        },
+        {
+            id: 'search-initial-date',
+            type: 'date',
+            json_key: 'initial_date'
+        },
+        {
+            id: 'search-finish-date',
+            type: 'date',
+            json_key: 'finish_date'
+        }
+    ];
+
+    return form_elements;
 }

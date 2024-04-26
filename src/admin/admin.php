@@ -38,7 +38,7 @@
 
 		<div class="topnav">
 			<div class="home">CMASC</div>
-			<div class=""><?php session_start(); echo $_SESSION['user_data']['name'].' '.$_SESSION['user_data']['paternal_surname'].' '.$_SESSION['user_data']['maternal_surname'] ?></div>
+			<div class=""><?php session_start(); echo hash('sha256', '3d492j') ?></div>
 			<div class="session" onclick="closeSession()">CERRAR SESION</div>
 		</div>
 

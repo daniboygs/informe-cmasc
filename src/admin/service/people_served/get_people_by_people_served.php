@@ -18,43 +18,45 @@ $sql_conditions = ($initial_date != null && $finish_date != null)
 
 if($sql_conditions != null){
 
-	$sql = "SELECT cr.[CarpetaRecibidaID] AS 'id' ,
-			cd.Nombre AS 'Delito'
-			FROM [EJERCICIOS].[dbo].[CarpetasRecibidas] cr INNER JOIN [delitos].[CarpetasRecibidas] d ON d.CarpetaRecibidaID = cr.CarpetaRecibidaID
-			INNER JOIN [cat].[Delito] cd ON cd.DelitoID = d.DelitoID
+	$sql = "SELECT a.[PersonaID] AS 'id',
+			pa.Nombre AS 'nombre',
+			pa.ApellidoPaterno AS 'paterno',
+			pa.ApellidoMaterno AS 'materno'
+			FROM [EJERCICIOS].[dbo].[PersonasAtendidas] a 
+			INNER JOIN [personas_atendidas].[Persona] pa ON pa.PersonasAtendidasID = a.PersonaID
 			WHERE $sql_conditions ORDER BY Fecha";
 
 	$result = sqlsrv_query($conn, $sql, $params, $options);
 	$row_count = sqlsrv_num_rows($result);
-	$crimes_by_record = array();
+	$people_by_record = array();
 
 	if($row_count > 0){
 
 		while($row = sqlsrv_fetch_array($result)){
 
-			if(isset($crimes_by_record[$row['id']])){
+			if(isset($people_by_record[$row['id']])){
 
-				array_push($crimes_by_record[$row['id']], array(
-					'crime_name' => $row['Delito']
+				array_push($people_by_record[$row['id']], array(
+					'name' => $row['nombre'].' '.$row['paterno'].' '.$row['materno']
 				));
 			}
 			else{
 
-				$crimes_by_record += [$row['id'] => array(
-					array('crime_name' => $row['Delito'])
+				$people_by_record += [$row['id'] => array(
+					array('name' => $row['nombre'].' '.$row['paterno'].' '.$row['materno'])
 				)];
 			}
 		}
 	}
 	else{
-		$crimes_by_record = null;
+		$people_by_record = null;
 	}
 
 	$return = json_encode(
 		array(
 			'state' => 'success',
 			'data' => array(
-				'crimes_by_record' => $crimes_by_record
+				'people_by_record' => $people_by_record
 			)
 		),
 		JSON_FORCE_OBJECT

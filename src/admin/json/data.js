@@ -32,3 +32,16 @@ var handle_data = {
 	},
 	"catalogs": {}
 }
+
+var swal_messages = {
+	"unexpected_dpe": {
+		"title": "error",
+        "text": "Ha ocurrido un error inesperado, favor de contactar a DPE.",
+		"type": "error"
+	},
+	"missing_data": {
+		"title": "error",
+        "text": "Favor de llenar todos los campos.",
+        "type": "error"
+	}
+}
