@@ -368,4 +368,49 @@ function formatRowDate($row_date){
 	return $row_date;	
 }
 
+function sqlsrv_getElementsByRecordID($attr){
+
+	$elements_by_record_id = array();
+
+	if(isset($attr->result) && isset($attr->record_id) && isset($attr->element_name)){
+
+		while($row = sqlsrv_fetch_array($attr->result)){
+
+			if(isset($elements_by_record_id[$row[$attr->record_id]])){
+	
+				array_push($elements_by_record_id[$row[$attr->record_id]], array(
+					'name' => $row[$attr->element_name]
+				));
+			}
+			else{
+	
+				$elements_by_record_id += [$row[$attr->record_id] => array(
+					array('name' => $row[$attr->element_name])
+				)];
+			}
+		}
+	} 
+
+	return $elements_by_record_id;
+}
+
+function getHTMLListElementsByRecordId($attr){
+
+    $listed_values = '';
+	$no_data_text = isset($attr->no_data_text) ? $attr->no_data_text : 'Sin dato';
+
+    if(isset(json_decode($attr->elements, true)[$attr->record_id])){
+
+        foreach(json_decode($attr->elements, true)[$attr->record_id] as $element){
+
+            $listed_values.='<li>'.$element['name'].'</li>';
+    
+        }
+
+        return $listed_values;
+    }
+    else{
+        return '<li>'.$no_data_text.'</li>';
+    }
+}
 ?>

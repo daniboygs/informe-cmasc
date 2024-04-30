@@ -17,7 +17,7 @@
     <button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="formHTMLTableToExcel({section: 'inegi_victims'})">DESCARGAR &nbsp <i class="fa fa-file-excel-o" aria-hidden="true"></i></button>
 </div>
 
-<div class="table-records-header-text">DATOS DE LA VÍCTIMA &nbsp<a><?php echo $composite_date ?></a></div>
+<div id="month-records-label-section" style="display: inline-flex;">DATOS DE LA VÍCTIMA &nbsp<a><?php echo $composite_date ?></a></div>
 
 <table class="data-table table table-striped overflow-table">
     <thead>
@@ -40,7 +40,7 @@
     </thead>
     <tbody>
 <?php
-    if($data != null){
+    if($data != 'null'){
 
         $i=1;
         

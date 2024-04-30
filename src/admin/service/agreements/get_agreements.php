@@ -163,12 +163,12 @@ function getRecord($attr){
 				),
 				'agreement_crime' => array(
 					'name' => 'Delito',
-					'value' => getHTMLListCrimesByRecordId(
+					'value' => getHTMLListElementsByRecordId(
 						(object) array(
 							'record_id' => $row['id'],
-							'crimes' => $attr->crimes_by_record_id
+							'elements' => $attr->crimes_by_record_id
 						)
-					)->listed_values
+					)
 				),
 				'agreement_intervention' => array(
 					'name' => 'Intervinientes',
@@ -226,29 +226,6 @@ function getRecord($attr){
 	}
 
 	return $return;
-}
-
-function getHTMLListCrimesByRecordId($attr){
-
-    $listed_values = '';
-
-    if(isset(json_decode($attr->crimes, true)[$attr->record_id])){
-
-        foreach(json_decode($attr->crimes, true)[$attr->record_id] as $element){
-
-            $listed_values.='<li>'.$element['crime_name'].'</li>';
-    
-        }
-
-        return (object) array(
-            'listed_values' => $listed_values
-        );
-    }
-    else{
-        return (object) array(
-            'listed_values' => '<li>No tiene delitos</li>'
-        );
-    }
 }
 ?>
 

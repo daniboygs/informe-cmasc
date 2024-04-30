@@ -51,7 +51,7 @@
 		<button type="button" class="btn btn-outline-dark" style="height:38px;"  onclick="searchPendngInegi()">Buscar Pendientes de captura</button>
 		<button type="button" class="btn btn-outline-primary" style="height:38px; width: 200px;"  onclick="searchSectionByRange('inegi')">Buscar antes</button>
 	-->
-		<!--<button type="button" class="btn btn-outline-primary" style="height: 38px; width: 100px;"  onclick="getRecordCrimesBeforeGeneral(null)">Buscar</button>-->$_COOKIE
+		<!--<button type="button" class="btn btn-outline-primary" style="height: 38px; width: 100px;"  onclick="getRecordCrimesBeforeGeneral(null)">Buscar</button>-->
 
 		<button type="button" class="btn btn-outline-primary" style="height: 38px; width: 100px;" onclick="getRecordsBySection({section: 'inegi'})">Buscar</button>
 

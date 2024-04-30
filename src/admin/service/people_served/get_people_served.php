@@ -150,7 +150,7 @@ function getRecord($attr){
 							'record_id' => $row['id'],
 							'elements' => $attr->crimes_by_record_id
 						)
-					)->listed_values
+					)
 				),
 				'people_served_people' => array(
 					'name' => 'Personas',
@@ -159,7 +159,7 @@ function getRecord($attr){
 							'record_id' => $row['id'],
 							'elements' => $attr->people_by_record_id
 						)
-					)->listed_values
+					)
 				),
 				'people_served_nuc' => array(
 					'name' => 'NUC',
@@ -197,29 +197,6 @@ function getRecord($attr){
 	}
 
 	return $return;
-}
-
-function getHTMLListElementsByRecordId($attr){
-
-    $listed_values = '';
-
-    if(isset(json_decode($attr->elements, true)[$attr->record_id])){
-
-        foreach(json_decode($attr->elements, true)[$attr->record_id] as $element){
-
-            $listed_values.='<li>'.$element['name'].'</li>';
-    
-        }
-
-        return (object) array(
-            'listed_values' => $listed_values
-        );
-    }
-    else{
-        return (object) array(
-            'listed_values' => '<li>Sin dato</li>'
-        );
-    }
 }
 ?>
 

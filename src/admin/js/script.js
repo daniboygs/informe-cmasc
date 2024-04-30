@@ -2520,6 +2520,16 @@ function getRecordsBySection(attr){
                     section: attr.section
                 });
                 break;
+            case 'rejected_folders':
+                getSectionRecords({
+                    section: attr.section
+                });
+                break;
+            case 'processing_folders':
+                getSectionRecords({
+                    section: attr.section
+                });
+                break;
             default:
                 getRecordCrimesBeforeSection({
                     section: attr.section
@@ -3126,7 +3136,7 @@ function formHTMLTableToExcel(attr){
 
     console.log('voy a descargar: ',handle_data.current_records_search_data);
 
-    let url_excel_template = getHTMLTableTemplate({
+    let url_excel_template = attr.url_excel_template != undefined ? attr.url_excel_template : getHTMLTableTemplate({
         section: attr.section
     });
 
@@ -3327,6 +3337,57 @@ function inegi_getRecords(attr){
 
             attr.initial_interation++;
             inegi_getRecords(attr);
+        });
+    }
+    else{
+        Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
+    }
+}
+
+
+function getHiddenRecords(attr){
+
+    console.log('inegi_getrec: ', attr);
+
+    if(!attr.hasOwnProperty('initial_interation')){
+        attr = {
+            ...attr,
+            initial_interation: 1,
+            finish_interation: 10
+        }
+    }
+
+    let inegi_service_url = 'service/get_hidden_records.php';
+
+    if(attr.initial_interation < attr.finish_interation && inegi_service_url != null){
+
+        $.ajax({
+            url: inegi_service_url,
+            type: 'POST',
+            dataType: "json",
+            data: attr.post_data,
+            cache: false
+        }).done(function(response){
+
+            if(response.state == 'success'){
+
+                let inegi_table_template_service_url = 'templates/tables/htmltoexcel/hidden_table.php';
+                handle_data.current_records_search_data = response.data;
+    
+                formHTMLTableToExcel({
+                    url_excel_template: inegi_table_template_service_url
+                });
+            }
+            else{
+
+                attr.initial_interation++;
+                getHiddenRecords(attr);
+            }
+
+        }).fail(function(){
+
+            attr.initial_interation++;
+            getHiddenRecords(attr);
         });
     }
     else{

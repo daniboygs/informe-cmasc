@@ -20,7 +20,8 @@ if($sql_conditions != null){
 
 	$sql = "SELECT a.[PersonaID] AS 'id',
 			cd.Nombre AS 'Delito'
-			FROM [EJERCICIOS].[dbo].[PersonasAtendidas] a INNER JOIN [delitos].[PersonasAtendidas] d ON d.PersonaAtendidaID = a.PersonaID
+			FROM [EJERCICIOS].[dbo].[PersonasAtendidas] a 
+			INNER JOIN [delitos].[PersonasAtendidas] d ON d.PersonaAtendidaID = a.PersonaID
 			INNER JOIN [cat].[Delito] cd ON cd.DelitoID = d.DelitoID
 			WHERE $sql_conditions ORDER BY Fecha";
 
@@ -30,21 +31,11 @@ if($sql_conditions != null){
 
 	if($row_count > 0){
 
-		while($row = sqlsrv_fetch_array($result)){
-
-			if(isset($crimes_by_record[$row['id']])){
-
-				array_push($crimes_by_record[$row['id']], array(
-					'name' => $row['Delito']
-				));
-			}
-			else{
-
-				$crimes_by_record += [$row['id'] => array(
-					array('name' => $row['Delito'])
-				)];
-			}
-		}
+		$crimes_by_record = sqlsrv_getElementsByRecordID((object) array(
+			'result' => $result,
+            'record_id' => 'id',
+			'element_name' => 'Delito',
+		));
 	}
 	else{
 		$crimes_by_record = null;
@@ -59,7 +50,6 @@ if($sql_conditions != null){
 		),
 		JSON_FORCE_OBJECT
 	);
-
 }
 else{
 	$return = json_encode(

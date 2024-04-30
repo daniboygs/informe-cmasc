@@ -14,9 +14,8 @@ $crimes_by_record_id = isset($_POST['crimes_by_record_id']) ? $_POST['crimes_by_
 $sql_conditions = array();
 $return = array();
 
-$db_table = '[dbo].[CarpetasEnviadasInvestigacion] a 
-				INNER JOIN Usuario u ON a.UsuarioID = u.UsuarioID
-				LEFT JOIN [cat].[MotivoCanalizacionInvestigacion] m ON a.MotivoCanalizacionInvestID = m.MotivoCanalizacionID 
+$db_table = '[dbo].[CarpetasEnviadasValidacion] a 
+				INNER JOIN Usuario u ON a.UsuarioID = u.UsuarioID 
 				LEFT JOIN [cat].[Fiscalia] f ON a.FiscaliaID = f.FiscaliaID 
 				LEFT JOIN [cat].[Unidad] uni ON a.UnidadID = uni.UnidadID';
 
@@ -38,32 +37,28 @@ if($initial_date != null && $finish_date != null){
 if(isset($_SESSION['user_data']) && count($sql_conditions) > 0 && $crimes_by_record_id != null){
 
 	$data = (object) array(
-		'folders_to_investigation_id' => (object) array(
-			'db_column' => "[CarpetaEnviadaInvestigacionID] AS 'id'",
+		'folders_to_validation_id' => (object) array(
+			'db_column' => "[CarpetaEnviadaValidacionID] AS 'id'",
 			'search' => true
 		),
 		'sigi_initial_date' => (object) array(
 			'db_column' => '[FechaInicioSigi]',
 			'search' => true
 		),
-		'folders_to_investigation_crime' => (object) array(
+		'folders_to_validation_crime' => (object) array(
 			'db_column' => '[Delito]',
 			'search' => true
 		),
-		'folders_to_investigation_date' => (object) array(
+		'folders_to_validation_date' => (object) array(
 			'db_column' => '[Fecha]',
 			'search' => true
 		),
-		'folders_to_investigation_nuc' => (object) array(
+		'folders_to_validation_nuc' => (object) array(
 			'db_column' => '[NUC]',
 			'search' => true
 		),
-		'folders_to_investigation_unity' => (object) array(
+		'folders_to_validation_unity' => (object) array(
 			'db_column' => 'uni.[Nombre] AS "Unidad"',
-			'search' => true
-		),
-		'folders_to_investigation_channeling_reason' => (object) array(
-			'db_column' => "CASE WHEN m.Nombre IS NULL THEN [MotivoCancelacion] ELSE m.Nombre END AS 'MotivoCanalizacion'",
 			'search' => true
 		),
 		'user' => (object) array(
@@ -130,7 +125,7 @@ function getRecord($attr){
 		while($row = sqlsrv_fetch_array( $result)){
 
 			array_push($return_data, array(
-				'folders_to_investigation_id' => array(
+				'folders_to_validation_id' => array(
 					'name' => 'ID',
 					'value' => $row['id']
 				),
@@ -138,11 +133,11 @@ function getRecord($attr){
 					'name' => 'FechaSigi',
 					'value' => formatRowDate($row['FechaInicioSigi'])
 				),
-				'folders_to_investigation_date' => array(
+				'folders_to_validation_date' => array(
 					'name' => 'Fecha',
 					'value' => formatRowDate($row['Fecha'])
 				),
-				'folders_to_investigation_crime' => array(
+				'folders_to_validation_crime' => array(
 					'name' => 'Delito',
 					'value' => getHTMLListElementsByRecordId(
 						(object) array(
@@ -151,19 +146,15 @@ function getRecord($attr){
 						)
 					)
 				),
-				'folders_to_investigation_nuc' => array(
+				'folders_to_validation_nuc' => array(
 					'name' => 'NUC',
 					'value' => $row['NUC']
 				),
-				'folders_to_investigation_unity' => array(
+				'folders_to_validation_unity' => array(
 					'name' => 'Unidad',
 					'value' => $row['Unidad']
 				),
-				'folders_to_investigation_channeling_reason' => array(
-					'name' => 'MotivoCanalizacion',
-					'value' => $row['MotivoCanalizacion']
-				),
-				'folders_to_investigation_user' => array(
+				'folders_to_validation_user' => array(
 					'name' => 'Facilitador',
 					'value' => $row['Nombre'].' '.$row['ApellidoPaterno'].' '.$row['ApellidoMaterno']
 				),

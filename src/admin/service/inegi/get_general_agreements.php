@@ -202,12 +202,12 @@ function getRecord($attr){
 				),
 				'general_crime' => array(
 					'name' => 'Delito',
-					'value' => getHTMLListCrimesByGeneralId(
+					'value' => getHTMLListElementsByRecordId(
 						(object) array(
-							'general_id' => $row['GeneralID'],
-							'crimes' => $attr->crimes_by_general_id
+							'record_id' => $row['GeneralID'],
+							'elements' => $attr->crimes_by_general_id
 						)
-					)->listed_values
+					)
 				),
 				'masc_mechanism' => array(
 					'name' => 'Mecanismo',
@@ -264,28 +264,5 @@ function getRecord($attr){
 		$return = null;
 	}
 	return $return;
-}
-
-function getHTMLListCrimesByGeneralId($attr){
-
-    $listed_values = '';
-
-    if(isset(json_decode($attr->crimes, true)[$attr->general_id])){
-
-        foreach(json_decode($attr->crimes, true)[$attr->general_id] as $element){
-
-            $listed_values.='<li>'.$element['crime_name'].'</li>';
-    
-        }
-
-        return (object) array(
-            'listed_values' => $listed_values
-        );
-    }
-    else{
-        return (object) array(
-            'listed_values' => '<li>No tiene delitos</li>'
-        );
-    }
 }
 ?>
