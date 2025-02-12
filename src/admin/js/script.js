@@ -12,16 +12,7 @@ $(document).ready(function(){
         },
         location: '../../service/check_session.php'
     });
-
-    //getRecordsByMonth('entered_folders');
-
-    //loadSection('agreements');
-
-    
-	
 });
-
-var test = "";
 
 function loadSection(section){
     console.log(section);
@@ -29,7 +20,6 @@ function loadSection(section){
         preloadValidation({
             section: section
         });
-        //loadForm(section);
     }
 }
 
@@ -52,6 +42,7 @@ function preloadValidation(attr){
                     cancelButtonText: 'No'
                   }).then((result) => {
                     if (result.value) {
+                        handle_data.rejected_folders_has_changed = false;
                         loadForm(attr.section);
                     }
                   });
@@ -77,9 +68,12 @@ function loadForm(section){
         //loadDefaultValuesBySection(section);
         if(section != 'capture_period'){
             console.log('search month');
-            getRecordsByMonth({
+            
+
+            getSectionByMonth({
                 section: section
             });
+
             switch(section){
                 case 'entered_folders_super':
                     loadDefaultValuesBySection(section);
@@ -471,7 +465,7 @@ function saveSection(attr){
             Swal.fire('Correcto', 'Datos guardados correctamente', 'success');
             //resetSection(attr.section);
             loadDefaultValuesBySection(attr.section);
-            //getRecordsByMonth(attr.section);
+            //getSectionByMonth(attr.section);
 
             if(response.data.id != null){
                 saveMultiselectFieldsBySection({
@@ -618,125 +612,7 @@ function checkNuc(attr){
     return false;*/
 }
 
-
-function getRecordsByMonth(attr){
-
-    if(!attr.hasOwnProperty('initial_interation')){
-        attr = {
-            ...attr,
-            initial_interation: 1,
-            finish_interation: 10
-        }
-    }
-
-    if(attr.section == 'inegi'){
-        handle_data.inegi.current_search = 'month';
-    }
-
-    if(attr.initial_interation < attr.finish_interation){
-        console.log('by moneh?', attr.section);
-
-        let date = new Date();
-        //date.setHours(date.getHours()+6); 
-
-        if(sections[attr.section].records_by_month_file != null){
-
-            setStaticLoader({
-                section_id: 'records-section',
-                class: 'static-loader'
-            });
-
-            $.ajax({
-                url:'service/'+sections[attr.section].records_by_month_file,
-                type:'POST',
-                dataType: "json",
-                data: {
-                    month: (date.getMonth()+1),
-                    year: date.getFullYear()
-                },
-                cache:false
-            }).done(function(response){
-                console.log(response);
-                test = response;
-                console.log(attr.section+'_table.php');
-
-                /*if(section == 'processing_folders' || section == 'inegi'){
-                    drawRecordsTable({
-                        data: response,
-                        file: 'templates/tables/'+section+'_table.php',
-                        element_id: 'records-section'
-                    });
-                    
-                }
-                else{
-                    getNucsDate({
-                        func: drawRecordsTable,
-                        attr: {
-                            data: response,
-                            file: 'templates/tables/'+section+'_table.php',
-                            element_id: 'records-section',
-                            nuc_dates: null
-                        },
-                        section: section
-                    });
-                }*/
-
-                
-
-                if(sections[attr.section].active){
-                    handle_data.current_records_search_data = response;
-
-                    /*
-                    //handle_data.excel_data[attr.section] = depureEnteredData(response);
-
-                    //console.log('depure entered: ', depureEnteredData(response));
-
-                    console.log('depure entered response before: ', response);
-
-                    let response_data = response;
-
-                    handle_data.excel_data[attr.section] = depureEnteredData(response_data);
-
-                    console.log('depure entered response after: ', response);
-
-                    console.log('depure entered excel: ', handle_data.excel_data[attr.section]);
-                    */
-                }
-
-                if(attr.section != 'inegi' || (attr.section == 'inegi' && handle_data.inegi.current_search == 'month')){
-
-                    drawRecordsTable({
-                        section: attr.section,
-                        post_data: {
-                            data: response
-                        },
-                        service_url: 'templates/tables/'+attr.section+'_table.php',
-                        element_id: 'records-section'
-                    });
-                }
-
-
-                
-            }).fail(function(){
-
-                attr.initial_interation++;
-
-                console.log('attr +iteration', attr);
-
-                getRecordsByMonth(attr);
-            });
-        }
-    }
-    else{
-        Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
-    }
-
-    
-}
-
 function drawRecordsTable(attr){
-
-    console.log('pintando...: ', attr);
 
     if(attr.service_url != null){
             
@@ -749,19 +625,14 @@ function drawRecordsTable(attr){
                 type: 'POST',
                 dataType: 'html',
                 data: attr.post_data,
-                /*data: {
-                    data: JSON.stringify(attr.data),
-                    nuc_dates: JSON.stringify(attr.nuc_dates)
-                },*/
                 cache: false
             }).done(function(response){
     
                 if(sections[attr.section].active){
                     $('#'+attr.element_id).html(response);
                 }
-    
-                //$('#pending-inegi-table').DataTable(defaultDataTableConfig);
-                $('.data-table').DataTable(defaultDataTableConfig());
+                
+                $('.data-table').DataTable(getDefaultDataTableConfig());
             });
         }
         else{
@@ -780,129 +651,6 @@ function drawRecordsTable(attr){
     else{
         Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
     }
-
-    
-
-
-	/*console.log('draw_t', attr.file);
-	$.ajax({
-		url: 'templates/tables/'+attr.file,
-		type: 'POST',
-		dataType: "html",
-		data: {
-			data: JSON.stringify(attr.data)
-		},
-		cache: false
-	}).done(function(response){
-		$('#records-section').html(response);
-	});*/
-}
-
-function searchSection(section){
-
-    console.log('search?', section+'-nuc');
-
-    //let date = new Date();
-    
-    let attr = {};
-    let validated = false;
-
-    switch(section){
-        case 'processing_folders':
-            if(document.getElementById('search-initial-date') && document.getElementById('search-finish-date')){
-                attr = {
-                    processing_folders_initial_date: document.getElementById('search-initial-date').value,
-                    processing_folders_finish_date: document.getElementById('search-finish-date').value
-                }
-                validated = true;
-            }
-            break;
-        default:
-            console.log('defa');
-            if(document.getElementById('search-nuc') && document.getElementById('search-month')){
-                console.log('exis');
-                if(document.getElementById('search-nuc').value == '' && document.getElementById('search-month').value == ''){
-                    console.log('vaci');
-                    Swal.fire('Campos faltantes', 'Tiene que completar alguno de los campos para completar la busqueda', 'warning');
-                }
-                else{
-                    
-                    date = document.getElementById('search-month').value;
-                    d = new Date(date+'-01');
-                    d.setHours(d.getHours()+6); 
-                    attr = {
-                        nuc: document.getElementById('search-nuc').value,
-                        month: (d.getMonth()+1),
-                        year: d.getFullYear()
-                        //month: document.getElementById('search-month').value
-                    }
-                    if(document.getElementById('search-month').value == ''){
-                        attr.month = '';
-                        attr.year = '';
-                    }
-                    validated = true;
-                }
-                
-                
-            }
-            break;
-    }
-
-    if(validated){
-        setStaticLoader({
-            section_id: 'records-section',
-            class: 'static-loader'
-        });
-        console.log(sections[section].search_file, attr);
-        $.ajax({
-            url:'service/'+sections[section].search_file,
-            type:'POST',
-            dataType: "json",
-            data: attr,
-            cache:false
-        }).done(function(response){
-            console.log(response);
-            test = response;
-
-
-            /*if(section == 'processing_folders' || section == 'inegi'){
-                drawRecordsTable({
-                    data: response,
-                    file: 'templates/tables/'+section+'_table.php',
-                    element_id: 'records-section'
-                });
-                
-            }
-            else{
-                getNucsDate({
-                    func: drawRecordsTable,
-                    attr: {
-                        data: response,
-                        file: 'templates/tables/'+section+'_table.php',
-                        element_id: 'records-section',
-                        nuc_dates: null
-                    },
-                    section: section
-                });
-            }*/
-
-            if(sections[section].active){
-                handle_data.current_records_search_data = response;
-            }
-
-            drawRecordsTable({
-                section: section,
-                data: response,
-                service_url: 'templates/tables/'+section+'_table.php',
-                element_id: 'records-section'
-            });
-        });
-    }
-    else{
-        //Swal.fire('Error', 'Ha ocurrido un error, vuelva a intentarlo', 'error');
-    }
-
-	
 }
 
 function deleteRecord(section, id){
@@ -928,7 +676,7 @@ function deleteRecord(section, id){
                             }
                         },
                         {
-                            function: getRecordsByMonth,
+                            function: getSectionByMonth,
                             attr: {
                                 section: section
                             }
@@ -958,7 +706,7 @@ function deleteRecord(section, id){
                             }
                         },
                         {
-                            function: getRecordsByMonth,
+                            function: getSectionByMonth,
                             attr: {
                                 section: section
                             }
@@ -976,7 +724,7 @@ function deleteRecord(section, id){
                 on_service_success: {
                     functions: [
                         {
-                            function: getRecordsByMonth,
+                            function: getSectionByMonth,
                             attr: {
                                 section: section
                             }
@@ -986,29 +734,6 @@ function deleteRecord(section, id){
                 }
             });
     }
-
-    //let date = new Date();
-
-    /*if(document.getElementById(section+'-nuc')){
-        $.ajax({
-            url:'service/'+sections[section].search_file,
-            type:'POST',
-            dataType: "json",
-            data: {
-                nuc: document.getElementById(section+'-nuc')
-            },
-            cache:false
-        }).done(function(response){
-            console.log(response);
-            test = response;
-            drawRecordsTable(response);
-        });
-    }
-    else{
-        Swal.fire('Error', 'Ha ocurrido un error, vuelva a intentarlo', 'error');
-    }*/
-
-	
 }
 
 function deleteRecordBySection(attr){
@@ -1838,7 +1563,7 @@ function updateRejectedFolder(rejected_folder_id){
                     modal_id: 'large-modal'
                 });
 
-                getRecordsByMonth({
+                getSectionByMonth({
                     section: 'rejected_folders'
                 });
     
@@ -1872,7 +1597,7 @@ function saveRejectedFolder(entered_folder_id){
                 modal_id: 'large-modal'
             });
 
-            getRecordsByMonth({
+            getSectionByMonth({
                 section: 'rejected_folders'
             });
 
@@ -2511,29 +2236,19 @@ function getRecordsBySection(attr){
 
         switch(attr.section){
             case 'inegi':
-                getRecordCrimesBeforeGeneral({
-                    section: attr.section
-                });
+                getRecordCrimesBeforeGeneral(attr);
                 break;
             case 'people_served':
-                getRecordPeopleBeforeSection({
-                    section: attr.section
-                });
+                getRecordPeopleBeforeSection(attr);
                 break;
             case 'rejected_folders':
-                getSectionRecords({
-                    section: attr.section
-                });
+                getSectionRecords(attr);
                 break;
             case 'processing_folders':
-                getSectionRecords({
-                    section: attr.section
-                });
+                getSectionRecords(attr);
                 break;
             default:
-                getRecordCrimesBeforeSection({
-                    section: attr.section
-                });
+                getRecordCrimesBeforeSection(attr);
                 break;
         }
     }
@@ -2541,21 +2256,45 @@ function getRecordsBySection(attr){
 
 function getRecordPeopleBeforeSection(attr){
 
-    let search_form_elements = attr.search_form_elements != undefined ? attr.search_form_elements : getSearchFormElements();
+    attr = attr.search_form_elements != undefined ? attr : {
+        ...attr,
+        search_form_elements: getSearchFormElementsBySection({
+            section: attr.section
+        })
+    }
 
-    if(validateElementsByIdContent({
-        elements: search_form_elements
-    })){
+    let validated_form_elements = attr.is_current_month != undefined ? attr.is_current_month : (validateElementsByIdContent({
+        elements: attr.search_form_elements
+    }) && attr.search_form_elements != null ? true : false);
 
-        let json_form_elements = attr.json_form_elements != undefined ? attr.json_form_elements : formJsonFromFormElements({
-            elements: search_form_elements
-        });
+    if(validated_form_elements){
+
+        attr = attr.json_form_elements != undefined ? attr : {
+            ...attr,
+            json_form_elements: formJsonFromFormElements({
+                elements: attr.search_form_elements
+            })
+        }
         
         let people_service_url = getSectionPeopleService({
             section: attr.section
         });
 
-        if(((json_form_elements['nuc'] != '' || (json_form_elements['initial_date'] != '' && json_form_elements['finish_date'] != ''))) && people_service_url != null){
+        let validated_form_content = attr.is_current_month != undefined ? 
+        (attr.is_current_month != true ? validateFormBySection({
+            section: attr.section,
+            json_form_elements: attr.json_form_elements
+        }) : true) : validateFormBySection({
+            section: attr.section,
+            json_form_elements: attr.json_form_elements
+        });
+
+        if(validated_form_content && people_service_url != null){
+
+            attr = attr.post_data != undefined ? attr : {
+                ...attr,
+                post_data: {}
+            }
 
             setStaticLoader({
                 section_id: 'records-section',
@@ -2567,7 +2306,8 @@ function getRecordPeopleBeforeSection(attr){
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    ...json_form_elements
+                    ...attr.json_form_elements,
+                    ...attr.post_data
                 },
                 cache: false
             }).done(function(response){
@@ -2576,17 +2316,16 @@ function getRecordPeopleBeforeSection(attr){
 
                     if(response.state == 'success'){
 
-                        getRecordCrimesBeforeSection({
-                            search_form_elements: search_form_elements,
-                            json_form_elements: json_form_elements,
-                            people_by_record: response.data.people_by_record,
-                            section: attr.section
-                        });
+                        attr.post_data = {
+                            ...attr.post_data,
+                            people_by_record_id: JSON.stringify(response.data.people_by_record)
+                        }
+
+                        getRecordCrimesBeforeSection(attr);
                     }
                     else{
                         Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
                     }
-
                 }
             }).fail(function(){
                 Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
@@ -2600,23 +2339,51 @@ function getRecordPeopleBeforeSection(attr){
 
 function getRecordCrimesBeforeSection(attr){
 
-    let search_form_elements = attr.search_form_elements != undefined ? attr.search_form_elements : getSearchFormElements();
+    attr = attr.search_form_elements != undefined ? attr : {
+        ...attr,
+        search_form_elements: getSearchFormElementsBySection({
+            section: attr.section
+        })
+    }
 
-    if(validateElementsByIdContent({
-        elements: search_form_elements
-    })){
+    let validated_form_elements = attr.is_current_month != undefined ? attr.is_current_month : (validateElementsByIdContent({
+        elements: attr.search_form_elements
+    }) && attr.search_form_elements != null ? true : false);
 
-        let json_form_elements = attr.json_form_elements != undefined ? attr.json_form_elements : formJsonFromFormElements({
-            elements: search_form_elements
-        });
+    console.log('crimes before sec: ', attr);
 
-        console.log('json_form_elements: ',json_form_elements);
+    if(validated_form_elements){
 
+        console.log('validated');
+
+        attr = attr.json_form_elements != undefined ? attr : {
+            ...attr,
+            json_form_elements: formJsonFromFormElements({
+                elements: attr.search_form_elements
+            })
+        }
+        
         let section_crimes_service_url = getSectionCrimesService({
             section: attr.section
         });
 
-        if(((json_form_elements['nuc'] != '' || (json_form_elements['initial_date'] != '' && json_form_elements['finish_date'] != ''))) && section_crimes_service_url != null){
+        let validated_form_content = attr.is_current_month != undefined ? 
+        (attr.is_current_month != true ? validateFormBySection({
+            section: attr.section,
+            json_form_elements: attr.json_form_elements
+        }) : true) : validateFormBySection({
+            section: attr.section,
+            json_form_elements: attr.json_form_elements
+        });
+
+        if(validated_form_content && section_crimes_service_url != null){
+
+            console.log('validate form sec: ', section_crimes_service_url);
+
+            attr = attr.post_data != undefined ? attr : {
+                ...attr,
+                post_data: {}
+            }
 
             setStaticLoader({
                 section_id: 'records-section',
@@ -2628,7 +2395,8 @@ function getRecordCrimesBeforeSection(attr){
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    ...json_form_elements
+                    ...attr.json_form_elements,
+                    ...attr.post_data
                 },
                 cache: false
             }).done(function(response){
@@ -2639,28 +2407,16 @@ function getRecordCrimesBeforeSection(attr){
 
                     if(response.state == 'success'){
 
-                        let get_records_post_data = {
-                            ...json_form_elements,
+                        attr.post_data = {
+                            ...attr.post_data,
                             crimes_by_record_id: JSON.stringify(response.data.crimes_by_record)
                         }
 
-                        if(attr.people_by_record != undefined){
-
-                            get_records_post_data = {
-                                ...get_records_post_data,
-                                people_by_record_id: JSON.stringify(attr.people_by_record)
-                            }
-                        }
-
-                        getSectionRecords({
-                            post_data: get_records_post_data,
-                            section: attr.section
-                        });
+                        getSectionRecords(attr);
                     }
                     else{
                         Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
                     }
-
                 }
             }).fail(function(){
                 Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
@@ -2674,75 +2430,104 @@ function getRecordCrimesBeforeSection(attr){
 
 function getSectionRecords(attr){
 
-    if(!attr.hasOwnProperty('initial_interation')){
-        attr = {
-            ...attr,
-            initial_interation: 1,
-            finish_interation: 10
-        }
-    }
-
+    attr = !attr.hasOwnProperty('initial_interation') ? {
+        ...attr,
+        initial_interation: 1,
+        finish_interation: 10
+    } : attr;
+    
     if(attr.initial_interation < attr.finish_interation){
 
-        console.log('search?', attr.section+'-nuc');
-
-        //let date = new Date();
-
-        console.log('attr despues de validated: ', attr);
-
-        console.log('search by date validated');        
+        attr = attr.search_form_elements != undefined ? attr : {
+            ...attr,
+            search_form_elements: getSearchFormElementsBySection({
+                section: attr.section
+            })
+        }
         
-        console.log('sections[attr.section].search_by_range_file', attr);
+        let validated_form_elements = attr.is_current_month != undefined ? attr.is_current_month : (validateElementsByIdContent({
+            elements: attr.search_form_elements
+        }) && attr.search_form_elements != null ? true : false);
 
-        let section_service_url = getSectionService({
-            section: attr.section
-        });
+        if(validated_form_elements){
+            
+            attr = attr.json_form_elements != undefined ? attr : {
+                ...attr,
+                json_form_elements: formJsonFromFormElements({
+                    elements: attr.search_form_elements
+                })
+            }
 
-        if(section_service_url != null){
-
-            $.ajax({
-                url: section_service_url,
-                type: 'POST',
-                dataType: 'json',
-                data: attr.post_data,
-                cache: false
-            }).done(function(response){
-
-                console.log(response);
-
-                if(sections[attr.section].active){
-
-                    if(response.state == 'success'){
-
-                        handle_data.current_records_search_data = response.data;
-    
-                        drawRecordsTable({
-                            section: attr.section,
-                            post_data: {
-                                data: response.data,
-                                initial_date: attr.post_data.initial_date,
-                                finish_date: attr.post_data.finish_date,
-                                nuc: attr.post_data.nuc
-                            },
-                            service_url: getSectionTableTemplateService({
-                                section: attr.section
-                            }),
-                            element_id: 'records-section'
-                        });
-                    }
-                    else{
-                        Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
-                    }
-                }
-            }).fail(function(){
-    
-                attr.initial_interation++;
-    
-                console.log('attr +iteration', attr);
-    
-                getSectionRecords(attr);
+            let section_service_url = getSectionService({
+                section: attr.section
             });
-        }  
+            
+            let validated_form_content = attr.is_current_month != undefined ? 
+            (attr.is_current_month != true ? validateFormBySection({
+                section: attr.section,
+                json_form_elements: attr.json_form_elements
+            }) : true) : validateFormBySection({
+                section: attr.section,
+                json_form_elements: attr.json_form_elements
+            });
+            
+            attr.post_data = !attr.hasOwnProperty('post_data') ? {
+                ...attr.json_form_elements
+            } : attr.post_data;
+
+            if(validated_form_content && section_service_url != null && attr.post_data != null){
+
+                attr = attr.post_data != undefined ? attr : {
+                    ...attr,
+                    post_data: {}
+                }
+
+                $.ajax({
+                    url: section_service_url,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        ...attr.json_form_elements,
+                        ...attr.post_data
+                    },
+                    cache: false
+                }).done(function(response){
+
+                    if(sections[attr.section].active){
+
+                        if(response.state == 'success'){
+
+                            handle_data.current_records_search_data = response.data;
+
+                            attr.post_data = {
+                                ...attr.post_data,
+                                ...attr.json_form_elements,
+                                data: response.data
+                            }
+    
+                            drawRecordsTable({
+                                ...attr,
+                                service_url: getSectionTableTemplateService({
+                                    section: attr.section
+                                }),
+                                element_id: 'records-section'
+                            });
+
+                        }
+                        else{
+                            Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
+                        }
+                    }
+                }).fail(function(){
+        
+                    attr.initial_interation++;
+        
+                    console.log('attr +iteration', attr);
+        
+                    getSectionRecords(attr);
+                });
+            }
+        }
     }
     else{
         Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
@@ -2866,79 +2651,6 @@ function onchangeFileNumber(){
     }
 
 }
-
-function setDateField(attr){
-
-    switch(attr.set_date){
-
-        case 'today':
-
-            let today = new Date();
-
-            var date_input = document.getElementById(attr.element_id);
-
-            today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
-            date_input.valueAsDate = today;
-
-            break;
-        default:
-    }
-}
-
-/*function downloadExcel(){
-
-    let d = new Date();
-
-    let form_elements = [
-        {
-            id: 'search-nuc',
-            type: 'number',
-            json_key: 'nuc'
-        },
-        {
-            id: 'search-initial-date',
-            type: 'date',
-            json_key: 'initial_date'
-        },
-        {
-            id: 'search-finish-date',
-            type: 'date',
-            json_key: 'finish_date'
-        }
-    ];
-
-    if(validateElementsByIdContent({
-        elements: form_elements
-    })){
-
-        getGenericDataFromService({
-            url_service_file: 'service/entered_folders/search_entered_folders_by_range_for_excel.php',
-            post_data: formJsonPostDataByID({
-                elements: form_elements
-            }),
-            success: {
-                functions: [
-                    {
-                        function: generateExcelByTemplate,
-                        attr: {
-                            template_file: 'templates/tables/default_excel_table.php',
-                            post_data: null,
-                            file_name: 'carpetas-ingresadas-'+d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+'-'+d.getHours()+'-'+d.getMinutes()+'-'+d.getSeconds()
-                        },
-                        response_data: {
-                            attr_key: 'post_data',
-                            response_key: 'data'
-                        }
-                    }
-                ]
-            }
-        });
-    }
-    else{
-        console.log('not valid');
-    }
-}*/
 
 function getGenericDataFromService(attr){
 
@@ -3107,34 +2819,7 @@ function loadCatalogsByArray(attr){
     }
 }
 
-function defaultDataTableConfig(){
-    return {
-        language: {
-            "decimal": "",
-            "emptyTable": "No hay información",
-            "info": "_START_ - _END_ / _TOTAL_ Registros",
-            "infoEmpty": "Sin registros",
-            "infoFiltered": "(Filtrado de _MAX_ registros)",
-            "infoPostFix": "",
-            "thousands": ",",
-            "lengthMenu": "Muestra de _MENU_ registros",
-            "loadingRecords": "Cargando...",
-            "processing": "Procesando...",
-            "search": "Buscar:",
-            "zeroRecords": "Sin resultados encontrados",
-            "paginate": {
-                "first": "Primero",
-                "last": "Ultimo",
-                "next": "Siguiente",
-                "previous": "Anterior"
-            }
-        }
-    }
-}
-
 function formHTMLTableToExcel(attr){
-
-    console.log('voy a descargar: ',handle_data.current_records_search_data);
 
     let url_excel_template = attr.url_excel_template != undefined ? attr.url_excel_template : getHTMLTableTemplate({
         section: attr.section
@@ -3157,15 +2842,11 @@ function formHTMLTableToExcel(attr){
         });
     }
     else{
-        console.log('error');
+        Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
     }
 }
 
-function downloadExcelSection(section){
-
-    console.log('excel', section);
-
-    //checar despues
+function downloadExcelSection(section){ //trash?
 
     let d = new Date();
 
@@ -3176,77 +2857,87 @@ function downloadExcelSection(section){
     });
 }
 
-function downloadInegi(){
-    
-}
-
 function getRecordCrimesBeforeGeneral(attr){
 
-    let form_elements = [
-        {
-            id: 'search-nuc',
-            type: 'number',
-            json_key: 'nuc'
-        },
-        {
-            id: 'search-initial-date',
-            type: 'date',
-            json_key: 'initial_date'
-        },
-        {
-            id: 'search-finish-date',
-            type: 'date',
-            json_key: 'finish_date'
-        },
-        {
-            id: 'inegi-search-op',
-            type: 'text',
-            json_key: 'inegi_search_op'
+    attr = attr.search_form_elements != undefined ? attr : {
+        ...attr,
+        search_form_elements: getSearchFormElementsBySection({
+            section: attr.section
+        })
+    }
+
+    let validated_form_elements = attr.is_current_month != undefined ? attr.is_current_month : (validateElementsByIdContent({
+        elements: attr.search_form_elements
+    }) && attr.search_form_elements != null ? true : false);
+
+    if(validated_form_elements){
+
+        attr = attr.json_form_elements != undefined ? attr : {
+            ...attr,
+            json_form_elements: formJsonFromFormElements({
+                elements: attr.search_form_elements
+            })
         }
-    ];
 
-    if(validateElementsByIdContent({
-        elements: form_elements
-    })){
-
-        let nuc = document.getElementById('search-nuc').value;
-        let initial_date = document.getElementById('search-initial-date').value;
-        let finish_date = document.getElementById('search-finish-date').value;
-        let inegi_search_op = document.getElementById('inegi-search-op').value;
+        attr.json_form_elements = attr.json_form_elements.inegi_search_op != undefined ? attr.json_form_elements : {
+            ...attr.json_form_elements,
+            inegi_search_op: 'default'
+        }
 
         let inegi_before_service_url = getInegiCrimesBeforeService({
-            search_op: inegi_search_op
+            search_op: attr.json_form_elements.inegi_search_op
         });
 
-        if((inegi_search_op != '' && (nuc != '' || (initial_date != '' && finish_date != ''))) && inegi_before_service_url != null){
+        let validated_form_content = attr.is_current_month != undefined ? 
+        (attr.is_current_month != true ? validateFormBySection({
+            section: attr.section,
+            json_form_elements: attr.json_form_elements
+        }) : true) : validateFormBySection({
+            section: attr.section,
+            json_form_elements: attr.json_form_elements
+        });
+
+        if(validated_form_content && inegi_before_service_url != null){
+
+            attr = attr.post_data != undefined ? attr : {
+                ...attr,
+                post_data: {}
+            }
+
+            setStaticLoader({
+                section_id: 'records-section',
+                class: 'static-loader'
+            });
             
             $.ajax({
                 url: inegi_before_service_url,
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    nuc: nuc,
-                    initial_date: initial_date,
-                    finish_date: finish_date
+                    ...attr.json_form_elements,
+                    ...attr.post_data
                 },
-                cache:false
+                cache: false
             }).done(function(response){
-        
-                inegi_getRecords({
-                    post_data: {
-                        nuc: nuc,
-                        initial_date: initial_date,
-                        finish_date: finish_date,
-                        crimes_by_general_id: JSON.stringify(response.data.crimes_by_general_record)
-                    },
-                    inegi_search_op: inegi_search_op
-                });
-                console.log('crimes by general: ', response.data.crimes_by_general_record);
-                
+
+                if(sections[attr.section].active){
+
+                    if(response.state == 'success'){
+
+                        attr.post_data = {
+                            ...attr.post_data,
+                            crimes_by_general_id: JSON.stringify(response.data.crimes_by_general_record)
+                        }
+
+                        inegi_getRecords(attr);
+
+                    }
+                    else{
+                        Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
+                    }
+                }
             }).fail(function(){
-        
-                console.log('OOPS!, something went wrong');
-        
+                Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
             });
         }
         else{
@@ -3255,93 +2946,150 @@ function getRecordCrimesBeforeGeneral(attr){
     }
 }
 
-function inegi_getRecords(attr){
+function validateFormBySection(attr){
 
-    console.log('inegi_getrec: ', attr);
+    let validated = false;
 
-    if(!attr.hasOwnProperty('initial_interation')){
-        attr = {
-            ...attr,
-            initial_interation: 1,
-            finish_interation: 10
+    if(attr.json_form_elements != null){
+
+        switch(attr.section){
+        
+            case 'processing_folders':
+                if(checkJSONProperties({
+                    json_data: attr.json_form_elements,
+                    json_properties: [
+                        'initial_date',
+                        'finish_date'
+                    ]
+                })){
+                    validated = (attr.json_form_elements['initial_date'] != '' && attr.json_form_elements['finish_date'] != '') ?
+                    true : false;
+                }
+                break;
+            default:
+                if(checkJSONProperties({
+                    json_data: attr.json_form_elements,
+                    json_properties: [
+                        'initial_date',
+                        'finish_date',
+                        'nuc'
+                    ]
+                })){
+                    validated = (attr.json_form_elements['nuc'] != '' || 
+                    (attr.json_form_elements['initial_date'] != '' && attr.json_form_elements['finish_date'] != '')) ?
+                    true : false;
+                }
         }
     }
+    return validated;
+}
 
-    let inegi_service_url = getInegiSearchService({
-        search_op: attr.inegi_search_op
-    });
+function inegi_getRecords(attr){
 
-    if(attr.initial_interation < attr.finish_interation && inegi_service_url != null){
-
-        setStaticLoader({
-            section_id: 'records-section',
-            class: 'static-loader'
-        });
-
-        $.ajax({
-            url: inegi_service_url,
-            type: 'POST',
-            dataType: "json",
-            data: attr.post_data,
-            cache: false
-        }).done(function(response){
-            /*console.log(response);
-            test = response;
-            console.log(attr.section+'_table.php');
-
-            if(sections[attr.section].active){
-                handle_data.current_records_search_data = response;
-            }*/
-
-            if(response.state == 'success'){
-
-                let inegi_table_template_service_url = getInegiTableTemplateService({
-                    search_op: attr.inegi_search_op
-                });
+    attr = !attr.hasOwnProperty('initial_interation') ? {
+        ...attr,
+        initial_interation: 1,
+        finish_interation: 10
+    } : attr;
     
-                handle_data.current_records_search_data = response.data;
-    
-                drawRecordsTable({
-                    section: 'inegi',
-                    post_data: {
-                        data: response.data,
-                        initial_date: attr.post_data.initial_date,
-                        finish_date: attr.post_data.finish_date,
-                        nuc: attr.post_data.nuc
-                    },
-                    service_url: inegi_table_template_service_url,
-                    element_id: 'records-section'
-                });
-            }
-            else{
+    if(attr.initial_interation < attr.finish_interation){
 
-                attr.initial_interation++;
-                inegi_getRecords(attr);
-            }
+        attr = attr.search_form_elements != undefined ? attr : {
+            ...attr,
+            search_form_elements: getSearchFormElementsBySection({
+                section: attr.section
+            })
+        }
+        
+        let validated_form_elements = attr.is_current_month != undefined ? attr.is_current_month : (validateElementsByIdContent({
+            elements: attr.search_form_elements
+        }) && attr.search_form_elements != null ? true : false);
 
-
-
+        if(validated_form_elements){
             
+            attr = attr.json_form_elements != undefined ? attr : {
+                ...attr,
+                json_form_elements: formJsonFromFormElements({
+                    elements: attr.search_form_elements
+                })
+            }
 
-            /*if(attr.section != 'inegi' || (attr.section == 'inegi' && handle_data.inegi.current_search == 'month')){
+            attr.json_form_elements = attr.json_form_elements.inegi_search_op != undefined ? attr.json_form_elements : {
+                ...attr.json_form_elements,
+                inegi_search_op: 'default'
+            }
 
-                drawRecordsTable({
-                    section: attr.section,
-                    data: response,
-                    file: 'templates/tables/'+attr.section+'_table.php',
-                    element_id: 'records-section'
+            let inegi_service_url = getInegiSearchService({
+                search_op: attr.json_form_elements.inegi_search_op
+            });
+            
+            let validated_form_content = attr.is_current_month != undefined ? 
+            (attr.is_current_month != true ? validateFormBySection({
+                section: attr.section,
+                json_form_elements: attr.json_form_elements
+            }) : true) : validateFormBySection({
+                section: attr.section,
+                json_form_elements: attr.json_form_elements
+            });
+            
+            attr.post_data = !attr.hasOwnProperty('post_data') ? {
+                ...attr.json_form_elements
+            } : attr.post_data;
+
+            if(validated_form_content && inegi_service_url != null && attr.post_data != null){
+
+                attr = attr.post_data != undefined ? attr : {
+                    ...attr,
+                    post_data: {}
+                }
+
+                $.ajax({
+                    url: inegi_service_url,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        ...attr.json_form_elements,
+                        ...attr.post_data
+                    },
+                    cache: false
+                }).done(function(response){
+
+                    if(sections[attr.section].active){
+
+                        if(response.state == 'success'){
+
+                            handle_data.current_records_search_data = response.data;
+
+                            attr.post_data = {
+                                ...attr.post_data,
+                                ...attr.json_form_elements,
+                                data: response.data
+                            }
+    
+                            drawRecordsTable({
+                                ...attr,
+                                service_url: getInegiTableTemplateService({
+                                    search_op: attr.json_form_elements.inegi_search_op
+                                }),
+                                element_id: 'records-section'
+                            });
+
+                        }
+                        else{
+                            Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
+                        }
+                    }
+                }).fail(function(){
+        
+                    attr.initial_interation++;
+                    inegi_getRecords(attr);
                 });
-            }*/
-
-        }).fail(function(){
-
-            attr.initial_interation++;
-            inegi_getRecords(attr);
-        });
+            }
+        }
     }
     else{
         Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
-    }
+    }	
 }
 
 
@@ -3392,5 +3140,18 @@ function getHiddenRecords(attr){
     }
     else{
         Swal.fire(swal_messages.unexpected_dpe.title, swal_messages.unexpected_dpe.text, swal_messages.unexpected_dpe.type);
+    }
+}
+
+function getSectionByMonth(attr){
+
+    if(attr.hasOwnProperty('section')){
+
+        getRecordsBySection({
+            ...attr,
+            json_form_elements: getCurrentMonthDateRange(),
+            is_current_month: true
+        });
+
     }
 }

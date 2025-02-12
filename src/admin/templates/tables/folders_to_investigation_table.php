@@ -15,7 +15,7 @@
 ?>
 
 <div class="form-buttons" style="float: left !important; margin-bottom: 20px;">		
-    <button type="button" class="btn btn-outline-success" style="height:38px;"  onclick="formHTMLTableToExcel({section: 'folders_to_investigation'})">DESCARGAR &nbsp <i class="fa fa-file-excel-o" aria-hidden="true"></i></button>
+    <button type="button" class="btn btn-outline-success" style="height:38px;" onclick="formHTMLTableToExcel({section: 'folders_to_investigation'})">DESCARGAR &nbsp <i class="fa fa-file-excel-o" aria-hidden="true"></i></button>
 </div>
 
 <div class="table-records-header-text">CARPETAS ENVIADAS A INVESTIGACIÓN &nbsp<a><?php echo $composite_date ?></a></div>

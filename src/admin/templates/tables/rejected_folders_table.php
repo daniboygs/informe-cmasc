@@ -2,20 +2,28 @@
     session_start();
     $crud_permissions = isset($_SESSION['user_data']['type']) ? ($_SESSION['user_data']['type'] == 1 ? true : false) : false;
     $dpe_permissions = isset($_SESSION['user_data']['type']) ? ($_SESSION['user_data']['type'] == 5 ? true : false) : false;
-    $data = isset( $_POST['data']) ? $_POST['data'] : 'null';
+    $data = isset( $_POST['data']) ? $_POST['data'] : null;
+    $nuc = isset($_POST['nuc']) ? $_POST['nuc'] : null;
+    $initial_date = isset($_POST['initial_date']) ? $_POST['initial_date'] : null;
+    $finish_date = isset($_POST['finish_date']) ? $_POST['finish_date'] : null;
+
+    $initial_date = $initial_date != null ? str_replace('-', '/', date('d-m-Y', strtotime($initial_date))) : null;
+    $finish_date = $finish_date != null ? str_replace('-', '/', date('d-m-Y', strtotime($finish_date))) : null;
+    $composite_date = ($initial_date != null && $finish_date != null) 
+    ? ($nuc != null ? '('.$initial_date.' - '.$finish_date.' - '.$nuc.')' : '('.$initial_date.' - '.$finish_date.')')
+    : ($nuc != null ? '('.$nuc.')' : null);
 ?>
 
-<div class="form-buttons" style="float: left !important; margin-bottom: 20px;">
+<div class="form-buttons" style="float: left !important; margin-bottom: 20px;">		
     <button type="button" class="btn btn-outline-danger" id="rejected_folders_pdf_btn" style="height:38px; width: 10em;"  onclick="rejectedFoldersPDF()">Descargar PDF</button>
     <button type="button" class="btn btn-success" id="rejected_folders_save_btn" style="height:38px; width: 10em; display: none;"  onclick="validateRejectedData()">Guardar</button>
 </div>
 
-<br>
-<br>
+<div class="table-records-header-text">CARPETAS RECHAZADAS &nbsp<a><?php echo $composite_date ?></a></div>
 
 <div id="rejected_folders_messaje"></div>
 
-<table class="data-table table table-striped">
+<table class="data-table table table-striped overflow-table">
     <thead>
         <tr>
             <th>#</th>
@@ -42,7 +50,7 @@
     </thead>
     <tbody>
 <?php
-    if($data != 'null'){
+    if($data != null){
 
         $i=1;
 

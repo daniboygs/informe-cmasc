@@ -97,3 +97,50 @@ function formJsonFromFormElements(attr){
 
     return json_data;
 }
+
+function checkJSONProperties(attr){
+    
+    let validated = true;
+
+    if(attr.hasOwnProperty('json_properties')){
+        for(property in attr.json_properties){
+            if(!attr.json_data.hasOwnProperty(attr.json_properties[property])){
+                validated = false;
+                break;
+            }
+        }
+    }
+
+    return validated;
+}
+
+function setDateField(attr){
+
+    switch(attr.set_date){
+
+        case 'today':
+
+            let today = new Date();
+            var date_input = document.getElementById(attr.element_id);
+            today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            date_input.valueAsDate = today;
+            break;
+
+        default:
+    }
+}
+
+function getCurrentMonthDateRange(){
+
+    let d = new Date();
+    
+    /*return {
+        initial_date: d.getFullYear()+'-'+(d.getMonth()+1)+'-01',
+        finish_date: d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()
+    }*/
+
+    return {
+        initial_date: d.getFullYear()+'-'+(d.getMonth()-2)+'-01',
+        finish_date: d.getFullYear()+'-'+(d.getMonth()-2)+'-'+d.getDate()
+    }
+}

@@ -6,9 +6,12 @@ include("../common.php");
 $params = array();
 $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
-$db_table = '[dbo].[CarpetasIngresadas] c INNER JOIN [cat].[Municipio] m on c.Municipio = m.MunicipioID 
-LEFT JOIN dbo.Usuario u on c.Facilitador = u.UsuarioID LEFT JOIN [cat].[Fiscalia] f ON  u.FiscaliaID = f.FiscaliaID 
-INNER JOIN cat.MotivoRechazo mr ON mr.MotivoID = c.MotivoRechazo LEFT JOIN [dbo].[CarpetasRechazadas] cr ON c.CarpetaIngresadaID = cr.CarpetaIngresadaID';
+$db_table = '[dbo].[CarpetasIngresadas] c 
+				INNER JOIN [cat].[Municipio] m on c.Municipio = m.MunicipioID 
+				LEFT JOIN dbo.Usuario u on c.Facilitador = u.UsuarioID 
+				LEFT JOIN [cat].[Fiscalia] f ON  u.FiscaliaID = f.FiscaliaID 
+				INNER JOIN cat.MotivoRechazo mr ON mr.MotivoID = c.MotivoRechazo 
+				LEFT JOIN [dbo].[CarpetasRechazadas] cr ON c.CarpetaIngresadaID = cr.CarpetaIngresadaID';
 
 if(isset( $_POST['nuc']))
 	$nuc = $_POST['nuc'];

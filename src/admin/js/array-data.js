@@ -35,6 +35,7 @@ function getInegiSearchService(attr){
         imputeds: search_service_location+'get_imputeds.php',
         crimes: search_service_location+'get_crimes.php',
         pending: search_service_location+'get_inegi_pending.php',
+        default: search_service_location+'get_captured_records.php'
     }
 
     return urls[attr.search_op] != undefined ? urls[attr.search_op] : null;
@@ -52,6 +53,7 @@ function getInegiTableTemplateService(attr){
         imputeds: template_service_location+'imputeds_table.php',
         crimes: template_service_location+'crimes_table.php',
         pending: template_service_location+'pending_table.php',
+        default: template_service_location+'captured_records_table.php'
     }
 
     return urls[attr.search_op] != undefined ? urls[attr.search_op] : null;
@@ -68,7 +70,8 @@ function getInegiCrimesBeforeService(attr){
         victims: search_service_location+'get_crimes_by_general.php',
         imputeds: search_service_location+'get_crimes_by_general.php',
         crimes: search_service_location+'get_crimes_by_general.php',
-        pending: search_service_location+'get_crimes_by_general.php'
+        pending: search_service_location+'get_crimes_by_general.php',
+        default: search_service_location+'get_crimes_by_general.php'
     }
 
     return urls[attr.search_op] != undefined ? urls[attr.search_op] : null;
@@ -102,7 +105,9 @@ function getSectionService(attr){
         agreements: search_service_location+'agreements/get_agreements.php',
         folders_to_investigation: search_service_location+'folders_to_investigation/get_folders_to_investigation.php',
         folders_to_validation: search_service_location+'folders_to_validation/get_folders_to_validation.php',
-        people_served: search_service_location+'people_served/get_people_served.php'
+        people_served: search_service_location+'people_served/get_people_served.php',
+        processing_folders: search_service_location+'processing_folders/get_processing_folders.php',
+        rejected_folders: search_service_location+'rejected_folders/get_rejected_folders.php'
     }
 
     return urls[attr.section] != undefined ? urls[attr.section] : null;
@@ -119,7 +124,9 @@ function getSectionTableTemplateService(attr){
         agreements: search_service_location+'agreements_table.php',
         folders_to_investigation: search_service_location+'folders_to_investigation_table.php',
         folders_to_validation: search_service_location+'folders_to_validation_table.php',
-        people_served: search_service_location+'people_served_table.php'
+        people_served: search_service_location+'people_served_table.php',
+        processing_folders: search_service_location+'processing_folders_table.php',
+        rejected_folders: search_service_location+'rejected_folders_table.php'
     }
 
     return urls[attr.section] != undefined ? urls[attr.section] : null;
@@ -136,25 +143,188 @@ function getSectionPeopleService(attr){
     return urls[attr.section] != undefined ? urls[attr.section] : null;
 }
 
-function getSearchFormElements(){
+function getSearchFormElementsBySection(attr){
 
-    let form_elements = [
-        {
-            id: 'search-nuc',
-            type: 'number',
-            json_key: 'nuc'
-        },
-        {
-            id: 'search-initial-date',
-            type: 'date',
-            json_key: 'initial_date'
-        },
-        {
-            id: 'search-finish-date',
-            type: 'date',
-            json_key: 'finish_date'
+    let form_elements_by_section = {
+        entered_folders: [
+            {
+                id: 'search-nuc',
+                type: 'number',
+                json_key: 'nuc'
+            },
+            {
+                id: 'search-initial-date',
+                type: 'date',
+                json_key: 'initial_date'
+            },
+            {
+                id: 'search-finish-date',
+                type: 'date',
+                json_key: 'finish_date'
+            }
+        ],
+        recieved_folders: [
+            {
+                id: 'search-nuc',
+                type: 'number',
+                json_key: 'nuc'
+            },
+            {
+                id: 'search-initial-date',
+                type: 'date',
+                json_key: 'initial_date'
+            },
+            {
+                id: 'search-finish-date',
+                type: 'date',
+                json_key: 'finish_date'
+            }
+        ],
+        agreements: [
+            {
+                id: 'search-nuc',
+                type: 'number',
+                json_key: 'nuc'
+            },
+            {
+                id: 'search-initial-date',
+                type: 'date',
+                json_key: 'initial_date'
+            },
+            {
+                id: 'search-finish-date',
+                type: 'date',
+                json_key: 'finish_date'
+            }
+        ],
+        folders_to_investigation: [
+            {
+                id: 'search-nuc',
+                type: 'number',
+                json_key: 'nuc'
+            },
+            {
+                id: 'search-initial-date',
+                type: 'date',
+                json_key: 'initial_date'
+            },
+            {
+                id: 'search-finish-date',
+                type: 'date',
+                json_key: 'finish_date'
+            }
+        ],
+        folders_to_validation: [
+            {
+                id: 'search-nuc',
+                type: 'number',
+                json_key: 'nuc'
+            },
+            {
+                id: 'search-initial-date',
+                type: 'date',
+                json_key: 'initial_date'
+            },
+            {
+                id: 'search-finish-date',
+                type: 'date',
+                json_key: 'finish_date'
+            }
+        ],
+        people_served: [
+            {
+                id: 'search-nuc',
+                type: 'number',
+                json_key: 'nuc'
+            },
+            {
+                id: 'search-initial-date',
+                type: 'date',
+                json_key: 'initial_date'
+            },
+            {
+                id: 'search-finish-date',
+                type: 'date',
+                json_key: 'finish_date'
+            }
+        ],
+        processing_folders: [
+            {
+                id: 'search-initial-date',
+                type: 'date',
+                json_key: 'initial_date'
+            },
+            {
+                id: 'search-finish-date',
+                type: 'date',
+                json_key: 'finish_date'
+            }
+        ],
+        rejected_folders: [
+            {
+                id: 'search-nuc',
+                type: 'number',
+                json_key: 'nuc'
+            },
+            {
+                id: 'search-initial-date',
+                type: 'date',
+                json_key: 'initial_date'
+            },
+            {
+                id: 'search-finish-date',
+                type: 'date',
+                json_key: 'finish_date'
+            }
+        ],
+        inegi: [
+            {
+                id: 'search-nuc',
+                type: 'number',
+                json_key: 'nuc'
+            },
+            {
+                id: 'search-initial-date',
+                type: 'date',
+                json_key: 'initial_date'
+            },
+            {
+                id: 'search-finish-date',
+                type: 'date',
+                json_key: 'finish_date'
+            },
+            {
+                id: 'inegi-search-op',
+                type: 'text',
+                json_key: 'inegi_search_op'
+            }
+        ]
+    }
+
+    return form_elements_by_section[attr.section] != undefined ? form_elements_by_section[attr.section] : null;
+}
+
+function getDefaultDataTableConfig(){
+    return {
+        language: {
+            "decimal": "",
+            "emptyTable": "No hay información",
+            "info": "_START_ - _END_ / _TOTAL_ Registros",
+            "infoEmpty": "Sin registros",
+            "infoFiltered": "(Filtrado de _MAX_ registros)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Muestra de _MENU_ registros",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "zeroRecords": "Sin resultados encontrados",
+            "paginate": {
+                "first": "Primero",
+                "last": "Último",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
         }
-    ];
-
-    return form_elements;
+    }
 }

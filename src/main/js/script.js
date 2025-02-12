@@ -524,19 +524,24 @@ function spetialValidationBySection(attr){
                 attr: {
                     section: attr.section,
                     element_id: 'folders-to-investigation-nuc',
-                    function: checkExistantRecievedFolder,
+                    function: checkExistantInegiRecord,
                     attr: {
+                        section: attr.section,
                         element_id: 'folders-to-investigation-nuc',
-                        function: checkRepeatedNucDate,
+                        function: checkExistantRecievedFolder,
                         attr: {
-                            section: attr.section,
-                            element_date_id: 'folders-to-investigation-date',
-                            element_nuc_id: 'folders-to-investigation-nuc',
-                            service_file: 'check_repeated_folders_to_investigation_nuc_date.php',
-                            function: saveSection,
+                            element_id: 'folders-to-investigation-nuc',
+                            function: checkRepeatedNucDate,
                             attr: {
                                 section: attr.section,
-                                data: attr.data
+                                element_date_id: 'folders-to-investigation-date',
+                                element_nuc_id: 'folders-to-investigation-nuc',
+                                service_file: 'check_repeated_folders_to_investigation_nuc_date.php',
+                                function: saveSection,
+                                attr: {
+                                    section: attr.section,
+                                    data: attr.data
+                                }
                             }
                         }
                     }
@@ -2547,4 +2552,257 @@ function checkRepeatedNucDate(attr){
 
         Swal.fire('Oops...', 'Ha ocurrido un error, intentelo de nuevo!', 'error');
     }
+}
+
+
+function _remake_spetialValidationBySection(attr){
+    switch(attr.section){
+        case 'agreements':
+
+            _remake_checkActivePeriod(
+                _remake_checkAgreementsAddedPeople({
+                    people_served: handle_data.people_served,
+                    element_id: 'agreement-date',
+                    section: 1
+                })
+            );
+            
+
+            checkAgreementsAddedPeople({
+                function: checkActivePeriod,
+                attr: {
+                    element_id: 'agreement-date',
+                    section: 1,
+                    function: checkNuc,
+                    attr: {
+                        section: attr.section,
+                        element_id: 'agreement-nuc',
+                        function: checkExistantRecievedFolder,
+                        attr: {
+                            element_id: 'agreement-nuc',
+                            function: saveSection,
+                            attr: {
+                                section: attr.section,
+                                data: attr.data,
+                                success: {
+                                    functions: [
+                                        {
+                                            function: activeInegiForm,
+                                            attr: {
+                                                section: section
+                                            },
+                                            response: false
+                                        },
+                                        {
+                                            function: resetDashboardAlert,
+                                            attr: {
+                                                element_id: 'dashboard-alert-section'
+                                            },
+                                            response: false
+                                        },
+                                        {
+                                            function: savePeopleSectionAfterAgreement,
+                                            attr: {
+                                                element_id: 'agreement-nuc',
+                                                section: 'people_served',
+                                                data: attr.data
+                                            },
+                                            response: false
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            break;
+        case 'folders_to_investigation':
+            break;
+        case 'folders_to_validation':
+            break;
+        case 'people_served':
+            break;
+        case 'recieved_folders':
+            break;
+        case 'entered_folders':
+                break;
+        case 'entered_folders_super':
+                break;
+        default:
+            console.log('defa');
+            saveSection({
+                section: attr.section,
+                data: attr.data
+            });
+            break;
+    }
+}
+
+
+
+
+function _remake_checkAgreementsAddedPeople(attr){
+
+    console.log('cheking ...');
+
+    console.log('attr de added people agreements: ', attr);
+
+    if(attr.people_served.people != null){
+
+        console.log('entre a chek aded: ', Object.keys(attr.people_served.people).length);
+
+        if(Object.keys(attr.people_served.people).length > 1){
+
+            let sol = false;
+            let req = false;
+
+            for(element in attr.people_served.people){
+
+                if(attr.people_served.people[element].type == 'Requerido'){
+        
+                    req = true;
+                }
+                else if(attr.people_served.people[element].type == 'Solicitante'){
+        
+                    sol = true;
+                }
+            }
+
+            if(sol && req){
+
+                return {
+                    ...attr,
+                    agreement_intervention: Object.keys(attr.people_served.people).length,
+                    served_people_array: JSON.stringify(attr.people_served.people)
+                }
+            }
+            else if(!sol){
+                setLoader({
+                    add: false
+                });
+
+                Swal.fire('Campos faltantes', 'Debe haber por lo menos una persona en calidad de solicitante', 'warning');
+
+                return null;
+            }
+            else if(!req){
+                setLoader({
+                    add: false
+                });
+
+                Swal.fire('Campos faltantes', 'Debe haber por lo menos una persona en calidad de requerido', 'warning');
+
+                return null;
+            }
+        }
+        else{
+            setLoader({
+                add: false
+            });
+
+            Swal.fire('Campos faltantes', 'Tiene que agregar por lo menos a 2 personas', 'warning');
+
+            return null;
+        }
+    }
+    else{
+        setLoader({
+            add: false
+        });
+
+        Swal.fire('Campos faltantes', 'Tiene que agregar por lo menos a 2 personas', 'warning');
+
+        return null;
+    }
+}
+
+function _remake_checkActivePeriod(attr){
+
+    if(document.getElementById(attr.element_id)){
+        console.log('active? o q?');
+
+        $.ajax({
+            url:'service/get_active_period.php',
+            type:'POST',
+            dataType: "json",
+            data: {
+                section: attr.section
+            },
+        }).done(function(response){
+            console.log('res de active',response);
+
+            let form_date = new Date(document.getElementById(attr.element_id).value);
+            console.log('f_datre', form_date);
+            form_date.setHours(form_date.getHours()+6);
+            console.log('f_datre_af', form_date);
+            let form_date_mx = form_date.toLocaleDateString("es-MX");
+    
+            let initial_date = new Date(response.initial_us_date);
+            console.log('i_date', initial_date);
+            //initial_date.setHours(initial_date.getHours()+6);
+            //initial_date = initial_date.toLocaleDateString("es-MX");
+    
+    
+            let finish_date = new Date(response.finish_us_date);
+            console.log('f_date', finish_date);
+            finish_date.setHours(finish_date.getHours()+23);
+            finish_date.setMinutes(finish_date.getMinutes(59));
+            //finish_date = finish_date.toLocaleDateString("es-MX");
+
+
+            if(response.daily){
+                console.log('daily');
+
+                let today = new Date();
+
+                console.log('tod bef: ', today);
+
+                today = today.toLocaleDateString("es-MX");
+
+                console.log('daily noup: ', today);
+                console.log('daily noup form da: ', form_date_mx);
+
+                if(form_date_mx != today){
+                    //console.log('daily noup: ', today);
+                    //console.log('daily noup form da: ', form_date_mx);
+
+                    setLoader({
+                        add: false
+                    });
+
+                    Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
+                }
+                else{
+                    console.log('daily yes');
+                    attr.function(attr.attr);
+                }
+
+            }
+            else{
+
+                console.log('form_date: ', new Date(form_date));
+                console.log('finish_date: ', new Date(finish_date));
+                console.log('initial_date: ', new Date(initial_date));
+                if(form_date <= finish_date && form_date >= initial_date){
+                    console.log('yes');
+    
+                    attr.function(attr.attr);
+    
+    
+                }
+                else{
+                    console.log('noup');
+                    setLoader({
+                        add: false
+                    });
+    
+                    Swal.fire('Fecha fuera de periodo de captura de captura', 'Ingrese una fecha de captura valida', 'warning');
+                }
+            }
+    
+    
+        });
+    }
+    
 }

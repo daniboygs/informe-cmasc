@@ -21,7 +21,8 @@ if($conn){
             ,[FiscaliaID]
         FROM $db.[dbo].[Usuario] 
         WHERE [Usuario] = '$user'
-        AND [Contrasena] = '$pass'";
+        AND [Contrasena] = '$pass'
+        AND [Estatus] = 1";
 
     $params = array();
     $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
