@@ -49,6 +49,9 @@ $(document).ready(function(){
                         case 5:
                             redirectTo('src/admin/admin.php');
                             break;
+                        case 7:
+                            redirectTo('src/admin/admin.php');
+                            break;
                         default:
                             redirectTo('src/main/main.php');
                             break;

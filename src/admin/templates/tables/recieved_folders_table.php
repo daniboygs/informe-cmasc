@@ -35,10 +35,10 @@
             <th>Fecha</th>
             <th>Delito</th>
             <th>Unidad</th>
-            <th>Acuerdo</th>
+            <!--<th>Acuerdo</th>
             <th>Fecha Acuerdo</th>
             <th>Fecha Validación</th>
-            <th>Fecha Investigación</th>
+            <th>Fecha Investigación</th>-->
             <th>Estatus</th>
 <?php
         if(!$dpe_permissions){
@@ -79,10 +79,10 @@
         <td><?php echo $element['recieved_folders_date']['value']; ?></td>
         <td class="align-left bold-text"><?php echo $element['recieved_folders_crime']['value']['listed_values']; ?></td>
         <td><?php echo $element['recieved_folders_unity']['value']; ?></td>
-        <td><?php echo $element['agreement']['value']; ?></td>
-        <td><?php echo $element['agreement_date']['value']; ?></td>
-        <td><?php echo $element['investigation_date']['value']; ?></td>
-        <td><?php echo $element['validation_date']['value']; ?></td>
+        <!--<td><?php //echo $element['agreement']['value']; ?></td>
+        <td><?php //echo $element['agreement_date']['value']; ?></td>
+        <td><?php //echo $element['investigation_date']['value']; ?></td>
+        <td><?php //echo $element['validation_date']['value']; ?></td>-->
         <td style="<?php echo $current_status_style; ?>"><?php echo $element['recieved_folders_status']['value']; ?></td>
 <?php
         if(!$dpe_permissions){
