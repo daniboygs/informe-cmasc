@@ -1319,16 +1319,19 @@ function checkActivePeriod(attr){
             finish_date.setMinutes(finish_date.getMinutes(59));
             //finish_date = finish_date.toLocaleDateString("es-MX");
 
+            let form_current_date = new Date(response.current_us_date);
+            form_current_date.setHours(form_current_date.getHours()+6);
+            let form_current_date_mx = form_current_date.toLocaleDateString("es-MX");
 
             if(response.daily){
                 console.log('daily');
 
-                let today = new Date();
-                today = today.toLocaleDateString("es-MX");
+                //let today = new Date();
+                //today = today.toLocaleDateString("es-MX");
 
-                if(form_date_mx != today){
-                    console.log('daily noup: ', today);
-                    console.log('daily noup form da: ', form_date);
+                if(form_date_mx != form_current_date_mx){
+                    //console.log('daily noup: ', today);
+                    //console.log('daily noup form da: ', form_date);
 
                     /*setLoader({
                         add: false
