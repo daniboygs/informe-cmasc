@@ -22,7 +22,13 @@ SELECT MAX([Fecha]) AS 'val_max_date'
 	,[NUC]
 FROM [EJERCICIOS].[dbo].[CarpetasEnviadasValidacion]
 GROUP BY NUC
-) cv on cr.NUC = cv.NUC";
+) cv on cr.NUC = cv.NUC
+LEFT JOIN 
+( 
+SELECT MAX([Fecha]) AS 'acu_max_date' ,[NUC] 
+FROM [EJERCICIOS].[dbo].[AcuerdosCelebrados] GROUP BY NUC 
+) a on cr.NUC = a.NUC 
+";
 
 if(isset( $_POST['nuc']))
 	$nuc = $_POST['nuc'];
@@ -41,11 +47,11 @@ else
 
 $data = (object) array(
 	'recieved_folders_id' => (object) array(
-		'db_column' => "[CarpetaRecibidaID] AS 'id'",
+		'db_column' => "cr.[CarpetaRecibidaID] AS 'id'",
 		'search' => true
 	),
 	'sigi_initial_date' => (object) array(
-		'db_column' => '[FechaInicioSigi]',
+		'db_column' => 'cr.[FechaInicioSigi]',
 		'search' => true
 	),
 	'recieved_folders_crime' => (object) array(
@@ -53,7 +59,7 @@ $data = (object) array(
 		'search' => true
 	),
 	'recieved_folders_date' => (object) array(
-		'db_column' => '[Fecha]',
+		'db_column' => 'cr.[Fecha]',
 		'search' => true
 	),
 	'recieved_folders_nuc' => (object) array(
@@ -105,6 +111,14 @@ $data = (object) array(
 		WHEN cv.val_max_date IS NOT NULL AND cv.val_max_date >= cr.Fecha AND (ci.inves_max_date IS NULL OR (ci.inves_max_date IS NOT NULL AND ci.inves_max_date = cv.val_max_date)) THEN 'Investigación'  
 		ELSE 'Tramite' END AS 'Estatus'",
 		'search' => true
+	),
+	'agreement' => (object) array(
+		'db_column' => "CASE WHEN a.acu_max_date IS NOT NULL THEN 'SI' ELSE 'NO' END AS 'Acuerdo'",
+		'search' => true
+	),
+	'agreement_date' => (object) array(
+		'db_column' => "a.acu_max_date AS 'FechaAcuerdo'",
+		'search' => true
 	)
 );
 
@@ -119,7 +133,7 @@ if($nuc != ''){
 }
 if($initial_date != '' && $finish_date != ''){
 	$sql_conditions += ['range' => (object) array(
-		'db_column' => 'Fecha',
+		'db_column' => 'cr.Fecha',
 		'condition' => 'between', 
 		'value' => "'$initial_date' AND '$finish_date'"
 	)];
@@ -157,7 +171,7 @@ function getRecord($attr){
 	$columns = formSearchDBColumns($attr->data);
 	$conditions = formSearchConditions($attr->sql_conditions);
 
-	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY Fecha, Nombre";
+	$sql = "SELECT $columns FROM $attr->db_table $conditions ORDER BY cr.Fecha, Nombre";
 
     $result = sqlsrv_query( $attr->conn, $sql , $attr->params, $attr->options );
 
@@ -178,6 +192,21 @@ function getRecord($attr){
 
 			if($sigi_initial_date != null)
 				$sigi_initial_date = $sigi_initial_date->format('d/m/Y');
+
+			$agreement_date = $row['FechaAcuerdo'];
+
+			if($agreement_date != null)
+				$agreement_date = $agreement_date->format('d/m/Y');
+
+			$investigation_date = $row['FechaInvestigacion'];
+
+			if($investigation_date != null)
+				$investigation_date = $investigation_date->format('d/m/Y');
+
+			$validation_date = $row['FechaValidacion'];
+
+			if($validation_date != null)
+				$validation_date = $validation_date->format('d/m/Y');
 	
 			array_push($return, array(
 				'recieved_folders_id' => array(
@@ -224,6 +253,22 @@ function getRecord($attr){
 				'recieved_folders_status' => array(
 					'name' => 'Estatus',
 					'value' => $row['Estatus']
+				),			
+				'agreement' => array(
+					'name' => 'Acuerdo',
+					'value' => $row['Acuerdo']
+				),
+				'agreement_date' => array(
+					'name' => 'Fecha Acuerdo',
+					'value' => $agreement_date
+				),
+				'investigation_date' => array(
+					'name' => 'Fecha Acuerdo',
+					'value' => $investigation_date
+				),
+				'validation_date' => array(
+					'name' => 'Fecha Acuerdo',
+					'value' => $validation_date
 				)
 			));
 			

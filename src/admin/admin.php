@@ -9,8 +9,8 @@
 		<meta http-equiv="pragma" content="no-cache" />
 		<!--<link rel="stylesheet" href="node_modules/normalize.css">-->
 		<link rel="shortcut icon" href="../../assets/img/fge.png"/>
-		<link rel="stylesheet" href="../../css/styles.css">
-		<link rel="stylesheet" href="css/styles.css">
+		<link rel="stylesheet" href="../../css/styles.css?v=<?php echo time(); ?>">
+		<link rel="stylesheet" href="css/styles.css?v=<?php echo time(); ?>">
 		<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="../../libs/font-awesome-4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="../../node_modules/datatables/media/css/jquery.dataTables.min.css">
@@ -23,13 +23,14 @@
 		<script src="//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
 		<script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 		
-		<script src="../../js/script.js"></script>
-		<script src="json/sections-attr.js"></script>
-		<script src="json/data.js"></script>
-		<script src="js/common-script.js"></script>
-		<script src="js/multiselect.js"></script>
-		<script src="js/script.js"></script>
-		<script src="js/drag-scrolling.js"></script>
+		<script src="../../js/script.js?v=<?php echo time(); ?>"></script>
+		<script src="json/sections-attr.js?v=<?php echo time(); ?>"></script>
+		<script src="json/data.js?v=<?php echo time(); ?>"></script>
+		<script src="js/common-script.js?v=<?php echo time(); ?>"></script>
+		<script src="js/multiselect.js?v=<?php echo time(); ?>"></script>
+		<script src="js/script.js?v=<?php echo time(); ?>"></script>
+		<script src="js/drag-scrolling.js?v=<?php echo time(); ?>"></script>
+		<script src="js/array-data.js?v=<?php echo time(); ?>"></script>
 
 		<title>CMASC</title>
 	</head>
@@ -48,7 +49,7 @@
 <?php
 		
 	if(isset($_SESSION['user_data']['type'])){
-		if($_SESSION['user_data']['type'] == 1){
+		if($_SESSION['user_data']['type'] == 1 || $_SESSION['user_data']['type'] == 7 || $_SESSION['user_data']['type'] == 8){
 ?>
 			<div id="entered-folders-super-nav-div" onclick="loadSection('entered_folders_super')">CARPETAS INGRESADAS (CAPTURA)</div>
 <?php
@@ -60,26 +61,30 @@
 				<div id="folders-to-investigation-nav-div" onclick="loadSection('folders_to_investigation')">CARPETAS ENVIADAS A INVESTIGACIÓN</div>
 				<div id="people-served-nav-div" onclick="loadSection('people_served')">PERSONAS ATENDIDAS</div>
 				<div id="folders-to-validation-nav-div" onclick="loadSection('folders_to_validation')">CARPETAS ENVIADAS A VALIDACIÓN</div>
-				<div id="processing-folders-nav-div" onclick="loadSection('processing_folders')">CARPETAS DE TRÁMITE</div>
 
 <?php
 		
 	if(isset($_SESSION['user_data']['type'])){
-		if($_SESSION['user_data']['type'] != 5){
+		if($_SESSION['user_data']['type'] != 5 && $_SESSION['user_data']['type'] != 8){
 ?>
+			<div id="processing-folders-nav-div" onclick="loadSection('processing_folders')">CARPETAS DE TRÁMITE</div>
 			<div id="inegi-nav-div" onclick="loadSection('inegi')">INEGI</div>
 <?php
 		}
 	}
 ?>
-			
-				
+
 <?php
 		
 	if(isset($_SESSION['user_data']['type'])){
 		if($_SESSION['user_data']['type'] == 1){
 ?>
 			<div id="capture-period-nav-div" onclick="loadSection('capture_period')">PERIODO DE CAPTURA</div>
+			<div id="rejected-folders-nav-div" onclick="loadSection('rejected_folders')">CARPETAS RECHAZADAS</div>
+<?php
+		}
+		else if($_SESSION['user_data']['type'] == 7){
+?>
 			<div id="rejected-folders-nav-div" onclick="loadSection('rejected_folders')">CARPETAS RECHAZADAS</div>
 <?php
 		}

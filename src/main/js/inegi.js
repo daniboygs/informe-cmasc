@@ -1044,7 +1044,7 @@ function checkInegiNuc(attr){
 
     if(document.getElementById(attr.element_id)){
 
-        if(document.getElementById(attr.element_id).value.length == 13){
+        if(document.getElementById(attr.element_id).value.length == 13 || document.getElementById(attr.element_id).value.length == 15){
             
             $.ajax({  
                 type: "POST",  
@@ -1073,7 +1073,7 @@ function checkInegiNuc(attr){
             }); 
         }
         else{
-            Swal.fire('NUC no valido', 'El NUC debe contar con 13 dígitos', 'warning');
+            Swal.fire('NUC no valido', 'El NUC debe contar con 13 o 15 dígitos', 'warning');
         }
     }
     else{
@@ -1234,7 +1234,7 @@ function getInegiNuc(attr){
             });
 
         }).fail(function (jqXHR, textStatus) {
-            Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de nofificar a DPE.', 'error');
+            Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de notificar a DPE.', 'error');
     
             setLoader({
                 add: false

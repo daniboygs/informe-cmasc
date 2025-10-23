@@ -47,7 +47,7 @@
 
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Folio:</label>
-                        <input type="text" class="form-control" id="rejected_folio" <?php echo $folio; ?> maxlength="13">
+                        <input type="text" class="form-control" id="rejected_folio" <?php echo $folio; ?> maxlength="15">
                     </div>
 
                     <!--<div class="form-group">

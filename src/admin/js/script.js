@@ -8,7 +8,7 @@ $(document).ready(function(){
         },
         failed: {
             function: redirectTo,
-            attr: '../../index.html'
+            attr: '../../index.php'
         },
         location: '../../service/check_session.php'
     });
@@ -491,7 +491,7 @@ function saveSection(attr){
             console.log('chido no lo', response.state);
         }
 	}).fail(function (jqXHR, textStatus) {
-        Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de nofificar a DPE.', 'error');
+        Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de notificar a DPE.', 'error');
 
         setLoader({
             add: false
@@ -514,24 +514,27 @@ function resetSection(section){
 }
 
 function validateNumber(evt) {
-    
-	var theEvent = evt || window.event;
+
+    if(false){
+
+        var theEvent = evt || window.event;
   
-	if(theEvent.type === 'paste'){
-		key = event.clipboardData.getData('text/plain');
-    } 
-    else{
-		var key = theEvent.keyCode || theEvent.which;
-		key = String.fromCharCode(key);
+        if(theEvent.type === 'paste'){
+            key = event.clipboardData.getData('text/plain');
+        } 
+        else{
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+        }
+        
+        var regex = /[0-9]|\./;
+        
+        if( !regex.test(key) ){
+            theEvent.returnValue = false;
+        if(theEvent.preventDefault) 
+            theEvent.preventDefault();
+        }
     }
-    
-    var regex = /[0-9]|\./;
-    
-	if( !regex.test(key) ){
-	    theEvent.returnValue = false;
-    if(theEvent.preventDefault) 
-        theEvent.preventDefault();
-	}
 }
 
 function checkNuc(attr){
@@ -547,7 +550,7 @@ function checkNuc(attr){
     if(document.getElementById(attr.element_id)){
 
         console.log('exis ');
-        if(document.getElementById(attr.element_id).value.length == 13){
+        if(document.getElementById(attr.element_id).value.length == 13 || document.getElementById(attr.element_id).value.length == 15){
             console.log('apenas voy');
             $.ajax({  
                 type: "POST",  
@@ -566,7 +569,7 @@ function checkNuc(attr){
 
                         attr.attr.data = {
                             ...attr.attr.data,
-                            sigi_date: response.data.date.date
+                            acceius_date: response.data.date.date
                         }
 
                         attr.function(attr.attr);
@@ -584,7 +587,7 @@ function checkNuc(attr){
             }); 
         }
         else{
-            Swal.fire('NUC no valido', 'El NUC debe contar con 13 digitos', 'warning');
+            Swal.fire('NUC no valido', 'El NUC debe contar con 13 o 15 dígitos', 'warning');
         }
     }
     else{
@@ -752,28 +755,8 @@ function drawRecordsTable(attr){
                 $('#'+attr.element_id).html(response);
             }
 
-            $('#pending-inegi-table').DataTable({
-                language: {
-                    "decimal": "",
-                    "emptyTable": "No hay información",
-                    "info": "_START_ - _END_ / _TOTAL_ Registros",
-                    "infoEmpty": "Sin registros",
-                    "infoFiltered": "(Filtrado de _MAX_ registros)",
-                    "infoPostFix": "",
-                    "thousands": ",",
-                    "lengthMenu": "Muestra de _MENU_ registros",
-                    "loadingRecords": "Cargando...",
-                    "processing": "Procesando...",
-                    "search": "Buscar:",
-                    "zeroRecords": "Sin resultados encontrados",
-                    "paginate": {
-                        "first": "Primero",
-                        "last": "Ultimo",
-                        "next": "Siguiente",
-                        "previous": "Anterior"
-                    }
-                }
-            });
+            //$('#pending-inegi-table').DataTable(defaultDataTableConfig);
+            //$('.data-table').DataTable(defaultDataTableConfig());
         });
     }
     else{
@@ -1339,16 +1322,19 @@ function checkActivePeriod(attr){
             finish_date.setMinutes(finish_date.getMinutes(59));
             //finish_date = finish_date.toLocaleDateString("es-MX");
 
+            let form_current_date = new Date(response.current_us_date);
+            form_current_date.setHours(form_current_date.getHours()+6);
+            let form_current_date_mx = form_current_date.toLocaleDateString("es-MX");
 
             if(response.daily){
                 console.log('daily');
 
-                let today = new Date();
-                today = today.toLocaleDateString("es-MX");
+                //let today = new Date();
+                //today = today.toLocaleDateString("es-MX");
 
-                if(form_date_mx != today){
-                    console.log('daily noup: ', today);
-                    console.log('daily noup form da: ', form_date);
+                if(form_date_mx != form_current_date_mx){
+                    //console.log('daily noup: ', today);
+                    //console.log('daily noup form da: ', form_date);
 
                     /*setLoader({
                         add: false
@@ -3011,5 +2997,64 @@ function loadCatalogsByArray(attr){
                 ]
             });
         }
+    }
+}
+
+function defaultDataTableConfig(){
+    return {
+        language: {
+            "decimal": "",
+            "emptyTable": "No hay información",
+            "info": "_START_ - _END_ / _TOTAL_ Registros",
+            "infoEmpty": "Sin registros",
+            "infoFiltered": "(Filtrado de _MAX_ registros)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Muestra de _MENU_ registros",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "zeroRecords": "Sin resultados encontrados",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        }
+    }
+}
+
+function formHTMLTableToExcel(attr){
+
+    drawRecordsTable({
+        section: attr.section,
+        data: response,
+        file: getHTMLTableTemplate({
+            section: attr.section
+        }),
+        element_id: 'records-section'
+    });
+
+    if(handle_data.current_records_search_data != null){
+        $.ajax({
+            url: getHTMLTableTemplate({
+                section: attr.section
+            }),
+            type: 'POST',
+            dataType: "html",
+            data: {
+                data: JSON.stringify(handle_data.current_records_search_data)
+            },
+            cache: false
+        }).done(function(response){
+
+            downloadExcel({
+                table: response
+            });
+        });
+    }
+    else{
+        console.log('error');
     }
 }

@@ -23,32 +23,37 @@
 <div id="month-records-label-section">REGISTROS CAPTURADOS</div>
 
 <table class="data-table table table-striped">
-    <tr>
-        <th>#</th>
-        <th>NUC</th>
-        <th>Fecha</th>
-        <th>Delito</th>
-        <th>Número de Atendidos</th>
-        <th>Unidad</th>
-        <th>Datos Victimas</th>
-        <th>Datos Imputados</th>
-        <th>Caracteristicas del delito</th>
-        <th>Datos generales del acuerdo</th>
-        <th>Estatus de captura</th>
-        <th>Tipo</th>
-        <th>Facilitador</th>
-        <th>Fiscalía</th>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>NUC</th>
+            <th>Fecha</th>
+            <th>Delito</th>
+            <th>Número de Atendidos</th>
+            <th>Unidad</th>
+            <th>Datos Victimas</th>
+            <th>Datos Imputados</th>
+            <th>Caracteristicas del delito</th>
+            <th>Datos generales del acuerdo</th>
+            <th>Estatus de captura</th>
+            <th>Tipo</th>
+            <th>Facilitador</th>
+            <th>Fiscalía</th>
 <?php
     if($crud_permissions){
 ?>
-        <th>Acción</th>
+            <th>Acción</th>
 <?php
     }
 ?>
-    </tr>
+        </tr>
+    </thead>
+    <tbody>
 <?php
     if($data != 'null'){
+
         $i=1;
+        
         foreach(json_decode($data, true) as $element){
 
             if(isset( $element['victim']['value'])){
@@ -178,4 +183,5 @@
 
     }
 ?>
+    </tbody>
 </table>
