@@ -12,6 +12,19 @@
     $composite_date = ($initial_date != null && $finish_date != null) 
     ? ($nuc != null ? '('.$initial_date.' - '.$finish_date.' - '.$nuc.')' : '('.$initial_date.' - '.$finish_date.')')
     : ($nuc != null ? '('.$nuc.')' : null);
+    if(isset($_SESSION['user_data']['type'])){
+        if($_SESSION['user_data']['type'] == 1 || $_SESSION['user_data']['type'] == 7){
+            $crud_permissions = true;
+        }
+        if($_SESSION['user_data']['type'] == 5){
+            $dpe_permissions = true;
+        }
+    }
+
+    if(isset( $_POST['data']))
+        $data = $_POST['data'];
+    else
+        $data = 'null';
 ?>
 
 <div class="form-buttons" style="float: left !important; margin-bottom: 20px;">		

@@ -130,7 +130,6 @@ if(!isset($_SESSION['user_data'])){
 }
 else{
 
-	
 	echo json_encode(
 		getRecord(
 			(object) array(

@@ -6,7 +6,7 @@
 
 			<label style="font-weight:bold">NUC: *</label>
 
-			<input type="text" class="form-control" id="inegi-general-nuc" maxlength="13" onkeypress="validateNumber(event);">			
+			<input type="text" class="form-control" id="inegi-general-nuc" maxlength="15" onkeypress="validateNumber(event);">			
 
 		</div>
 

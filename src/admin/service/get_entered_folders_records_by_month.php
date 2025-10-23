@@ -150,6 +150,7 @@ $sql_conditions = (object) array(
 	)
 );
 
+
 if(!isset($_SESSION['user_data'])){
 	echo json_encode(
 		array(
@@ -161,6 +162,13 @@ if(!isset($_SESSION['user_data'])){
 }
 else{
 
+	if($_SESSION['user_data']['type'] == "8"){
+		$sql_conditions->fiscalia = (object) array(
+			'db_column' => 'c.FiscaliaID',
+			'condition' => '=', 
+			'value' => $_SESSION['user_data']['fiscalia']
+		);
+	}
 	
 	echo json_encode(
 		getRecord(

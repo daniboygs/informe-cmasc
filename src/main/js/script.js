@@ -15,14 +15,14 @@ $(document).ready(function(){
                 },
                 failed: {
                     function: redirectTo,
-                    attr: '../../index.html'
+                    attr: '../../index.php'
                 },
                 location: '../../service/check_permissions.php'
             }
         },
         failed: {
             function: redirectTo,
-            attr: '../../index.html'
+            attr: '../../index.php'
         },
         location: '../../service/check_session.php'
     });
@@ -722,10 +722,10 @@ function saveSection(attr){
 
     console.log('espero guarde: ', attr);
 
-    /*if(handle_data.sigi_dates.hasOwnProperty(attr.data.nuc)){
+    /*if(handle_data.acceius_dates.hasOwnProperty(attr.data.nuc)){
         attr.data = {
             ...attr.data,
-            sigi_date: handle_data.sigi_dates[attr.data.nuc]
+            acceius_date: handle_data.acceius_dates[attr.data.nuc]
         }
     }*/
 
@@ -738,7 +738,7 @@ function saveSection(attr){
             recieved_folders_data: handle_data.current_recieved_folders_data,
             entered_folders_data: handle_data.current_folders_data,
             agreement_data: handle_data.current_agreement_data,
-            sigi_date: handle_data.current_sigi_date
+            acceius_date: handle_data.current_acceius_date
 		},
 		cache: false
 	}).done(function(response){
@@ -759,7 +759,7 @@ function saveSection(attr){
                 if(attr.section == 'agreements'){
                     /*savePeopleSectionAfterAgreement({
                         data: {
-                            sigi_date: attr.data.sigi_date,
+                            acceius_date: attr.data.acceius_date,
                             people_served_date: attr.data.agreement_date,
                             people_served_nuc: attr.data.agreement_nuc,
                             people_served_number: attr.data.agreement_intervention,
@@ -773,7 +773,7 @@ function saveSection(attr){
 
                     savePeopleSectionAfterAgreement({
                         data: {
-                            sigi_date: handle_data.current_sigi_date,
+                            acceius_date: handle_data.current_acceius_date,
                             people_served_date: attr.data.agreement_date,
                             people_served_nuc: attr.data.agreement_nuc,
                             people_served_number: attr.data.agreement_intervention,
@@ -845,7 +845,7 @@ function saveSection(attr){
         });
 
 	}).fail(function (jqXHR, textStatus) {
-        Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de nofificar a DPE.', 'error');
+        Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de notificar a DPE.', 'error');
 
         setLoader({
             add: false
@@ -879,31 +879,34 @@ function spetialResetBySection(section){
 }
 
 function validateNumber(evt) {
-    
-	var theEvent = evt || window.event;
+
+    if(false){
+
+        var theEvent = evt || window.event;
   
-	if(theEvent.type === 'paste'){
-		key = event.clipboardData.getData('text/plain');
-    } 
-    else{
-		var key = theEvent.keyCode || theEvent.which;
-		key = String.fromCharCode(key);
+        if(theEvent.type === 'paste'){
+            key = event.clipboardData.getData('text/plain');
+        } 
+        else{
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+        }
+        
+        var regex = /[0-9]|\./;
+        
+        if( !regex.test(key) ){
+            theEvent.returnValue = false;
+        if(theEvent.preventDefault) 
+            theEvent.preventDefault();
+        }
     }
-    
-    var regex = /[0-9]|\./;
-    
-	if( !regex.test(key) ){
-	    theEvent.returnValue = false;
-    if(theEvent.preventDefault) 
-        theEvent.preventDefault();
-	}
 }
 
 function checkDuplicatedRecievedFolder(attr){
 
     if(document.getElementById(attr.element_id)){
 
-        if(document.getElementById(attr.element_id).value.length == 13){
+        if(document.getElementById(attr.element_id).value.length == 13 || document.getElementById(attr.element_id).value.length == 15){
             
             $.ajax({  
                 type: "POST",  
@@ -942,7 +945,7 @@ function checkDuplicatedRecievedFolder(attr){
                 add: false
             });
 
-            Swal.fire('NUC no valido', 'El NUC debe contar con 13 dígitos', 'warning');
+            Swal.fire('NUC no valido', 'El NUC debe contar con 13 o 15 dígitos', 'warning');
         }
     }
     else{
@@ -958,7 +961,7 @@ function checkExistantRecievedFolder(attr){
 
     if(document.getElementById(attr.element_id)){
 
-        if(document.getElementById(attr.element_id).value.length == 13){
+        if(document.getElementById(attr.element_id).value.length == 13 || document.getElementById(attr.element_id).value.length == 15){
             
             $.ajax({  
                 type: "POST",  
@@ -1005,7 +1008,7 @@ function checkExistantRecievedFolder(attr){
                 add: false
             });
 
-            Swal.fire('NUC no valido', 'El NUC debe contar con 13 dígitos', 'warning');
+            Swal.fire('NUC no valido', 'El NUC debe contar con 13 o 15 dígitos', 'warning');
         }
     }
     else{
@@ -1023,7 +1026,7 @@ function checkExistantEnteredFolder(attr){
 
     if(document.getElementById(attr.element_id)){
 
-        if(document.getElementById(attr.element_id).value.length == 13){
+        if(document.getElementById(attr.element_id).value.length == 13 || document.getElementById(attr.element_id).value.length == 15){
             
             $.ajax({  
                 type: "POST",  
@@ -1070,7 +1073,7 @@ function checkExistantEnteredFolder(attr){
                 add: false
             });
 
-            Swal.fire('NUC no valido', 'El NUC debe contar con 13 dígitos', 'warning');
+            Swal.fire('NUC no valido', 'El NUC debe contar con 13 o 15 dígitos', 'warning');
         }
     }
     else{
@@ -1086,7 +1089,7 @@ function checkExistantAgreement(attr){
 
     if(document.getElementById(attr.element_id)){
 
-        if(document.getElementById(attr.element_id).value.length == 13){
+        if(document.getElementById(attr.element_id).value.length == 13 || document.getElementById(attr.element_id).value.length == 15){
             
             $.ajax({  
                 type: "POST",  
@@ -1133,7 +1136,7 @@ function checkExistantAgreement(attr){
                 add: false
             });
 
-            Swal.fire('NUC no valido', 'El NUC debe contar con 13 dígitos', 'warning');
+            Swal.fire('NUC no valido', 'El NUC debe contar con 13 o 15 dígitos', 'warning');
         }
     }
     else{
@@ -1158,7 +1161,7 @@ function checkNuc(attr){
     if(document.getElementById(attr.element_id)){
 
         console.log('exis ');
-        if(document.getElementById(attr.element_id).value.length == 13){
+        if(document.getElementById(attr.element_id).value.length == 13 || document.getElementById(attr.element_id).value.length == 15){
             console.log('apenas voy');
             $.ajax({  
                 type: "POST",  
@@ -1175,10 +1178,10 @@ function checkNuc(attr){
         
                     if(response.data != null){
 
-                        handle_data.current_sigi_date = response.data.date.date;
+                        handle_data.current_acceius_date = response.data.date;
 
-                        /*handle_data.sigi_dates = {
-                            ...handle_data.sigi_dates,
+                        /*handle_data.acceius_dates = {
+                            ...handle_data.acceius_dates,
                             [document.getElementById(attr.element_id).value]: response.data.date.date
                         }*/
 
@@ -1196,7 +1199,7 @@ function checkNuc(attr){
 
                             attr.attr.data = {
                                 ...attr.attr.data,
-                                sigi_date: response.data.date.date
+                                acceius_date: response.data.date.date
                             }
                         }
                         else if(attr.section == 'folders_to_investigation' || attr.section == 'folders_to_validation'){
@@ -1205,7 +1208,7 @@ function checkNuc(attr){
 
                             attr.attr.attr.attr.data = {
                                 ...attr.attr.attr.attr.data,
-                                sigi_date: response.data.date.date
+                                acceius_date: response.data.date.date
                             }
                         }
                         else{
@@ -1214,7 +1217,7 @@ function checkNuc(attr){
                                 console.log('inegi?: ', attr);
                                 attr.attr.attr.data = {
                                     ...attr.attr.attr.data,
-                                    sigi_date: response.data.date.date
+                                    acceius_date: response.data.date.date
                                 }
                             }
                         }*/
@@ -1230,14 +1233,14 @@ function checkNuc(attr){
                         if(attr.attr.section == 'people_served' || attr.attr.section == 'entered_folders' || attr.attr.section == 'entered_folders_super'){
                             attr.attr.data = {
                                 ...attr.attr.data,
-                                sigi_date: response.data.date.date
+                                acceius_date: response.data.date.date
                             }
                         }
                         else{
                             if(attr.element_id != 'inegi-general-nuc'){
                                 attr.attr.attr.data = {
                                     ...attr.attr.attr.data,
-                                    sigi_date: response.data.date.date
+                                    acceius_date: response.data.date.date
                                 }
                             }
                             
@@ -1274,7 +1277,7 @@ function checkNuc(attr){
                 add: false
             });
 
-            Swal.fire('NUC no valido', 'El NUC debe contar con 13 dígitos', 'warning');
+            Swal.fire('NUC no valido', 'El NUC debe contar con 13 o 15 dígitos', 'warning');
         }
     }
     else{
@@ -1507,20 +1510,23 @@ function checkActivePeriod(attr){
             finish_date.setMinutes(finish_date.getMinutes(59));
             //finish_date = finish_date.toLocaleDateString("es-MX");
 
+            let form_current_date = new Date(response.current_us_date);
+            form_current_date.setHours(form_current_date.getHours()+6);
+            let form_current_date_mx = form_current_date.toLocaleDateString("es-MX");
 
             if(response.daily){
                 console.log('daily');
 
-                let today = new Date();
+                /*let today = new Date();
 
                 console.log('tod bef: ', today);
 
                 today = today.toLocaleDateString("es-MX");
 
                 console.log('daily noup: ', today);
-                console.log('daily noup form da: ', form_date_mx);
+                console.log('daily noup form da: ', form_date_mx);*/
 
-                if(form_date_mx != today){
+                if(form_date_mx != form_current_date_mx){
                     //console.log('daily noup: ', today);
                     //console.log('daily noup form da: ', form_date_mx);
 
@@ -2384,7 +2390,7 @@ function savePeopleSectionAfterAgreement(attr){
         });
 
 	}).fail(function (jqXHR, textStatus) {
-        //Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de nofificar a DPE.', 'error');
+        //Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de notificar a DPE.', 'error');
 
         setLoader({
             add: false
@@ -2430,7 +2436,7 @@ function saveMultiselectPeopleCrimesAfterAgreement(attr){
 
 	}).fail(function (jqXHR, textStatus) {
         
-        Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de nofificar a DPE.', 'error');
+        Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de notificar a DPE.', 'error');
 
 
         setLoader({
@@ -2542,7 +2548,7 @@ function checkRepeatedNucDate(attr){
                 add: false
             });
 
-            Swal.fire('NUC no valido', 'El NUC debe contar con 13 dígitos', 'warning');
+            Swal.fire('NUC no valido', 'El NUC debe contar con 13 o 15 dígitos', 'warning');
         }
     }
     else{

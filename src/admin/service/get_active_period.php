@@ -1,5 +1,6 @@
 <?php
 session_start();
+date_default_timezone_set('America/Mazatlan');
 include("../../../service/connection.php");
 include("common.php");
 
@@ -69,7 +70,8 @@ function getRecord($attr){
 		'finish_date' => null,
 		'initial_us_date' => null,
 		'finish_us_date' => null,
-		'capture_period_daily' => null
+		'capture_period_daily' => null,
+		'current_us_date' => null
 	);
 
 	if($row_count > 0){
@@ -101,7 +103,7 @@ function getRecord($attr){
 			$return->initial_us_date = $initial_us_date;
 			$return->finish_us_date = $finish_us_date;
 			$return->daily = $row['CapturaDiaria'];
-			
+			$return->current_us_date = date('Y/m/d');
 		}
 	
 	}

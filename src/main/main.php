@@ -9,9 +9,9 @@
 		<meta http-equiv="pragma" content="no-cache" />
 		<!--<link rel="stylesheet" href="node_modules/normalize.css">-->
 		<link rel="shortcut icon" href="../../assets/img/fge.png"/>
-		<link rel="stylesheet" href="../../css/styles.css">
-		<link rel="stylesheet" href="css/styles.css">
-		<link rel="stylesheet" href="css/own-dt.css">
+		<link rel="stylesheet" href="../../css/styles.css?v=<?php echo time(); ?>">
+		<link rel="stylesheet" href="css/styles.css?v=<?php echo time(); ?>">
+		<link rel="stylesheet" href="css/own-dt.css?v=<?php echo time(); ?>">
 		<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="../../libs/font-awesome-4.7.0/css/font-awesome.min.css">
 		<!--<link rel="stylesheet" href="../../node_modules/datatables/media/css/jquery.dataTables.min.css">-->
@@ -23,14 +23,14 @@
 		<script src="//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
 		<script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 		
-		<script src="../../js/script.js"></script>
-		<script src="json/sections-attr.js"></script>
-		<script src="json/data.js"></script>
-		<script src="json/inegi.js"></script>
-		<script src="js/inegi.js"></script>
-		<script src="js/multiselect.js"></script>
-		<script src="js/script.js"></script>
-		<script src="js/rejected-folders.js"></script>
+		<script src="../../js/script.js?v=<?php echo time(); ?>"></script>
+		<script src="json/sections-attr.js?v=<?php echo time(); ?>"></script>
+		<script src="json/data.js?v=<?php echo time(); ?>"></script>
+		<script src="json/inegi.js?v=<?php echo time(); ?>"></script>
+		<script src="js/inegi.js?v=<?php echo time(); ?>"></script>
+		<script src="js/multiselect.js?v=<?php echo time(); ?>"></script>
+		<script src="js/script.js?v=<?php echo time(); ?>"></script>
+		<script src="js/rejected-folders.js?v=<?php echo time(); ?>"></script>
 
 		<title>CMASC</title>
 	</head>

@@ -14,7 +14,7 @@ var handle_data = {
 	"people_served": {
 		"people": {}
 	},
-	"current_sigi_date": null,
+	"current_acceius_date": null,
 	"current_recieved_folders_data": null,
 	"current_folders_data": null,
 	"current_agreement_data": null

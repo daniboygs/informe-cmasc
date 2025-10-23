@@ -8,7 +8,7 @@ $(document).ready(function(){
         },
         failed: {
             function: redirectTo,
-            attr: '../../index.html'
+            attr: '../../index.php'
         },
         location: '../../service/check_session.php'
     });
@@ -485,7 +485,7 @@ function saveSection(attr){
             console.log('chido no lo', response.state);
         }
 	}).fail(function (jqXHR, textStatus) {
-        Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de nofificar a DPE.', 'error');
+        Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de notificar a DPE.', 'error');
 
         setLoader({
             add: false
@@ -508,24 +508,27 @@ function resetSection(section){
 }
 
 function validateNumber(evt) {
-    
-	var theEvent = evt || window.event;
+
+    if(false){
+
+        var theEvent = evt || window.event;
   
-	if(theEvent.type === 'paste'){
-		key = event.clipboardData.getData('text/plain');
-    } 
-    else{
-		var key = theEvent.keyCode || theEvent.which;
-		key = String.fromCharCode(key);
+        if(theEvent.type === 'paste'){
+            key = event.clipboardData.getData('text/plain');
+        } 
+        else{
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+        }
+        
+        var regex = /[0-9]|\./;
+        
+        if( !regex.test(key) ){
+            theEvent.returnValue = false;
+        if(theEvent.preventDefault) 
+            theEvent.preventDefault();
+        }
     }
-    
-    var regex = /[0-9]|\./;
-    
-	if( !regex.test(key) ){
-	    theEvent.returnValue = false;
-    if(theEvent.preventDefault) 
-        theEvent.preventDefault();
-	}
 }
 
 function checkNuc(attr){
@@ -541,7 +544,7 @@ function checkNuc(attr){
     if(document.getElementById(attr.element_id)){
 
         console.log('exis ');
-        if(document.getElementById(attr.element_id).value.length == 13){
+        if(document.getElementById(attr.element_id).value.length == 13 || document.getElementById(attr.element_id).value.length == 15){
             console.log('apenas voy');
             $.ajax({  
                 type: "POST",  
@@ -560,7 +563,7 @@ function checkNuc(attr){
 
                         attr.attr.data = {
                             ...attr.attr.data,
-                            sigi_date: response.data.date.date
+                            acceius_date: response.data.date.date
                         }
 
                         attr.function(attr.attr);
@@ -578,7 +581,7 @@ function checkNuc(attr){
             }); 
         }
         else{
-            Swal.fire('NUC no valido', 'El NUC debe contar con 13 digitos', 'warning');
+            Swal.fire('NUC no valido', 'El NUC debe contar con 13 o 15 dígitos', 'warning');
         }
     }
     else{
@@ -1058,16 +1061,19 @@ function checkActivePeriod(attr){
             finish_date.setMinutes(finish_date.getMinutes(59));
             //finish_date = finish_date.toLocaleDateString("es-MX");
 
+            let form_current_date = new Date(response.current_us_date);
+            form_current_date.setHours(form_current_date.getHours()+6);
+            let form_current_date_mx = form_current_date.toLocaleDateString("es-MX");
 
             if(response.daily){
                 console.log('daily');
 
-                let today = new Date();
-                today = today.toLocaleDateString("es-MX");
+                //let today = new Date();
+                //today = today.toLocaleDateString("es-MX");
 
-                if(form_date_mx != today){
-                    console.log('daily noup: ', today);
-                    console.log('daily noup form da: ', form_date);
+                if(form_date_mx != form_current_date_mx){
+                    //console.log('daily noup: ', today);
+                    //console.log('daily noup form da: ', form_date);
 
                     /*setLoader({
                         add: false

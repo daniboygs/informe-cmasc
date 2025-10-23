@@ -48,7 +48,7 @@ function closeSession(){
 	}).done(function(response){
 
         if(response.state == 'success'){
-            redirectTo('../../index.html');
+            redirectTo('../../index.php');
         }
 
 	});

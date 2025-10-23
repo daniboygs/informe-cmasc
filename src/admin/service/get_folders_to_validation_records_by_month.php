@@ -82,6 +82,13 @@ if(!isset($_SESSION['user_data'])){
 }
 else{
 
+	if($_SESSION['user_data']['type'] == "8"){
+		$sql_conditions->fiscalia = (object) array(
+			'db_column' => 'a.FiscaliaID',
+			'condition' => '=', 
+			'value' => $_SESSION['user_data']['fiscalia']
+		);
+	}
 	
 	echo json_encode(
 		getRecord(

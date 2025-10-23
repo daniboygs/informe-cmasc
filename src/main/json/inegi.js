@@ -69,7 +69,7 @@ var inegi = {
                         "unlock": null,
                         "length": {
                             "min": 13,
-                            "max": 13
+                            "max": 15
                         }
                     },
                     "default": null,
