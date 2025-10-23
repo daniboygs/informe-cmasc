@@ -108,7 +108,7 @@ function saveMultiselectField(attr){
 
 	}).fail(function (jqXHR, textStatus) {
         
-        Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de nofificar a DPE.', 'error');
+        Swal.fire('Error', 'Ha ocurrido un error inesperado del servidor, Favor de notificar a DPE.', 'error');
 
         getRecordsByMonth({
             section: attr.section

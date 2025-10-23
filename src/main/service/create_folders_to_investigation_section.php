@@ -8,7 +8,7 @@ $options = array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
 $conn = $connections['cmasc']['conn'];
 $db_table = '[dbo].[CarpetasEnviadasInvestigacion]';
 
-$sigi_date = $_POST['sigi_date'];
+$acceius_date = $_POST['acceius_date'];
 
 $folders_to_investigation_date = $_POST['folders_to_investigation_date'];
 //$folders_to_investigation_crime = $_POST['folders_to_investigation_crime'];
@@ -19,9 +19,9 @@ $folders_to_investigation_channeling_reason = $_POST['folders_to_investigation_c
 $recieved_folders_data = $_POST['recieved_folders_data'];
 
 $data = (object) array(
-	'sigi_date' => (object) array(
+	'acceius_date' => (object) array(
 		'type' => 'date',
-		'value' => $sigi_date,
+		'value' => $acceius_date,
 		'null' => false,
 		'db_column' => '[FechaInicioSigi]'
 	),

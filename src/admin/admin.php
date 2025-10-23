@@ -49,7 +49,7 @@
 <?php
 		
 	if(isset($_SESSION['user_data']['type'])){
-		if($_SESSION['user_data']['type'] == 1 || $_SESSION['user_data']['type'] == 7){
+		if($_SESSION['user_data']['type'] == 1 || $_SESSION['user_data']['type'] == 7 || $_SESSION['user_data']['type'] == 8){
 ?>
 			<div id="entered-folders-super-nav-div" onclick="loadSection('entered_folders_super')">CARPETAS INGRESADAS (CAPTURA)</div>
 <?php
@@ -61,20 +61,19 @@
 				<div id="folders-to-investigation-nav-div" onclick="loadSection('folders_to_investigation')">CARPETAS ENVIADAS A INVESTIGACIÓN</div>
 				<div id="people-served-nav-div" onclick="loadSection('people_served')">PERSONAS ATENDIDAS</div>
 				<div id="folders-to-validation-nav-div" onclick="loadSection('folders_to_validation')">CARPETAS ENVIADAS A VALIDACIÓN</div>
-				<div id="processing-folders-nav-div" onclick="loadSection('processing_folders')">CARPETAS DE TRÁMITE</div>
 
 <?php
 		
 	if(isset($_SESSION['user_data']['type'])){
-		if($_SESSION['user_data']['type'] != 5){
+		if($_SESSION['user_data']['type'] != 5 && $_SESSION['user_data']['type'] != 8){
 ?>
+			<div id="processing-folders-nav-div" onclick="loadSection('processing_folders')">CARPETAS DE TRÁMITE</div>
 			<div id="inegi-nav-div" onclick="loadSection('inegi')">INEGI</div>
 <?php
 		}
 	}
 ?>
-			
-				
+
 <?php
 		
 	if(isset($_SESSION['user_data']['type'])){

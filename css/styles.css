@@ -235,3 +235,7 @@ tr{
 }
 
 /*___________*/
+
+table tr td li{
+    margin-left: 15px;
+}
