@@ -569,7 +569,7 @@ function checkNuc(attr){
 
                         attr.attr.data = {
                             ...attr.attr.data,
-                            acceius_date: response.data.date.date
+                            acceius_date: response.data.date
                         }
 
                         attr.function(attr.attr);
