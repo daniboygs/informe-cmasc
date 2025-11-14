@@ -38,7 +38,7 @@ else{
 
 $data = (object) array(
 	'general_nuc' => (object) array(
-		'type' => 'number',
+		'type' => 'text',
 		'value' => $general_nuc,
 		'null' => false,
 		'db_column' => '[NUC]'
